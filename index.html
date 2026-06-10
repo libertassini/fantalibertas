@@ -592,19 +592,37 @@ function submitVoto() {
   if (!currentUser) return;
   if (votingClosed) { alert('Le votazioni sono chiuse.'); return; }
   const key = currentUser.email + '_' + (matchId||'default');
-  votes[key] = {
-    nome:    currentUser.nome,
-    cognome: currentUser.cognome,
-    email:   currentUser.email,
-    assoc:   currentUser.assoc,
-    scelta:  [...selected],
-    matchId: matchId||'default',
+  const sel = selected.map(id=>players.find(p=>p.id===id));
+  const voteData = {
+    nome:      currentUser.nome,
+    cognome:   currentUser.cognome,
+    email:     currentUser.email,
+    assoc:     currentUser.assoc,
+    scelta:    [...selected],
+    matchId:   matchId||'default',
     matchName: document.getElementById('matchTitle').textContent,
-    ts: new Date().toISOString()
+    ts:        new Date().toISOString()
   };
+  votes[key] = voteData;
   save();
 
-  const sel = selected.map(id=>players.find(p=>p.id===id));
+  // ── invio a Formspree ──
+  const formData = new FormData();
+  formData.append('Nome',       currentUser.nome);
+  formData.append('Cognome',    currentUser.cognome);
+  formData.append('Email',      currentUser.email);
+  formData.append('Associato',  currentUser.assoc === 'si' ? 'Associato' : 'Non associato');
+  formData.append('Partita',    document.getElementById('matchTitle').textContent);
+  formData.append('Giocatore_1', sel[0] ? sel[0].name : '');
+  formData.append('Giocatore_2', sel[1] ? sel[1].name : '');
+  formData.append('Giocatore_3', sel[2] ? sel[2].name : '');
+  formData.append('Crediti_usati', sel.reduce((a,p)=>a+p.cost,0));
+  formData.append('Timestamp',  new Date().toLocaleString('it-IT'));
+  formData.append('_subject',   `FantaLibertas — voto di ${currentUser.nome} ${currentUser.cognome}`);
+
+  fetch('https://formspree.io/f/mzdqvoaz', { method:'POST', body: formData, headers:{ 'Accept':'application/json' } })
+    .catch(() => {}); // errore silenzioso — il voto è già salvato in locale
+
   document.getElementById('mainPage').style.display = 'none';
   document.getElementById('successPage').style.display = 'block';
   document.getElementById('successPills').innerHTML = sel.map(p=>`<span class="success-pill">${p.name} · ${p.cost} cr.</span>`).join('');
