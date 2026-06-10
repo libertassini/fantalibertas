@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FantaLibertas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ─── tokens ─────────────────────────────────────────────────── */
+:root {
+  --court:   #0A1628;
+  --court2:  #0F1F3D;
+  --orange:  #F4650C;
+  --orange2: #FF8C3A;
+  --gold:    #E8B84B;
+  --text:    #F0EDE8;
+  --muted:   #8A9BB5;
+  --line:    rgba(255,255,255,0.08);
+  --card:    rgba(255,255,255,0.05);
+  --card-h:  rgba(255,255,255,0.09);
+  --green:   #2ECC71;
+  --red:     #E74C3C;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --r: 10px;
+  --r-lg: 16px;
+}
+
+body {
+  background: var(--court);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ─── courtlines background ─────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -10%, rgba(244,101,12,0.12) 0%, transparent 60%),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.025) 59px, rgba(255,255,255,0.025) 60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── layout ─────────────────────────────────────────────────── */
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── header ─────────────────────────────────────────────────── */
+.header {
+  padding: 2.5rem 0 2rem;
+  text-align: center;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.brand-name span { color: var(--orange); }
+
+.match-title {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.match-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.countdown-chip {
+  background: rgba(244,101,12,0.15);
+  border-color: rgba(244,101,12,0.3);
+  color: var(--orange2);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  min-width: 130px;
+  justify-content: center;
+}
+
+.countdown-chip.closed {
+  background: rgba(231,76,60,0.15);
+  border-color: rgba(231,76,60,0.3);
+  color: var(--red);
+}
+
+/* ─── budget bar ─────────────────────────────────────────────── */
+.budget-panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.budget-left {
+  flex: 0 0 auto;
+}
+
+.budget-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.budget-value {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.budget-value .of {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.budget-right { flex: 1; }
+
+.budget-track {
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.budget-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--orange);
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.budget-fill.warn { background: var(--gold); }
+.budget-fill.ok   { background: var(--green); }
+.budget-fill.over { background: var(--red); }
+
+.budget-hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ─── section label ─────────────────────────────────────────── */
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+/* ─── players grid ───────────────────────────────────────────── */
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(156px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.player-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 0;
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s, transform 0.12s;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+}
+
+.player-card:hover {
+  background: var(--card-h);
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+
+.player-card.selected {
+  border-color: var(--orange);
+  background: rgba(244,101,12,0.1);
+}
+
+.player-card.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.player-photo {
+  width: 100%;
+  aspect-ratio: 3/3.2;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  background: var(--court2);
+}
+
+.player-photo-placeholder {
+  width: 100%;
+  aspect-ratio: 3/3.2;
+  background: linear-gradient(160deg, var(--court2) 0%, rgba(244,101,12,0.08) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-initials {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.18);
+  letter-spacing: 1px;
+}
+
+.player-info {
+  padding: 10px 12px 12px;
+}
+
+.player-name {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.player-role {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.player-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.player-stats {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.stat-tag {
+  font-size: 10px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 2px 5px;
+  color: var(--muted);
+}
+
+.player-cost-badge {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--orange);
+  white-space: nowrap;
+}
+
+.player-cost-badge .cr {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* selected check */
+.sel-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-card.selected .sel-check { display: flex; }
+
+.sel-check svg { width: 12px; height: 12px; fill: none; stroke: white; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ─── slots ──────────────────────────────────────────────────── */
+.slots-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.slot {
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.12);
+  border-radius: var(--r-lg);
+  padding: 14px 12px;
+  text-align: center;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  transition: all 0.25s;
+}
+
+.slot.filled {
+  background: rgba(244,101,12,0.08);
+  border: 1px solid rgba(244,101,12,0.25);
+  border-style: solid;
+}
+
+.slot-n { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.slot-name { font-family: var(--font-display); font-size: 15px; font-weight: 700; text-transform: uppercase; color: var(--text); }
+.slot-cost { font-size: 12px; color: var(--orange); }
+
+.slot-empty-icon { font-size: 22px; color: rgba(255,255,255,0.12); margin-bottom: 2px; }
+
+/* ─── form ───────────────────────────────────────────────────── */
+.form-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 7px;
+  display: block;
+}
+
+input[type="email"] {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--r);
+  padding: 11px 14px;
+  font-size: 15px;
+  color: var(--text);
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="email"]::placeholder { color: rgba(255,255,255,0.2); }
+
+input[type="email"]:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(244,101,12,0.2);
+}
+
+.form-error {
+  font-size: 12px;
+  color: var(--red);
+  margin-top: 5px;
+  display: none;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 14px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: white;
+  background: var(--orange);
+  border: none;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s, background 0.2s;
+}
+
+.submit-btn:hover:not(:disabled) { background: var(--orange2); }
+.submit-btn:active:not(:disabled) { transform: scale(0.99); }
+.submit-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.deadline-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* ─── admin ──────────────────────────────────────────────────── */
+.admin-toggle-row {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.admin-toggle-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.admin-toggle-btn:hover {
+  border-color: rgba(255,255,255,0.25);
+  color: var(--text);
+}
+
+.admin-panel {
+  display: none;
+  background: rgba(10,22,40,0.8);
+  border: 1px solid rgba(244,101,12,0.2);
+  border-radius: var(--r-lg);
+  padding: 1.4rem;
+  margin-top: 1rem;
+}
+
+.admin-panel-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 1.2rem;
+}
+
+.admin-row {
+  margin-bottom: 14px;
+}
+
+.admin-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.admin-input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--r);
+  padding: 9px 12px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.admin-input:focus { border-color: var(--orange); }
+
+input[type="datetime-local"].admin-input { color-scheme: dark; }
+
+.admin-players-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.admin-player-block {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r);
+  padding: 12px;
+}
+
+.admin-player-name-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-player-field {
+  margin-bottom: 8px;
+}
+
+.admin-player-field label {
+  font-size: 10px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 3px;
+}
+
+.admin-player-field input[type="number"],
+.admin-player-field input[type="text"] {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 6px 9px;
+  font-size: 13px;
+  color: var(--text);
+  font-family: var(--font-body);
+  outline: none;
+}
+
+.admin-player-field input:focus { border-color: var(--orange); }
+
+.photo-upload-area {
+  border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+
+.photo-upload-area:hover {
+  border-color: var(--orange);
+  background: rgba(244,101,12,0.05);
+}
+
+.photo-upload-area input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.photo-preview {
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  object-fit: cover;
+  object-position: top;
+  display: none;
+  margin: 0 auto 4px;
+}
+
+.photo-upload-text {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.photo-upload-text span {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.admin-save-btn {
+  margin-top: 16px;
+  padding: 11px 24px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: white;
+  background: var(--orange);
+  border: none;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.admin-save-btn:hover { opacity: 0.88; }
+
+.admin-add-btn {
+  margin-top: 12px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--r);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.admin-add-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+/* ─── success screen ─────────────────────────────────────────── */
+#successPage {
+  display: none;
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.success-ball {
+  font-size: 52px;
+  margin-bottom: 1rem;
+  display: block;
+  animation: bounceIn 0.6s cubic-bezier(0.36,0.07,0.19,0.97);
+}
+
+@keyframes bounceIn {
+  0%   { transform: scale(0.4); opacity: 0; }
+  60%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.success-title {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.success-sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.success-pills {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.success-pill {
+  background: rgba(244,101,12,0.12);
+  border: 1px solid rgba(244,101,12,0.25);
+  border-radius: 20px;
+  padding: 7px 18px;
+  font-size: 14px;
+  color: var(--orange2);
+  font-weight: 500;
+}
+
+.success-email {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.success-total {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 8px;
+}
+
+/* ─── responsive ─────────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .match-title { font-size: 26px; }
+  .players-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-players-grid { grid-template-columns: 1fr; }
+  .budget-panel { flex-direction: column; align-items: stretch; gap: 0.7rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ MAIN PAGE ════════════════ -->
+<div id="mainPage">
+<div class="wrap">
+
+  <!-- header -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon">🏀</div>
+      <div class="brand-name">Fanta<span>Libertas</span></div>
+    </div>
+    <div class="match-title" id="matchTitle">Olimpia Milano&nbsp;vs&nbsp;Virtus Bologna</div>
+    <div class="match-meta">
+      <span class="meta-chip" id="matchDateChip">📅 <span id="matchDateLabel">—</span></span>
+      <span class="meta-chip countdown-chip" id="countdownChip">⏱ <span id="countdownVal">--:--:--</span></span>
+    </div>
+  </header>
+
+  <!-- budget -->
+  <div class="budget-panel">
+    <div class="budget-left">
+      <div class="budget-label">Budget rimanente</div>
+      <div class="budget-value">
+        <span id="budgetLeft">10</span>
+        <span class="of">&nbsp;/ 10 cr.</span>
+      </div>
+    </div>
+    <div class="budget-right">
+      <div class="budget-track"><div class="budget-fill" id="budgetFill" style="width:100%"></div></div>
+      <div class="budget-hint" id="budgetHint">Seleziona 3 giocatori</div>
+    </div>
+  </div>
+
+  <!-- players -->
+  <div class="section-label">Giocatori disponibili</div>
+  <div class="players-grid" id="playersGrid"></div>
+
+  <!-- slots -->
+  <div class="section-label">La tua selezione</div>
+  <div class="slots-row" id="slotsRow"></div>
+
+  <!-- email + submit -->
+  <div class="form-card">
+    <label class="form-label" for="emailInput">La tua email</label>
+    <input type="email" id="emailInput" placeholder="nome@esempio.it" autocomplete="email">
+    <div class="form-error" id="emailError">Inserisci un indirizzo email valido.</div>
+    <button class="submit-btn" id="submitBtn" disabled>Invia votazione</button>
+  </div>
+  <div class="deadline-note">Le votazioni chiudono al fischio d'inizio.</div>
+
+  <!-- admin toggle -->
+  <div class="admin-toggle-row">
+    <button class="admin-toggle-btn" onclick="toggleAdmin()">⚙ Configurazione admin</button>
+  </div>
+
+  <!-- admin panel -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-panel-title">⚙ Pannello Admin</div>
+
+    <div class="admin-row">
+      <label class="admin-label">Nome partita</label>
+      <input class="admin-input" id="adminMatchName" type="text" value="Olimpia Milano vs Virtus Bologna">
+    </div>
+
+    <div class="admin-row">
+      <label class="admin-label">Data e ora fischio d'inizio</label>
+      <input class="admin-input" id="adminKickoff" type="datetime-local">
+    </div>
+
+    <div style="margin-top:1.2rem">
+      <div class="admin-panel-title" style="margin-bottom:0.8rem; font-size:12px">Giocatori — costi per questa partita</div>
+      <div class="admin-players-grid" id="adminPlayersGrid"></div>
+      <button class="admin-add-btn" onclick="addPlayer()">+ Aggiungi giocatore</button>
+    </div>
+
+    <button class="admin-save-btn" onclick="applyAdmin()">Salva e pubblica</button>
+  </div>
+
+</div><!-- /wrap -->
+</div><!-- /mainPage -->
+
+
+<!-- ════════════════ SUCCESS PAGE ════════════════ -->
+<div id="successPage">
+<div class="wrap" style="padding-top:2rem">
+  <span class="success-ball">🏀</span>
+  <div class="success-title">Voto registrato!</div>
+  <div class="success-sub">La tua selezione è stata inviata.<br>Il punteggio sarà calcolato al termine della partita.</div>
+  <div class="success-pills" id="successPills"></div>
+  <div class="success-total" id="successTotal"></div>
+  <div class="success-email" id="successEmail"></div>
+</div>
+</div>
+
+
+<script>
+/* ─── stato iniziale ─────────────────────────────── */
+const BUDGET = 10;
+const MAX_SEL = 3;
+
+let players = [
+  { id:1, name:"Niccolò Melli",       role:"Ala grande",  avatar:"NM", cost:4, stats:["23.1 ppg","6.2 rpg"], photo:null },
+  { id:2, name:"Shavon Shields",      role:"Guardia",     avatar:"SS", cost:3, stats:["17.4 ppg","3.1 apg"], photo:null },
+  { id:3, name:"Kyle Weems",          role:"Ala piccola", avatar:"KW", cost:2, stats:["12.8 ppg","2.9 rpg"], photo:null },
+  { id:4, name:"Tornike Shengelia",   role:"Ala",         avatar:"TS", cost:4, stats:["19.2 ppg","5.5 rpg"], photo:null },
+  { id:5, name:"Marco Belinelli",     role:"Guardia",     avatar:"MB", cost:3, stats:["14.6 ppg","3.0 apg"], photo:null },
+  { id:6, name:"Alessandro Pajola",   role:"Playmaker",   avatar:"AP", cost:2, stats:["8.3 ppg","5.7 apg"],  photo:null },
+  { id:7, name:"Gigi Datome",         role:"Ala",         avatar:"GD", cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:null },
+  { id:8, name:"Stefano Tonut",       role:"Guardia",     avatar:"ST", cost:3, stats:["15.0 ppg","2.8 apg"], photo:null },
+];
+
+let selected = [];
+let kickoffDate = null;
+let countdownTimer = null;
+
+/* ─── utils ──────────────────────────────────────── */
+function getSpent() {
+  return selected.reduce((a, id) => {
+    const p = players.find(x => x.id === id);
+    return a + (p ? p.cost : 0);
+  }, 0);
+}
+
+function validEmail(e) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+
+function initials(name) {
+  return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+}
+
+/* ─── render giocatori ───────────────────────────── */
+function renderPlayers() {
+  const grid = document.getElementById('playersGrid');
+  grid.innerHTML = '';
+  const spent = getSpent();
+
+  players.forEach(p => {
+    const isSel    = selected.includes(p.id);
+    const maxed    = selected.length >= MAX_SEL && !isSel;
+    const budgetOk = isSel || (spent + p.cost) <= BUDGET;
+    const disabled = maxed || !budgetOk;
+
+    const card = document.createElement('div');
+    card.className = 'player-card' + (isSel ? ' selected' : '') + (disabled ? ' disabled' : '');
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', disabled ? '-1' : '0');
+    card.setAttribute('aria-pressed', isSel ? 'true' : 'false');
+    card.setAttribute('aria-label', `${p.name}, ${p.role}, ${p.cost} crediti`);
+
+    let photoHtml;
+    if (p.photo) {
+      photoHtml = `<img class="player-photo" src="${p.photo}" alt="Foto ${p.name}" loading="lazy">`;
+    } else {
+      photoHtml = `<div class="player-photo-placeholder"><div class="player-initials">${initials(p.name)}</div></div>`;
+    }
+
+    card.innerHTML = `
+      ${photoHtml}
+      <div class="player-info">
+        <div class="player-name">${p.name}</div>
+        <div class="player-role">${p.role}</div>
+        <div class="player-bottom">
+          <div class="player-stats">${p.stats.map(s => `<span class="stat-tag">${s}</span>`).join('')}</div>
+          <div class="player-cost-badge">${p.cost}<span class="cr"> cr</span></div>
+        </div>
+      </div>
+      <div class="sel-check" aria-hidden="true">
+        <svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+      </div>`;
+
+    const toggle = () => {
+      if (selected.includes(p.id)) {
+        selected = selected.filter(x => x !== p.id);
+      } else {
+        if (selected.length >= MAX_SEL) return;
+        if ((getSpent() + p.cost) > BUDGET) return;
+        selected.push(p.id);
+      }
+      renderPlayers();
+      updateBudget();
+      renderSlots();
+      updateSubmit();
+    };
+
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    grid.appendChild(card);
+  });
+}
+
+/* ─── budget ─────────────────────────────────────── */
+function updateBudget() {
+  const spent = getSpent();
+  const left  = BUDGET - spent;
+  const pct   = Math.round((left / BUDGET) * 100);
+
+  document.getElementById('budgetLeft').textContent = left;
+  const fill = document.getElementById('budgetFill');
+  fill.style.width = Math.max(0, pct) + '%';
+  fill.className = 'budget-fill' + (left <= 0 ? ' over' : left <= 3 ? ' warn' : ' ok');
+
+  const hint = document.getElementById('budgetHint');
+  if (selected.length === 0) hint.textContent = 'Seleziona 3 giocatori';
+  else if (selected.length < MAX_SEL) hint.textContent = `${MAX_SEL - selected.length} giocatore${MAX_SEL - selected.length > 1 ? 'i' : ''} ancora da scegliere`;
+  else hint.textContent = 'Selezione completa — inserisci la tua email';
+}
+
+/* ─── slot ───────────────────────────────────────── */
+function renderSlots() {
+  const row = document.getElementById('slotsRow');
+  row.innerHTML = '';
+  for (let i = 0; i < MAX_SEL; i++) {
+    const div = document.createElement('div');
+    if (i < selected.length) {
+      const p = players.find(x => x.id === selected[i]);
+      div.className = 'slot filled';
+      div.innerHTML = `<div class="slot-n">Giocatore ${i + 1}</div><div class="slot-name">${p.name.split(' ').pop()}</div><div class="slot-cost">${p.cost} cr.</div>`;
+    } else {
+      div.className = 'slot';
+      div.innerHTML = `<div class="slot-empty-icon">+</div><div class="slot-n">Giocatore ${i + 1}</div>`;
+    }
+    row.appendChild(div);
+  }
+}
+
+/* ─── submit ─────────────────────────────────────── */
+function updateSubmit() {
+  const email = document.getElementById('emailInput').value.trim();
+  const ok    = selected.length === MAX_SEL && getSpent() <= BUDGET && validEmail(email);
+  document.getElementById('submitBtn').disabled = !ok;
+}
+
+document.getElementById('emailInput').addEventListener('input', () => {
+  updateSubmit();
+  if (validEmail(document.getElementById('emailInput').value.trim())) {
+    document.getElementById('emailError').style.display = 'none';
+  }
+});
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const email = document.getElementById('emailInput').value.trim();
+  if (!validEmail(email)) {
+    document.getElementById('emailError').style.display = 'block';
+    return;
+  }
+  document.getElementById('emailError').style.display = 'none';
+
+  const sel = selected.map(id => players.find(p => p.id === id));
+  const total = getSpent();
+
+  document.getElementById('mainPage').style.display = 'none';
+  document.getElementById('successPage').style.display = 'block';
+
+  document.getElementById('successPills').innerHTML =
+    sel.map(p => `<span class="success-pill">${p.name} · ${p.cost} cr.</span>`).join('');
+  document.getElementById('successTotal').textContent = `Totale: ${total} / ${BUDGET} crediti usati`;
+  document.getElementById('successEmail').textContent = '📧 ' + email;
+});
+
+/* ─── countdown ──────────────────────────────────── */
+function startCountdown() {
+  if (countdownTimer) clearInterval(countdownTimer);
+  function tick() {
+    const chip = document.getElementById('countdownChip');
+    const val  = document.getElementById('countdownVal');
+    if (!kickoffDate) { val.textContent = '--:--:--'; return; }
+    const diff = kickoffDate - new Date();
+    if (diff <= 0) {
+      val.textContent = 'Chiuso';
+      chip.classList.add('closed');
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('budgetHint').textContent = 'Votazioni chiuse';
+      clearInterval(countdownTimer);
+      return;
+    }
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    val.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    chip.classList.remove('closed');
+  }
+  tick();
+  countdownTimer = setInterval(tick, 1000);
+}
+
+/* ─── admin ──────────────────────────────────────── */
+function toggleAdmin() {
+  const panel = document.getElementById('adminPanel');
+  const open  = panel.style.display === 'block';
+  panel.style.display = open ? 'none' : 'block';
+  if (!open) buildAdminGrid();
+}
+
+function buildAdminGrid() {
+  const grid = document.getElementById('adminPlayersGrid');
+  grid.innerHTML = '';
+
+  players.forEach((p, i) => {
+    const block = document.createElement('div');
+    block.className = 'admin-player-block';
+    block.id = `apb_${i}`;
+
+    const previewId = `photo_preview_${i}`;
+    const fileId    = `photo_file_${i}`;
+
+    block.innerHTML = `
+      <div class="admin-player-name-label">${p.name}</div>
+
+      <div class="admin-player-field">
+        <label>Nome</label>
+        <input type="text" id="ap_name_${i}" value="${p.name}">
+      </div>
+      <div class="admin-player-field">
+        <label>Ruolo</label>
+        <input type="text" id="ap_role_${i}" value="${p.role}">
+      </div>
+      <div class="admin-player-field">
+        <label>Costo (crediti)</label>
+        <input type="number" id="ap_cost_${i}" value="${p.cost}" min="1" max="8">
+      </div>
+      <div class="admin-player-field">
+        <label>Statistiche (virgola)</label>
+        <input type="text" id="ap_stats_${i}" value="${p.stats.join(', ')}">
+      </div>
+      <div class="admin-player-field">
+        <label>Foto giocatore (tutte le partite)</label>
+        <div class="photo-upload-area" onclick="document.getElementById('${fileId}').click()">
+          <input type="file" id="${fileId}" accept="image/*" data-idx="${i}" onchange="handlePhoto(this)">
+          ${p.photo
+            ? `<img class="photo-preview" id="${previewId}" src="${p.photo}" alt="Foto" style="display:block"><div class="photo-upload-text">Clicca per cambiare</div>`
+            : `<img class="photo-preview" id="${previewId}" alt="Anteprima"><div class="photo-upload-text"><span>📷</span>Carica foto</div>`
+          }
+        </div>
+      </div>
+    `;
+    grid.appendChild(block);
+  });
+}
+
+function handlePhoto(input) {
+  const idx  = parseInt(input.getAttribute('data-idx'));
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    players[idx].photo = e.target.result;
+    const preview = document.getElementById(`photo_preview_${idx}`);
+    preview.src    = e.target.result;
+    preview.style.display = 'block';
+    savePlayersToStorage();
+    renderPlayers();
+  };
+  reader.readAsDataURL(file);
+}
+
+function addPlayer() {
+  const newId = players.reduce((mx, p) => Math.max(mx, p.id), 0) + 1;
+  players.push({
+    id: newId,
+    name: 'Nuovo Giocatore',
+    role: 'Ruolo',
+    avatar: 'NG',
+    cost: 2,
+    stats: [],
+    photo: null
+  });
+  buildAdminGrid();
+}
+
+function applyAdmin() {
+  const matchName = document.getElementById('adminMatchName').value.trim();
+  if (matchName) {
+    document.getElementById('matchTitle').textContent = matchName;
+  }
+
+  const ko = document.getElementById('adminKickoff').value;
+  if (ko) {
+    kickoffDate = new Date(ko);
+    const opts = { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' };
+    document.getElementById('matchDateLabel').textContent =
+      kickoffDate.toLocaleDateString('it-IT', opts);
+    startCountdown();
+  }
+
+  players.forEach((p, i) => {
+    const nameEl  = document.getElementById(`ap_name_${i}`);
+    const roleEl  = document.getElementById(`ap_role_${i}`);
+    const costEl  = document.getElementById(`ap_cost_${i}`);
+    const statsEl = document.getElementById(`ap_stats_${i}`);
+    if (!nameEl) return;
+    p.name = nameEl.value.trim() || p.name;
+    p.role = roleEl.value.trim() || p.role;
+    p.cost = Math.max(1, parseInt(costEl.value) || p.cost);
+    p.stats = statsEl.value.split(',').map(s => s.trim()).filter(Boolean);
+    p.avatar = initials(p.name);
+  });
+
+  selected = [];
+  renderPlayers();
+  updateBudget();
+  renderSlots();
+  updateSubmit();
+  savePlayersToStorage();
+
+  document.getElementById('adminPanel').style.display = 'none';
+}
+
+/* ─── persistenza foto (localStorage) ───────────── */
+const STORAGE_KEY = 'fantalibertas_players_v1';
+
+function savePlayersToStorage() {
+  try {
+    const data = players.map(p => ({ id: p.id, name: p.name, role: p.role, avatar: p.avatar, cost: p.cost, stats: p.stats, photo: p.photo }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) { /* quota exceeded — silently ignore */ }
+}
+
+function loadPlayersFromStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    data.forEach(d => {
+      const p = players.find(x => x.id === d.id);
+      if (p && d.photo) p.photo = d.photo;
+    });
+  } catch(e) { /* ignore */ }
+}
+
+/* ─── init ───────────────────────────────────────── */
+loadPlayersFromStorage();
+renderPlayers();
+updateBudget();
+renderSlots();
+startCountdown();
+</script>
+</body>
+</html>
