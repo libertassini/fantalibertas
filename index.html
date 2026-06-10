@@ -588,45 +588,56 @@ function updateSubmit() {
 /* ════════════════════════════════════════════
    SUBMIT VOTO
 ════════════════════════════════════════════ */
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxq-n5__w16ir7-D7Gg9FPmev-qCn0cUwCrgHeUmw3QK1p6j2_k5Pay5l1N1tFFE13P/exec';
+
 function submitVoto() {
   if (!currentUser) return;
   if (votingClosed) { alert('Le votazioni sono chiuse.'); return; }
-  const key = currentUser.email + '_' + (matchId||'default');
-  const sel = selected.map(id=>players.find(p=>p.id===id));
-  const voteData = {
+
+  const mid = matchId || 'default';
+  const key = currentUser.email.toLowerCase() + '_' + mid;
+  const sel = selected.map(id => players.find(p => p.id === id));
+  const isFirstVote = !votes[key]; // true se è il primo voto con questa email per questa partita
+
+  // salva/aggiorna sempre in locale (permette modifica fino al countdown)
+  votes[key] = {
     nome:      currentUser.nome,
     cognome:   currentUser.cognome,
-    email:     currentUser.email,
+    email:     currentUser.email.toLowerCase(),
     assoc:     currentUser.assoc,
     scelta:    [...selected],
-    matchId:   matchId||'default',
+    matchId:   mid,
     matchName: document.getElementById('matchTitle').textContent,
-    ts:        new Date().toISOString()
+    ts:        new Date().toISOString(),
+    inviato:   votes[key] ? votes[key].inviato : false // mantieni flag invio precedente
   };
-  votes[key] = voteData;
   save();
 
-  // ── invio a Formspree ──
-  const formData = new FormData();
-  formData.append('Nome',       currentUser.nome);
-  formData.append('Cognome',    currentUser.cognome);
-  formData.append('Email',      currentUser.email);
-  formData.append('Associato',  currentUser.assoc === 'si' ? 'Associato' : 'Non associato');
-  formData.append('Partita',    document.getElementById('matchTitle').textContent);
-  formData.append('Giocatore_1', sel[0] ? sel[0].name : '');
-  formData.append('Giocatore_2', sel[1] ? sel[1].name : '');
-  formData.append('Giocatore_3', sel[2] ? sel[2].name : '');
-  formData.append('Crediti_usati', sel.reduce((a,p)=>a+p.cost,0));
-  formData.append('Timestamp',  new Date().toLocaleString('it-IT'));
-  formData.append('_subject',   `FantaLibertas — voto di ${currentUser.nome} ${currentUser.cognome}`);
-
-  fetch('https://formspree.io/f/mzdqvoaz', { method:'POST', body: formData, headers:{ 'Accept':'application/json' } })
-    .catch(() => {}); // errore silenzioso — il voto è già salvato in locale
+  // ── invio a Google Sheets solo se è il PRIMO voto con questa email per questa partita ──
+  if (isFirstVote) {
+    fetch(SHEETS_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        nome:      currentUser.nome,
+        cognome:   currentUser.cognome,
+        email:     currentUser.email.toLowerCase(),
+        assoc:     currentUser.assoc === 'si' ? 'Associato' : 'Non associato',
+        matchName: document.getElementById('matchTitle').textContent,
+        matchId:   mid,
+        g1:        sel[0] ? sel[0].name : '',
+        g2:        sel[1] ? sel[1].name : '',
+        g3:        sel[2] ? sel[2].name : '',
+        crediti:   sel.reduce((a, p) => a + p.cost, 0)
+      })
+    }).catch(() => {}); // errore silenzioso
+    votes[key].inviato = true;
+    save();
+  }
 
   document.getElementById('mainPage').style.display = 'none';
   document.getElementById('successPage').style.display = 'block';
-  document.getElementById('successPills').innerHTML = sel.map(p=>`<span class="success-pill">${p.name} · ${p.cost} cr.</span>`).join('');
-  document.getElementById('successInfoName').textContent  = `👤 ${currentUser.nome} ${currentUser.cognome} · ${currentUser.assoc==='si'?'Associato':'Non associato'}`;
+  document.getElementById('successPills').innerHTML = sel.map(p => `<span class="success-pill">${p.name} · ${p.cost} cr.</span>`).join('');
+  document.getElementById('successInfoName').textContent  = `👤 ${currentUser.nome} ${currentUser.cognome} · ${currentUser.assoc === 'si' ? 'Associato' : 'Non associato'}`;
   document.getElementById('successInfoEmail').textContent = `📧 ${currentUser.email}`;
 }
 
