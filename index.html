@@ -815,11 +815,11 @@ function buildValGrid() {
   });
 }
 
-function salvaValutazioni() {
+async function salvaValutazioni() {
   const mid   = matchId || 'default';
   const mname = document.getElementById('matchTitle').textContent;
 
-  // raccogli valutazioni
+  // 1. raccogli valutazioni inserite dall'admin
   const playerVals = {};
   let allFilled = true;
   players.forEach((p,i) => {
@@ -827,47 +827,93 @@ function salvaValutazioni() {
     if (isNaN(v)) { allFilled = false; }
     else playerVals[p.id] = v;
   });
+  if (!allFilled) { alert('Inserisci la valutazione per tutti i giocatori.'); return; }
 
-  if (!allFilled) {
-    alert('Inserisci la valutazione per tutti i giocatori.'); return;
+  // mappa nome giocatore → id
+  const nameToId = {};
+  players.forEach(p => { nameToId[p.name] = p.id; });
+
+  // 2. leggi voti da Google Sheets
+  let sheetsVotes = [];
+  try {
+    const res = await fetch(SHEETS_URL + '?action=getVoti&matchId=' + encodeURIComponent(mid));
+    const data = await res.json();
+    sheetsVotes = data.voti || [];
+  } catch(e) {
+    alert('❌ Errore nel recupero voti da Google Sheets. Controlla la connessione.'); return;
   }
 
-  // salva storico partita
-  matchesHistory[mid] = { name: mname, date: new Date().toISOString(), playerVals };
+  if (sheetsVotes.length === 0) {
+    alert('Nessun voto trovato su Google Sheets per questa partita (ID: ' + mid + ').'); return;
+  }
 
-  // calcola punteggi per ogni voto di questa partita
-  let updated = 0;
-  Object.values(votes).forEach(v => {
-    if (v.matchId !== mid) return;
-    const punti = v.scelta.reduce((sum, pid) => sum + (playerVals[pid]||0), 0);
-    const key = v.email;
-    if (!ranking[key]) {
-      ranking[key] = { nome:v.nome, cognome:v.cognome, email:v.email, assoc:v.assoc, totale:0, partite:[] };
+  // 3. calcola punteggi — un solo voto per email (primo ricevuto)
+  const seenEmails = new Set();
+  const righeCalcolate = [];
+
+  sheetsVotes.forEach(v => {
+    const email = (v.email||'').toLowerCase();
+    if (seenEmails.has(email)) return;
+    seenEmails.add(email);
+
+    const scelta = [v.g1, v.g2, v.g3].map(nome => nameToId[nome]).filter(id => id !== undefined);
+    const punti  = parseFloat(scelta.reduce((sum, pid) => sum + (playerVals[pid]||0), 0).toFixed(1));
+
+    // aggiorna ranking locale
+    if (!ranking[email]) {
+      ranking[email] = { nome:v.nome, cognome:v.cognome, email, assoc:v.assoc, totale:0, partite:[] };
     }
-    // evita doppio conteggio
-    const already = ranking[key].partite.find(x=>x.matchId===mid);
+    const already = ranking[email].partite.find(x => x.matchId === mid);
     if (!already) {
-      ranking[key].totale += punti;
-      ranking[key].partite.push({ matchId:mid, matchName:mname, punti: parseFloat(punti.toFixed(1)) });
-      updated++;
+      ranking[email].totale = parseFloat((ranking[email].totale + punti).toFixed(1));
+      ranking[email].partite.push({ matchId:mid, matchName:mname, punti });
     }
+
+    righeCalcolate.push({
+      email, nome: v.nome, cognome: v.cognome, assoc: v.assoc,
+      matchId: mid, matchName: mname,
+      puntiPartita: punti,
+      totale: ranking[email].totale
+    });
   });
 
+  matchesHistory[mid] = { name: mname, date: new Date().toISOString(), playerVals };
   save();
+
+  // 4. invia punteggi a Google Sheets
+  try {
+    await fetch(SHEETS_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'scriviPunteggi', righe: righeCalcolate })
+    });
+  } catch(e) { /* silenzioso */ }
+
   renderRanking();
-  alert(`✅ Punteggi calcolati per ${updated} votanti. Classifica aggiornata.`);
+  alert(`✅ Punteggi calcolati per ${righeCalcolate.length} votanti e scritti su Google Sheets.`);
 }
 
 /* ════════════════════════════════════════════
    CLASSIFICA
 ════════════════════════════════════════════ */
-function renderRanking() {
+async function renderRanking() {
   const cont = document.getElementById('rankContent');
-  const entries = Object.values(ranking).sort((a,b)=>b.totale-a.totale);
+  cont.innerHTML = '<p style="color:var(--muted);font-size:13px">⏳ Caricamento classifica...</p>';
+
+  let entries = [];
+  try {
+    const res = await fetch(SHEETS_URL + '?action=getClassifica');
+    const data = await res.json();
+    entries = data.classifica || [];
+  } catch(e) {
+    entries = Object.values(ranking).sort((a,b) => b.totale - a.totale);
+  }
+
   if (entries.length === 0) {
     cont.innerHTML = '<p style="color:var(--muted);font-size:13px">Nessuna partita ancora disputata.</p>';
     return;
   }
+
+  entries.sort((a,b) => parseFloat(b.totale) - parseFloat(a.totale));
   let html = `<table class="rank-table">
     <thead><tr>
       <th>#</th><th>Giocatore</th><th>Tipo</th><th style="text-align:right">Punti</th>
@@ -875,11 +921,12 @@ function renderRanking() {
   entries.forEach((e,i) => {
     const posClass = i===0?'top1':i===1?'top2':i===2?'top3':'';
     const medal    = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    const assocSi  = e.assoc==='si' || e.assoc==='Associato';
     html += `<tr>
       <td class="rank-pos ${posClass}">${medal||i+1}</td>
       <td><div style="font-weight:500">${e.nome} ${e.cognome}</div><div style="font-size:11px;color:var(--muted)">${e.email}</div></td>
-      <td><span class="assoc-badge ${e.assoc==='si'?'si':'no'}">${e.assoc==='si'?'Associato':'Non assoc.'}</span></td>
-      <td class="rank-score">${e.totale.toFixed(1)}</td>
+      <td><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>
+      <td class="rank-score">${parseFloat(e.totale).toFixed(1)}</td>
     </tr>`;
   });
   html += '</tbody></table>';
