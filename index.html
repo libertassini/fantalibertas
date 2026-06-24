@@ -833,7 +833,7 @@ async function salvaValutazioni() {
   const nameToId = {};
   players.forEach(p => { nameToId[p.name] = p.id; });
 
-  // 2. leggi voti da Google Sheets
+  // 2. leggi voti da Google Sheets per questa partita
   let sheetsVotes = [];
   try {
     const res = await fetch(SHEETS_URL + '?action=getVoti&matchId=' + encodeURIComponent(mid));
@@ -842,12 +842,21 @@ async function salvaValutazioni() {
   } catch(e) {
     alert('❌ Errore nel recupero voti da Google Sheets. Controlla la connessione.'); return;
   }
-
   if (sheetsVotes.length === 0) {
     alert('Nessun voto trovato su Google Sheets per questa partita (ID: ' + mid + ').'); return;
   }
 
-  // 3. calcola punteggi — un solo voto per email (primo ricevuto)
+  // 3. leggi classifica storica da Google Sheets (totali precedenti)
+  let classificaStorica = {};
+  try {
+    const res = await fetch(SHEETS_URL + '?action=getClassifica');
+    const data = await res.json();
+    (data.classifica || []).forEach(r => {
+      classificaStorica[r.email.toLowerCase()] = parseFloat(r.totale) || 0;
+    });
+  } catch(e) { /* se non raggiungibile usa 0 come base */ }
+
+  // 4. calcola punteggi sommando ai totali storici reali da Sheets
   const seenEmails = new Set();
   const righeCalcolate = [];
 
@@ -857,30 +866,24 @@ async function salvaValutazioni() {
     seenEmails.add(email);
 
     const scelta = [v.g1, v.g2, v.g3].map(nome => nameToId[nome]).filter(id => id !== undefined);
-    const punti  = parseFloat(scelta.reduce((sum, pid) => sum + (playerVals[pid]||0), 0).toFixed(1));
+    const puntiPartita = parseFloat(scelta.reduce((sum, pid) => sum + (playerVals[pid]||0), 0).toFixed(1));
 
-    // aggiorna ranking locale
-    if (!ranking[email]) {
-      ranking[email] = { nome:v.nome, cognome:v.cognome, email, assoc:v.assoc, totale:0, partite:[] };
-    }
-    const already = ranking[email].partite.find(x => x.matchId === mid);
-    if (!already) {
-      ranking[email].totale = parseFloat((ranking[email].totale + punti).toFixed(1));
-      ranking[email].partite.push({ matchId:mid, matchName:mname, punti });
-    }
+    // totale = storico da Sheets + punti questa partita
+    const totaleStorico = classificaStorica[email] || 0;
+    const nuovoTotale   = parseFloat((totaleStorico + puntiPartita).toFixed(1));
 
     righeCalcolate.push({
       email, nome: v.nome, cognome: v.cognome, assoc: v.assoc,
       matchId: mid, matchName: mname,
-      puntiPartita: punti,
-      totale: ranking[email].totale
+      puntiPartita,
+      totale: nuovoTotale
     });
   });
 
   matchesHistory[mid] = { name: mname, date: new Date().toISOString(), playerVals };
   save();
 
-  // 4. invia punteggi a Google Sheets
+  // 5. invia punteggi aggiornati a Google Sheets
   try {
     await fetch(SHEETS_URL, {
       method: 'POST',
@@ -889,7 +892,7 @@ async function salvaValutazioni() {
   } catch(e) { /* silenzioso */ }
 
   renderRanking();
-  alert(`✅ Punteggi calcolati per ${righeCalcolate.length} votanti e scritti su Google Sheets.`);
+  alert(`✅ Punteggi calcolati per ${righeCalcolate.length} votanti. Classifica aggiornata.`);
 }
 
 /* ════════════════════════════════════════════
