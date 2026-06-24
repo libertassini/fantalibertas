@@ -204,7 +204,7 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
     </div>
     <div class="match-title" id="matchTitle">Libertas Livorno vs Vigevano</div>
     <div class="match-meta">
-      <span class="meta-chip">📅 <span id="matchDateLabel">Dom 10 Sett 18:00</span></span>
+      <span class="meta-chip">📅 <span id="matchDateLabel">Dom 27 Sett 18:00</span></span>
       <span class="meta-chip cd-chip" id="cdChip">⏱ <span id="cdVal">--:--:--</span></span>
     </div>
   </header>
@@ -394,7 +394,7 @@ let matchesHistory = {};
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-09-10T18:00');
+let kickoffDate = new Date('2026-09-27T18:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
