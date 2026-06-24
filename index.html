@@ -480,20 +480,16 @@ function submitReg() {
     return;
   }
 
-  currentUser = { nome, cognome, email, assoc: assocVal };
-
-  // controlla se ha già votato per questa partita
+  // blocca se ha già votato per questa partita
   const key = email + '_' + (matchId||'default');
-  const existing = votes[key];
-  const editBanner = document.getElementById('editBanner');
-  if (existing) {
-    // ripristina selezione precedente
-    selected = [...existing.scelta];
-    editBanner.style.display = 'block';
-  } else {
-    selected = [];
-    editBanner.style.display = 'none';
+  if (votes[key]) {
+    alert('Hai già votato per questa partita. Non è possibile modificare il voto.');
+    return;
   }
+
+  currentUser = { nome, cognome, email, assoc: assocVal };
+  selected = [];
+  document.getElementById('editBanner').style.display = 'none';
 
   document.getElementById('stepReg').style.display  = 'none';
   document.getElementById('stepVoto').style.display = 'block';
@@ -597,9 +593,8 @@ function submitVoto() {
   const mid = matchId || 'default';
   const key = currentUser.email.toLowerCase() + '_' + mid;
   const sel = selected.map(id => players.find(p => p.id === id));
-  const isFirstVote = !votes[key]; // true se è il primo voto con questa email per questa partita
 
-  // salva/aggiorna sempre in locale (permette modifica fino al countdown)
+  // salva in locale
   votes[key] = {
     nome:      currentUser.nome,
     cognome:   currentUser.cognome,
@@ -608,31 +603,27 @@ function submitVoto() {
     scelta:    [...selected],
     matchId:   mid,
     matchName: document.getElementById('matchTitle').textContent,
-    ts:        new Date().toISOString(),
-    inviato:   votes[key] ? votes[key].inviato : false // mantieni flag invio precedente
+    ts:        new Date().toISOString()
   };
   save();
 
-  // ── invio a Google Sheets solo se è il PRIMO voto con questa email per questa partita ──
-  if (isFirstVote) {
-    fetch(SHEETS_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        nome:      currentUser.nome,
-        cognome:   currentUser.cognome,
-        email:     currentUser.email.toLowerCase(),
-        assoc:     currentUser.assoc === 'si' ? 'Associato' : 'Non associato',
-        matchName: document.getElementById('matchTitle').textContent,
-        matchId:   mid,
-        g1:        sel[0] ? sel[0].name : '',
-        g2:        sel[1] ? sel[1].name : '',
-        g3:        sel[2] ? sel[2].name : '',
-        crediti:   sel.reduce((a, p) => a + p.cost, 0)
-      })
-    }).catch(() => {}); // errore silenzioso
-    votes[key].inviato = true;
-    save();
-  }
+  // invia a Google Sheets
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      action:    'nuovoVoto',
+      nome:      currentUser.nome,
+      cognome:   currentUser.cognome,
+      email:     currentUser.email.toLowerCase(),
+      assoc:     currentUser.assoc === 'si' ? 'Associato' : 'Non associato',
+      matchName: document.getElementById('matchTitle').textContent,
+      matchId:   mid,
+      g1:        sel[0] ? sel[0].name : '',
+      g2:        sel[1] ? sel[1].name : '',
+      g3:        sel[2] ? sel[2].name : '',
+      crediti:   sel.reduce((a, p) => a + p.cost, 0)
+    })
+  }).catch(() => {});
 
   document.getElementById('mainPage').style.display = 'none';
   document.getElementById('successPage').style.display = 'block';
