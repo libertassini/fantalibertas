@@ -394,7 +394,7 @@ let matchesHistory = {};
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-09-27T18:00');
+let kickoffDate = new Date('2026-06-10T15:49');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -430,13 +430,8 @@ function load() {
     const c = localStorage.getItem(SK_CONFIG);
     if (c) {
       const cfg = JSON.parse(c);
-      if (cfg.matchTitle) document.getElementById('matchTitle').textContent = cfg.matchTitle;
-      if (cfg.matchId) matchId = cfg.matchId;
-      if (cfg.kickoff) {
-        kickoffDate = new Date(cfg.kickoff);
-        const opts = {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'};
-        document.getElementById('matchDateLabel').textContent = kickoffDate.toLocaleDateString('it-IT',opts);
-      }
+      // NOTA: matchId, kickoffDate e matchTitle sono definiti nel codice (righe ~397)
+      // e NON vengono più sovrascritti dal localStorage, così restano uguali per tutti.
     }
   } catch(e){}
 }
