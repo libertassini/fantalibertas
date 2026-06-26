@@ -394,7 +394,7 @@ let matchesHistory = {};
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-06-29T15:49');
+let kickoffDate = new Date('2026-06-10T15:49');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -580,6 +580,35 @@ function updateSubmit() {
    SUBMIT VOTO
 ════════════════════════════════════════════ */
 const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxq-n5__w16ir7-D7Gg9FPmev-qCn0cUwCrgHeUmw3QK1p6j2_k5Pay5l1N1tFFE13P/exec';
+const CSV_VOTI       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1798318624&single=true&output=csv';
+const CSV_CLASSIFICA = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1187424992&single=true&output=csv';
+
+// parser CSV semplice (gestisce campi tra virgolette)
+function parseCSV(text) {
+  const rows = [];
+  const lines = text.split(/\r?\n/).filter(l => l.trim() !== '');
+  lines.forEach(line => {
+    const cells = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        if (inQ && line[i+1] === '"') { cur += '"'; i++; }
+        else inQ = !inQ;
+      } else if (ch === ',' && !inQ) {
+        cells.push(cur); cur = '';
+      } else cur += ch;
+    }
+    cells.push(cur);
+    rows.push(cells);
+  });
+  return rows;
+}
+
+// aggiunge un parametro casuale per evitare la cache del CSV
+function noCache(url) {
+  return url + '&_t=' + Date.now();
+}
 
 function submitVoto() {
   if (!currentUser) return;
@@ -828,26 +857,32 @@ async function salvaValutazioni() {
   const nameToId = {};
   players.forEach(p => { nameToId[p.name] = p.id; });
 
-  // 2. leggi voti da Google Sheets per questa partita
+  // 2. leggi voti dal CSV pubblicato di Google Sheets, filtrati per questa partita
+  // colonne CSV Voti: 0=Timestamp 1=Nome 2=Cognome 3=Email 4=Associato 5=Partita 6=ID Partita 7=G1 8=G2 9=G3 10=Crediti
   let sheetsVotes = [];
   try {
-    const res = await fetch(SHEETS_URL + '?action=getVoti&matchId=' + encodeURIComponent(mid));
-    const data = await res.json();
-    sheetsVotes = data.voti || [];
+    const res  = await fetch(noCache(CSV_VOTI));
+    const text = await res.text();
+    const rows = parseCSV(text);
+    sheetsVotes = rows.slice(1) // salta intestazione
+      .filter(r => String(r[6]).trim() === String(mid))
+      .map(r => ({ nome:r[1], cognome:r[2], email:r[3], assoc:r[4], g1:r[7], g2:r[8], g3:r[9] }));
   } catch(e) {
-    alert('❌ Errore nel recupero voti da Google Sheets. Controlla la connessione.'); return;
+    alert('❌ Errore nel recupero voti dal CSV. Controlla la connessione.'); return;
   }
   if (sheetsVotes.length === 0) {
-    alert('Nessun voto trovato su Google Sheets per questa partita (ID: ' + mid + ').'); return;
+    alert('Nessun voto trovato per questa partita (ID: ' + mid + ').\n\nVerifica che la colonna "ID Partita" su Google Sheets contenga ' + mid); return;
   }
 
-  // 3. leggi classifica storica da Google Sheets (totali precedenti)
+  // 3. leggi classifica storica dal CSV (totali precedenti)
+  // colonne CSV Classifica: 0=Nome 1=Cognome 2=Email 3=Associato 4=Punti Totali 5=Ultima partita
   let classificaStorica = {};
   try {
-    const res = await fetch(SHEETS_URL + '?action=getClassifica');
-    const data = await res.json();
-    (data.classifica || []).forEach(r => {
-      classificaStorica[r.email.toLowerCase()] = parseFloat(r.totale) || 0;
+    const res  = await fetch(noCache(CSV_CLASSIFICA));
+    const text = await res.text();
+    const rows = parseCSV(text);
+    rows.slice(1).forEach(r => {
+      if (r[2]) classificaStorica[r[2].toLowerCase().trim()] = parseFloat(r[4]) || 0;
     });
   } catch(e) { /* se non raggiungibile usa 0 come base */ }
 
@@ -899,9 +934,13 @@ async function renderRanking() {
 
   let entries = [];
   try {
-    const res = await fetch(SHEETS_URL + '?action=getClassifica');
-    const data = await res.json();
-    entries = data.classifica || [];
+    const res  = await fetch(noCache(CSV_CLASSIFICA));
+    const text = await res.text();
+    const rows = parseCSV(text);
+    // colonne: 0=Nome 1=Cognome 2=Email 3=Associato 4=Punti Totali 5=Ultima partita
+    entries = rows.slice(1)
+      .filter(r => r[2] && r[2].trim() !== '') // solo righe con email
+      .map(r => ({ nome:r[0], cognome:r[1], email:r[2], assoc:r[3], totale:r[4] }));
   } catch(e) {
     entries = Object.values(ranking).sort((a,b) => b.totale - a.totale);
   }
