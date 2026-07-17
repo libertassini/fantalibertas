@@ -315,7 +315,7 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
     <div id="adminValSection" style="display:none">
       <div class="admin-sub" style="margin-top:1.5rem">Valutazioni post-partita — <span id="adminValMatchLabel"></span></div>
       <div class="val-grid" id="adminValGrid"></div>
-      <button class="admin-save-btn btn-green" onclick="salvaValutazioni()" style="background:#27AE60">Calcola punteggi e aggiorna classifica</button>
+      <button class="admin-save-btn btn-green" onclick="salvaValutazioni()" style="background:#27AE60">Calcola punteggi classifica</button>
     </div>
 
     <div style="display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap">
@@ -874,55 +874,110 @@ async function salvaValutazioni() {
     alert('Nessun voto trovato per questa partita (ID: ' + mid + ').\n\nVerifica che la colonna "ID Partita" su Google Sheets contenga ' + mid); return;
   }
 
-  // 3. leggi classifica storica dal CSV (totali precedenti)
+  // 3. leggi classifica storica COMPLETA dal CSV (righe intere, non solo totali)
   // colonne CSV Classifica: 0=Nome 1=Cognome 2=Email 3=Associato 4=Punti Totali 5=Ultima partita
-  let classificaStorica = {};
+  const mappaClassifica = {}; // email → {nome,cognome,assoc,totale}
   try {
     const res  = await fetch(noCache(CSV_CLASSIFICA));
     const text = await res.text();
     const rows = parseCSV(text);
     rows.slice(1).forEach(r => {
-      if (r[2]) classificaStorica[r[2].toLowerCase().trim()] = parseFloat(r[4]) || 0;
+      const em = (r[2]||'').toLowerCase().trim();
+      if (em) mappaClassifica[em] = {
+        nome: r[0], cognome: r[1], assoc: r[3],
+        totale: parseFloat(r[4]) || 0
+      };
     });
-  } catch(e) { /* se non raggiungibile usa 0 come base */ }
+  } catch(e) { /* se non raggiungibile parte da vuoto */ }
 
-  // 4. calcola punteggi sommando ai totali storici reali da Sheets
+  // 4. calcola punti di questa partita e aggiorna i totali cumulativi
   const seenEmails = new Set();
-  const righeCalcolate = [];
+  let nCalcolati = 0;
 
   sheetsVotes.forEach(v => {
     const email = (v.email||'').toLowerCase();
-    if (seenEmails.has(email)) return;
+    if (seenEmails.has(email)) return; // un solo voto per email
     seenEmails.add(email);
 
     const scelta = [v.g1, v.g2, v.g3].map(nome => nameToId[nome]).filter(id => id !== undefined);
     const puntiPartita = parseFloat(scelta.reduce((sum, pid) => sum + (playerVals[pid]||0), 0).toFixed(1));
 
-    // totale = storico da Sheets + punti questa partita
-    const totaleStorico = classificaStorica[email] || 0;
-    const nuovoTotale   = parseFloat((totaleStorico + puntiPartita).toFixed(1));
-
-    righeCalcolate.push({
-      email, nome: v.nome, cognome: v.cognome, assoc: v.assoc,
-      matchId: mid, matchName: mname,
-      puntiPartita,
-      totale: nuovoTotale
-    });
+    const precedente = mappaClassifica[email];
+    const totalePrec = precedente ? precedente.totale : 0;
+    mappaClassifica[email] = {
+      nome:    v.nome,
+      cognome: v.cognome,
+      assoc:   v.assoc,
+      totale:  parseFloat((totalePrec + puntiPartita).toFixed(1))
+    };
+    nCalcolati++;
   });
+
+  // 5. costruisci la classifica finale ordinata
+  const classificaFinale = Object.entries(mappaClassifica)
+    .map(([email, d]) => ({ email, nome:d.nome, cognome:d.cognome, assoc:d.assoc, totale:d.totale }))
+    .sort((a,b) => b.totale - a.totale);
+
+  // salva per l'esportazione negli appunti
+  window._classificaExport = classificaFinale;
 
   matchesHistory[mid] = { name: mname, date: new Date().toISOString(), playerVals };
   save();
 
-  // 5. invia punteggi aggiornati a Google Sheets
-  try {
-    await fetch(SHEETS_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'scriviPunteggi', righe: righeCalcolate })
-    });
-  } catch(e) { /* silenzioso */ }
+  // 6. mostra la classifica calcolata e il pulsante per copiarla su Google Sheets
+  renderClassificaCalcolata(classificaFinale);
+  document.getElementById('adminValSection').scrollIntoView({ behavior:'smooth' });
+  alert(`✅ Punteggi calcolati per ${nCalcolati} votanti.\n\nOra clicca "📋 Copia classifica" e incollala nel foglio "Classifica" di Google Sheets.`);
+}
 
-  renderRanking();
-  alert(`✅ Punteggi calcolati per ${righeCalcolate.length} votanti. Classifica aggiornata.`);
+// mostra la classifica appena calcolata + pulsante copia
+function renderClassificaCalcolata(classifica) {
+  let box = document.getElementById('classificaCalcolataBox');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'classificaCalcolataBox';
+    box.style.cssText = 'margin-top:1.2rem;padding:1rem;background:rgba(139,13,47,0.12);border:1px solid rgba(139,13,47,0.3);border-radius:var(--r)';
+    document.getElementById('adminValSection').appendChild(box);
+  }
+  let html = `<div style="font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--orange2);margin-bottom:10px">Classifica calcolata — pronta da incollare</div>`;
+  html += `<table class="rank-table" style="margin-bottom:12px"><thead><tr><th>#</th><th>Nome</th><th>Email</th><th style="text-align:right">Punti</th></tr></thead><tbody>`;
+  classifica.forEach((e,i) => {
+    html += `<tr><td class="rank-pos">${i+1}</td><td>${e.nome} ${e.cognome}</td><td style="font-size:11px;color:var(--muted)">${e.email}</td><td class="rank-score">${e.totale.toFixed(1)}</td></tr>`;
+  });
+  html += `</tbody></table>`;
+  html += `<button class="admin-save-btn" onclick="copiaClassifica()">📋 Copia classifica per Google Sheets</button>`;
+  html += `<p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">Poi apri il foglio <b>"Classifica"</b> su Google Sheets, seleziona tutto e cancella, clicca sulla cella <b>A1</b> e incolla (Ctrl+V).</p>`;
+  box.innerHTML = html;
+}
+
+// copia la classifica negli appunti in formato TSV (incollabile su Google Sheets)
+function copiaClassifica() {
+  const cls = window._classificaExport || [];
+  if (cls.length === 0) { alert('Nessuna classifica da copiare.'); return; }
+  // intestazione + righe, separate da TAB (una colonna per cella)
+  let tsv = 'Nome\tCognome\tEmail\tAssociato\tPunti Totali\n';
+  cls.forEach(e => {
+    tsv += `${e.nome}\t${e.cognome}\t${e.email}\t${e.assoc}\t${e.totale.toFixed(1)}\n`;
+  });
+  // prova con l'API clipboard, fallback su textarea
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(tsv)
+      .then(() => alert('✅ Classifica copiata!\n\nOra incollala nel foglio "Classifica" di Google Sheets (cella A1).'))
+      .catch(() => fallbackCopy(tsv));
+  } else {
+    fallbackCopy(tsv);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); alert('✅ Classifica copiata! Incollala su Google Sheets (cella A1).'); }
+  catch(e) { alert('Copia manuale:\n\n' + text); }
+  document.body.removeChild(ta);
 }
 
 /* ════════════════════════════════════════════
