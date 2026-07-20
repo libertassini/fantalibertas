@@ -635,7 +635,7 @@ let valutazioniStorico = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-23T10:51');
+let kickoffDate = new Date('2026-07-21T10:51');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -874,7 +874,7 @@ function renderPronostici() {
 /* ════════════════════════════════════════════
    SUBMIT VOTO
 ════════════════════════════════════════════ */
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxq-n5__w16ir7-D7Gg9FPmev-qCn0cUwCrgHeUmw3QK1p6j2_k5Pay5l1N1tFFE13P/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxu9ydxcVrPr23q50icmhoeDpF7413OxBtVR5fpPpBO5YcDosdvTZEpvObEN4cyyUm1/exec';
 const CSV_VOTI       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1798318624&single=true&output=csv';
 const CSV_CLASSIFICA = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1187424992&single=true&output=csv';
 
