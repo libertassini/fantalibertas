@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">ff
+<meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>FantaLibertas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>ff
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -28,16 +28,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .wrap{max-width:720px;margin:0 auto;padding:0 1rem 4rem;position:relative;z-index:1}
 
 /* header */
-.header{padding:2rem 0 1.5rem;text-align:center}
-.brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:1.2rem}
-.brand-icon{width:36px;height:36px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
-.brand-name{font-family:var(--font-d);font-size:26px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
-.brand-name span{color:var(--orange)}
-.match-title{font-family:var(--font-d);font-size:34px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;line-height:1.1;margin-bottom:1rem}
+.header{padding:2.2rem 0 1.5rem;text-align:center;position:relative}
+.brand{display:inline-flex;align-items:center;gap:11px;margin-bottom:1.3rem;padding:6px 16px 6px 8px;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:40px;backdrop-filter:blur(4px)}
+.brand-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 3px 12px rgba(139,13,47,0.5)}
+.brand-name{font-family:var(--font-d);font-size:22px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+.brand-name span{color:var(--orange2)}
+.match-title{font-family:var(--font-d);font-size:42px;font-weight:800;letter-spacing:1px;text-transform:uppercase;line-height:1.02;margin-bottom:1.1rem;background:linear-gradient(180deg,#FFFFFF 0%,#F5D9E1 60%,#E8A9BB 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 2px 20px rgba(139,13,47,0.25);position:relative}
+.match-title::after{content:'';display:block;width:64px;height:3px;margin:0.7rem auto 0;background:linear-gradient(90deg,transparent,var(--orange2),transparent);border-radius:2px}
 .match-meta{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-.meta-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.07);border:1px solid var(--line);border-radius:20px;padding:5px 14px;font-size:13px;color:var(--muted)}
-.cd-chip{background:rgba(139,13,47,0.20);border-color:rgba(139,13,47,0.4);color:var(--orange2);font-weight:600;font-variant-numeric:tabular-nums;min-width:130px;justify-content:center}
+.meta-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.07);border:1px solid var(--line);border-radius:20px;padding:6px 15px;font-size:13px;color:var(--muted);transition:border-color .2s}
+.cd-chip{background:rgba(139,13,47,0.20);border-color:rgba(139,13,47,0.4);color:var(--orange2);font-weight:600;font-variant-numeric:tabular-nums;min-width:130px;justify-content:center;box-shadow:0 0 0 1px rgba(139,13,47,0.1)}
 .cd-chip.closed{background:rgba(231,76,60,0.15);border-color:rgba(231,76,60,0.3);color:var(--red)}
+@keyframes cdpulse{0%,100%{opacity:1}50%{opacity:0.55}}
+.cd-chip:not(.closed){animation:cdpulse 2s ease-in-out infinite}
 
 /* cards generiche */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:1.3rem;margin-bottom:1rem}
@@ -165,9 +168,30 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .success-info{font-size:13px;color:var(--muted);margin-top:4px}
 
 /* tab nav */
-.tab-nav{display:flex;gap:4px;margin-bottom:1.2rem}
-.tab-btn{flex:1;padding:9px;font-family:var(--font-d);font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:var(--r);cursor:pointer;color:var(--muted);transition:all .2s}
-.tab-btn.active{background:rgba(139,13,47,0.20);border-color:rgba(139,13,47,0.4);color:var(--orange2)}
+.tab-nav{display:flex;gap:6px;margin-bottom:1.2rem;background:rgba(255,255,255,0.03);padding:5px;border-radius:calc(var(--r) + 4px);border:1px solid var(--line)}
+.tab-btn{flex:1;padding:10px 6px;font-family:var(--font-d);font-size:14px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;background:transparent;border:none;border-radius:var(--r);cursor:pointer;color:var(--muted);transition:all .22s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);color:#fff;box-shadow:0 3px 12px rgba(139,13,47,0.45)}
+
+/* valutazioni ultimo match */
+.val-match-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.val-match-name{font-family:var(--font-d);font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text)}
+.val-match-date{font-size:12px;color:var(--muted)}
+.val-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}
+.val-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);overflow:hidden;transition:transform .15s,border-color .15s;position:relative}
+.val-card:hover{transform:translateY(-3px);border-color:rgba(139,13,47,0.4)}
+.val-card-photo{width:100%;aspect-ratio:1/1;object-fit:cover;object-position:top center;display:block;background:var(--court2)}
+.val-card-ph{width:100%;aspect-ratio:1/1;background:linear-gradient(160deg,var(--court2) 0%,rgba(139,13,47,0.12) 100%);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:32px;font-weight:700;color:rgba(255,255,255,0.18)}
+.val-card-body{padding:10px 12px 13px}
+.val-card-name{font-family:var(--font-d);font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;line-height:1.15;margin-bottom:2px}
+.val-card-role{font-size:10px;color:var(--muted);margin-bottom:9px}
+.val-card-score{display:flex;align-items:flex-end;justify-content:space-between}
+.val-score-big{font-family:var(--font-d);font-size:30px;font-weight:800;line-height:1;background:linear-gradient(180deg,#FFFFFF,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.val-score-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:3px}
+.val-avg{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
+.val-avg b{color:var(--orange2);font-family:var(--font-d);font-size:15px;font-weight:700}
+.val-empty{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:13px}
+.val-empty-icon{font-size:38px;opacity:0.4;margin-bottom:10px}
 
 /* modal overlay */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(5,10,20,0.85);z-index:100;align-items:center;justify-content:center;padding:1rem}
@@ -213,6 +237,7 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
   <div class="tab-nav">
     <button class="tab-btn active" onclick="showTab('voto')">Vota</button>
     <button class="tab-btn" onclick="showTab('classifica')">Classifica</button>
+    <button class="tab-btn" onclick="showTab('valutazioni')">Valutazioni</button>
   </div>
 
   <!-- ── TAB VOTO ── -->
@@ -286,6 +311,16 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
     <div class="card" id="rankCard">
       <div class="section-label">Classifica FantaLibertas</div>
       <div id="rankContent"><p style="color:var(--muted);font-size:13px">Nessuna partita ancora disputata.</p></div>
+    </div>
+  </div>
+
+  <!-- ── TAB VALUTAZIONI ULTIMO MATCH ── -->
+  <div id="tabValutazioni" style="display:none">
+    <div class="card">
+      <div class="section-label">Valutazioni ultimo match</div>
+      <div id="valContent">
+        <div class="val-empty"><div class="val-empty-icon">📊</div>Nessuna valutazione ancora disponibile.</div>
+      </div>
     </div>
   </div>
 
@@ -391,6 +426,18 @@ let ranking = {};
 // partite già elaborate: { matchId: { name, players:[{id,val}] } }
 let matchesHistory = {};
 
+/* ────────────────────────────────────────────────────────────────
+   STORICO VALUTAZIONI (pubblico, visibile a tutti)
+   Ogni volta che calcoli i punteggi come admin, clicca
+   "📋 Copia valutazioni per il codice" e incolla qui sotto la riga
+   aggiornata (sostituendo questa) al prossimo commit su GitHub.
+   Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
+──────────────────────────────────────────────────────────────── */
+let valutazioniStorico = [
+  // esempio:
+  // { matchId:"20260722", matchName:"Libertas Livorno vs Brindisi", date:"2026-07-22", vals:{1:10,2:12,3:1,4:31,5:4,6:5,7:6,8:8} },
+];
+
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
@@ -440,12 +487,14 @@ function load() {
    TAB
 ════════════════════════════════════════════ */
 function showTab(t) {
-  document.getElementById('tabVoto').style.display       = t==='voto' ? 'block' : 'none';
-  document.getElementById('tabClassifica').style.display = t==='classifica' ? 'block' : 'none';
+  document.getElementById('tabVoto').style.display        = t==='voto' ? 'block' : 'none';
+  document.getElementById('tabClassifica').style.display  = t==='classifica' ? 'block' : 'none';
+  document.getElementById('tabValutazioni').style.display = t==='valutazioni' ? 'block' : 'none';
   document.querySelectorAll('.tab-btn').forEach((b,i)=>{
-    b.classList.toggle('active', (t==='voto'&&i===0)||(t==='classifica'&&i===1));
+    b.classList.toggle('active', (t==='voto'&&i===0)||(t==='classifica'&&i===1)||(t==='valutazioni'&&i===2));
   });
-  if (t==='classifica') renderRanking();
+  if (t==='classifica')  renderRanking();
+  if (t==='valutazioni') renderValutazioni();
 }
 
 /* ════════════════════════════════════════════
@@ -947,6 +996,10 @@ function renderClassificaCalcolata(classifica) {
   html += `</tbody></table>`;
   html += `<button class="admin-save-btn" onclick="copiaClassifica()">📋 Copia classifica per Google Sheets</button>`;
   html += `<p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">Poi apri il foglio <b>"Classifica"</b> su Google Sheets, seleziona tutto e cancella, clicca sulla cella <b>A1</b> e incolla (Ctrl+V).</p>`;
+  html += `<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+      <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--muted)" onclick="copiaValutazioniCodice()">📋 Copia valutazioni per il codice</button>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">Facoltativo: per mostrare le valutazioni di questa partita nella schermata pubblica <b>"Valutazioni"</b>, incolla la riga copiata al posto di <code>let valutazioniStorico = [...]</code> nel file <code>index.html</code> al prossimo commit.</p>
+    </div>`;
   box.innerHTML = html;
 }
 
@@ -975,14 +1028,129 @@ function fallbackCopy(text) {
   ta.style.position = 'fixed'; ta.style.opacity = '0';
   document.body.appendChild(ta);
   ta.select();
-  try { document.execCommand('copy'); alert('✅ Classifica copiata! Incollala su Google Sheets (cella A1).'); }
+  try { document.execCommand('copy'); alert('✅ Copiato! Incolla dove indicato.'); }
   catch(e) { alert('Copia manuale:\n\n' + text); }
   document.body.removeChild(ta);
+}
+
+// costruisce la riga JS aggiornata di valutazioniStorico (storico + ultima partita) da incollare nel codice
+function copiaValutazioniCodice() {
+  const mid   = matchId || 'default';
+  const mname = document.getElementById('matchTitle').textContent;
+  const dateISO = (kickoffDate ? kickoffDate : new Date()).toISOString().slice(0,10);
+
+  // raccogli le valutazioni appena inserite
+  const vals = {};
+  players.forEach((p,i) => {
+    const v = parseFloat(document.getElementById(`val_${i}`)?.value);
+    if (!isNaN(v)) vals[p.id] = v;
+  });
+  if (Object.keys(vals).length === 0) { alert('Inserisci prima le valutazioni dei giocatori.'); return; }
+
+  // unisci con lo storico già presente (rimuovendo eventuale stessa partita)
+  const storico = (valutazioniStorico || []).filter(m => m.matchId !== mid);
+  storico.push({ matchId: mid, matchName: mname, date: dateISO, vals });
+  storico.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  // genera il testo della riga di codice
+  let righe = storico.map(m => {
+    const valsStr = Object.entries(m.vals).map(([id,v]) => `${id}:${v}`).join(',');
+    return `  { matchId:"${m.matchId}", matchName:${JSON.stringify(m.matchName)}, date:"${m.date}", vals:{${valsStr}} }`;
+  }).join(',\n');
+  const code = `let valutazioniStorico = [\n${righe}\n];`;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code)
+      .then(() => alert('✅ Valutazioni copiate!\n\nIncolla al posto della riga "let valutazioniStorico = [...]" nel file index.html, al prossimo commit su GitHub.'))
+      .catch(() => fallbackCopy(code));
+  } else {
+    fallbackCopy(code);
+  }
 }
 
 /* ════════════════════════════════════════════
    CLASSIFICA
 ════════════════════════════════════════════ */
+// maschera l'email per privacy: pol@gmail.com → po***@gmail.com
+function maskEmail(email) {
+  if (!email || email.indexOf('@') < 0) return email || '';
+  const parts = email.split('@');
+  const u = parts[0];
+  const uMask = u.length <= 2 ? (u[0]||'') + '***' : u.slice(0,2) + '***';
+  return uMask + '@' + parts[1];
+}
+
+/* ════════════════════════════════════════════
+   VALUTAZIONI ULTIMO MATCH + MEDIE CAMPIONATO
+════════════════════════════════════════════ */
+// unisce lo storico dal codice (pubblico) con quello in memoria locale (admin)
+function getValutazioniData() {
+  const byId = {};
+  (valutazioniStorico || []).forEach(m => {
+    if (m && m.matchId) byId[m.matchId] = { matchId:m.matchId, matchName:m.matchName, date:m.date, vals:m.vals||{} };
+  });
+  Object.entries(matchesHistory || {}).forEach(([mid, mh]) => {
+    if (mh) byId[mid] = { matchId:mid, matchName:mh.name, date:mh.date, vals:mh.playerVals||{} };
+  });
+  return Object.values(byId).sort((a,b) => new Date(b.date||0) - new Date(a.date||0));
+}
+
+function renderValutazioni() {
+  const cont = document.getElementById('valContent');
+  const data = getValutazioniData();
+
+  if (data.length === 0) {
+    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">📊</div>Nessuna valutazione ancora disponibile.<br>Appariranno qui dopo la prima partita elaborata.</div>';
+    return;
+  }
+
+  const ultimo = data[0];
+
+  // medie campionato per ogni giocatore (su tutte le partite in cui ha una valutazione)
+  const somme = {}, conteggi = {};
+  data.forEach(m => {
+    Object.entries(m.vals || {}).forEach(([pid, v]) => {
+      const val = parseFloat(v);
+      if (isNaN(val)) return;
+      somme[pid] = (somme[pid] || 0) + val;
+      conteggi[pid] = (conteggi[pid] || 0) + 1;
+    });
+  });
+
+  const dateStr = ultimo.date ? new Date(ultimo.date).toLocaleDateString('it-IT', {day:'2-digit', month:'short', year:'numeric'}) : '';
+
+  let html = `<div class="val-match-head">
+      <div class="val-match-name">${ultimo.matchName || 'Ultima partita'}</div>
+      <div class="val-match-date">${dateStr}${data.length > 1 ? ' · media su ' + data.length + ' partite' : ''}</div>
+    </div>`;
+  html += '<div class="val-cards">';
+
+  // mostra i giocatori che hanno una valutazione in questa partita
+  players.forEach(p => {
+    if (ultimo.vals[p.id] === undefined) return;
+    const voto = parseFloat(ultimo.vals[p.id]);
+    const media = conteggi[p.id] ? (somme[p.id] / conteggi[p.id]) : null;
+    const photo = p.photo
+      ? `<img class="val-card-photo" src="${p.photo}" alt="${p.name}" loading="lazy">`
+      : `<div class="val-card-ph">${(p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2))}</div>`;
+    html += `<div class="val-card">
+      ${photo}
+      <div class="val-card-body">
+        <div class="val-card-name">${p.name}</div>
+        <div class="val-card-role">${p.role||''}</div>
+        <div class="val-card-score">
+          <span class="val-score-lbl">Voto</span>
+          <span class="val-score-big">${voto.toFixed(1)}</span>
+        </div>
+        ${media !== null ? `<div class="val-avg"><span>Media campionato</span><b>${media.toFixed(1)}</b></div>` : ''}
+      </div>
+    </div>`;
+  });
+
+  html += '</div>';
+  cont.innerHTML = html;
+}
+
 async function renderRanking() {
   const cont = document.getElementById('rankContent');
   cont.innerHTML = '<p style="color:var(--muted);font-size:13px">⏳ Caricamento classifica...</p>';
@@ -1016,7 +1184,7 @@ async function renderRanking() {
     const assocSi  = e.assoc==='si' || e.assoc==='Associato';
     html += `<tr>
       <td class="rank-pos ${posClass}">${medal||i+1}</td>
-      <td><div style="font-weight:500">${e.nome} ${e.cognome}</div><div style="font-size:11px;color:var(--muted)">${e.email}</div></td>
+      <td><div style="font-weight:500">${e.nome} ${e.cognome}</div><div style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
       <td><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>
       <td class="rank-score">${parseFloat(e.totale).toFixed(1)}</td>
     </tr>`;
