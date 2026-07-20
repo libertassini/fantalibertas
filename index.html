@@ -468,8 +468,8 @@ function save() {
 
 function load() {
   try {
-    const p = localStorage.getItem(SK_PLAYERS);
-    if (p) players = JSON.parse(p);
+    // NOTA: l'elenco giocatori (players) è definito nel codice (riga ~411) e NON
+    // viene più caricato dal localStorage, così è sempre uguale per tutti gli utenti.
     const v = localStorage.getItem(SK_VOTES);
     if (v) votes = JSON.parse(v);
     const r = localStorage.getItem(SK_RANK);
@@ -479,8 +479,8 @@ function load() {
     const c = localStorage.getItem(SK_CONFIG);
     if (c) {
       const cfg = JSON.parse(c);
-      // NOTA: matchId, kickoffDate e matchTitle sono definiti nel codice (righe ~397)
-      // e NON vengono più sovrascritti dal localStorage, così restano uguali per tutti.
+      // NOTA: matchId, kickoffDate e matchTitle sono definiti nel codice
+      // e NON vengono sovrascritti dal localStorage, così restano uguali per tutti.
     }
   } catch(e){}
 }
