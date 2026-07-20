@@ -348,6 +348,17 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .cd-chip{font-family:var(--font-num);font-weight:600;font-size:17px;letter-spacing:1px}
 .player-initials,.val-card-ph{font-family:var(--font-num)}
 
+/* pronostici */
+.pron-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:12px 14px;margin-bottom:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 20px rgba(0,0,0,0.25)}
+.pron-q{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:9px;font-family:var(--font-d)}
+.pron-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pron-opt{padding:11px 10px;border:1px solid rgba(255,255,255,0.1);border-radius:var(--r);text-align:center;cursor:pointer;transition:all .18s;user-select:none;font-family:var(--font-d);font-size:15px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);line-height:1.15}
+.pron-opt:hover{border-color:rgba(255,255,255,0.25);color:var(--text);transform:translateY(-1px)}
+.pron-opt.active{border-color:var(--orange);background:rgba(139,13,47,0.18);color:#fff;box-shadow:0 4px 14px rgba(139,13,47,0.4)}
+.pron-opt .vs-tag{display:block;font-family:var(--font-b);font-size:9px;font-weight:500;letter-spacing:1px;color:rgba(192,154,170,0.55);margin-bottom:3px}
+.pron-result{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:space-between}
+.pron-result b{color:var(--green);font-family:var(--font-d);text-transform:uppercase;letter-spacing:.5px}
+
 /* credito in alto a destra */
 .powered-by{position:absolute;top:14px;right:16px;z-index:5;font-family:var(--font-d);font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.35;opacity:.85;transition:opacity .2s}
 .powered-by:hover{opacity:1}
@@ -444,6 +455,9 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="section-label">La tua selezione</div>
       <div class="slots-row" id="slotsRow"></div>
 
+      <div class="section-label" id="pronosticiLabel" style="display:none">Pronostici della giornata · +10 / −10 punti</div>
+      <div id="pronosticiBox"></div>
+
       <div class="card">
         <button class="btn" id="submitVotoBtn" disabled onclick="submitVoto()">Invia votazione</button>
         <div class="deadline-note">Le votazioni chiudono al fischio d'inizio.</div>
@@ -496,7 +510,9 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <div id="adminValSection" style="display:none">
       <div class="admin-sub" style="margin-top:1.5rem">Valutazioni post-partita — <span id="adminValMatchLabel"></span></div>
       <div class="val-grid" id="adminValGrid"></div>
-      <button class="admin-save-btn btn-green" onclick="salvaValutazioni()" style="background:#27AE60">Calcola punteggi classifica</button>
+      <div class="admin-sub" id="adminPronTitle" style="margin-top:1.2rem;display:none">Esito pronostici — chi ha vinto?</div>
+      <div id="adminPronBox"></div>
+      <button class="admin-save-btn btn-green" onclick="salvaValutazioni()" style="background:#27AE60;margin-top:1rem">Calcola punteggi classifica</button>
     </div>
 
     <div style="display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap">
@@ -599,6 +615,19 @@ let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20
 let countdownTimer = null;
 let votingClosed = false;
 
+/* ────────────────────────────────────────────────────────────────
+   PRONOSTICI DELLA GIORNATA (l'admin sceglie 3 partite)
+   Modifica queste 3 partite prima di ogni giornata (casa vs trasferta).
+   A fine giornata l'admin indicherà chi ha vinto ogni partita.
+   Ogni pronostico indovinato: +10 punti · sbagliato: -10 punti.
+──────────────────────────────────────────────────────────────── */
+let pronostici = [
+  { id:"p1", casa:"Trapani",       trasferta:"Olimpia Milano" },
+  { id:"p2", casa:"Trieste",       trasferta:"Virtus Bologna" },
+  { id:"p3", casa:"Reggio Emilia", trasferta:"Umana Venezia" },
+];
+let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
+
 /* ════════════════════════════════════════════
    PERSISTENZA
 ════════════════════════════════════════════ */
@@ -686,11 +715,13 @@ function submitReg() {
 
   currentUser = { nome, cognome, email, assoc: assocVal };
   selected = [];
+  pronosticiScelti = {};
   document.getElementById('editBanner').style.display = 'none';
 
   document.getElementById('stepReg').style.display  = 'none';
   document.getElementById('stepVoto').style.display = 'block';
   renderPlayers();
+  renderPronostici();
   updateBudget();
   renderSlots();
   updateSubmit();
@@ -774,8 +805,45 @@ function renderSlots() {
 }
 
 function updateSubmit() {
-  const ok = selected.length===MAX_SEL && getSpent()<=BUDGET && !votingClosed;
+  const pronOk = pronostici.length === 0 || pronostici.every(p => pronosticiScelti[p.id]);
+  const ok = selected.length===MAX_SEL && getSpent()<=BUDGET && pronOk && !votingClosed;
   document.getElementById('submitVotoBtn').disabled = !ok;
+}
+
+/* ════════════════════════════════════════════
+   PRONOSTICI
+════════════════════════════════════════════ */
+function renderPronostici() {
+  const label = document.getElementById('pronosticiLabel');
+  const box   = document.getElementById('pronosticiBox');
+  if (!box) return;
+  if (!pronostici || pronostici.length === 0) {
+    label.style.display = 'none';
+    box.innerHTML = '';
+    return;
+  }
+  label.style.display = 'block';
+  box.innerHTML = '';
+  pronostici.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'pron-card';
+    const scelto = pronosticiScelti[p.id];
+    card.innerHTML = `
+      <div class="pron-q">${p.casa} <span style="color:rgba(192,154,170,0.5)">vs</span> ${p.trasferta}</div>
+      <div class="pron-opts">
+        <div class="pron-opt ${scelto===p.casa?'active':''}" data-pid="${p.id}" data-team="${p.casa.replace(/"/g,'&quot;')}"><span class="vs-tag">Casa</span>${p.casa}</div>
+        <div class="pron-opt ${scelto===p.trasferta?'active':''}" data-pid="${p.id}" data-team="${p.trasferta.replace(/"/g,'&quot;')}"><span class="vs-tag">Trasferta</span>${p.trasferta}</div>
+      </div>`;
+    box.appendChild(card);
+  });
+  box.querySelectorAll('.pron-opt').forEach(el => {
+    el.addEventListener('click', () => {
+      if (votingClosed) return;
+      pronosticiScelti[el.getAttribute('data-pid')] = el.getAttribute('data-team');
+      renderPronostici();
+      updateSubmit();
+    });
+  });
 }
 
 /* ════════════════════════════════════════════
@@ -820,6 +888,11 @@ function submitVoto() {
   const key = currentUser.email.toLowerCase() + '_' + mid;
   const sel = selected.map(id => players.find(p => p.id === id));
 
+  // pronostici scelti (nell'ordine p1,p2,p3)
+  const pron1 = pronostici[0] ? (pronosticiScelti[pronostici[0].id]||'') : '';
+  const pron2 = pronostici[1] ? (pronosticiScelti[pronostici[1].id]||'') : '';
+  const pron3 = pronostici[2] ? (pronosticiScelti[pronostici[2].id]||'') : '';
+
   // salva in locale
   votes[key] = {
     nome:      currentUser.nome,
@@ -827,6 +900,7 @@ function submitVoto() {
     email:     currentUser.email.toLowerCase(),
     assoc:     currentUser.assoc,
     scelta:    [...selected],
+    pronostici:{...pronosticiScelti},
     matchId:   mid,
     matchName: document.getElementById('matchTitle').textContent,
     ts:        new Date().toISOString()
@@ -847,7 +921,10 @@ function submitVoto() {
       g1:        sel[0] ? sel[0].name : '',
       g2:        sel[1] ? sel[1].name : '',
       g3:        sel[2] ? sel[2].name : '',
-      crediti:   sel.reduce((a, p) => a + p.cost, 0)
+      crediti:   sel.reduce((a, p) => a + p.cost, 0),
+      pron1:     pron1,
+      pron2:     pron2,
+      pron3:     pron3
     })
   }).catch(() => {});
 
@@ -1039,6 +1116,36 @@ function buildValGrid() {
       </div>`;
     grid.appendChild(block);
   });
+
+  // esito pronostici
+  const pronTitle = document.getElementById('adminPronTitle');
+  const pronBox   = document.getElementById('adminPronBox');
+  if (pronostici && pronostici.length > 0) {
+    pronTitle.style.display = 'block';
+    pronBox.innerHTML = '';
+    pronostici.forEach(p => {
+      const prevWin = (matchesHistory[mid]?.pronVincenti||{})[p.id];
+      const card = document.createElement('div');
+      card.className = 'pron-card';
+      card.innerHTML = `
+        <div class="pron-q">${p.casa} <span style="color:rgba(192,154,170,0.5)">vs</span> ${p.trasferta}</div>
+        <div class="pron-opts">
+          <div class="pron-opt admin-pron-opt ${prevWin===p.casa?'active':''}" data-pid="${p.id}" data-team="${p.casa.replace(/"/g,'&quot;')}"><span class="vs-tag">Casa</span>${p.casa}</div>
+          <div class="pron-opt admin-pron-opt ${prevWin===p.trasferta?'active':''}" data-pid="${p.id}" data-team="${p.trasferta.replace(/"/g,'&quot;')}"><span class="vs-tag">Trasferta</span>${p.trasferta}</div>
+        </div>`;
+      pronBox.appendChild(card);
+    });
+    pronBox.querySelectorAll('.admin-pron-opt').forEach(el => {
+      el.addEventListener('click', () => {
+        const pid = el.getAttribute('data-pid');
+        pronBox.querySelectorAll(`.admin-pron-opt[data-pid="${pid}"]`).forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+      });
+    });
+  } else {
+    pronTitle.style.display = 'none';
+    pronBox.innerHTML = '';
+  }
 }
 
 async function salvaValutazioni() {
@@ -1055,12 +1162,24 @@ async function salvaValutazioni() {
   });
   if (!allFilled) { alert('Inserisci la valutazione per tutti i giocatori.'); return; }
 
+  // 1b. raccogli gli esiti dei pronostici scelti dall'admin
+  const pronVincenti = {}; // pid → squadra vincente
+  if (pronostici && pronostici.length > 0) {
+    let allWin = true;
+    pronostici.forEach(p => {
+      const el = document.querySelector(`#adminPronBox .admin-pron-opt.active[data-pid="${p.id}"]`);
+      if (el) pronVincenti[p.id] = el.getAttribute('data-team');
+      else allWin = false;
+    });
+    if (!allWin) { alert('Seleziona la squadra vincente per tutti e 3 i pronostici.'); return; }
+  }
+
   // mappa nome giocatore → id
   const nameToId = {};
   players.forEach(p => { nameToId[p.name] = p.id; });
 
   // 2. leggi voti dal CSV pubblicato di Google Sheets, filtrati per questa partita
-  // colonne CSV Voti: 0=Timestamp 1=Nome 2=Cognome 3=Email 4=Associato 5=Partita 6=ID Partita 7=G1 8=G2 9=G3 10=Crediti
+  // colonne CSV Voti: 0=Timestamp 1=Nome 2=Cognome 3=Email 4=Associato 5=Partita 6=ID Partita 7=G1 8=G2 9=G3 10=Crediti 11=Pron1 12=Pron2 13=Pron3
   let sheetsVotes = [];
   try {
     const res  = await fetch(noCache(CSV_VOTI));
@@ -1068,7 +1187,8 @@ async function salvaValutazioni() {
     const rows = parseCSV(text);
     sheetsVotes = rows.slice(1) // salta intestazione
       .filter(r => String(r[6]).trim() === String(mid))
-      .map(r => ({ nome:r[1], cognome:r[2], email:r[3], assoc:r[4], g1:r[7], g2:r[8], g3:r[9] }));
+      .map(r => ({ nome:r[1], cognome:r[2], email:r[3], assoc:r[4], g1:r[7], g2:r[8], g3:r[9],
+                   pron1:(r[11]||'').trim(), pron2:(r[12]||'').trim(), pron3:(r[13]||'').trim() }));
   } catch(e) {
     alert('❌ Errore nel recupero voti dal CSV. Controlla la connessione.'); return;
   }
@@ -1102,7 +1222,18 @@ async function salvaValutazioni() {
     seenEmails.add(email);
 
     const scelta = [v.g1, v.g2, v.g3].map(nome => nameToId[nome]).filter(id => id !== undefined);
-    const puntiPartita = parseFloat(scelta.reduce((sum, pid) => sum + (playerVals[pid]||0), 0).toFixed(1));
+    const base = scelta.reduce((sum, pid) => sum + (playerVals[pid]||0), 0);
+
+    // bonus/malus pronostici: +10 indovinato, -10 sbagliato
+    let bonus = 0;
+    const picks = [v.pron1, v.pron2, v.pron3];
+    pronostici.forEach((p, idx) => {
+      const pick = picks[idx];
+      const win  = pronVincenti[p.id];
+      if (pick && win) bonus += (pick === win) ? 10 : -10;
+    });
+
+    const puntiPartita = parseFloat((base + bonus).toFixed(1));
 
     const precedente = mappaClassifica[email];
     const totalePrec = precedente ? precedente.totale : 0;
@@ -1123,7 +1254,7 @@ async function salvaValutazioni() {
   // salva per l'esportazione negli appunti
   window._classificaExport = classificaFinale;
 
-  matchesHistory[mid] = { name: mname, date: new Date().toISOString(), playerVals };
+  matchesHistory[mid] = { name: mname, date: new Date().toISOString(), playerVals, pronVincenti };
   save();
 
   // 6. mostra la classifica calcolata e il pulsante per copiarla su Google Sheets
