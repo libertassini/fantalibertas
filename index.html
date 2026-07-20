@@ -9,7 +9,7 @@
 <title>FantaLibertas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Teko:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -20,7 +20,7 @@ html{scroll-behavior:smooth}
   --text:#F5F0F2;--muted:#C09AAA;
   --line:rgba(255,255,255,0.08);--card:rgba(255,255,255,0.05);--card-h:rgba(255,255,255,0.09);
   --green:#2ECC71;--red:#E74C3C;
-  --font-d:'Barlow Condensed',sans-serif;--font-b:'Inter',sans-serif;
+  --font-d:'Oswald',sans-serif;--font-b:'Inter',sans-serif;--font-hero:'Anton',sans-serif;--font-num:'Teko',sans-serif;
   --r:10px;--rl:16px;
 }
 body{background:var(--court);color:var(--text);font-family:var(--font-b);font-size:15px;line-height:1.6;min-height:100vh}
@@ -212,14 +212,146 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
   .budget-panel{flex-direction:column;align-items:stretch;gap:.7rem}
   .form-row-2{grid-template-columns:1fr}
 }
+/* ═══════════════ PREMIUM FX ═══════════════ */
+/* animazioni d'ingresso */
+@keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{0%{opacity:0;transform:scale(.9)}60%{opacity:1;transform:scale(1.02)}100%{transform:scale(1)}}
+@keyframes drift{0%{transform:translate(0,0)}50%{transform:translate(4%,-3%)}100%{transform:translate(0,0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 1px rgba(139,13,47,0.15),0 6px 26px rgba(139,13,47,0.28)}50%{box-shadow:0 0 0 1px rgba(139,13,47,0.35),0 10px 40px rgba(139,13,47,0.5)}}
+
+/* orb luminosi animati di sfondo (sopra la texture, sotto i contenuti) */
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(closest-side at 18% 12%, rgba(174,16,64,0.20), transparent 70%),
+    radial-gradient(closest-side at 85% 20%, rgba(139,13,47,0.16), transparent 70%),
+    radial-gradient(closest-side at 70% 85%, rgba(174,16,64,0.12), transparent 70%);
+  background-repeat:no-repeat;animation:drift 18s ease-in-out infinite}
+
+/* canvas particelle */
+#fxParticles{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ingresso header + navigazione */
+.header{animation:riseIn .7s cubic-bezier(.2,.7,.2,1) both}
+.brand{animation:popIn .6s cubic-bezier(.2,.7,.2,1) both}
+.match-title{animation:riseIn .8s cubic-bezier(.2,.7,.2,1) .05s both}
+.match-meta{animation:riseIn .8s cubic-bezier(.2,.7,.2,1) .15s both}
+.tab-nav{animation:riseIn .7s cubic-bezier(.2,.7,.2,1) .2s both}
+#stepReg .card{animation:riseIn .7s cubic-bezier(.2,.7,.2,1) .28s both}
+
+/* titolo con leggero alone luminoso */
+.match-title{filter:drop-shadow(0 0 18px rgba(174,16,64,0.25))}
+.brand-icon{position:relative}
+.brand-icon::after{content:'';position:absolute;inset:-3px;border-radius:50%;box-shadow:0 0 16px rgba(174,16,64,0.6);opacity:.7}
+
+/* card premium: bordo lucido + riflesso superiore */
+.card,.budget-panel,.player-card,.val-card,.slot{box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 20px rgba(0,0,0,0.25)}
+.card::before,.budget-panel::before{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,0.06),transparent 40%);pointer-events:none}
+.card,.budget-panel{position:relative}
+
+/* SHINE sweep su card giocatori e valutazioni */
+.player-card,.val-card{isolation:isolate}
+.player-card::after,.val-card::after{content:'';position:absolute;top:0;left:-120%;width:80%;height:100%;z-index:3;pointer-events:none;
+  background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,0.18) 50%,transparent 80%);
+  transform:skewX(-18deg);transition:left .7s cubic-bezier(.2,.7,.2,1)}
+.player-card:hover::after,.val-card:hover::after{left:130%}
+
+/* micro-interazioni giocatori */
+.player-card{transition:transform .22s cubic-bezier(.2,.7,.2,1),border-color .22s,background .22s,box-shadow .22s}
+.player-card:hover{transform:translateY(-4px) scale(1.015);border-color:rgba(174,16,64,0.5);box-shadow:0 12px 30px rgba(139,13,47,0.35),inset 0 1px 0 rgba(255,255,255,0.08)}
+.player-card:active{transform:translateY(-1px) scale(.99)}
+.player-card.selected{box-shadow:0 0 0 1.5px var(--orange),0 10px 30px rgba(139,13,47,0.45),inset 0 1px 0 rgba(255,255,255,0.08)}
+.player-card.selected .player-photo,.player-card.selected .player-placeholder{transform:scale(1.03);transition:transform .3s}
+.sel-check{animation:popIn .35s cubic-bezier(.2,.7,.2,1) both;box-shadow:0 2px 10px rgba(139,13,47,0.6)}
+
+/* valutazioni: stagger d'ingresso + hover */
+.val-card{animation:riseIn .55s cubic-bezier(.2,.7,.2,1) both}
+.val-cards .val-card:nth-child(1){animation-delay:.02s}
+.val-cards .val-card:nth-child(2){animation-delay:.07s}
+.val-cards .val-card:nth-child(3){animation-delay:.12s}
+.val-cards .val-card:nth-child(4){animation-delay:.17s}
+.val-cards .val-card:nth-child(5){animation-delay:.22s}
+.val-cards .val-card:nth-child(6){animation-delay:.27s}
+.val-cards .val-card:nth-child(n+7){animation-delay:.32s}
+.val-card:hover{box-shadow:0 12px 30px rgba(139,13,47,0.35),inset 0 1px 0 rgba(255,255,255,0.08)}
+
+/* classifica: righe in ingresso + evidenza podio */
+.rank-table tbody tr{animation:riseIn .5s ease both}
+.rank-table tbody tr:nth-child(1){animation-delay:.03s}
+.rank-table tbody tr:nth-child(2){animation-delay:.08s}
+.rank-table tbody tr:nth-child(3){animation-delay:.13s}
+.rank-table tbody tr:nth-child(n+4){animation-delay:.18s}
+.rank-table tbody tr:first-child{background:linear-gradient(90deg,rgba(174,16,64,0.10),transparent)}
+.rank-pos.top1{text-shadow:0 0 14px rgba(255,215,120,0.6)}
+.rank-score{transition:transform .2s}
+.rank-table tbody tr:hover .rank-score{transform:scale(1.08)}
+
+/* budget bar con bagliore dinamico */
+.budget-fill{box-shadow:0 0 12px rgba(174,16,64,0.6);background-image:linear-gradient(90deg,var(--orange),var(--orange2))}
+.budget-fill.ok{background-image:linear-gradient(90deg,#1f8f4e,var(--green));box-shadow:0 0 12px rgba(46,204,113,0.5)}
+.budget-fill.warn{background-image:none}
+.budget-fill.over{background-image:none;box-shadow:0 0 12px rgba(231,76,60,0.6)}
+
+/* pulsanti premium con shine + glow */
+.btn{position:relative;overflow:hidden;background-image:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);box-shadow:0 6px 20px rgba(139,13,47,0.4);transition:transform .15s,box-shadow .25s,filter .2s}
+.btn:hover:not(:disabled){opacity:1;filter:brightness(1.08);transform:translateY(-2px);box-shadow:0 10px 30px rgba(139,13,47,0.55)}
+.btn:active:not(:disabled){transform:translateY(0) scale(.99)}
+.btn::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.25),transparent);transform:skewX(-18deg);transition:left .6s cubic-bezier(.2,.7,.2,1)}
+.btn:hover:not(:disabled)::after{left:130%}
+.btn-green{background-image:linear-gradient(135deg,#1f8f4e,#27AE60)}
+.btn-outline{background-image:none}
+
+/* slot riempiti con piccolo pop */
+.slot.filled{animation:popIn .35s cubic-bezier(.2,.7,.2,1) both}
+
+/* chip countdown: alone pulsante */
+.cd-chip:not(.closed){box-shadow:0 0 18px rgba(174,16,64,0.35)}
+
+/* focus input più curato */
+input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.15)!important}
+
+/* ═══════════════ TIPOGRAFIA PREMIUM ═══════════════ */
+/* titolo hero d'impatto */
+.match-title{font-family:var(--font-hero);font-weight:400;letter-spacing:1.5px}
+.success-title{font-family:var(--font-hero);font-weight:400;letter-spacing:1.5px}
+/* brand e display: Oswald, tracking curato */
+.brand-name{letter-spacing:2px;font-weight:700}
+.tab-btn{letter-spacing:1.2px}
+.btn{letter-spacing:2px}
+.section-label{letter-spacing:2.5px}
+.player-name,.val-card-name,.slot-name,.val-match-name{letter-spacing:.6px}
+/* numeri stile tabellone (Teko) */
+.budget-value{font-family:var(--font-num);font-weight:600;font-size:40px;letter-spacing:.5px}
+.budget-value .of{font-family:var(--font-b)}
+.cost-badge{font-family:var(--font-num);font-weight:600;font-size:23px;line-height:1}
+.rank-score{font-family:var(--font-num);font-weight:600;font-size:27px;line-height:1}
+.rank-pos{font-family:var(--font-num);font-weight:600;font-size:25px;line-height:1}
+.val-score-big{font-family:var(--font-num);font-weight:700;font-size:42px}
+.val-score-lbl{font-family:var(--font-b)}
+.val-avg b{font-family:var(--font-num);font-weight:600;font-size:20px}
+.slot-cost{font-family:var(--font-num);font-weight:600;font-size:16px}
+.cd-chip{font-family:var(--font-num);font-weight:600;font-size:17px;letter-spacing:1px}
+.player-initials,.val-card-ph{font-family:var(--font-num)}
+
+/* credito in alto a destra */
+.powered-by{position:absolute;top:14px;right:16px;z-index:5;font-family:var(--font-d);font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.35;opacity:.85;transition:opacity .2s}
+.powered-by:hover{opacity:1}
+.powered-by span{display:block;font-size:8px;letter-spacing:1.5px;color:rgba(192,154,170,0.6)}
+.powered-by b{color:var(--orange2);font-weight:700}
+@media(max-width:520px){.powered-by{font-size:9px;top:10px;right:12px}.powered-by span{font-size:7px}}
+
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<canvas id="fxParticles"></canvas>
 
 <!-- ══ PAGINA PRINCIPALE ══ -->
 <div id="mainPage">
 <div class="wrap">
+
+  <div class="powered-by"><span>Powered by</span><b>Associazione Tifosi Libertas</b></div>
 
   <header class="header">
     <div class="brand">
@@ -1256,6 +1388,58 @@ renderPlayers();
 updateBudget();
 renderSlots();
 startCountdown();
+
+/* ════════════════════════════════════════════
+   PARTICELLE DI SFONDO (premium, leggere)
+════════════════════════════════════════════ */
+(function initParticles(){
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  const canvas = document.getElementById('fxParticles');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, particles, dpr;
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.width = innerWidth * dpr;
+    h = canvas.height = innerHeight * dpr;
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+  }
+
+  function make(){
+    const n = innerWidth < 600 ? 26 : 46; // densità contenuta
+    particles = Array.from({length:n}, () => ({
+      x: Math.random()*w,
+      y: Math.random()*h,
+      r: (Math.random()*1.6 + 0.6) * dpr,
+      vx: (Math.random()-0.5) * 0.18 * dpr,
+      vy: (Math.random()-0.5) * 0.18 * dpr,
+      a: Math.random()*0.4 + 0.12,
+      warm: Math.random() > 0.5
+    }));
+  }
+
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.warm ? `rgba(174,16,64,${p.a})` : `rgba(255,255,255,${p.a*0.7})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(tick);
+  }
+
+  resize(); make(); tick();
+  let rt;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { resize(); make(); }, 200); });
+})();
+
 </script>
 </body>
 </html>
