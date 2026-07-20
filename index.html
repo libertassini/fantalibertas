@@ -90,10 +90,13 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .player-photo{width:100%;aspect-ratio:3/3.2;object-fit:cover;object-position:top center;display:block;background:var(--court2)}
 .player-placeholder{width:100%;aspect-ratio:3/3.2;background:linear-gradient(160deg,var(--court2) 0%,rgba(139,13,47,0.10) 100%);display:flex;align-items:center;justify-content:center}
 .player-initials{font-family:var(--font-d);font-size:28px;font-weight:700;color:rgba(255,255,255,0.18)}
-.player-info{padding:9px 11px 11px}
-.player-name{font-family:var(--font-d);font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1.2;margin-bottom:2px}
-.player-role{font-size:11px;color:var(--muted);margin-bottom:7px}
+.player-info{padding:11px 12px 13px}
+.player-name{font-family:var(--font-d);font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;line-height:1.15;margin-bottom:3px;color:var(--text)}
+.player-role{font-size:12px;color:var(--muted);margin-bottom:10px}
 .player-bottom{display:flex;align-items:center;justify-content:space-between}
+.player-cost-row{display:flex;align-items:baseline;gap:5px;background:rgba(139,13,47,0.15);border:1px solid rgba(174,16,64,0.3);border-radius:8px;padding:5px 10px}
+.player-cost-num{font-family:var(--font-num);font-size:24px;font-weight:700;line-height:1;color:var(--orange2)}
+.player-cost-lbl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
 .stat-tag{font-size:10px;background:rgba(255,255,255,0.06);border-radius:4px;padding:2px 5px;color:var(--muted)}
 .cost-badge{font-family:var(--font-d);font-size:17px;font-weight:700;color:var(--orange)}
 .cost-badge .cr{font-size:10px;font-weight:400;color:var(--muted)}
@@ -703,9 +706,9 @@ function renderPlayers() {
       <div class="player-info">
         <div class="player-name">${p.name}</div>
         <div class="player-role">${p.role}</div>
-        <div class="player-bottom">
-          <div style="display:flex;gap:3px;flex-wrap:wrap">${p.stats.map(s=>`<span class="stat-tag">${s}</span>`).join('')}</div>
-          <div class="cost-badge">${p.cost}<span class="cr"> cr</span></div>
+        <div class="player-cost-row">
+          <span class="player-cost-num">${p.cost}</span>
+          <span class="player-cost-lbl">${p.cost === 1 ? 'credito' : 'crediti'}</span>
         </div>
       </div>
       <div class="sel-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>`;
