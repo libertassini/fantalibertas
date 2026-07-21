@@ -379,6 +379,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .powered-by:hover{opacity:1}
 .powered-by .pb-pre{display:block;font-family:var(--font-d);font-size:9px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:rgba(192,154,170,0.55);margin-bottom:8px}
 .powered-by .pb-logo{width:130px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 14px rgba(174,16,64,0.35))}
+.powered-by .pb-fallback{display:block;font-family:var(--font-d);font-size:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange2);filter:drop-shadow(0 0 10px rgba(174,16,64,0.3))}
 @media(max-width:520px){.powered-by .pb-logo{width:110px}}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
@@ -498,7 +499,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
   </div>
 
   <!-- powered by -->
-  <div class="powered-by"><span class="pb-pre">Powered by</span><img class="pb-logo" src="logo-libertas.png" alt="Associazione Tifosi Libertas"></div>
+  <div class="powered-by"><span class="pb-pre">Powered by</span><img class="pb-logo" src="logo-libertas.png" alt="Associazione Tifosi Libertas" onerror="this.outerHTML='<span class=&quot;pb-fallback&quot;>Associazione Tifosi Libertas</span>'"></div>
 
   <!-- admin toggle -->
   <div class="admin-toggle-row">
