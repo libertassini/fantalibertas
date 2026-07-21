@@ -1,6 +1,6 @@
 // FantaLibertas Service Worker
 // Strategia: network-first (contenuti sempre aggiornati), con fallback alla cache se offline.
-const CACHE = 'fantalibertas-v1';
+const CACHE = 'fantalibertas-v2';
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
@@ -38,5 +38,16 @@ self.addEventListener('fetch', (e) => {
           return new Response('', { status: 504, statusText: 'Offline' });
         })
       )
+  );
+});
+
+// clic sulla notifica promemoria → apre / porta in primo piano l'app
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+      for (const c of list) { if ('focus' in c) return c.focus(); }
+      if (clients.openWindow) return clients.openWindow('./index.html');
+    })
   );
 });

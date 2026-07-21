@@ -48,6 +48,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .meta-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.07);border:1px solid var(--line);border-radius:20px;padding:6px 15px;font-size:13px;color:var(--muted);transition:border-color .2s}
 .cd-chip{background:rgba(139,13,47,0.20);border-color:rgba(139,13,47,0.4);color:var(--orange2);font-weight:600;font-variant-numeric:tabular-nums;min-width:130px;justify-content:center;box-shadow:0 0 0 1px rgba(139,13,47,0.1)}
 .cd-chip.closed{background:rgba(231,76,60,0.15);border-color:rgba(231,76,60,0.3);color:var(--red)}
+.voters-line{margin-top:14px;display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:20px;padding:6px 16px;animation:riseIn .6s ease both}
+.voters-line b{color:var(--orange2);font-family:var(--font-num);font-size:17px;font-weight:700;letter-spacing:.5px}
+.remind-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:7px 16px;font-size:12px;color:var(--muted);cursor:pointer;font-family:var(--font-b);transition:all .2s}
+.remind-btn:hover{border-color:rgba(174,16,64,0.5);color:var(--text)}
+.remind-btn.on{border-color:rgba(37,211,102,0.5);color:#4ade80;background:rgba(37,211,102,0.1)}
 @keyframes cdpulse{0%,100%{opacity:1}50%{opacity:0.55}}
 .cd-chip:not(.closed){animation:cdpulse 2s ease-in-out infinite}
 
@@ -193,6 +198,9 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .success-date{font-family:var(--font-num);font-size:15px;font-weight:500;letter-spacing:.5px;color:rgba(192,154,170,0.85);margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--line);position:relative}
 .success-actions{display:flex;gap:10px;max-width:380px;margin:1.4rem auto 0;flex-wrap:wrap;justify-content:center}
 .success-actions .btn{flex:1;min-width:150px;margin:0}
+.btn-wa{background-image:linear-gradient(135deg,#25D366,#1da851)!important;box-shadow:0 6px 20px rgba(37,211,102,0.35)!important}
+.btn-ig{background-image:linear-gradient(135deg,#833AB4 0%,#E1306C 50%,#F77737 100%)!important;box-shadow:0 6px 20px rgba(225,48,108,0.35)!important}
+.share-hint{text-align:center;font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px}
 
 /* tab nav */
 .tab-nav{display:flex;gap:6px;margin-bottom:1.2rem;background:rgba(255,255,255,0.03);padding:5px;border-radius:calc(var(--r) + 4px);border:1px solid var(--line)}
@@ -368,6 +376,18 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .cd-chip{font-family:var(--font-num);font-weight:600;font-size:17px;letter-spacing:1px}
 .player-initials,.val-card-ph{font-family:var(--font-num)}
 
+/* MVP di giornata */
+.mvp-card{position:relative;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(139,13,47,0.28) 0%,rgba(45,0,20,0.6) 100%);border:1px solid rgba(232,169,187,0.35);border-radius:var(--rl);padding:16px 16px 16px 15px;margin-bottom:16px;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,0.1),0 8px 30px rgba(139,13,47,0.35)}
+.mvp-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 15% 20%,rgba(255,215,150,0.14),transparent 60%);pointer-events:none}
+.mvp-badge{position:absolute;top:10px;right:12px;font-family:var(--font-d);font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);background:rgba(255,255,255,0.08);border:1px solid rgba(232,184,75,0.4);border-radius:20px;padding:3px 10px}
+.mvp-photo{width:66px;height:66px;border-radius:50%;object-fit:cover;object-position:top center;flex:0 0 auto;border:2px solid rgba(232,169,187,0.5);box-shadow:0 4px 14px rgba(0,0,0,0.4)}
+.mvp-ph{display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--court2),rgba(139,13,47,0.2));font-family:var(--font-num);font-size:24px;font-weight:700;color:rgba(255,255,255,0.4)}
+.mvp-info{flex:1;min-width:0}
+.mvp-name{font-family:var(--font-d);font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;line-height:1.1;color:#fff}
+.mvp-role{font-size:12px;color:var(--muted);margin-top:2px}
+.mvp-score{flex:0 0 auto;text-align:center;font-family:var(--font-num);font-size:40px;font-weight:800;line-height:.9;background:linear-gradient(180deg,#FFFFFF,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.mvp-score-lbl{display:block;font-family:var(--font-b);font-size:9px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);-webkit-text-fill-color:var(--muted);margin-bottom:2px}
+
 /* pronostici */
 .pron-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:12px 14px;margin-bottom:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 20px rgba(0,0,0,0.25)}
 .pron-q{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:9px;font-family:var(--font-d)}
@@ -410,6 +430,8 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <span class="meta-chip">📅 <span id="matchDateLabel">Dom 28 Sett 18:00</span></span>
       <span class="meta-chip cd-chip" id="cdChip">⏱ <span id="cdVal">--:--:--</span></span>
     </div>
+    <div style="text-align:center"><span class="voters-line" id="votersLine" style="display:none"></span></div>
+    <div style="text-align:center;margin-top:10px"><button class="remind-btn" id="remindBtn" onclick="attivaPromemoria()">🔔 Ricordami a 30 min dalla chiusura</button></div>
   </header>
 
   <!-- TAB -->
@@ -576,9 +598,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
   </div>
 
   <div class="success-actions">
-    <button class="btn" onclick="scaricaRiepilogo()">📸 Scarica riepilogo</button>
-    <button class="btn btn-outline" onclick="tornaAlVoto()">← Torna alla pagina</button>
+    <button class="btn btn-wa" onclick="condividiRiepilogo('whatsapp')"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" style="vertical-align:-3px;margin-right:6px"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.97L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.15c-1.53 0-3.03-.41-4.34-1.19l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 01-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42-.14 0-.31-.02-.47-.02-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>WhatsApp</button>
+    <button class="btn btn-ig" onclick="condividiRiepilogo('instagram')"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" style="vertical-align:-3px;margin-right:6px"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.19.41-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.42-.36 1.04-.41 2.19-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.05 1.15.25 1.77.41 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.16 1.04.36 2.19.41 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.25 2.19-.41.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.42.36-1.04.41-2.19.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.25-1.77-.41-2.19a3.6 3.6 0 00-.88-1.35 3.6 3.6 0 00-1.35-.88c-.42-.16-1.04-.36-2.19-.41-1.24-.06-1.61-.07-4.75-.07zM12 6.87A5.13 5.13 0 106.87 12 5.13 5.13 0 0012 6.87zm0 8.46A3.33 3.33 0 1115.33 12 3.33 3.33 0 0112 15.33zm6.54-8.66a1.2 1.2 0 11-1.2-1.2 1.2 1.2 0 011.2 1.2z"/></svg>Instagram</button>
   </div>
+  <div class="success-actions" style="margin-top:10px">
+    <button class="btn btn-outline" onclick="scaricaRiepilogo()">📸 Scarica</button>
+    <button class="btn btn-outline" onclick="tornaAlVoto()">← Torna</button>
+  </div>
+  <div class="share-hint">Le condivisioni non includono la tua email.</div>
 </div>
 </div>
 
@@ -617,15 +644,15 @@ let players = [
   {id:1,name:"Matthew James Tiby",    role:"Ala grande",  cost:6, stats:["23.1 ppg","6.2 rpg"], photo:"tiby.png"},
   {id:2,name:"Jayvon Graves",    role:"Guardia",  cost:6, stats:["23.1 ppg","6.2 rpg"], photo:"graves.png"},
   {id:3,name:"Luca Tozzi",   role:"Ala grande",     cost:3, stats:["17.4 ppg","3.1 apg"], photo:"tozzi.png"},
-  {id:4,name:"Matteo Piccoli",       role:"Ala piccola", cost:3, stats:["12.8 ppg","2.9 rpg"], photo:"piccoli.png"},
-  {id:5,name:"Nicolò Filoni",role:"Ala",         cost:2, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
-  {id:6,name:"Luca Possamai",  role:"Centro",     cost:2, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
+  {id:4,name:"Matteo Piccoli",       role:"Ala piccola", cost:2, stats:["12.8 ppg","2.9 rpg"], photo:"piccoli.png"},
+  {id:5,name:"Nicolò Filoni",role:"Ala",         cost:4, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
+  {id:6,name:"Luca Possamai",  role:"Centro",     cost:3, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
   {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:2, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
-  {id:8,name:"Lorenzo Penna",      role:"Playmaker",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
-  {id:9,name:"David Reginald Cournooh",      role:"Guardia",         cost:4, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
-  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
-  {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
-  {id:12,name:"Sakine Yassine",    role:"Centro",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
+  {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
+  {id:9,name:"David Reginald Cournooh",      role:"Guardia",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
+  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
+  {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
+  {id:12,name:"Sakine Yassine",    role:"Centro",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
 ];
 
 // voti in corso per questa partita: { email: { nome, cognome, email, assoc, scelta:[id,...], matchId } }
@@ -649,7 +676,7 @@ let valutazioniStorico = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-27T10:50');
+let kickoffDate = new Date('2026-07-21T10:51');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -997,6 +1024,7 @@ function submitVoto() {
   document.getElementById('successInfoEmail').textContent = `📧 ${currentUser.email}`;
   const now = new Date();
   document.getElementById('successInfoDate').textContent = '🕒 ' + now.toLocaleString('it-IT', {day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'});
+  setTimeout(() => { try { aggiornaContatore(); } catch(e){} }, 2500); // aggiorna il contatore dopo l'invio
 }
 
 function tornaAlVoto() {
@@ -1011,21 +1039,64 @@ function tornaAlVoto() {
   document.getElementById('regEmail').value = '';
 }
 
-// scarica lo screenshot del riepilogo voto
-function scaricaRiepilogo() {
+// genera l'immagine del riepilogo (nascondendo l'email per privacy) → restituisce una Promise<canvas>
+function generaImmagineRiepilogo() {
   const el = document.getElementById('captureArea');
   if (typeof html2canvas === 'undefined') {
     alert('Attendi un istante il caricamento e riprova.');
-    return;
+    return Promise.reject();
   }
-  html2canvas(el, { backgroundColor:'#1A0008', scale:2, useCORS:true, logging:false }).then(canvas => {
+  const emailEl = document.getElementById('successInfoEmail');
+  const prevDisplay = emailEl ? emailEl.style.display : null;
+  if (emailEl) emailEl.style.display = 'none'; // rimuove l'email dall'immagine
+  return html2canvas(el, { backgroundColor:'#1A0008', scale:2, useCORS:true, logging:false })
+    .then(canvas => {
+      if (emailEl) emailEl.style.display = prevDisplay || '';
+      return canvas;
+    })
+    .catch(err => {
+      if (emailEl) emailEl.style.display = prevDisplay || '';
+      throw err;
+    });
+}
+
+// scarica l'immagine del riepilogo
+function scaricaRiepilogo() {
+  generaImmagineRiepilogo().then(canvas => {
     const link = document.createElement('a');
     link.download = 'FantaLibertas_riepilogo.png';
     link.href = canvas.toDataURL('image/png');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }).catch(() => alert('Impossibile generare l\'immagine. Riprova.'));
+  }).catch(() => {});
+}
+
+// condivide l'immagine su WhatsApp / Instagram
+function condividiRiepilogo(dove) {
+  const testo = 'Ho appena votato al FantaLibertas! 🏀 Vota anche tu: https://libertassini.github.io/fantalibertas';
+  generaImmagineRiepilogo().then(canvas => {
+    canvas.toBlob(blob => {
+      const file = new File([blob], 'FantaLibertas.png', { type: 'image/png' });
+      // Web Share API con file: il modo migliore su smartphone (apre WhatsApp, Instagram, ecc.)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], text: testo }).catch(() => {});
+        return;
+      }
+      // Fallback: scarica l'immagine e apri l'app
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'FantaLibertas.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      if (dove === 'whatsapp') {
+        window.open('https://wa.me/?text=' + encodeURIComponent(testo), '_blank');
+        alert('Immagine salvata! Allegala nella chat di WhatsApp che si è aperta.');
+      } else {
+        alert('Immagine salvata! Aprila su Instagram per pubblicarla nella tua storia.');
+      }
+    }, 'image/png');
+  }).catch(() => {});
 }
 
 /* ════════════════════════════════════════════
@@ -1484,7 +1555,33 @@ function renderValutazioni() {
 
   const dateStr = ultimo.date ? new Date(ultimo.date).toLocaleDateString('it-IT', {day:'2-digit', month:'short', year:'numeric'}) : '';
 
-  let html = `<div class="val-match-head">
+  // MVP di giornata: giocatore con la valutazione più alta dell'ultima partita
+  let mvpId = null, mvpVal = -Infinity;
+  Object.entries(ultimo.vals || {}).forEach(([pid, v]) => {
+    const val = parseFloat(v);
+    if (!isNaN(val) && val > mvpVal) { mvpVal = val; mvpId = pid; }
+  });
+
+  let html = '';
+  if (mvpId !== null) {
+    const mp = players.find(p => String(p.id) === String(mvpId));
+    if (mp) {
+      const mphoto = mp.photo
+        ? `<img class="mvp-photo" src="${mp.photo}" alt="${mp.name}" loading="lazy">`
+        : `<div class="mvp-photo mvp-ph">${mp.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</div>`;
+      html += `<div class="mvp-card">
+        <div class="mvp-badge">⭐ MVP di giornata</div>
+        ${mphoto}
+        <div class="mvp-info">
+          <div class="mvp-name">${mp.name}</div>
+          <div class="mvp-role">${mp.role||''}</div>
+        </div>
+        <div class="mvp-score"><span class="mvp-score-lbl">Voto</span>${mvpVal.toFixed(1)}</div>
+      </div>`;
+    }
+  }
+
+  html += `<div class="val-match-head">
       <div class="val-match-name">${ultimo.matchName || 'Ultima partita'}</div>
       <div class="val-match-date">${dateStr}${data.length > 1 ? ' · media su ' + data.length + ' partite' : ''}</div>
     </div>`;
@@ -1619,6 +1716,66 @@ renderPlayers();
 updateBudget();
 renderSlots();
 startCountdown();
+aggiornaContatore();
+
+/* contatore partecipanti: legge i voti dal CSV e conta le email uniche della partita */
+async function aggiornaContatore() {
+  try {
+    const res = await fetch(noCache(CSV_VOTI));
+    const rows = parseCSV(await res.text());
+    const mid = matchId || 'default';
+    const emails = new Set();
+    rows.slice(1).forEach(r => {
+      if (String(r[6]).trim() === String(mid) && r[3]) emails.add(r[3].toLowerCase().trim());
+    });
+    const n = emails.size;
+    const line = document.getElementById('votersLine');
+    if (line && n > 0) {
+      line.innerHTML = `👥 <b>${n}</b> ${n === 1 ? 'libertassino ha' : 'libertassini hanno'} già votato`;
+      line.style.display = 'inline-flex';
+    }
+  } catch (e) {}
+}
+
+/* promemoria: notifica 30 minuti prima della chiusura del voto */
+async function attivaPromemoria() {
+  const btn = document.getElementById('remindBtn');
+  if (!('Notification' in window)) { alert('Il tuo browser non supporta le notifiche.'); return; }
+  if (!kickoffDate || isNaN(kickoffDate.getTime())) { alert('Orario della partita non impostato.'); return; }
+
+  const target = kickoffDate.getTime() - 30 * 60 * 1000; // 30 min prima del fischio
+  if (target <= Date.now()) { alert('Manca meno di mezz\'ora alla chiusura: vota subito! 🏀'); return; }
+
+  let perm = Notification.permission;
+  if (perm === 'default') perm = await Notification.requestPermission();
+  if (perm !== 'granted') { alert('Per ricevere il promemoria devi consentire le notifiche.'); return; }
+
+  const title = '🏀 FantaLibertas';
+  const body  = 'Ultima mezz\'ora per votare! Le votazioni stanno per chiudere.';
+  let programmata = false;
+
+  // 1) Notification Triggers API: funziona anche ad app chiusa (dove supportata, es. Chrome/Android)
+  try {
+    if ('serviceWorker' in navigator && 'showTrigger' in Notification.prototype && window.TimestampTrigger) {
+      const reg = await navigator.serviceWorker.ready;
+      await reg.showNotification(title, {
+        body, tag: 'fl-reminder-' + (matchId || ''), icon: 'icon-192.png', badge: 'icon-192.png',
+        showTrigger: new TimestampTrigger(target)
+      });
+      programmata = true;
+    }
+  } catch (e) {}
+
+  // 2) Fallback: timer che scatta mentre l'app è aperta
+  if (!programmata) {
+    setTimeout(() => { try { new Notification(title, { body, icon: 'icon-192.png' }); } catch (e) {} }, target - Date.now());
+  }
+
+  if (btn) { btn.classList.add('on'); btn.textContent = '🔔 Promemoria attivato'; }
+  alert(programmata
+    ? 'Promemoria impostato! Riceverai una notifica 30 minuti prima della chiusura, anche ad app chiusa.'
+    : 'Promemoria attivato. Per riceverlo con certezza tieni l\'app installata sul telefono.');
+}
 
 /* ════════════════════════════════════════════
    PARTICELLE DI SFONDO (premium, leggere)
