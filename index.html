@@ -115,9 +115,9 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 
 /* admin */
 .admin-toggle-row{text-align:center;margin-top:1.5rem}
-.site-footer{text-align:center;margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--line)}
-.site-footer-pre{font-family:var(--font-b);font-size:6px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(192,154,170,0.35);margin-bottom:2px}
-.site-footer-main{font-family:var(--font-d);font-size:7px;font-weight:500;letter-spacing:1.3px;text-transform:uppercase;color:rgba(192,154,170,0.42)}
+.site-footer{text-align:center;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--line)}
+.site-footer-pre{font-family:var(--font-b);font-size:8px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(192,154,170,0.35);margin-bottom:2px}
+.site-footer-main{font-family:var(--font-d);font-size:9px;font-weight:500;letter-spacing:1.3px;text-transform:uppercase;color:rgba(192,154,170,0.42)}
 .site-footer-main b{color:rgba(174,16,64,0.65);font-weight:700}
 .admin-toggle-btn{background:none;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:6px 18px;font-size:12px;color:var(--muted);cursor:pointer;font-family:var(--font-b);transition:all .2s}
 .admin-toggle-btn:hover{border-color:rgba(255,255,255,0.25);color:var(--text)}
@@ -372,11 +372,11 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .pron-result b{color:var(--green);font-family:var(--font-d);text-transform:uppercase;letter-spacing:.5px}
 
 /* credito in alto a destra */
-.powered-by{position:absolute;top:14px;right:16px;z-index:5;font-family:var(--font-d);font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.35;opacity:.85;transition:opacity .2s}
+.powered-by{text-align:center;margin:2.5rem auto 0;opacity:.8;transition:opacity .25s}
 .powered-by:hover{opacity:1}
-.powered-by span{display:block;font-size:8px;letter-spacing:1.5px;color:rgba(192,154,170,0.6)}
-.powered-by b{color:var(--orange2);font-weight:700}
-@media(max-width:520px){.powered-by{font-size:9px;top:10px;right:12px}.powered-by span{font-size:7px}}
+.powered-by .pb-pre{display:block;font-family:var(--font-d);font-size:9px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:rgba(192,154,170,0.55);margin-bottom:8px}
+.powered-by .pb-logo{width:130px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 14px rgba(174,16,64,0.35))}
+@media(max-width:520px){.powered-by .pb-logo{width:110px}}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
@@ -387,8 +387,6 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 <!-- ══ PAGINA PRINCIPALE ══ -->
 <div id="mainPage">
 <div class="wrap">
-
-  <div class="powered-by"><span>Powered by</span><b>Associazione Tifosi Libertas</b></div>
 
   <header class="header">
     <div class="brand">
@@ -496,6 +494,9 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
   </div>
 
+  <!-- powered by -->
+  <div class="powered-by"><span class="pb-pre">Powered by</span><img class="pb-logo" src="logo-libertas.png" alt="Associazione Tifosi Libertas"></div>
+
   <!-- admin toggle -->
   <div class="admin-toggle-row">
     <button class="admin-toggle-btn" onclick="openAdminLogin()">⚙ Pannello admin</button>
@@ -535,8 +536,8 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
   </div>
 
   <div class="site-footer">
-    <div class="site-footer-pre">An official product of</div>
-    <div class="site-footer-main"><b>P.G. Lab Nexus</b> 2026 &copy;</div>
+    <div class="site-footer-pre">A registered product of</div>
+    <div class="site-footer-main"><b>P.G. Nexus Lab</b> 2026 &copy;</div>
   </div>
 
 </div><!-- /wrap -->
@@ -608,11 +609,10 @@ let players = [
   {id:5,name:"Nicolò Filoni",role:"Ala",         cost:4, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
   {id:6,name:"Luca Possamai",  role:"Centro",     cost:3, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
   {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:2, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
-  {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
-  {id:9,name:"David Reginald Cournooh",      role:"Guardia",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
-  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
-  {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
-  {id:12,name:"Sakine Yassine",    role:"Centro",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
+  {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
+  {id:9,name:"Giovanni Vildera",      role:"Centro",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
+  {id:10,name:"Filippo Gaeta",    role:"Guardia",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
+  {id:11,name:"Sakine Yassine",    role:"Centro",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
 ];
 
 // voti in corso per questa partita: { email: { nome, cognome, email, assoc, scelta:[id,...], matchId } }
