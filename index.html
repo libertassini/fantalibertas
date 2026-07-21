@@ -617,15 +617,15 @@ let players = [
   {id:1,name:"Matthew James Tiby",    role:"Ala grande",  cost:6, stats:["23.1 ppg","6.2 rpg"], photo:"tiby.png"},
   {id:2,name:"Jayvon Graves",    role:"Guardia",  cost:6, stats:["23.1 ppg","6.2 rpg"], photo:"graves.png"},
   {id:3,name:"Luca Tozzi",   role:"Ala grande",     cost:3, stats:["17.4 ppg","3.1 apg"], photo:"tozzi.png"},
-  {id:4,name:"Matteo Piccoli",       role:"Ala piccola", cost:2, stats:["12.8 ppg","2.9 rpg"], photo:"piccoli.png"},
-  {id:5,name:"Nicolò Filoni",role:"Ala",         cost:4, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
-  {id:6,name:"Luca Possamai",  role:"Centro",     cost:3, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
+  {id:4,name:"Matteo Piccoli",       role:"Ala piccola", cost:3, stats:["12.8 ppg","2.9 rpg"], photo:"piccoli.png"},
+  {id:5,name:"Nicolò Filoni",role:"Ala",         cost:2, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
+  {id:6,name:"Luca Possamai",  role:"Centro",     cost:2, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
   {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:2, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
-  {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
-  {id:9,name:"David Reginald Cournooh",      role:"Guardia",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
-  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
-  {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
-  {id:12,name:"Sakine Yassine",    role:"Centro",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
+  {id:8,name:"Lorenzo Penna",      role:"Playmaker",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
+  {id:9,name:"David Reginald Cournooh",      role:"Guardia",         cost:4, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
+  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
+  {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
+  {id:12,name:"Sakine Yassine",    role:"Centro",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
 ];
 
 // voti in corso per questa partita: { email: { nome, cognome, email, assoc, scelta:[id,...], matchId } }
@@ -649,7 +649,7 @@ let valutazioniStorico = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-21T10:51');
+let kickoffDate = new Date('2026-07-27T10:50');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
