@@ -364,10 +364,13 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .pron-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:12px 14px;margin-bottom:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 20px rgba(0,0,0,0.25)}
 .pron-q{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:9px;font-family:var(--font-d)}
 .pron-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.pron-opt{padding:11px 10px;border:1px solid rgba(255,255,255,0.1);border-radius:var(--r);text-align:center;cursor:pointer;transition:all .18s;user-select:none;font-family:var(--font-d);font-size:15px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);line-height:1.15}
+.pron-opt{padding:12px 10px;border:1px solid rgba(255,255,255,0.1);border-radius:var(--r);text-align:center;cursor:pointer;transition:all .18s;user-select:none;font-family:var(--font-d);font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);line-height:1.15;display:flex;flex-direction:column;align-items:center;gap:7px}
 .pron-opt:hover{border-color:rgba(255,255,255,0.25);color:var(--text);transform:translateY(-1px)}
 .pron-opt.active{border-color:var(--orange);background:rgba(139,13,47,0.18);color:#fff;box-shadow:0 4px 14px rgba(139,13,47,0.4)}
-.pron-opt .vs-tag{display:block;font-family:var(--font-b);font-size:9px;font-weight:500;letter-spacing:1px;color:rgba(192,154,170,0.55);margin-bottom:3px}
+.pron-opt .vs-tag{display:block;font-family:var(--font-b);font-size:9px;font-weight:500;letter-spacing:1px;color:rgba(192,154,170,0.55);order:-1}
+.pron-logo{width:46px;height:46px;object-fit:contain;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4))}
+.pron-logo-ph{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--court2),rgba(139,13,47,0.12));font-family:var(--font-num);font-size:17px;font-weight:700;color:rgba(255,255,255,0.35)}
+.pron-team{display:block;font-size:13px}
 .pron-result{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:space-between}
 .pron-result b{color:var(--green);font-family:var(--font-d);text-transform:uppercase;letter-spacing:.5px}
 
@@ -649,9 +652,9 @@ let votingClosed = false;
    Ogni pronostico indovinato: +10 punti · sbagliato: -10 punti.
 ──────────────────────────────────────────────────────────────── */
 let pronostici = [
-  { id:"p1", casa:"Trapani",       trasferta:"Olimpia Milano" },
-  { id:"p2", casa:"Trieste",       trasferta:"Virtus Bologna" },
-  { id:"p3", casa:"Reggio Emilia", trasferta:"Umana Venezia" },
+  { id:"p1", casa:"Trapani",       casaLogo:"trapani.png",  trasferta:"Olimpia Milano", trasfertaLogo:"milano.png" },
+  { id:"p2", casa:"Trieste",       casaLogo:"trieste.png",  trasferta:"Virtus Bologna", trasfertaLogo:"bologna.png" },
+  { id:"p3", casa:"Reggio Emilia", casaLogo:"reggio.png",   trasferta:"Umana Venezia",  trasfertaLogo:"venezia.png" },
 ];
 let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 
@@ -840,6 +843,14 @@ function updateSubmit() {
 /* ════════════════════════════════════════════
    PRONOSTICI
 ════════════════════════════════════════════ */
+function pronLogoHtml(name, logo) {
+  const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+  if (logo) {
+    return `<img class="pron-logo" src="${logo}" alt="${name}" loading="lazy" onerror="this.outerHTML='<span class=\\'pron-logo-ph\\'>${initials}</span>'">`;
+  }
+  return `<span class="pron-logo-ph">${initials}</span>`;
+}
+
 function renderPronostici() {
   const label = document.getElementById('pronosticiLabel');
   const box   = document.getElementById('pronosticiBox');
@@ -858,8 +869,8 @@ function renderPronostici() {
     card.innerHTML = `
       <div class="pron-q">${p.casa} <span style="color:rgba(192,154,170,0.5)">vs</span> ${p.trasferta}</div>
       <div class="pron-opts">
-        <div class="pron-opt ${scelto===p.casa?'active':''}" data-pid="${p.id}" data-team="${p.casa.replace(/"/g,'&quot;')}"><span class="vs-tag">Casa</span>${p.casa}</div>
-        <div class="pron-opt ${scelto===p.trasferta?'active':''}" data-pid="${p.id}" data-team="${p.trasferta.replace(/"/g,'&quot;')}"><span class="vs-tag">Trasferta</span>${p.trasferta}</div>
+        <div class="pron-opt ${scelto===p.casa?'active':''}" data-pid="${p.id}" data-team="${p.casa.replace(/"/g,'&quot;')}"><span class="vs-tag">Casa</span>${pronLogoHtml(p.casa,p.casaLogo)}<span class="pron-team">${p.casa}</span></div>
+        <div class="pron-opt ${scelto===p.trasferta?'active':''}" data-pid="${p.id}" data-team="${p.trasferta.replace(/"/g,'&quot;')}"><span class="vs-tag">Trasferta</span>${pronLogoHtml(p.trasferta,p.trasfertaLogo)}<span class="pron-team">${p.trasferta}</span></div>
       </div>`;
     box.appendChild(card);
   });
@@ -1191,8 +1202,8 @@ function buildValGrid() {
       card.innerHTML = `
         <div class="pron-q">${p.casa} <span style="color:rgba(192,154,170,0.5)">vs</span> ${p.trasferta}</div>
         <div class="pron-opts">
-          <div class="pron-opt admin-pron-opt ${prevWin===p.casa?'active':''}" data-pid="${p.id}" data-team="${p.casa.replace(/"/g,'&quot;')}"><span class="vs-tag">Casa</span>${p.casa}</div>
-          <div class="pron-opt admin-pron-opt ${prevWin===p.trasferta?'active':''}" data-pid="${p.id}" data-team="${p.trasferta.replace(/"/g,'&quot;')}"><span class="vs-tag">Trasferta</span>${p.trasferta}</div>
+          <div class="pron-opt admin-pron-opt ${prevWin===p.casa?'active':''}" data-pid="${p.id}" data-team="${p.casa.replace(/"/g,'&quot;')}"><span class="vs-tag">Casa</span>${pronLogoHtml(p.casa,p.casaLogo)}<span class="pron-team">${p.casa}</span></div>
+          <div class="pron-opt admin-pron-opt ${prevWin===p.trasferta?'active':''}" data-pid="${p.id}" data-team="${p.trasferta.replace(/"/g,'&quot;')}"><span class="vs-tag">Trasferta</span>${pronLogoHtml(p.trasferta,p.trasfertaLogo)}<span class="pron-team">${p.trasferta}</span></div>
         </div>`;
       pronBox.appendChild(card);
     });
