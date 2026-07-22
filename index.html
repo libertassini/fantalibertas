@@ -539,11 +539,11 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
         <button class="btn" id="submitVotoBtn" disabled onclick="submitVoto()">Invia votazione</button>
         <div class="deadline-note">Le votazioni chiudono al fischio d'inizio.</div>
       </div>
+    </div>
 
-      <div class="card" id="formPopCard" style="display:none">
-        <div class="section-label">Formazione più popolare della giornata</div>
-        <div id="formPopBox"></div>
-      </div>
+    <div class="card" id="formPopCard" style="display:none">
+      <div class="section-label">Formazione più popolare della giornata</div>
+      <div id="formPopBox"></div>
     </div>
 
   </div><!-- /tabVoto -->
@@ -724,7 +724,7 @@ let valutazioniStorico = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-24T10:51');
+let kickoffDate = new Date('2026-07-21T10:51');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
