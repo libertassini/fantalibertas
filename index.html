@@ -182,9 +182,13 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 #successPage{display:none;text-align:center;padding:2.5rem 1rem}
 #captureArea{background:linear-gradient(180deg,rgba(45,0,20,0.55) 0%,rgba(26,0,8,0.92) 100%);border:1px solid rgba(174,16,64,0.25);border-radius:20px;padding:2rem 1.3rem 1.6rem;position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,0.06),0 10px 40px rgba(0,0,0,0.4)}
 #captureArea::before{content:'';position:absolute;inset:0;background:radial-gradient(closest-side at 50% 0%,rgba(174,16,64,0.22),transparent 70%);pointer-events:none}
-.capture-brand{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:1.1rem}
+.capture-brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:1.1rem}
+.cb-logo{width:56px;height:56px;border-radius:14px;flex:0 0 auto;box-shadow:0 4px 14px rgba(0,0,0,0.35)}
+.cb-wordmark,.cb-name-fb{font-family:var(--font-hero);font-size:26px;letter-spacing:1px;text-transform:uppercase;color:#FFFFFF}
 .cb-ball{font-size:26px;animation:bi .6s cubic-bezier(.36,.07,.19,.97)}
 .cb-name{font-family:var(--font-hero);font-size:22px;letter-spacing:1px;text-transform:uppercase;background:linear-gradient(180deg,#FFFFFF,#E8C4D2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+/* durante la cattura per la condivisione: forza colori pieni (html2canvas non gestisce il gradiente ritagliato) */
+#captureArea.capturing .success-title{-webkit-text-fill-color:#F5D9E1 !important;color:#F5D9E1 !important;background:none !important;filter:none !important}
 @keyframes bi{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.1);opacity:1}100%{transform:scale(1)}}
 .success-title{font-family:var(--font-hero);font-size:40px;font-weight:400;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;background:linear-gradient(180deg,#FFFFFF 0%,#F5D9E1 60%,#E8A9BB 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(174,16,64,0.25))}
 .success-sub{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:1.3rem;position:relative}
@@ -373,7 +377,17 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .val-score-lbl{font-family:var(--font-b)}
 .val-avg b{font-family:var(--font-num);font-weight:600;font-size:20px}
 .slot-cost{font-family:var(--font-num);font-weight:600;font-size:16px}
-.cd-chip{font-family:var(--font-num);font-weight:600;font-size:17px;letter-spacing:1px}
+.cd-chip{font-family:var(--font-num);font-weight:700}
+/* box scadenza: data + countdown accorpati */
+.deadline-box{display:inline-block;text-align:center;background:linear-gradient(160deg,rgba(139,13,47,0.22) 0%,rgba(45,0,20,0.55) 100%);border:1px solid rgba(174,16,64,0.4);border-radius:18px;padding:13px 26px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 6px 22px rgba(139,13,47,0.28)}
+.deadline-box .dl-label{font-family:var(--font-d);font-size:10.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(232,169,187,0.75);margin-bottom:8px}
+.deadline-box .dl-body{display:flex;align-items:center;justify-content:center;gap:16px}
+.deadline-box .dl-date{font-family:var(--font-d);font-size:16px;font-weight:600;letter-spacing:.5px;color:#F0DCE3}
+.deadline-box .dl-sep{width:1px;height:26px;background:rgba(232,169,187,0.3)}
+.deadline-box .dl-count{font-family:var(--font-num);font-size:30px;font-weight:700;letter-spacing:1px;color:var(--orange2);line-height:1;font-variant-numeric:tabular-nums}
+.deadline-box.closed{border-color:rgba(231,76,60,0.4);background:linear-gradient(160deg,rgba(231,76,60,0.18),rgba(45,0,20,0.5))}
+.deadline-box.closed .dl-count{color:var(--red);font-family:var(--font-d);font-size:20px;letter-spacing:1px}
+@media(max-width:520px){.deadline-box{padding:12px 20px}.deadline-box .dl-body{gap:12px}.deadline-box .dl-date{font-size:14px}.deadline-box .dl-count{font-size:26px}}
 .player-initials,.val-card-ph{font-family:var(--font-num)}
 
 /* MVP di giornata */
@@ -486,8 +500,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-title" id="matchTitle">Libertas Livorno vs Cividale</div>
     <div class="match-meta">
-      <span class="meta-chip">📅 <span id="matchDateLabel">Dom 28 Sett 18:00</span></span>
-      <span class="meta-chip cd-chip" id="cdChip">⏱ <span id="cdVal">--:--:--</span></span>
+      <div class="deadline-box" id="cdChip">
+        <div class="dl-label">⏳ Scadenza per partecipare</div>
+        <div class="dl-body">
+          <span class="dl-date"><span id="matchDateLabel">Dom 28 Sett 18:00</span></span>
+          <span class="dl-sep"></span>
+          <span class="dl-count"><span id="cdVal">--:--:--</span></span>
+        </div>
+      </div>
     </div>
     <div style="text-align:center"><span class="voters-line" id="votersLine" style="display:none"></span></div>
     <div style="text-align:center;margin-top:10px"><button class="remind-btn" id="remindBtn" onclick="attivaPromemoria()">🔔 Ricordami a 30 min dalla chiusura</button></div>
@@ -668,7 +688,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 <div id="successPage">
 <div class="wrap" style="padding-top:2rem">
   <div id="captureArea">
-    <div class="capture-brand"><span class="cb-ball">🏀</span><span class="cb-name">Fanta<span style="color:var(--orange2)">Libertas</span></span></div>
+    <div class="capture-brand"><img class="cb-logo" src="icon-192.png" alt="FantaLibertas" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<span class=\&quot;cb-name-fb\&quot;>Fanta<span style=\&quot;color:#E8567E\&quot;>Libertas</span></span>')"><span class="cb-wordmark">Fanta<span style="color:#E8567E">Libertas</span></span></div>
     <div class="success-title">Voto registrato!</div>
     <div class="success-sub">Grazie per aver partecipato a questa giornata del FantaLibertas!<br>Torna presto per visualizzare la classifica aggiornata.</div>
 
@@ -685,7 +705,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
   <div class="success-actions">
     <button class="btn btn-wa" onclick="condividiRiepilogo('whatsapp')"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" style="vertical-align:-3px;margin-right:6px"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.97L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.15c-1.53 0-3.03-.41-4.34-1.19l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 01-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42-.14 0-.31-.02-.47-.02-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>WhatsApp</button>
-    <button class="btn btn-ig" onclick="condividiRiepilogo('instagram')"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" style="vertical-align:-3px;margin-right:6px"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.19.41-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.42-.36 1.04-.41 2.19-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.05 1.15.25 1.77.41 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.16 1.04.36 2.19.41 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.25 2.19-.41.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.42.36-1.04.41-2.19.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.25-1.77-.41-2.19a3.6 3.6 0 00-.88-1.35 3.6 3.6 0 00-1.35-.88c-.42-.16-1.04-.36-2.19-.41-1.24-.06-1.61-.07-4.75-.07zM12 6.87A5.13 5.13 0 106.87 12 5.13 5.13 0 0012 6.87zm0 8.46A3.33 3.33 0 1115.33 12 3.33 3.33 0 0112 15.33zm6.54-8.66a1.2 1.2 0 11-1.2-1.2 1.2 1.2 0 011.2 1.2z"/></svg>Instagram</button>
+    <button class="btn btn-ig" onclick="condividiStory()"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" style="vertical-align:-3px;margin-right:6px"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.19.41-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.42-.36 1.04-.41 2.19-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.05 1.15.25 1.77.41 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.16 1.04.36 2.19.41 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.25 2.19-.41.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.42.36-1.04.41-2.19.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.25-1.77-.41-2.19a3.6 3.6 0 00-.88-1.35 3.6 3.6 0 00-1.35-.88c-.42-.16-1.04-.36-2.19-.41-1.24-.06-1.61-.07-4.75-.07zM12 6.87A5.13 5.13 0 106.87 12 5.13 5.13 0 0012 6.87zm0 8.46A3.33 3.33 0 1115.33 12 3.33 3.33 0 0112 15.33zm6.54-8.66a1.2 1.2 0 11-1.2-1.2 1.2 1.2 0 011.2 1.2z"/></svg>Instagram Story</button>
   </div>
   <div class="success-actions" style="margin-top:10px">
     <button class="btn btn-outline" onclick="scaricaRiepilogo()">📸 Scarica</button>
@@ -756,6 +776,7 @@ let matchesHistory = {};
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
 let valutazioniStorico = [
+  { matchId:"20260722", matchName:"Libertas Livorno vs Cividale", date:"2026-07-22", vals:{1:10,2:20,3:30,4:15,5:12,6:12,7:14,8:14,9:5,10:12,11:0,12:1} },
   { matchId:"20260720", matchName:"Libertas Livorno vs Cividale", date:"2026-07-20", vals:{1:10,2:23,3:4,4:5,5:1,6:4,7:7,8:8,9:4,10:5,11:1} }
 ];
 
@@ -768,13 +789,13 @@ let valutazioniStorico = [
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
 let pronosticiEsiti = [
-  // { matchId:"20260720", vincenti:{ p1:"Trapani", p2:"Virtus Bologna", p3:"Umana Venezia" } }
+  { matchId:"20260722", vincenti:{p1:"Dole Rimini", p2:"Valtur Brindisi", p3:"Dinamo Sassari"} }
 ];
 
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-22T12:51');
+let kickoffDate = new Date('2026-07-22T12:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1192,6 +1213,17 @@ function lanciaConfetti() {
   requestAnimationFrame(frame);
 }
 
+// precarica un'immagine (per essere sicuri che html2canvas la disegni)
+function preloadImg(src) {
+  return new Promise(res => {
+    const i = new Image();
+    i.onload = () => res(true);
+    i.onerror = () => res(false);
+    i.src = src;
+    if (i.complete) res(true);
+  });
+}
+
 // genera l'immagine del riepilogo (nascondendo l'email per privacy) → restituisce una Promise<canvas>
 function generaImmagineRiepilogo() {
   const el = document.getElementById('captureArea');
@@ -1202,15 +1234,12 @@ function generaImmagineRiepilogo() {
   const emailEl = document.getElementById('successInfoEmail');
   const prevDisplay = emailEl ? emailEl.style.display : null;
   if (emailEl) emailEl.style.display = 'none'; // rimuove l'email dall'immagine
-  return html2canvas(el, { backgroundColor:'#1A0008', scale:2, useCORS:true, logging:false })
-    .then(canvas => {
-      if (emailEl) emailEl.style.display = prevDisplay || '';
-      return canvas;
-    })
-    .catch(err => {
-      if (emailEl) emailEl.style.display = prevDisplay || '';
-      throw err;
-    });
+  el.classList.add('capturing');               // forza i colori pieni (logo + titolo leggibili)
+  const cleanup = () => { if (emailEl) emailEl.style.display = prevDisplay || ''; el.classList.remove('capturing'); };
+  return preloadImg('icon-192.png')
+    .then(() => html2canvas(el, { backgroundColor:'#1A0008', scale:2, useCORS:true, logging:false }))
+    .then(canvas => { cleanup(); return canvas; })
+    .catch(err => { cleanup(); throw err; });
 }
 
 // scarica l'immagine del riepilogo
@@ -1252,9 +1281,60 @@ function condividiRiepilogo(dove) {
   }).catch(() => {});
 }
 
-/* ════════════════════════════════════════════
-   COUNTDOWN
-════════════════════════════════════════════ */
+// genera un'immagine verticale 9:16 ottimizzata per le storie Instagram
+function generaImmagineStory() {
+  if (typeof html2canvas === 'undefined') { alert('Attendi un istante il caricamento e riprova.'); return Promise.reject(); }
+  const titolo = (document.getElementById('matchTitle')?.textContent || 'FantaLibertas').trim();
+  const players3 = (selected || []).map(p => p.name);
+  const prons = (pronostici || []).map(p => ({ match: `${p.casa} - ${p.trasferta}`, pick: pronosticiScelti[p.id] || '—' }));
+
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;left:-9999px;top:0;width:1080px;height:1920px;overflow:hidden;box-sizing:border-box;';
+  el.innerHTML = `
+    <div style="width:1080px;height:1920px;background:linear-gradient(160deg,#1A0008 0%,#3d0a1e 55%,#8B0D2F 135%);box-sizing:border-box;padding:90px 80px;font-family:'Inter',Arial,sans-serif;color:#fff;position:relative;">
+      <div style="text-align:center;margin-bottom:64px;">
+        <img src="icon-192.png" alt="FantaLibertas" style="width:180px;height:180px;border-radius:38px;box-shadow:0 10px 34px rgba(0,0,0,0.45);margin-bottom:24px;" onerror="this.style.display='none'">
+        <div style="font-family:'Anton',sans-serif;font-size:66px;letter-spacing:2px;">FANTA<span style="color:#E8567E;">LIBERTAS</span></div>
+        <div style="font-size:24px;letter-spacing:10px;color:rgba(255,255,255,0.5);margin-top:8px;">FANTASY GAME</div>
+      </div>
+      <div style="text-align:center;font-family:'Anton',sans-serif;font-size:54px;line-height:1.1;color:#F5D9E1;margin-bottom:18px;">${titolo}</div>
+      <div style="text-align:center;font-size:32px;color:#E8567E;font-weight:700;letter-spacing:3px;margin-bottom:58px;">HO VOTATO! 🏀</div>
+      <div style="font-family:'Oswald',sans-serif;font-size:26px;letter-spacing:4px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:22px;">La mia formazione</div>
+      ${players3.map(n => `<div style="background:rgba(255,255,255,0.06);border:2px solid rgba(174,16,64,0.5);border-radius:22px;padding:28px 34px;margin-bottom:18px;font-family:'Oswald',sans-serif;font-size:42px;font-weight:600;text-transform:uppercase;">${n}</div>`).join('')}
+      ${prons.length ? `<div style="font-family:'Oswald',sans-serif;font-size:26px;letter-spacing:4px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin:44px 0 22px;">I miei pronostici</div>` : ''}
+      ${prons.map(p => `<div style="display:flex;justify-content:space-between;align-items:center;gap:20px;background:rgba(255,255,255,0.04);border-radius:18px;padding:22px 30px;margin-bottom:14px;"><span style="font-size:27px;color:rgba(255,255,255,0.65);">${p.match}</span><span style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#F5D9E1;white-space:nowrap;">${p.pick}</span></div>`).join('')}
+      <div style="position:absolute;left:0;right:0;bottom:78px;text-align:center;">
+        <div style="font-family:'Anton',sans-serif;font-size:46px;color:#fff;letter-spacing:1px;">VOTA ANCHE TU</div>
+        <div style="font-size:29px;color:#E8A9BB;margin-top:10px;">libertassini.github.io/fantalibertas</div>
+      </div>
+    </div>`;
+  document.body.appendChild(el);
+  return preloadImg('icon-192.png')
+    .then(() => html2canvas(el, { backgroundColor: '#1A0008', width: 1080, height: 1920, windowWidth: 1080, windowHeight: 1920, scale: 1, useCORS: true, logging: false }))
+    .then(c => { el.remove(); return c; })
+    .catch(e => { el.remove(); throw e; });
+}
+
+// condivide la storia Instagram (immagine 9:16)
+function condividiStory() {
+  const testo = 'Ho votato al FantaLibertas! 🏀 libertassini.github.io/fantalibertas';
+  generaImmagineStory().then(canvas => {
+    canvas.toBlob(blob => {
+      const file = new File([blob], 'FantaLibertas-story.png', { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], text: testo }).catch(() => {});
+        return;
+      }
+      // fallback (desktop o browser senza condivisione file): scarica + istruzioni
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'FantaLibertas-story.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      alert('📲 Immagine per le storie salvata!\n\nApri Instagram → Storie → scegli questa immagine dalla galleria per pubblicarla.');
+    }, 'image/png');
+  }).catch(() => {});
+}
 function startCountdown() {
   if (countdownTimer) clearInterval(countdownTimer);
   function tick() {
@@ -2183,6 +2263,7 @@ renderSlots();
 startCountdown();
 aggiornaContatore();
 caricaStatsPartita();
+ripristinaPromemoria();
 
 /* contatore partecipanti: legge i voti dal CSV e conta le email uniche della partita */
 async function aggiornaContatore() {
@@ -2203,7 +2284,60 @@ async function aggiornaContatore() {
   } catch (e) {}
 }
 
-/* promemoria: notifica 30 minuti prima della chiusura del voto */
+/* promemoria: notifica 30 minuti prima della chiusura del voto
+   Funziona anche con l'app aperta in background (timer + catch-up + notifica dal service worker). */
+const REMIND_KEY = 'fl_reminder';
+const REMIND_MISS_WINDOW = 20 * 60 * 1000; // mostra un promemoria "in ritardo" solo entro 20 min
+let _remindTO = null, _remindIV = null;
+
+function _setRemindFired() {
+  try { const r = JSON.parse(localStorage.getItem(REMIND_KEY) || '{}'); r.fired = true; localStorage.setItem(REMIND_KEY, JSON.stringify(r)); } catch (e) {}
+  clearTimeout(_remindTO); clearInterval(_remindIV);
+}
+
+function mostraNotificaPromemoria() {
+  _setRemindFired();
+  const title = '🏀 FantaLibertas';
+  const body  = 'Ultima mezz\'ora per votare! Le votazioni stanno per chiudere.';
+  // preferisci la notifica dal service worker: più affidabile con l'app in background
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready
+      .then(reg => reg.showNotification(title, { body, icon: 'icon-192.png', badge: 'icon-192.png', tag: 'fl-reminder', renotify: true }))
+      .catch(() => { try { new Notification(title, { body, icon: 'icon-192.png' }); } catch (e) {} });
+  } else {
+    try { new Notification(title, { body, icon: 'icon-192.png' }); } catch (e) {}
+  }
+}
+
+function _remindCheck() {
+  let r = {}; try { r = JSON.parse(localStorage.getItem(REMIND_KEY) || '{}'); } catch (e) {}
+  if (!r || !r.target || r.fired) return;
+  const now = Date.now();
+  if (now >= r.target && now <= r.target + REMIND_MISS_WINDOW) mostraNotificaPromemoria();
+  else if (now > r.target + REMIND_MISS_WINDOW) _setRemindFired(); // troppo tardi: archivia senza disturbare
+}
+
+function armaPromemoria(target) {
+  clearTimeout(_remindTO); clearInterval(_remindIV);
+  const delay = target - Date.now();
+  if (delay <= 0) { _remindCheck(); return; }
+  _remindTO = setTimeout(mostraNotificaPromemoria, delay);       // timer principale
+  _remindIV = setInterval(_remindCheck, 20000);                   // catch-up se il timer viene rallentato in background
+  document.removeEventListener('visibilitychange', _remindCheck);
+  document.addEventListener('visibilitychange', _remindCheck);    // ricontrolla al ritorno in primo piano
+}
+
+// ripristina un eventuale promemoria salvato (dopo reload o riapertura dell'app)
+function ripristinaPromemoria() {
+  let r = {}; try { r = JSON.parse(localStorage.getItem(REMIND_KEY) || '{}'); } catch (e) {}
+  if (!r || !r.target || r.fired) return;
+  if (r.matchId && r.matchId !== (matchId || '')) return; // promemoria di un'altra giornata
+  const btn = document.getElementById('remindBtn');
+  if (Date.now() >= r.target) { _remindCheck(); return; }
+  if (btn) { btn.classList.add('on'); btn.textContent = '🔔 Promemoria attivato'; }
+  armaPromemoria(r.target);
+}
+
 async function attivaPromemoria() {
   const btn = document.getElementById('remindBtn');
   if (!('Notification' in window)) { alert('Il tuo browser non supporta le notifiche.'); return; }
@@ -2216,31 +2350,30 @@ async function attivaPromemoria() {
   if (perm === 'default') perm = await Notification.requestPermission();
   if (perm !== 'granted') { alert('Per ricevere il promemoria devi consentire le notifiche.'); return; }
 
-  const title = '🏀 FantaLibertas';
-  const body  = 'Ultima mezz\'ora per votare! Le votazioni stanno per chiudere.';
-  let programmata = false;
+  // salva il promemoria (così resiste a reload e ritorno in primo piano)
+  try { localStorage.setItem(REMIND_KEY, JSON.stringify({ matchId: matchId || '', target, fired: false })); } catch (e) {}
 
-  // 1) Notification Triggers API: funziona anche ad app chiusa (dove supportata, es. Chrome/Android)
+  let triggerOk = false;
+  // Notification Triggers API: consegna anche ad app completamente chiusa (dove supportata)
   try {
     if ('serviceWorker' in navigator && 'showTrigger' in Notification.prototype && window.TimestampTrigger) {
       const reg = await navigator.serviceWorker.ready;
-      await reg.showNotification(title, {
-        body, tag: 'fl-reminder-' + (matchId || ''), icon: 'icon-192.png', badge: 'icon-192.png',
+      await reg.showNotification('🏀 FantaLibertas', {
+        body: 'Ultima mezz\'ora per votare! Le votazioni stanno per chiudere.',
+        tag: 'fl-reminder', icon: 'icon-192.png', badge: 'icon-192.png',
         showTrigger: new TimestampTrigger(target)
       });
-      programmata = true;
+      triggerOk = true;
     }
   } catch (e) {}
 
-  // 2) Fallback: timer che scatta mentre l'app è aperta
-  if (!programmata) {
-    setTimeout(() => { try { new Notification(title, { body, icon: 'icon-192.png' }); } catch (e) {} }, target - Date.now());
-  }
+  // in ogni caso: timer + catch-up (fanno arrivare la notifica con l'app aperta anche in background)
+  armaPromemoria(target);
 
   if (btn) { btn.classList.add('on'); btn.textContent = '🔔 Promemoria attivato'; }
-  alert(programmata
-    ? 'Promemoria impostato! Riceverai una notifica 30 minuti prima della chiusura, anche ad app chiusa.'
-    : 'Promemoria attivato. Per riceverlo con certezza tieni l\'app installata sul telefono.');
+  alert(triggerOk
+    ? 'Promemoria impostato! Arriverà 30 minuti prima della chiusura, anche ad app chiusa.'
+    : 'Promemoria attivato! Arriverà 30 minuti prima della chiusura, anche con l\'app aperta in background.');
 }
 
 /* ════════════════════════════════════════════
