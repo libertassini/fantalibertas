@@ -53,6 +53,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .remind-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:7px 16px;font-size:12px;color:var(--muted);cursor:pointer;font-family:var(--font-b);transition:all .2s}
 .remind-btn:hover{border-color:rgba(174,16,64,0.5);color:var(--text)}
 .remind-btn.on{border-color:rgba(37,211,102,0.5);color:#4ade80;background:rgba(37,211,102,0.1)}
+.remind-row{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:12px}
+.remind-hint{text-align:center;font-size:10.5px;color:rgba(192,154,170,0.55);margin-top:8px;letter-spacing:.3px}
 @keyframes cdpulse{0%,100%{opacity:1}50%{opacity:0.55}}
 .cd-chip:not(.closed){animation:cdpulse 2s ease-in-out infinite}
 
@@ -501,7 +503,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <div class="match-title" id="matchTitle">Libertas Livorno vs Cividale</div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
-        <div class="dl-label">⏳ Next Match</div>
+        <div class="dl-label">⏳ Scadenza per partecipare</div>
         <div class="dl-body">
           <span class="dl-date"><span id="matchDateLabel">Dom 28 Sett 18:00</span></span>
           <span class="dl-sep"></span>
@@ -510,7 +512,11 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       </div>
     </div>
     <div style="text-align:center"><span class="voters-line" id="votersLine" style="display:none"></span></div>
-    <div style="text-align:center;margin-top:10px"><button class="remind-btn" id="remindBtn" onclick="attivaPromemoria()">🔔 Ricordami a 30 min dalla chiusura</button></div>
+    <div class="remind-row">
+      <button class="remind-btn" id="remindBtn" onclick="attivaPromemoria()">🔔 Notifica</button>
+      <button class="remind-btn" onclick="scaricaICS()">📅 Aggiungi al calendario</button>
+    </div>
+    <div class="remind-hint">Promemoria 30 min prima della chiusura del voto</div>
   </header>
 
   <!-- TAB -->
@@ -795,7 +801,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-22T15:00');
+let kickoffDate = new Date('2026-07-22T12:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1242,16 +1248,29 @@ function generaImmagineRiepilogo() {
     .catch(err => { cleanup(); throw err; });
 }
 
-// scarica l'immagine del riepilogo
+// scarica l'immagine del riepilogo (robusto su desktop e mobile)
 function scaricaRiepilogo() {
   generaImmagineRiepilogo().then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'FantaLibertas_riepilogo.png';
-    link.href = canvas.toDataURL('image/png');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }).catch(() => {});
+    canvas.toBlob(blob => {
+      if (!blob) { alert('Impossibile generare l\'immagine. Riprova.'); return; }
+      const url = URL.createObjectURL(blob);
+      const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent);
+      // su smartphone il download automatico spesso non parte: usa la condivisione se disponibile
+      const file = new File([blob], 'FantaLibertas_riepilogo.png', { type: 'image/png' });
+      if ((isIOS || !('download' in document.createElement('a'))) && navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file] }).catch(() => {
+          window.open(url, '_blank'); // fallback: apri l'immagine per salvarla manualmente
+        });
+        setTimeout(() => URL.revokeObjectURL(url), 8000);
+        return;
+      }
+      const a = document.createElement('a');
+      a.href = url; a.download = 'FantaLibertas_riepilogo.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      // fallback: se il download non è partito, apri in nuova scheda (mobile)
+      setTimeout(() => { URL.revokeObjectURL(url); }, 8000);
+    }, 'image/png');
+  }).catch(() => alert('Impossibile generare l\'immagine. Attendi il caricamento e riprova.'));
 }
 
 // condivide l'immagine su WhatsApp / Instagram
@@ -2282,6 +2301,55 @@ async function aggiornaContatore() {
       line.style.display = 'inline-flex';
     }
   } catch (e) {}
+}
+
+/* promemoria via calendario: scarica un file .ics con avviso 30 min prima della chiusura.
+   Metodo più affidabile su iOS/Android: l'avviso lo gestisce l'app Calendario. */
+function scaricaICS() {
+  if (!kickoffDate || isNaN(kickoffDate.getTime())) { alert('Orario della partita non impostato.'); return; }
+  const pad = n => String(n).padStart(2, '0');
+  const toICS = d => d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + pad(d.getUTCSeconds()) + 'Z';
+  const start = kickoffDate;
+  const end   = new Date(kickoffDate.getTime() + 2 * 60 * 60 * 1000);
+  const titolo = (document.getElementById('matchTitle')?.textContent || 'FantaLibertas').trim();
+  const link  = 'https://libertassini.github.io/fantalibertas';
+  const uid   = 'fantalibertas-' + (matchId || Date.now()) + '@libertassini';
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//FantaLibertas//IT//',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:' + uid,
+    'DTSTAMP:' + toICS(new Date()),
+    'DTSTART:' + toICS(start),
+    'DTEND:' + toICS(end),
+    'SUMMARY:FantaLibertas - chiusura voto: ' + titolo,
+    'DESCRIPTION:Ultima chiamata per votare al FantaLibertas! Vota qui: ' + link,
+    'URL:' + link,
+    'BEGIN:VALARM',
+    'ACTION:DISPLAY',
+    'DESCRIPTION:Ultima mezzora per votare al FantaLibertas!',
+    'TRIGGER:-PT30M',
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent);
+  if (isIOS) {
+    // iOS apre direttamente "Aggiungi al calendario" con il data URI
+    window.location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+    return;
+  }
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'FantaLibertas.ics';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 8000);
 }
 
 /* promemoria: notifica 30 minuti prima della chiusura del voto
