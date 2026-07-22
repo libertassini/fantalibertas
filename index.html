@@ -388,6 +388,39 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .mvp-score{flex:0 0 auto;text-align:center;font-family:var(--font-num);font-size:40px;font-weight:800;line-height:.9;background:linear-gradient(180deg,#FFFFFF,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .mvp-score-lbl{display:block;font-family:var(--font-b);font-size:9px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);-webkit-text-fill-color:var(--muted);margin-bottom:2px}
 
+/* percentuale di scelta sulle card giocatore */
+.pick-pct{display:flex;align-items:center;gap:7px;margin-top:9px}
+.pick-bar{flex:1;height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden}
+.pick-bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));border-radius:3px}
+.pick-lbl{font-family:var(--font-num);font-size:14px;font-weight:600;color:var(--muted);min-width:34px;text-align:right}
+
+/* formazione più popolare */
+.formpop-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.formpop-row:last-child{border-bottom:none}
+.formpop-rank{font-family:var(--font-num);font-size:22px;font-weight:700;color:var(--orange2);width:26px;text-align:center;flex:0 0 auto}
+.formpop-photo{width:42px;height:42px;border-radius:50%;object-fit:cover;object-position:top center;flex:0 0 auto;background:var(--court2)}
+.formpop-ph{display:flex;align-items:center;justify-content:center;font-family:var(--font-num);font-size:15px;font-weight:700;color:rgba(255,255,255,0.35);background:linear-gradient(160deg,var(--court2),rgba(139,13,47,0.15))}
+.formpop-info{flex:1;min-width:0}
+.formpop-name{font-family:var(--font-d);font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;line-height:1.15}
+.formpop-bar{height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;margin-top:5px}
+.formpop-bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2))}
+.formpop-pct{font-family:var(--font-num);font-size:19px;font-weight:700;color:#fff;flex:0 0 auto;min-width:44px;text-align:right}
+
+/* storico personale */
+.storico-search{display:flex;gap:8px;margin-bottom:12px}
+.storico-search input{flex:1;min-width:0}
+.storico-search .btn{flex:0 0 auto;width:auto;padding:0 20px;font-size:14px;margin:0}
+.storico-msg{font-size:13px;color:var(--muted);text-align:center;padding:8px 0}
+.storico-head{font-family:var(--font-d);font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
+.storico-total{font-size:13px;color:var(--muted);margin-bottom:14px}
+.storico-total b{font-family:var(--font-num);font-size:20px;color:var(--orange2);font-weight:700}
+.storico-item{background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px}
+.st-match{font-family:var(--font-d);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:8px}
+.st-match b{color:var(--orange2)}
+.st-pills{display:flex;flex-wrap:wrap;gap:6px}
+.st-pill{background:rgba(139,13,47,0.15);border:1px solid rgba(174,16,64,0.3);border-radius:14px;padding:4px 11px;font-size:12px;color:var(--muted)}
+.st-prons{font-size:11.5px;color:rgba(192,154,170,0.7);margin-top:8px}
+
 /* pronostici */
 .pron-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:12px 14px;margin-bottom:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 20px rgba(0,0,0,0.25)}
 .pron-q{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:9px;font-family:var(--font-d)}
@@ -506,6 +539,11 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
         <button class="btn" id="submitVotoBtn" disabled onclick="submitVoto()">Invia votazione</button>
         <div class="deadline-note">Le votazioni chiudono al fischio d'inizio.</div>
       </div>
+
+      <div class="card" id="formPopCard" style="display:none">
+        <div class="section-label">Formazione più popolare della giornata</div>
+        <div id="formPopBox"></div>
+      </div>
     </div>
 
   </div><!-- /tabVoto -->
@@ -515,6 +553,16 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <div class="card" id="rankCard">
       <div class="section-label">Classifica FantaLibertas</div>
       <div id="rankContent"><p style="color:var(--muted);font-size:13px">Nessuna partita ancora disputata.</p></div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">🔎 Il mio storico personale</div>
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">Inserisci la tua email per vedere le giornate a cui hai partecipato.</p>
+      <div class="storico-search">
+        <input type="email" id="storicoEmail" placeholder="latua@email.it" autocomplete="email">
+        <button class="btn" onclick="cercaStorico()">Cerca</button>
+      </div>
+      <div id="storicoResult"></div>
     </div>
   </div>
 
@@ -676,7 +724,7 @@ let valutazioniStorico = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-24T15:30');
+let kickoffDate = new Date('2026-07-21T10:51');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -815,6 +863,13 @@ function renderPlayers() {
     let photoHtml = p.photo
       ? `<img class="player-photo" src="${p.photo}" alt="Foto ${p.name}" loading="lazy">`
       : `<div class="player-placeholder"><div class="player-initials">${initials(p.name)}</div></div>`;
+    // percentuale di scelta (per la partita corrente), se disponibile
+    let pctHtml = '';
+    if (statsPartitaCache && statsPartitaCache.totale > 0) {
+      const cnt = statsPartitaCache.pick[p.name] || 0;
+      const pct = Math.round(cnt / statsPartitaCache.totale * 100);
+      pctHtml = `<div class="pick-pct" title="Scelto dal ${pct}% dei votanti"><span class="pick-bar"><span style="width:${pct}%"></span></span><span class="pick-lbl">${pct}%</span></div>`;
+    }
     card.innerHTML = `${photoHtml}
       <div class="player-info">
         <div class="player-name">${p.name}</div>
@@ -823,6 +878,7 @@ function renderPlayers() {
           <span class="player-cost-num">${p.cost}</span>
           <span class="player-cost-lbl">${p.cost === 1 ? 'credito' : 'crediti'}</span>
         </div>
+        ${pctHtml}
       </div>
       <div class="sel-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>`;
     const toggle = () => {
@@ -1656,6 +1712,142 @@ async function renderRanking() {
 }
 
 /* ════════════════════════════════════════════
+   STATISTICHE PARTITA (formazione popolare + % scelta)
+════════════════════════════════════════════ */
+let statsPartitaCache = null;
+
+// legge i voti della partita corrente dal CSV e conta le scelte per giocatore (email uniche)
+async function getStatsPartita() {
+  try {
+    const res  = await fetch(noCache(CSV_VOTI));
+    const rows = parseCSV(await res.text());
+    const mid  = matchId || 'default';
+    const seen = new Set();
+    const pick = {};
+    let tot = 0;
+    rows.slice(1).forEach(r => {
+      if (String(r[6]).trim() !== String(mid)) return;
+      const email = (r[3] || '').toLowerCase().trim();
+      if (!email || seen.has(email)) return;
+      seen.add(email);
+      tot++;
+      [r[7], r[8], r[9]].forEach(nome => {
+        if (nome && nome.trim()) { const n = nome.trim(); pick[n] = (pick[n] || 0) + 1; }
+      });
+    });
+    statsPartitaCache = { totale: tot, pick };
+  } catch (e) {
+    statsPartitaCache = null;
+  }
+  return statsPartitaCache;
+}
+
+// carica le statistiche una volta, poi aggiorna card giocatori e formazione popolare
+async function caricaStatsPartita() {
+  await getStatsPartita();
+  renderPlayers();
+  renderFormazionePopolare();
+}
+
+function renderFormazionePopolare() {
+  const card = document.getElementById('formPopCard');
+  const box  = document.getElementById('formPopBox');
+  if (!card || !box) return;
+  if (!statsPartitaCache || statsPartitaCache.totale === 0) { card.style.display = 'none'; return; }
+
+  // ordina i giocatori per numero di scelte
+  const ranked = players
+    .map(p => ({ p, cnt: statsPartitaCache.pick[p.name] || 0 }))
+    .filter(x => x.cnt > 0)
+    .sort((a, b) => b.cnt - a.cnt)
+    .slice(0, 3);
+
+  if (ranked.length === 0) { card.style.display = 'none'; return; }
+
+  const tot = statsPartitaCache.totale;
+  box.innerHTML = ranked.map((x, i) => {
+    const pct = Math.round(x.cnt / tot * 100);
+    const photo = x.p.photo
+      ? `<img class="formpop-photo" src="${x.p.photo}" alt="${x.p.name}" loading="lazy">`
+      : `<div class="formpop-photo formpop-ph">${initials(x.p.name)}</div>`;
+    return `<div class="formpop-row">
+      <div class="formpop-rank">${i + 1}</div>
+      ${photo}
+      <div class="formpop-info">
+        <div class="formpop-name">${x.p.name}</div>
+        <div class="formpop-bar"><span style="width:${pct}%"></span></div>
+      </div>
+      <div class="formpop-pct">${pct}%</div>
+    </div>`;
+  }).join('');
+  card.style.display = 'block';
+}
+
+/* ════════════════════════════════════════════
+   STORICO PERSONALE (solo email, senza login)
+════════════════════════════════════════════ */
+async function cercaStorico() {
+  const box = document.getElementById('storicoResult');
+  const email = (document.getElementById('storicoEmail').value || '').toLowerCase().trim();
+  if (!email || email.indexOf('@') < 0) { box.innerHTML = '<p class="storico-msg">Inserisci un\'email valida.</p>'; return; }
+  box.innerHTML = '<p class="storico-msg">⏳ Cerco le tue partite...</p>';
+
+  try {
+    const [votiText, classText] = await Promise.all([
+      fetch(noCache(CSV_VOTI)).then(r => r.text()),
+      fetch(noCache(CSV_CLASSIFICA)).then(r => r.text()).catch(() => '')
+    ]);
+
+    const rows = parseCSV(votiText).slice(1).filter(r => (r[3] || '').toLowerCase().trim() === email);
+    if (rows.length === 0) { box.innerHTML = '<p class="storico-msg">Nessuna partecipazione trovata per questa email.</p>'; return; }
+
+    // punti totali dalla classifica
+    let totale = null, nomeCompleto = '';
+    if (classText) {
+      const cr = parseCSV(classText).slice(1).find(r => (r[2] || '').toLowerCase().trim() === email);
+      if (cr) { totale = cr[4]; nomeCompleto = ((cr[0] || '') + ' ' + (cr[1] || '')).trim(); }
+    }
+
+    // valutazioni per partita (per calcolare i punti giocatori)
+    const valByMid = {};
+    getValutazioniData().forEach(m => { valByMid[m.matchId] = m; });
+    const nameToId = {};
+    players.forEach(p => { nameToId[p.name] = p.id; });
+
+    let html = '';
+    if (nomeCompleto) html += `<div class="storico-head">${nomeCompleto}</div>`;
+    if (totale !== null) html += `<div class="storico-total">Punti totali in classifica: <b>${parseFloat(totale).toFixed(1)}</b></div>`;
+
+    rows.sort((a, b) => String(b[6]).localeCompare(String(a[6])));
+    rows.forEach(r => {
+      const mid = String(r[6]).trim();
+      const vd = valByMid[mid];
+      const picks = [r[7], r[8], r[9]].filter(Boolean);
+      let punti = null;
+      const pills = picks.map(nm => {
+        let rval = '';
+        if (vd) {
+          const pid = nameToId[nm];
+          const rr = pid !== undefined ? vd.vals[pid] : undefined;
+          if (rr !== undefined) { rval = ' · ' + parseFloat(rr).toFixed(1); punti = (punti || 0) + parseFloat(rr); }
+        }
+        return `<span class="st-pill">${nm}${rval}</span>`;
+      }).join('');
+      const prons = [r[11], r[12], r[13]].filter(Boolean);
+      const matchName = r[5] || (vd ? vd.matchName : '') || mid;
+      html += `<div class="storico-item">
+        <div class="st-match">${matchName}${punti !== null ? ` · <b>${punti.toFixed(1)} pt giocatori</b>` : ''}</div>
+        <div class="st-pills">${pills}</div>
+        ${prons.length ? `<div class="st-prons">Pronostici: ${prons.join(' · ')}</div>` : ''}
+      </div>`;
+    });
+    box.innerHTML = html;
+  } catch (e) {
+    box.innerHTML = '<p class="storico-msg">Errore nel recupero dei dati. Riprova.</p>';
+  }
+}
+
+/* ════════════════════════════════════════════
    ESPORTA EXCEL
 ════════════════════════════════════════════ */
 function esportaExcel() {
@@ -1717,6 +1909,7 @@ updateBudget();
 renderSlots();
 startCountdown();
 aggiornaContatore();
+caricaStatsPartita();
 
 /* contatore partecipanti: legge i voti dal CSV e conta le email uniche della partita */
 async function aggiornaContatore() {
