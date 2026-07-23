@@ -180,6 +180,28 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .rank-sub-num.pos{color:#5fd88a}
 .rank-sub-num.neg{color:#e88}
 .rank-legend{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center;line-height:1.5}
+/* ricerca classifica */
+.rank-search{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:12px}
+.rank-search svg{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
+.rank-search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:var(--font-b);font-size:14px;min-width:0}
+.rank-search input::placeholder{color:rgba(192,154,170,0.5)}
+.rank-search-clear{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0 2px;flex:0 0 auto}
+/* pannelli collassabili */
+.coll{background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.coll-head{width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;cursor:pointer;padding:13px 16px;font-family:var(--font-d);font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text);transition:background .2s}
+.coll-head:hover{background:rgba(255,255,255,0.03)}
+.coll-caret{color:var(--orange2);font-size:12px;transition:transform .25s}
+.coll.open .coll-caret{transform:rotate(180deg)}
+.coll-body{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 16px}
+.coll.open .coll-body{max-height:1600px;padding:0 16px 16px}
+/* evidenziazione riga cercata */
+.rank-table tr.row-hit td{background:rgba(174,16,64,0.22)!important;box-shadow:inset 3px 0 0 var(--orange2)}
+.rank-table tr.row-dim{opacity:.32}
+/* header ordinabili */
+.rank-table th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+.rank-table th.sortable:hover{color:var(--text)}
+.rank-table th.sort-active{color:var(--orange2)}
+.rank-sort-caret{font-size:9px;margin-left:2px}
 .assoc-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500}
 .assoc-badge.si{background:rgba(46,204,113,0.15);color:var(--green);border:1px solid rgba(46,204,113,0.2)}
 .assoc-badge.no{background:rgba(255,255,255,0.06);color:var(--muted);border:1px solid rgba(255,255,255,0.08)}
@@ -606,31 +628,45 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
   <!-- ── TAB CLASSIFICA ── -->
   <div id="tabClassifica" style="display:none">
+
+    <!-- ricerca minimale -->
+    <div class="rank-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="rankSearch" placeholder="Cerca un partecipante..." oninput="filtraClassifica()" autocomplete="off">
+      <button class="rank-search-clear" id="rankSearchClear" onclick="pulisciRicerca()" style="display:none">✕</button>
+    </div>
+
+    <!-- pannelli collassabili compatti -->
+    <div class="coll" id="collStorico">
+      <button class="coll-head" onclick="toggleColl('collStorico')"><span>🔎 Il mio storico personale</span><span class="coll-caret">▾</span></button>
+      <div class="coll-body">
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">Inserisci la tua email per vedere le giornate a cui hai partecipato.</p>
+        <div class="storico-search">
+          <input type="email" id="storicoEmail" placeholder="latua@email.it" autocomplete="email">
+          <button class="btn" onclick="cercaStorico()">Cerca</button>
+        </div>
+        <div id="storicoResult"></div>
+      </div>
+    </div>
+
+    <div class="coll" id="collConfronto">
+      <button class="coll-head" onclick="toggleColl('collConfronto')"><span>⚔️ Confronta con un amico</span><span class="coll-caret">▾</span></button>
+      <div class="coll-body">
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">Inserisci due email per la sfida testa a testa.</p>
+        <div class="vs-inputs">
+          <input type="email" id="vsEmail1" placeholder="tu@email.it" autocomplete="off">
+          <span class="vs-mid">VS</span>
+          <input type="email" id="vsEmail2" placeholder="amico@email.it" autocomplete="off">
+        </div>
+        <button class="btn" style="margin-top:10px" onclick="confrontaAmici()">Confronta</button>
+        <div id="vsResult"></div>
+      </div>
+    </div>
+
+    <!-- classifica -->
     <div class="card" id="rankCard">
       <div class="section-label">Classifica FantaLibertas</div>
       <div id="rankContent"><p style="color:var(--muted);font-size:13px">Nessuna partita ancora disputata.</p></div>
-    </div>
-
-    <div class="card">
-      <div class="section-label">🔎 Il mio storico personale</div>
-      <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">Inserisci la tua email per vedere le giornate a cui hai partecipato.</p>
-      <div class="storico-search">
-        <input type="email" id="storicoEmail" placeholder="latua@email.it" autocomplete="email">
-        <button class="btn" onclick="cercaStorico()">Cerca</button>
-      </div>
-      <div id="storicoResult"></div>
-    </div>
-
-    <div class="card">
-      <div class="section-label">⚔️ Confronta con un amico</div>
-      <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">Inserisci due email per la sfida testa a testa.</p>
-      <div class="vs-inputs">
-        <input type="email" id="vsEmail1" placeholder="tu@email.it" autocomplete="off">
-        <span class="vs-mid">VS</span>
-        <input type="email" id="vsEmail2" placeholder="amico@email.it" autocomplete="off">
-      </div>
-      <button class="btn" style="margin-top:10px" onclick="confrontaAmici()">Confronta</button>
-      <div id="vsResult"></div>
     </div>
   </div>
 
@@ -805,7 +841,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-23T15:00');
+let kickoffDate = new Date('2026-07-23T14:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1927,7 +1963,7 @@ function renderValutazioni() {
           <div class="mvp-name">${mp.name}</div>
           <div class="mvp-role">${mp.role||''}</div>
         </div>
-        <div class="mvp-score"><span class="mvp-score-lbl">Voto</span>${mvpVal.toFixed(1)}</div>
+        <div class="mvp-score"><span class="mvp-score-lbl">Voto</span><span class="animate-num" data-target="${mvpVal}" data-dec="1">0.0</span></div>
       </div>`;
     }
   }
@@ -1962,6 +1998,37 @@ function renderValutazioni() {
 
   html += '</div>';
   cont.innerHTML = html;
+  animaNumeri(cont);
+}
+
+let _rankState = { entries: [], breakdown: null, hasBreak: false, sortBy: 'totale' };
+
+// anima un numero da 0 al valore finale
+function animateNumber(el, target, decimals, duration) {
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sign = target < 0 ? '-' : (el.dataset.plus === '1' && target > 0 ? '+' : '');
+  const abs = Math.abs(target);
+  const fmt = v => sign + v.toFixed(decimals);
+  if (reduce || duration === 0) { el.textContent = fmt(abs); return; }
+  const t0 = performance.now();
+  const dur = duration || 900;
+  function step(now) {
+    const p = Math.min(1, (now - t0) / dur);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(abs * eased);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = fmt(abs);
+  }
+  requestAnimationFrame(step);
+}
+
+// anima tutti gli elementi .animate-num presenti in un contenitore
+function animaNumeri(container) {
+  (container || document).querySelectorAll('.animate-num').forEach(el => {
+    if (el.dataset.done === '1') return;
+    el.dataset.done = '1';
+    animateNumber(el, parseFloat(el.dataset.target), parseInt(el.dataset.dec || '0'), 900);
+  });
 }
 
 async function renderRanking() {
@@ -1976,7 +2043,7 @@ async function renderRanking() {
     // colonne: 0=Nome 1=Cognome 2=Email 3=Associato 4=Punti Totali 5=Ultima partita
     entries = rows.slice(1)
       .filter(r => r[2] && r[2].trim() !== '') // solo righe con email
-      .map(r => ({ nome:r[0], cognome:r[1], email:r[2], assoc:r[3], totale:r[4] }));
+      .map(r => ({ nome:r[0], cognome:r[1], email:r[2], assoc:r[3], totale: parseFloat(r[4]) || 0 }));
   } catch(e) {
     entries = Object.values(ranking).sort((a,b) => b.totale - a.totale);
   }
@@ -1986,41 +2053,100 @@ async function renderRanking() {
     return;
   }
 
-  // dettaglio punti giocatori / bonus pronostici dal foglio "Punteggi" (se pubblicato)
   const breakdown = await getBreakdownPunteggi();
-  const hasBreak = breakdown && Object.keys(breakdown).length > 0;
+  _rankState = { entries, breakdown, hasBreak: breakdown && Object.keys(breakdown).length > 0, sortBy: 'totale' };
+  drawRanking();
+}
 
-  entries.sort((a,b) => parseFloat(b.totale) - parseFloat(a.totale));
-  let html = `<table class="rank-table">
-    <thead><tr>
-      <th>#</th><th>Giocatore</th>${hasBreak ? '<th style="text-align:right">🏀 Giocatori</th><th style="text-align:right">🎯 Pron.</th>' : '<th>Tipo</th>'}<th style="text-align:right">Totale</th>
-    </tr></thead><tbody>`;
-  entries.forEach((e,i) => {
+// valore usato per l'ordinamento
+function _rankVal(e, sortBy, breakdown) {
+  if (sortBy === 'totale') return parseFloat(e.totale) || 0;
+  const b = breakdown ? breakdown[(e.email||'').toLowerCase().trim()] : null;
+  if (!b) return -Infinity;
+  return sortBy === 'player' ? b.player : b.bonus;
+}
+
+function ordinaClassifica(sortBy) {
+  _rankState.sortBy = (_rankState.sortBy === sortBy && sortBy !== 'totale') ? 'totale' : sortBy;
+  drawRanking();
+}
+
+function drawRanking() {
+  const cont = document.getElementById('rankContent');
+  const { entries, breakdown, hasBreak, sortBy } = _rankState;
+
+  const sorted = [...entries].sort((a,b) => _rankVal(b, sortBy, breakdown) - _rankVal(a, sortBy, breakdown));
+  const caret = k => sortBy === k ? '<span class="rank-sort-caret">▼</span>' : '';
+  const act = k => sortBy === k ? ' sort-active' : '';
+
+  let head;
+  if (hasBreak) {
+    head = `<th>#</th><th>Giocatore</th>
+      <th class="sortable${act('player')}" style="text-align:right" onclick="ordinaClassifica('player')">🏀${caret('player')}</th>
+      <th class="sortable${act('bonus')}" style="text-align:right" onclick="ordinaClassifica('bonus')">🎯${caret('bonus')}</th>
+      <th class="sortable${act('totale')}" style="text-align:right" onclick="ordinaClassifica('totale')">Totale${caret('totale')}</th>`;
+  } else {
+    head = `<th>#</th><th>Giocatore</th><th>Tipo</th><th style="text-align:right">Totale</th>`;
+  }
+
+  let html = `<table class="rank-table"><thead><tr>${head}</tr></thead><tbody>`;
+  sorted.forEach((e,i) => {
     const posClass = i===0?'top1':i===1?'top2':i===2?'top3':'';
     const medal    = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
     const assocSi  = e.assoc==='si' || e.assoc==='Associato';
+    const nameL = ((e.nome||'')+' '+(e.cognome||'')).toLowerCase().trim();
     let mid = '';
     if (hasBreak) {
       const b = breakdown[(e.email||'').toLowerCase().trim()];
       if (b) {
-        const bonusTxt = (b.bonus >= 0 ? '+' : '') + b.bonus.toFixed(0);
-        mid = `<td class="rank-sub-num">${b.player.toFixed(1)}</td><td class="rank-sub-num ${b.bonus>=0?'pos':'neg'}">${bonusTxt}</td>`;
+        mid = `<td class="rank-sub-num"><span class="animate-num" data-target="${b.player}" data-dec="1">0.0</span></td>`
+            + `<td class="rank-sub-num ${b.bonus>=0?'pos':'neg'}"><span class="animate-num" data-target="${b.bonus}" data-dec="0" data-plus="1">0</span></td>`;
       } else {
         mid = `<td class="rank-sub-num">–</td><td class="rank-sub-num">–</td>`;
       }
     } else {
       mid = `<td><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>`;
     }
-    html += `<tr>
+    html += `<tr data-name="${nameL}" data-email="${(e.email||'').toLowerCase().trim()}">
       <td class="rank-pos ${posClass}">${medal||i+1}</td>
       <td><div style="font-weight:500">${e.nome} ${e.cognome}</div><div style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
       ${mid}
-      <td class="rank-score">${parseFloat(e.totale).toFixed(1)}</td>
+      <td class="rank-score"><span class="animate-num" data-target="${parseFloat(e.totale)||0}" data-dec="1">0.0</span></td>
     </tr>`;
   });
   html += '</tbody></table>';
-  if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+10 / −10)</p>`;
+  if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+10 / −10) · tocca le icone per ordinare</p>`;
   cont.innerHTML = html;
+  animaNumeri(cont);
+  filtraClassifica(); // riapplica l'eventuale evidenziazione della ricerca
+}
+
+// ricerca: evidenzia le righe che corrispondono (senza nascondere le altre)
+let _ricercaTO = null;
+function filtraClassifica() {
+  const input = document.getElementById('rankSearch');
+  const clear = document.getElementById('rankSearchClear');
+  if (!input) return;
+  const q = input.value.toLowerCase().trim();
+  if (clear) clear.style.display = q ? 'block' : 'none';
+  const rows = document.querySelectorAll('#rankContent .rank-table tbody tr');
+  rows.forEach(tr => {
+    tr.classList.remove('row-hit', 'row-dim');
+    if (!q) return;
+    const hit = (tr.dataset.name || '').includes(q) || (tr.dataset.email || '').includes(q);
+    tr.classList.add(hit ? 'row-hit' : 'row-dim');
+  });
+}
+function pulisciRicerca() {
+  const input = document.getElementById('rankSearch');
+  if (input) { input.value = ''; input.focus(); }
+  filtraClassifica();
+}
+
+// apri/chiudi pannelli collassabili
+function toggleColl(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
 }
 
 // aggrega il foglio "Punteggi" per email → { email: { player, bonus } }
@@ -2111,10 +2237,11 @@ function renderFormazionePopolare() {
         <div class="formpop-name">${x.p.name}</div>
         <div class="formpop-bar"><span style="width:${pct}%"></span></div>
       </div>
-      <div class="formpop-pct">${pct}%</div>
+      <div class="formpop-pct"><span class="animate-num" data-target="${pct}" data-dec="0">0</span>%</div>
     </div>`;
   }).join('');
   card.style.display = 'block';
+  animaNumeri(box);
 }
 
 /* ════════════════════════════════════════════
@@ -2239,12 +2366,13 @@ async function cercaStorico() {
 
     let html = '';
     if (nomeCompleto) html += `<div class="storico-head">${nomeCompleto}</div>`;
-    if (totale !== null) html += `<div class="storico-total">Punti totali in classifica: <b>${parseFloat(totale).toFixed(1)}</b> · ${nPart} ${nPart===1?'giornata':'giornate'}</div>`;
+    if (totale !== null) html += `<div class="storico-total">Punti totali in classifica: <b><span class="animate-num" data-target="${parseFloat(totale)||0}" data-dec="1">0.0</span></b> · ${nPart} ${nPart===1?'giornata':'giornate'}</div>`;
     if (badges.length) {
       html += `<div class="badge-grid">` + badges.map(b => `<div class="badge" title="${b[2]}"><span class="badge-ico">${b[0]}</span><span class="badge-lbl">${b[1]}</span></div>`).join('') + `</div>`;
     }
     html += itemsHtml;
     box.innerHTML = html;
+    animaNumeri(box);
   } catch (e) {
     box.innerHTML = '<p class="storico-msg">Errore nel recupero dei dati. Riprova.</p>';
   }
