@@ -801,7 +801,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-23T11:10');
+let kickoffDate = new Date('2026-07-22T12:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1056,7 +1056,7 @@ function renderPronostici() {
 /* ════════════════════════════════════════════
    SUBMIT VOTO
 ════════════════════════════════════════════ */
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbws6_13roXsnbOCWhjCwvfBvci7pwu75MxgFpB0TQsudS-frG7DryyghlMJ4s0rbYif/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxu9ydxcVrPr23q50icmhoeDpF7413OxBtVR5fpPpBO5YcDosdvTZEpvObEN4cyyUm1/exec';
 const CSV_VOTI       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1798318624&single=true&output=csv';
 const CSV_CLASSIFICA = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1187424992&single=true&output=csv';
 
@@ -1618,6 +1618,7 @@ async function salvaValutazioni() {
 
   // 4. calcola punti di questa partita e aggiorna i totali cumulativi
   const seenEmails = new Set();
+  const puntiGiornata = []; // dettaglio punti per email di questa giornata (per salvataggio permanente)
   let nCalcolati = 0;
 
   sheetsVotes.forEach(v => {
@@ -1638,6 +1639,7 @@ async function salvaValutazioni() {
     });
 
     const puntiPartita = parseFloat((base + bonus).toFixed(1));
+    puntiGiornata.push({ nome:v.nome, cognome:v.cognome, email:v.email, puntiGiocatori:parseFloat(base.toFixed(1)), bonus, totale:puntiPartita });
 
     const precedente = mappaClassifica[email];
     const totalePrec = precedente ? precedente.totale : 0;
@@ -1657,6 +1659,7 @@ async function salvaValutazioni() {
 
   // salva per l'esportazione negli appunti
   window._classificaExport = classificaFinale;
+  window._punteggiExport = { matchId: mid, matchName: mname, righe: puntiGiornata };
 
   matchesHistory[mid] = { name: mname, date: new Date().toISOString(), playerVals, pronVincenti };
   save();
@@ -1685,12 +1688,52 @@ function renderClassificaCalcolata(classifica) {
   html += `<button class="admin-save-btn" onclick="copiaClassifica()">📋 Copia classifica per Google Sheets</button>`;
   html += `<p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">Poi apri il foglio <b>"Classifica"</b> su Google Sheets, seleziona tutto e cancella, clicca sulla cella <b>A1</b> e incolla (Ctrl+V).</p>`;
   html += `<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+      <button class="admin-save-btn btn-green" id="salvaPunteggiBtn" style="background:#2E7D46" onclick="salvaPunteggiGiornata()">💾 Salva punteggi di giornata nel foglio</button>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">Archivia in modo permanente i punti di ogni email per questa giornata nel foglio <b>"Punteggi"</b> (creato in automatico). Così lo storico resta salvato e verificabile. Se ricalcoli la stessa giornata, i valori vengono aggiornati (nessun doppione).</p>
+    </div>`;
+  html += `<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
       <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--muted)" onclick="copiaValutazioniCodice()">📋 Copia valutazioni per il codice</button>
       <p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">Facoltativo: per mostrare le valutazioni di questa partita nella schermata pubblica <b>"Valutazioni"</b>, incolla la riga copiata al posto di <code>let valutazioniStorico = [...]</code> nel file <code>index.html</code> al prossimo commit.</p>
       <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--muted);margin-top:6px" onclick="copiaEsitiCodice()">📋 Copia esiti pronostici per il codice</button>
       <p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">Facoltativo: per includere i bonus/malus dei pronostici nello <b>storico personale</b>, incolla la riga copiata al posto di <code>let pronosticiEsiti = [...]</code> nel file <code>index.html</code>.</p>
     </div>`;
   box.innerHTML = html;
+}
+
+// salva in modo permanente i punteggi di giornata nel foglio "Punteggi" (via Apps Script)
+function salvaPunteggiGiornata() {
+  const dati = window._punteggiExport;
+  if (!dati || !dati.righe || dati.righe.length === 0) { alert('Prima calcola i punteggi della giornata (pulsante "Calcola punteggi classifica").'); return; }
+  const btn = document.getElementById('salvaPunteggiBtn');
+  const reset = () => { if (btn) { btn.disabled = false; btn.textContent = '💾 Salva punteggi di giornata nel foglio'; } };
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Salvataggio...'; }
+
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      tipo: 'punteggi',
+      matchId: dati.matchId,
+      matchName: dati.matchName,
+      righe: dati.righe
+    })
+  })
+  .then(r => r.json())
+  .then(res => {
+    reset();
+    // lo script NUOVO risponde con il campo "righe"; il VECCHIO risponde solo {result:'ok'}
+    if (res && res.result === 'ok' && res.righe !== undefined) {
+      alert('✅ Punteggi salvati nel foglio "Punteggi"!\n\nRighe archiviate: ' + res.righe + ' per la partita ' + dati.matchId + '.\n\nControlla la nuova scheda "Punteggi" su Google Sheets.');
+    } else if (res && res.result === 'ok') {
+      // ha risposto il vecchio script → il collegamento non è aggiornato
+      alert('⚠️ Il collegamento punta ancora al VECCHIO script: il foglio "Punteggi" non verrà creato.\n\nSoluzione:\n1) In Apps Script fai Deploy → Gestisci distribuzioni e copia l\'URL /exec che mostra "punteggi-v1".\n2) Incolla quell\'URL nella riga SHEETS_URL del file index.html (al posto di quello attuale).\n3) Ricarica index.html su GitHub e riprova in incognito.');
+    } else {
+      alert('⚠️ Risposta inattesa dal server. Verifica che lo script sia aggiornato e ridistribuito.');
+    }
+  })
+  .catch(() => {
+    reset();
+    alert('La risposta non è leggibile dal browser (può capitare), quindi non posso confermare in automatico.\n\nControlla la scheda "Punteggi" su Google Sheets:\n• se compare → tutto ok.\n• se NON compare → il SHEETS_URL nel file index.html non è quello nuovo (deve mostrare "punteggi-v1"). Aggiornalo e ricarica su GitHub.');
+  });
 }
 
 // copia la classifica negli appunti in formato TSV (incollabile su Google Sheets)
@@ -2309,8 +2352,8 @@ function scaricaICS() {
   if (!kickoffDate || isNaN(kickoffDate.getTime())) { alert('Orario della partita non impostato.'); return; }
   const pad = n => String(n).padStart(2, '0');
   const toICS = d => d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + pad(d.getUTCSeconds()) + 'Z';
-  const start = kickoffDate;
-  const end   = new Date(kickoffDate.getTime() + 2 * 60 * 60 * 1000);
+  const start = new Date(kickoffDate.getTime() - 30 * 60 * 1000); // 30 min prima dell'inizio partita
+  const end   = kickoffDate;                                       // fino al fischio d'inizio (chiusura voto)
   const titolo = (document.getElementById('matchTitle')?.textContent || 'FantaLibertas').trim();
   const link  = 'https://libertassini.github.io/fantalibertas';
   const uid   = 'fantalibertas-' + (matchId || Date.now()) + '@libertassini';
@@ -2326,13 +2369,13 @@ function scaricaICS() {
     'DTSTAMP:' + toICS(new Date()),
     'DTSTART:' + toICS(start),
     'DTEND:' + toICS(end),
-    'SUMMARY:FantaLibertas - chiusura voto: ' + titolo,
-    'DESCRIPTION:Ultima chiamata per votare al FantaLibertas! Vota qui: ' + link,
+    'SUMMARY:FantaLibertas - ultima mezzora per votare: ' + titolo,
+    'DESCRIPTION:Mancano 30 minuti alla chiusura delle votazioni! Vota qui: ' + link,
     'URL:' + link,
     'BEGIN:VALARM',
     'ACTION:DISPLAY',
     'DESCRIPTION:Ultima mezzora per votare al FantaLibertas!',
-    'TRIGGER:-PT30M',
+    'TRIGGER;VALUE=DATE-TIME:' + toICS(start),
     'END:VALARM',
     'END:VEVENT',
     'END:VCALENDAR'
