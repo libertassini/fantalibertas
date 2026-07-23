@@ -176,6 +176,10 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .rank-pos.top2{color:#C0C0C0}
 .rank-pos.top3{color:#CD7F32}
 .rank-score{font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--orange);text-align:right}
+.rank-sub-num{font-family:var(--font-num);font-size:16px;font-weight:600;color:var(--muted);text-align:right;white-space:nowrap}
+.rank-sub-num.pos{color:#5fd88a}
+.rank-sub-num.neg{color:#e88}
+.rank-legend{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center;line-height:1.5}
 .assoc-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500}
 .assoc-badge.si{background:rgba(46,204,113,0.15);color:var(--green);border:1px solid rgba(46,204,113,0.2)}
 .assoc-badge.no{background:rgba(255,255,255,0.06);color:var(--muted);border:1px solid rgba(255,255,255,0.08)}
@@ -801,7 +805,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-23T12:00');
+let kickoffDate = new Date('2026-07-22T12:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1056,9 +1060,13 @@ function renderPronostici() {
 /* ════════════════════════════════════════════
    SUBMIT VOTO
 ════════════════════════════════════════════ */
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbys1pJFhKmjZwYydBnEbJ6SXXOAqCM7cj2KRHFI9KOsziPbH4ib4C8KeH6XX2XFO6y2/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxu9ydxcVrPr23q50icmhoeDpF7413OxBtVR5fpPpBO5YcDosdvTZEpvObEN4cyyUm1/exec';
 const CSV_VOTI       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1798318624&single=true&output=csv';
 const CSV_CLASSIFICA = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1187424992&single=true&output=csv';
+// Per mostrare in classifica il dettaglio "punti giocatori / bonus pronostici":
+// pubblica il foglio "Punteggi" (File → Condividi → Pubblica sul web → foglio "Punteggi" come CSV)
+// e incolla qui sotto l'URL. Se lasciato vuoto, la classifica mostra solo il totale.
+const CSV_PUNTEGGI = '';
 
 // parser CSV semplice (gestisce campi tra virgolette)
 function parseCSV(text) {
@@ -1978,24 +1986,63 @@ async function renderRanking() {
     return;
   }
 
+  // dettaglio punti giocatori / bonus pronostici dal foglio "Punteggi" (se pubblicato)
+  const breakdown = await getBreakdownPunteggi();
+  const hasBreak = breakdown && Object.keys(breakdown).length > 0;
+
   entries.sort((a,b) => parseFloat(b.totale) - parseFloat(a.totale));
   let html = `<table class="rank-table">
     <thead><tr>
-      <th>#</th><th>Giocatore</th><th>Tipo</th><th style="text-align:right">Punti</th>
+      <th>#</th><th>Giocatore</th>${hasBreak ? '<th style="text-align:right">🏀 Giocatori</th><th style="text-align:right">🎯 Pron.</th>' : '<th>Tipo</th>'}<th style="text-align:right">Totale</th>
     </tr></thead><tbody>`;
   entries.forEach((e,i) => {
     const posClass = i===0?'top1':i===1?'top2':i===2?'top3':'';
     const medal    = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
     const assocSi  = e.assoc==='si' || e.assoc==='Associato';
+    let mid = '';
+    if (hasBreak) {
+      const b = breakdown[(e.email||'').toLowerCase().trim()];
+      if (b) {
+        const bonusTxt = (b.bonus >= 0 ? '+' : '') + b.bonus.toFixed(0);
+        mid = `<td class="rank-sub-num">${b.player.toFixed(1)}</td><td class="rank-sub-num ${b.bonus>=0?'pos':'neg'}">${bonusTxt}</td>`;
+      } else {
+        mid = `<td class="rank-sub-num">–</td><td class="rank-sub-num">–</td>`;
+      }
+    } else {
+      mid = `<td><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>`;
+    }
     html += `<tr>
       <td class="rank-pos ${posClass}">${medal||i+1}</td>
       <td><div style="font-weight:500">${e.nome} ${e.cognome}</div><div style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
-      <td><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>
+      ${mid}
       <td class="rank-score">${parseFloat(e.totale).toFixed(1)}</td>
     </tr>`;
   });
   html += '</tbody></table>';
+  if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+10 / −10)</p>`;
   cont.innerHTML = html;
+}
+
+// aggrega il foglio "Punteggi" per email → { email: { player, bonus } }
+async function getBreakdownPunteggi() {
+  if (!CSV_PUNTEGGI) return null;
+  try {
+    const res = await fetch(noCache(CSV_PUNTEGGI));
+    const rows = parseCSV(await res.text());
+    // colonne: 0 Timestamp,1 ID Partita,2 Partita,3 Nome,4 Cognome,5 Email,6 Punti Giocatori,7 Bonus Pronostici,8 Totale
+    const agg = {};
+    rows.slice(1).forEach(r => {
+      const email = (r[5] || '').toLowerCase().trim();
+      if (!email) return;
+      const pl = parseFloat(r[6]); const bo = parseFloat(r[7]);
+      if (!agg[email]) agg[email] = { player: 0, bonus: 0 };
+      if (!isNaN(pl)) agg[email].player += pl;
+      if (!isNaN(bo)) agg[email].bonus += bo;
+    });
+    return agg;
+  } catch (e) {
+    return null;
+  }
 }
 
 /* ════════════════════════════════════════════
