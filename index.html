@@ -458,6 +458,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .storico-total b{font-family:var(--font-num);font-size:20px;color:var(--orange2);font-weight:700}
 .storico-item{background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:9px}
 .st-match{font-family:var(--font-d);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:8px}
+.st-match-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.st-match-row .st-match{margin-bottom:0}
+.st-score-badge{flex:0 0 auto;display:inline-flex;align-items:baseline;gap:3px;background:rgba(139,13,47,0.25);border:1px solid rgba(174,16,64,0.45);border-radius:12px;padding:4px 12px;font-family:var(--font-num);font-size:22px;font-weight:800;color:#fff;line-height:1}
+.st-score-badge .st-score-lbl{font-family:var(--font-b);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase}
+.st-breakdown{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin-bottom:10px}
+.st-breakdown b{font-family:var(--font-num);font-size:14px;color:var(--text);font-weight:700}
+.st-breakdown .st-pos{color:#5fd88a}
+.st-breakdown .st-neg{color:#e88}
 .st-match b{color:var(--orange2)}
 .st-pills{display:flex;flex-wrap:wrap;gap:6px}
 .st-pill{background:rgba(139,13,47,0.15);border:1px solid rgba(174,16,64,0.3);border-radius:14px;padding:4px 11px;font-size:12px;color:var(--muted)}
@@ -539,8 +547,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div style="text-align:center"><span class="voters-line" id="votersLine" style="display:none"></span></div>
     <div class="remind-row">
-      <button class="remind-btn" id="remindBtn" onclick="attivaPromemoria()">🔔 Notifica</button>
-      <button class="remind-btn" onclick="scaricaICS()">📅 Aggiungi al calendario</button>
+      <button class="remind-btn" onclick="scaricaICS()">⏰ Aggiungi promemoria al calendario</button>
     </div>
     <div class="remind-hint">Promemoria 30 min prima della chiusura del voto</div>
   </header>
@@ -841,7 +848,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-23T15:00');
+let kickoffDate = new Date('2026-07-23T14:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1046,7 +1053,10 @@ function renderSlots() {
 function updateSubmit() {
   const pronOk = pronostici.length === 0 || pronostici.every(p => pronosticiScelti[p.id]);
   const ok = selected.length===MAX_SEL && getSpent()<=BUDGET && pronOk && !votingClosed;
-  document.getElementById('submitVotoBtn').disabled = !ok;
+  const btn = document.getElementById('submitVotoBtn');
+  btn.disabled = !ok;
+  if (votingClosed) btn.textContent = '🔒 Votazioni chiuse';
+  else btn.textContent = 'Invia votazione';
 }
 
 /* ════════════════════════════════════════════
@@ -1406,8 +1416,14 @@ function startCountdown() {
     if (!kickoffDate) { val.textContent='--:--:--'; return; }
     const diff = kickoffDate - new Date();
     if (diff <= 0) {
-      val.textContent = 'Chiuso';
+      val.textContent = 'CHIUSE';
       chip.classList.add('closed');
+      const lbl = chip.querySelector('.dl-label');
+      if (lbl) lbl.textContent = '🔒 Votazioni chiuse';
+      const rr = document.querySelector('.remind-row');
+      if (rr) rr.style.display = 'none';
+      const rh = document.querySelector('.remind-hint');
+      if (rh) rh.style.display = 'none';
       votingClosed = true;
       updateSubmit();
       clearInterval(countdownTimer);
@@ -2082,8 +2098,8 @@ function drawRanking() {
   let head;
   if (hasBreak) {
     head = `<th>#</th><th>Giocatore</th>
-      <th class="sortable${act('player')}" style="text-align:right" onclick="ordinaClassifica('player')">🏀${caret('player')}</th>
-      <th class="sortable${act('bonus')}" style="text-align:right" onclick="ordinaClassifica('bonus')">🎯${caret('bonus')}</th>
+      <th class="sortable${act('player')}" style="text-align:right" onclick="ordinaClassifica('player')">🏀 Giocatori${caret('player')}</th>
+      <th class="sortable${act('bonus')}" style="text-align:right" onclick="ordinaClassifica('bonus')">🎯 Pronostici${caret('bonus')}</th>
       <th class="sortable${act('totale')}" style="text-align:right" onclick="ordinaClassifica('totale')">Totale${caret('totale')}</th>`;
   } else {
     head = `<th>#</th><th>Giocatore</th><th>Tipo</th><th style="text-align:right">Totale</th>`;
@@ -2254,9 +2270,10 @@ async function cercaStorico() {
   box.innerHTML = '<p class="storico-msg">⏳ Cerco le tue partite...</p>';
 
   try {
-    const [votiText, classText] = await Promise.all([
+    const [votiText, classText, punteggiText] = await Promise.all([
       fetch(noCache(CSV_VOTI)).then(r => r.text()),
-      fetch(noCache(CSV_CLASSIFICA)).then(r => r.text()).catch(() => '')
+      fetch(noCache(CSV_CLASSIFICA)).then(r => r.text()).catch(() => ''),
+      CSV_PUNTEGGI ? fetch(noCache(CSV_PUNTEGGI)).then(r => r.text()).catch(() => '') : Promise.resolve('')
     ]);
 
     const rows = parseCSV(votiText).slice(1).filter(r => (r[3] || '').toLowerCase().trim() === email);
@@ -2267,6 +2284,20 @@ async function cercaStorico() {
     if (classText) {
       const cr = parseCSV(classText).slice(1).find(r => (r[2] || '').toLowerCase().trim() === email);
       if (cr) { totale = cr[4]; nomeCompleto = ((cr[0] || '') + ' ' + (cr[1] || '')).trim(); }
+    }
+
+    // punteggi archiviati per partita (foglio "Punteggi") → fonte permanente del punteggio di giornata
+    const puntByMid = {};
+    if (punteggiText) {
+      parseCSV(punteggiText).slice(1).forEach(r => {
+        if ((r[5] || '').toLowerCase().trim() !== email) return;
+        // 1 ID Partita,6 Punti Giocatori,7 Bonus Pronostici,8 Totale
+        puntByMid[String(r[1]).trim()] = {
+          player: parseFloat(r[6]) || 0,
+          bonus: parseFloat(r[7]) || 0,
+          total: parseFloat(r[8]) || 0
+        };
+      });
     }
 
     // dati per il calcolo: valutazioni + esiti pronostici
@@ -2339,15 +2370,33 @@ async function cercaStorico() {
         pronHtml = prons.map(s => `<span class="st-pron-chip">${s}</span>`).join('');
       }
 
-      // punti totali giornata
-      let ptTot = null;
-      if (ptGio !== null || nValut > 0) ptTot = (ptGio || 0) + bonus;
-      if (ptTot !== null && ptTot > maxPt) maxPt = ptTot;
+      // punti totali giornata (preferisci il dato archiviato nel foglio "Punteggi")
+      const stored = puntByMid[mid];
+      let dispPlayer, dispBonus, dispTot;
+      if (stored) {
+        dispPlayer = stored.player; dispBonus = stored.bonus; dispTot = stored.total;
+      } else {
+        dispPlayer = ptGio; dispBonus = (nValut > 0 ? bonus : null);
+        dispTot = (ptGio !== null || nValut > 0) ? (ptGio || 0) + bonus : null;
+      }
+      if (dispTot !== null && dispTot > maxPt) maxPt = dispTot;
 
       const matchName = r[5] || (vd ? vd.matchName : '') || mid;
-      const bonusTxt = nValut > 0 ? ` <span class="st-bonus ${bonus>=0?'pos':'neg'}">${bonus>=0?'+':''}${bonus} pron.</span>` : '';
+      const scoreBadge = dispTot !== null
+        ? `<div class="st-score-badge"><span class="animate-num" data-target="${dispTot}" data-dec="1">0.0</span><span class="st-score-lbl">pt</span></div>`
+        : '';
+      let breakdown = '';
+      if (dispPlayer !== null && dispPlayer !== undefined) {
+        breakdown = `<div class="st-breakdown"><span>🏀 <b>${dispPlayer.toFixed(1)}</b> giocatori</span>` +
+          (dispBonus !== null && dispBonus !== undefined ? ` <span>🎯 <b class="${dispBonus>=0?'st-pos':'st-neg'}">${dispBonus>=0?'+':''}${dispBonus}</b> pronostici</span>` : '') +
+          `</div>`;
+      }
       itemsHtml += `<div class="storico-item">
-        <div class="st-match">${matchName}${ptTot !== null ? ` · <b>${ptTot.toFixed(1)} pt</b>` : ''}${bonusTxt}</div>
+        <div class="st-match-row">
+          <div class="st-match">${matchName}</div>
+          ${scoreBadge}
+        </div>
+        ${breakdown}
         <div class="st-pills">${pills}</div>
         ${pronHtml ? `<div class="st-prons"><span class="st-prons-lbl">Pronostici:</span> ${pronHtml}</div>` : ''}
       </div>`;
