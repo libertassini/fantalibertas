@@ -856,7 +856,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-23T14:00');
+let kickoffDate = new Date('2026-07-31T14:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -868,8 +868,8 @@ let votingClosed = false;
    Se un logo manca, compare un cerchio con le iniziali della squadra.
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
-  casa:      { nome: "Libertas Livorno", logo: "libertas.png" },
-  trasferta: { nome: "Cividale",         logo: "cividale.png" }
+  casa:      { nome: "Libertas Livorno", logo: "livorno.png" },
+  trasferta: { nome: "Gema Montecatini",         logo: "montecatini.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
