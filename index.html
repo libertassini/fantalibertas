@@ -20,6 +20,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Teko:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -187,6 +188,21 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .rank-sub-num.pos{color:#5fd88a}
 .rank-sub-num.neg{color:#e88}
 .rank-legend{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center;line-height:1.5}
+/* calendario prossime partite */
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.cal-dl-btn{background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:20px;padding:8px 16px;font-family:var(--font-d);font-size:12px;font-weight:600;letter-spacing:.5px;color:#fff;cursor:pointer;box-shadow:0 4px 14px rgba(139,13,47,0.35);transition:transform .2s}
+.cal-dl-btn:hover{transform:translateY(-1px)}
+.cal-item{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:9px}
+.cal-date{flex:0 0 auto;width:52px;text-align:center;background:linear-gradient(160deg,rgba(139,13,47,0.3),rgba(45,0,20,0.5));border:1px solid rgba(174,16,64,0.35);border-radius:10px;padding:6px 4px}
+.cal-date .cal-d{font-family:var(--font-num);font-size:24px;font-weight:800;color:#fff;line-height:1}
+.cal-date .cal-m{font-family:var(--font-d);font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--orange2);margin-top:2px}
+.cal-info{flex:1;min-width:0}
+.cal-match{font-family:var(--font-d);font-size:14.5px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;line-height:1.2;color:var(--text)}
+.cal-meta{font-size:12px;color:var(--muted);margin-top:3px}
+.cal-next{border-color:rgba(174,16,64,0.5);background:rgba(139,13,47,0.14);box-shadow:0 6px 20px rgba(139,13,47,0.2)}
+.cal-next-tag{display:inline-block;font-family:var(--font-d);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange2);margin-bottom:3px}
+.cal-iframe{width:100%;height:520px;border:none;border-radius:12px;background:#fff}
+.cal-note{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center}
 /* ricerca classifica */
 .rank-search{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:12px}
 .rank-search svg{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
@@ -243,7 +259,8 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 
 /* tab nav */
 .tab-nav{display:flex;gap:6px;margin-bottom:1.2rem;background:rgba(255,255,255,0.03);padding:5px;border-radius:calc(var(--r) + 4px);border:1px solid var(--line)}
-.tab-btn{flex:1;padding:10px 6px;font-family:var(--font-d);font-size:14px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;background:transparent;border:none;border-radius:var(--r);cursor:pointer;color:var(--muted);transition:all .22s}
+.tab-btn{flex:1;padding:10px 4px;font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;background:transparent;border:none;border-radius:var(--r);cursor:pointer;color:var(--muted);transition:all .22s;white-space:nowrap}
+@media(max-width:520px){.tab-btn{font-size:11px;padding:9px 3px;letter-spacing:0}}
 .tab-btn:hover{color:var(--text)}
 .tab-btn.active{background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);color:#fff;box-shadow:0 3px 12px rgba(139,13,47,0.45)}
 
@@ -398,7 +415,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 @keyframes ballFloat{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-3px) rotate(6deg)}}
 .brand-icon::after{animation:iconGlow 2.6s ease-in-out infinite}
 @keyframes iconGlow{0%,100%{opacity:.5;box-shadow:0 0 14px rgba(174,16,64,0.5)}50%{opacity:.95;box-shadow:0 0 22px rgba(174,16,64,0.85)}}
-.tab-btn{letter-spacing:1.2px}
+.tab-btn{letter-spacing:0.5px}
 .btn{letter-spacing:2px}
 .section-label{letter-spacing:2.5px}
 .player-name,.val-card-name,.slot-name,.val-match-name{letter-spacing:.6px}
@@ -490,6 +507,13 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .badge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,rgba(139,13,47,0.2),rgba(45,0,20,0.5));border:1px solid rgba(174,16,64,0.35);border-radius:22px;padding:6px 13px 6px 10px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.06)}
 .badge-ico{font-size:17px;line-height:1}
 .badge-lbl{font-family:var(--font-d);font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text)}
+/* streak di partecipazione */
+.streak-box{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(255,120,40,0.16),rgba(139,13,47,0.22));border:1px solid rgba(255,140,60,0.4);border-radius:14px;padding:12px 16px;margin-bottom:14px}
+.streak-fire{font-size:26px;line-height:1;white-space:nowrap}
+.streak-txt{line-height:1.1}
+.streak-num{font-family:var(--font-num);font-size:30px;font-weight:800;color:#FFB067}
+.streak-lbl{font-family:var(--font-d);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text)}
+.streak-sub{font-size:11.5px;color:var(--muted);margin-top:3px}
 /* confronto amici */
 .vs-inputs{display:flex;align-items:center;gap:10px}
 .vs-inputs input{flex:1;min-width:0}
@@ -541,7 +565,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="brand-icon">🏀</div>
       <div class="brand-name">Fanta<span>Libertas</span></div>
     </div>
-    <div class="match-title" id="matchTitle">Libertas Livorno vs Pistoia Basket</div>
+    <div class="match-title" id="matchTitle">Libertas Livorno vs Cividale</div>
     <div class="match-teams" id="matchTeams"></div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
@@ -565,6 +589,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <button class="tab-btn active" onclick="showTab('voto')">Vota</button>
     <button class="tab-btn" onclick="showTab('classifica')">Classifica</button>
     <button class="tab-btn" onclick="showTab('valutazioni')">Valutazioni</button>
+    <button class="tab-btn" onclick="showTab('calendario')">Calendario</button>
   </div>
 
   <!-- ── TAB VOTO ── -->
@@ -680,7 +705,10 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
     <!-- classifica -->
     <div class="card" id="rankCard">
-      <div class="section-label">Classifica FantaLibertas</div>
+      <div class="cal-head">
+        <div class="section-label" style="margin-bottom:0">Classifica FantaLibertas</div>
+        <button class="cal-dl-btn" onclick="condividiClassificaPDF()">📄 Condividi PDF</button>
+      </div>
       <div id="rankContent"><p style="color:var(--muted);font-size:13px">Nessuna partita ancora disputata.</p></div>
     </div>
   </div>
@@ -692,6 +720,17 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div id="valContent">
         <div class="val-empty"><div class="val-empty-icon">📊</div>Nessuna valutazione ancora disponibile.</div>
       </div>
+    </div>
+  </div>
+
+  <!-- ── TAB CALENDARIO ── -->
+  <div id="tabCalendario" style="display:none">
+    <div class="card">
+      <div class="cal-head">
+        <div class="section-label" style="margin-bottom:0">📅 Prossime partite</div>
+        <button class="cal-dl-btn" onclick="scaricaCalendarioICS()">⏰ Scarica calendario</button>
+      </div>
+      <div id="calContent"><div class="val-empty"><div class="val-empty-icon">📅</div>Caricamento calendario...</div></div>
     </div>
   </div>
 
@@ -856,7 +895,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-08T14:00');
+let kickoffDate = new Date('2026-07-23T14:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -868,8 +907,8 @@ let votingClosed = false;
    Se un logo manca, compare un cerchio con le iniziali della squadra.
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
-  casa:      { nome: "Libertas Livorno", logo: "livorno.png" },
-  trasferta: { nome: "Gema Montecatini",         logo: "pistoia.png" }
+  casa:      { nome: "Libertas Livorno", logo: "libertas.png" },
+  trasferta: { nome: "Cividale",         logo: "cividale.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -929,11 +968,136 @@ function showTab(t) {
   document.getElementById('tabVoto').style.display        = t==='voto' ? 'block' : 'none';
   document.getElementById('tabClassifica').style.display  = t==='classifica' ? 'block' : 'none';
   document.getElementById('tabValutazioni').style.display = t==='valutazioni' ? 'block' : 'none';
+  document.getElementById('tabCalendario').style.display  = t==='calendario' ? 'block' : 'none';
   document.querySelectorAll('.tab-btn').forEach((b,i)=>{
-    b.classList.toggle('active', (t==='voto'&&i===0)||(t==='classifica'&&i===1)||(t==='valutazioni'&&i===2));
+    b.classList.toggle('active', (t==='voto'&&i===0)||(t==='classifica'&&i===1)||(t==='valutazioni'&&i===2)||(t==='calendario'&&i===3));
   });
   if (t==='classifica')  renderRanking();
   if (t==='valutazioni') renderValutazioni();
+  if (t==='calendario')  caricaCalendario();
+}
+
+/* ════════════════════════════════════════════
+   CALENDARIO PROSSIME PARTITE (da Google Calendar pubblico)
+════════════════════════════════════════════ */
+const CAL_ICS_URL = 'https://calendar.google.com/calendar/ical/libertassini1947%40gmail.com/public/basic.ics';
+const CAL_EMBED_URL = 'https://calendar.google.com/calendar/embed?src=libertassini1947%40gmail.com&ctz=Europe%2FRome&mode=AGENDA&bgcolor=%231A0008';
+let _calendarICS = null;
+let _calendarLoaded = false;
+
+async function caricaCalendario() {
+  if (_calendarLoaded) return; // carica una volta per sessione
+  const cont = document.getElementById('calContent');
+  // Google non consente il fetch diretto (CORS): passo da un proxy, con ripiego su iframe
+  const proxies = [
+    u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+    u => 'https://corsproxy.io/?url=' + encodeURIComponent(u)
+  ];
+  for (const mk of proxies) {
+    try {
+      const res = await fetch(mk(CAL_ICS_URL));
+      if (!res.ok) continue;
+      const text = await res.text();
+      if (text.indexOf('BEGIN:VEVENT') !== -1) {
+        _calendarICS = text;
+        const eventi = parseICSEvents(text);
+        renderCalendario(eventi);
+        _calendarLoaded = true;
+        return;
+      }
+    } catch (e) {}
+  }
+  // ripiego: calendario Google incorporato (funziona sempre)
+  mostraCalendarioIframe();
+  _calendarLoaded = true;
+}
+
+function parseICSEvents(text) {
+  const unfolded = text.replace(/\r\n[ \t]/g, ''); // ricongiunge righe spezzate
+  const blocks = unfolded.split('BEGIN:VEVENT').slice(1);
+  const eventi = [];
+  blocks.forEach(b => {
+    const get = (re) => { const m = b.match(re); return m ? m[1].trim() : ''; };
+    const summary = get(/SUMMARY:(.*)/);
+    const dtRaw = get(/DTSTART[^:]*:(.*)/);
+    if (!dtRaw) return;
+    const d = parseICSDate(dtRaw);
+    if (!d) return;
+    const loc = get(/LOCATION:(.*)/).replace(/\\,/g, ',');
+    eventi.push({ date: d, summary: (summary || 'Partita').replace(/\\,/g, ',').replace(/\\n/g,' '), location: loc });
+  });
+  return eventi;
+}
+
+function parseICSDate(s) {
+  s = s.trim();
+  // formato con ora: 20261108T203000 (eventualmente con Z)
+  let m = s.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z)?$/);
+  if (m) {
+    if (m[7] === 'Z') return new Date(Date.UTC(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +m[6]));
+    return new Date(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +m[6]);
+  }
+  // formato solo data: 20261108
+  m = s.match(/^(\d{4})(\d{2})(\d{2})$/);
+  if (m) return new Date(+m[1], +m[2]-1, +m[3], 0, 0, 0);
+  return null;
+}
+
+function renderCalendario(eventi) {
+  const cont = document.getElementById('calContent');
+  const ora = new Date();
+  const futuri = eventi.filter(e => e.date >= new Date(ora.getFullYear(), ora.getMonth(), ora.getDate()))
+                       .sort((a,b) => a.date - b.date)
+                       .slice(0, 10);
+  if (futuri.length === 0) {
+    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">📅</div>Nessuna partita in programma al momento.</div>';
+    return;
+  }
+  const mesi = ['GEN','FEB','MAR','APR','MAG','GIU','LUG','AGO','SET','OTT','NOV','DIC'];
+  const giorni = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+  let html = '';
+  futuri.forEach((e, i) => {
+    const d = e.date;
+    const oraStr = (d.getHours() || d.getMinutes())
+      ? d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0')
+      : '';
+    const meta = giorni[d.getDay()] + (oraStr ? ' · ' + oraStr : '') + (e.location ? ' · ' + e.location : '');
+    html += `<div class="cal-item ${i===0?'cal-next':''}">
+      <div class="cal-date"><div class="cal-d">${d.getDate()}</div><div class="cal-m">${mesi[d.getMonth()]}</div></div>
+      <div class="cal-info">
+        ${i===0 ? '<div class="cal-next-tag">Prossima</div>' : ''}
+        <div class="cal-match">${e.summary}</div>
+        <div class="cal-meta">${meta}</div>
+      </div>
+    </div>`;
+  });
+  html += `<p class="cal-note">Programma dal calendario ufficiale · tocca "Scarica calendario" per averlo sul telefono</p>`;
+  cont.innerHTML = html;
+}
+
+function mostraCalendarioIframe() {
+  const cont = document.getElementById('calContent');
+  cont.innerHTML = `<iframe class="cal-iframe" src="${CAL_EMBED_URL}" loading="lazy"></iframe>
+    <p class="cal-note">Calendario ufficiale Libertas · tocca "Scarica calendario" per aggiungerlo al tuo telefono</p>`;
+}
+
+// scarica/aggiunge il calendario completo con un click
+function scaricaCalendarioICS() {
+  if (_calendarICS) {
+    const blob = new Blob([_calendarICS], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (isIOS) { window.location.href = url; }
+    else {
+      const a = document.createElement('a');
+      a.href = url; a.download = 'Calendario_Libertas.ics';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 15000);
+  } else {
+    // non ancora scaricato via proxy: apri direttamente l'ICS di Google
+    window.open(CAL_ICS_URL, '_blank');
+  }
 }
 
 /* ════════════════════════════════════════════
@@ -2184,6 +2348,88 @@ function toggleColl(id) {
   if (el) el.classList.toggle('open');
 }
 
+// genera e condivide/scarica la classifica in PDF
+function condividiClassificaPDF() {
+  const { entries, breakdown, hasBreak } = _rankState;
+  if (!entries || entries.length === 0) { alert('Classifica non ancora disponibile.'); return; }
+  if (!window.jspdf) { alert('Attendi il caricamento e riprova.'); return; }
+
+  const sorted = [...entries].sort((a,b) => (parseFloat(b.totale)||0) - (parseFloat(a.totale)||0));
+  const oggi = new Date().toLocaleDateString('it-IT', { day:'2-digit', month:'long', year:'numeric' });
+
+  const rowsHtml = sorted.map((e,i) => {
+    const pos = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+    const b = hasBreak ? breakdown[(e.email||'').toLowerCase().trim()] : null;
+    let mid = '';
+    if (hasBreak) {
+      const pl = b ? b.player.toFixed(1) : '–';
+      const bo = b ? ((b.bonus>=0?'+':'') + b.bonus) : '–';
+      mid = `<td style="padding:9px 10px;text-align:right;color:#555">${pl}</td><td style="padding:9px 10px;text-align:right;color:${b&&b.bonus<0?'#c0392b':'#1A6B3C'}">${bo}</td>`;
+    }
+    const bg = i%2 ? '#faf3f5' : '#ffffff';
+    return `<tr style="background:${bg}"><td style="padding:9px 10px;font-weight:bold;width:44px;text-align:center">${pos}</td>
+      <td style="padding:9px 10px;font-weight:600">${e.nome} ${e.cognome}</td>${mid}
+      <td style="padding:9px 12px;text-align:right;font-weight:bold;color:#8B0D2F;font-size:16px">${(parseFloat(e.totale)||0).toFixed(1)}</td></tr>`;
+  }).join('');
+
+  const headCols = hasBreak
+    ? '<th style="padding:9px 10px;text-align:right">🏀 Giocatori</th><th style="padding:9px 10px;text-align:right">🎯 Pronostici</th>'
+    : '';
+
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;left:-99999px;top:0;width:800px;background:#fff;padding:34px 40px;font-family:Arial,sans-serif;color:#2b2b2b;box-sizing:border-box';
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:16px;border-bottom:3px solid #8B0D2F;padding-bottom:16px;margin-bottom:20px">
+      <img src="icon-192.png" style="width:64px;height:64px;border-radius:14px" onerror="this.style.display='none'">
+      <div>
+        <div style="font-size:30px;font-weight:800;color:#8B0D2F;letter-spacing:.5px">FantaLibertas</div>
+        <div style="font-size:15px;color:#777;letter-spacing:1px;text-transform:uppercase">Classifica generale · ${oggi}</div>
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:14px">
+      <thead><tr style="background:#8B0D2F;color:#fff">
+        <th style="padding:10px;text-align:center;width:44px">#</th>
+        <th style="padding:10px;text-align:left">Giocatore</th>
+        ${headCols}
+        <th style="padding:10px 12px;text-align:right">Totale</th>
+      </tr></thead>
+      <tbody>${rowsHtml}</tbody>
+    </table>
+    <div style="margin-top:18px;font-size:11px;color:#aaa;text-align:center;border-top:1px solid #eee;padding-top:10px">
+      ${hasBreak ? '🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici · ' : ''}A registered product of P.G. Nexus Lab
+    </div>`;
+  document.body.appendChild(el);
+
+  preloadImg('icon-192.png')
+    .then(() => html2canvas(el, { backgroundColor:'#ffffff', scale:2, useCORS:true, logging:false }))
+    .then(canvas => {
+      el.remove();
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const imgH = canvas.height * pageW / canvas.width;
+      const imgData = canvas.toDataURL('image/png');
+      let heightLeft = imgH, position = 0;
+      pdf.addImage(imgData, 'PNG', 0, position, pageW, imgH);
+      heightLeft -= pageH;
+      while (heightLeft > 0) {
+        position -= pageH;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, pageW, imgH);
+        heightLeft -= pageH;
+      }
+      const blob = pdf.output('blob');
+      const file = new File([blob], 'Classifica_FantaLibertas.pdf', { type: 'application/pdf' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], title: 'Classifica FantaLibertas' }).catch(() => pdf.save('Classifica_FantaLibertas.pdf'));
+      } else {
+        pdf.save('Classifica_FantaLibertas.pdf');
+      }
+    })
+    .catch(() => { el.remove(); alert('Impossibile generare il PDF. Riprova.'); });
+}
+
 // aggrega il foglio "Punteggi" per email → { email: { player, bonus } }
 async function getBreakdownPunteggi() {
   if (!CSV_PUNTEGGI) return null;
@@ -2297,6 +2543,9 @@ async function cercaStorico() {
 
     const rows = parseCSV(votiText).slice(1).filter(r => (r[3] || '').toLowerCase().trim() === email);
     if (rows.length === 0) { box.innerHTML = '<p class="storico-msg">Nessuna partecipazione trovata per questa email.</p>'; return; }
+
+    // tutte le giornate disputate (da tutti i voti), ordinate — per calcolare la streak
+    const tutteGiornate = [...new Set(parseCSV(votiText).slice(1).map(r => String(r[6]).trim()).filter(Boolean))].sort();
 
     // punti totali dalla classifica
     let totale = null, nomeCompleto = '';
@@ -2432,9 +2681,21 @@ async function cercaStorico() {
     if (enPlein) badges.push(['⭐', 'En Plein', 'Hai indovinato tutti e 3 i pronostici in una giornata']);
     if (maxPt >= 50) badges.push(['📈', 'Bomber di giornata', 'Oltre 50 punti in una singola giornata']);
 
+    // ── STREAK: giornate consecutive votate, dalla più recente all'indietro ──
+    let streak = 0;
+    for (let i = tutteGiornate.length - 1; i >= 0; i--) {
+      if (partIds.has(tutteGiornate[i])) streak++;
+      else break;
+    }
+
     let html = '';
     if (nomeCompleto) html += `<div class="storico-head">${nomeCompleto}</div>`;
     if (totale !== null) html += `<div class="storico-total">Punti totali in classifica: <b><span class="animate-num" data-target="${parseFloat(totale)||0}" data-dec="1">0.0</span></b> · ${nPart} ${nPart===1?'giornata':'giornate'}</div>`;
+    if (streak >= 1) {
+      const fuoco = '🔥'.repeat(Math.min(streak, 5));
+      const msg = streak === 1 ? 'Hai iniziato la tua striscia!' : (streak >= disputate.size && disputate.size >= 2 ? 'Non hai saltato una giornata!' : 'giornate di fila!');
+      html += `<div class="streak-box"><div class="streak-fire">${fuoco}</div><div class="streak-txt"><span class="streak-num animate-num" data-target="${streak}" data-dec="0">0</span> <span class="streak-lbl">${streak===1?'giornata di fila':'giornate di fila'}</span><div class="streak-sub">${msg}</div></div></div>`;
+    }
     if (badges.length) {
       html += `<div class="badge-grid">` + badges.map(b => `<div class="badge" title="${b[2]}"><span class="badge-ico">${b[0]}</span><span class="badge-lbl">${b[1]}</span></div>`).join('') + `</div>`;
     }
