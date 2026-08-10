@@ -1008,7 +1008,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-23T14:00');
+let kickoffDate = new Date('2026-08-10T16:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1021,7 +1021,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas.png" },
-  trasferta: { nome: "Cividale",         logo: "cividale.png" }
+  trasferta: { nome: "Pistoia Basket",         logo: "pistoia.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1032,7 +1032,7 @@ let matchTeams = {
 ──────────────────────────────────────────────────────────────── */
 let mvpMatch = {
   id:     "20260722",                          // ID univoco della partita PRECEDENTE (consiglio: la sua data in formato AAAAMMGG). NON cambiarlo a voto aperto.
-  titolo: "Libertas Livorno vs Cividale",      // TITOLO della partita PRECEDENTE (quella già giocata)
+  titolo: "Libertas Livorno vs Pistoia Basket",      // TITOLO della partita PRECEDENTE (quella già giocata)
   attivo: true                                 // metti false per chiudere il voto MVP
 };
 
