@@ -202,6 +202,55 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .cal-next-tag{display:inline-block;font-family:var(--font-d);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange2);margin-bottom:3px}
 .cal-iframe{width:100%;height:520px;border:none;border-radius:12px;background:#fff}
 .cal-note{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center}
+/* ===== voto MVP del pubblico ===== */
+.mvp-vote-head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.mvp-vote-trophy{font-size:34px;line-height:1}
+.mvp-vote-match{font-family:var(--font-d);font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;color:var(--text)}
+.mvp-reg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.mvp-reg input,.mvp-email-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:10px;padding:11px 13px;color:var(--text);font-family:var(--font-b);font-size:14px;outline:none}
+.mvp-email-input{margin-bottom:14px}
+.mvp-reg input:focus,.mvp-email-input:focus{border-color:rgba(174,16,64,0.6)}
+.mvp-intro{font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.5}
+.mvp-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.mvp-pick{position:relative;display:flex;align-items:center;gap:11px;background:rgba(255,255,255,0.04);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;transition:all .18s;text-align:left}
+.mvp-pick:hover{border-color:rgba(174,16,64,0.5);background:rgba(139,13,47,0.12)}
+.mvp-pick.sel{border-color:var(--orange2);background:linear-gradient(135deg,rgba(139,13,47,0.35),rgba(45,0,20,0.5));box-shadow:0 6px 20px rgba(139,13,47,0.3)}
+.mvp-pick-photo{width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:top center;flex:0 0 auto;background:#2D0014}
+.mvp-pick-ph{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:linear-gradient(160deg,#2D0014,#8B0D2F);font-family:var(--font-num);font-size:16px;font-weight:700;color:rgba(255,255,255,0.55)}
+.mvp-pick-info{min-width:0}
+.mvp-pick-name{font-family:var(--font-d);font-size:13.5px;font-weight:600;color:var(--text);line-height:1.15;text-transform:uppercase;letter-spacing:.2px}
+.mvp-pick-role{font-size:11px;color:var(--muted);margin-top:1px}
+.mvp-pick-check{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--orange2);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:bold}
+.mvp-pick.sel .mvp-pick-check{display:flex}
+.mvp-submit{width:100%;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:12px;padding:14px;font-family:var(--font-d);font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(139,13,47,0.4);transition:all .2s}
+.mvp-submit:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+/* risultati MVP */
+.mvp-res-thanks{text-align:center;background:linear-gradient(135deg,rgba(46,204,113,0.14),rgba(139,13,47,0.14));border:1px solid rgba(46,204,113,0.35);border-radius:12px;padding:14px;margin-bottom:16px;font-size:13.5px;color:#a7e8c4}
+.mvp-res-thanks b{color:#fff}
+.mvp-res-row{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.mvp-res-photo{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:top center;flex:0 0 auto;background:#2D0014}
+.mvp-res-ph{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:linear-gradient(160deg,#2D0014,#8B0D2F);font-family:var(--font-num);font-size:14px;font-weight:700;color:rgba(255,255,255,0.55)}
+.mvp-res-body{flex:1;min-width:0}
+.mvp-res-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.mvp-res-name{font-family:var(--font-d);font-size:13px;font-weight:600;text-transform:uppercase;color:var(--text)}
+.mvp-res-name .mvp-crown{margin-left:5px}
+.mvp-res-val{font-family:var(--font-num);font-size:14px;font-weight:700;color:var(--orange2)}
+.mvp-res-bar{height:9px;border-radius:5px;background:rgba(255,255,255,0.07);overflow:hidden}
+.mvp-res-bar span{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#8B0D2F,#E8567E);transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.mvp-res-row.leader .mvp-res-bar span{background:linear-gradient(90deg,#E8A44a,#FFD97A)}
+.mvp-res-row.leader .mvp-res-val{color:#FFD97A}
+.mvp-res-count{text-align:center;font-size:11.5px;color:rgba(192,154,170,0.7);margin-top:10px}
+/* albo MVP stagionale */
+.mvpseas-row{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin-bottom:8px}
+.mvpseas-row.leader{border-color:rgba(232,164,74,0.45);background:linear-gradient(135deg,rgba(232,164,74,0.14),rgba(139,13,47,0.12))}
+.mvpseas-pos{flex:0 0 auto;width:26px;text-align:center;font-family:var(--font-num);font-size:16px;font-weight:700;color:var(--muted)}
+.mvpseas-name{flex:1;min-width:0;font-family:var(--font-d);font-size:13.5px;font-weight:600;text-transform:uppercase;letter-spacing:.2px;color:var(--text)}
+.mvpseas-role{font-family:var(--font-b);font-size:11px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);margin-top:1px}
+.mvpseas-stats{flex:0 0 auto;text-align:right}
+.mvpseas-titoli{font-family:var(--font-num);font-size:17px;font-weight:700;color:#FFD97A;line-height:1}
+.mvpseas-titoli b{font-family:var(--font-num)}
+.mvpseas-voti{font-size:11px;color:var(--muted);margin-top:2px}
+.mvpseas-row.leader .mvpseas-pos{color:#FFD97A}
 /* ricerca classifica */
 .rank-search{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:12px}
 .rank-search svg{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
@@ -259,7 +308,8 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 /* tab nav */
 .tab-nav{display:flex;gap:6px;margin-bottom:1.2rem;background:rgba(255,255,255,0.03);padding:5px;border-radius:calc(var(--r) + 4px);border:1px solid var(--line)}
 .tab-btn{flex:1;padding:10px 4px;font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;background:transparent;border:none;border-radius:var(--r);cursor:pointer;color:var(--muted);transition:all .22s;white-space:nowrap}
-@media(max-width:520px){.tab-btn{font-size:11px;padding:9px 3px;letter-spacing:0}}
+@media(max-width:520px){.tab-btn{font-size:10px;padding:9px 2px;letter-spacing:0}}
+@media(max-width:380px){.tab-btn{font-size:9px}}
 .tab-btn:hover{color:var(--text)}
 .tab-btn.active{background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);color:#fff;box-shadow:0 3px 12px rgba(139,13,47,0.45)}
 
@@ -608,7 +658,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="brand-icon">🏀</div>
       <div class="brand-name">Fanta<span>Libertas</span></div>
     </div>
-    <div class="match-title" id="matchTitle">Libertas Livorno vs Pistoia Basket</div>
+    <div class="match-title" id="matchTitle">Libertas Livorno vs Cividale</div>
     <div class="match-teams" id="matchTeams"></div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
@@ -630,6 +680,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
   <!-- TAB -->
   <div class="tab-nav">
     <button class="tab-btn active" onclick="showTab('voto')">Vota</button>
+    <button class="tab-btn" onclick="showTab('mvp')">MVP</button>
     <button class="tab-btn" onclick="showTab('classifica')">Classifica</button>
     <button class="tab-btn" onclick="showTab('valutazioni')">Valutazioni</button>
     <button class="tab-btn" onclick="showTab('calendario')">Calendario</button>
@@ -774,6 +825,25 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
         <button class="cal-dl-btn" onclick="scaricaCalendarioICS()">⏰ Scarica calendario</button>
       </div>
       <div id="calContent"><div class="val-empty"><div class="val-empty-icon">📅</div>Caricamento calendario...</div></div>
+    </div>
+  </div>
+
+  <!-- ── TAB MVP (voto del pubblico, parallelo) ── -->
+  <div id="tabMvp" style="display:none">
+    <div class="card">
+      <div class="mvp-vote-head">
+        <div class="mvp-vote-trophy">🏆</div>
+        <div>
+          <div class="section-label" style="margin-bottom:2px">Vota l'MVP del pubblico</div>
+          <div class="mvp-vote-match" id="mvpVoteMatch">—</div>
+        </div>
+      </div>
+      <div id="mvpContent"><div class="val-empty"><div class="val-empty-icon">🏆</div>Caricamento...</div></div>
+    </div>
+    <div class="card">
+      <div class="section-label">🏅 Albo MVP · Stagione</div>
+      <p style="font-size:12.5px;color:var(--muted);margin:2px 0 14px;line-height:1.5">Classifica dei giocatori per <b>titoli MVP</b> vinti e <b>voti totali</b> ricevuti dal pubblico in tutta la stagione.</p>
+      <div id="mvpSeasonContent"><div class="val-empty"><div class="val-empty-icon">🏅</div>Caricamento...</div></div>
     </div>
   </div>
 
@@ -938,7 +1008,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-10T16:00');
+let kickoffDate = new Date('2026-07-23T14:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -950,8 +1020,20 @@ let votingClosed = false;
    Se un logo manca, compare un cerchio con le iniziali della squadra.
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
-  casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Cividale",         logo: "pistoia.png" }
+  casa:      { nome: "Libertas Livorno", logo: "libertas.png" },
+  trasferta: { nome: "Cividale",         logo: "cividale.png" }
+};
+
+/* ────────────────────────────────────────────────────────────────
+   VOTO MVP DEL PUBBLICO (parallelo, non incide sul fantasy game)
+   >>> SI RIFERISCE ALLA PARTITA PRECEDENTE (quella appena giocata). <<<
+   Metti qui il TITOLO di quella partita e un ID univoco.
+   Gli utenti votano 1 solo giocatore. Un voto per email per partita.
+──────────────────────────────────────────────────────────────── */
+let mvpMatch = {
+  id:     "20260722",                          // ID univoco della partita PRECEDENTE (consiglio: la sua data in formato AAAAMMGG). NON cambiarlo a voto aperto.
+  titolo: "Libertas Livorno vs Cividale",      // TITOLO della partita PRECEDENTE (quella già giocata)
+  attivo: true                                 // metti false per chiudere il voto MVP
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1009,15 +1091,17 @@ function load() {
 ════════════════════════════════════════════ */
 function showTab(t) {
   document.getElementById('tabVoto').style.display        = t==='voto' ? 'block' : 'none';
+  document.getElementById('tabMvp').style.display         = t==='mvp' ? 'block' : 'none';
   document.getElementById('tabClassifica').style.display  = t==='classifica' ? 'block' : 'none';
   document.getElementById('tabValutazioni').style.display = t==='valutazioni' ? 'block' : 'none';
   document.getElementById('tabCalendario').style.display  = t==='calendario' ? 'block' : 'none';
   document.querySelectorAll('.tab-btn').forEach((b,i)=>{
-    b.classList.toggle('active', (t==='voto'&&i===0)||(t==='classifica'&&i===1)||(t==='valutazioni'&&i===2)||(t==='calendario'&&i===3));
+    b.classList.toggle('active', (t==='voto'&&i===0)||(t==='mvp'&&i===1)||(t==='classifica'&&i===2)||(t==='valutazioni'&&i===3)||(t==='calendario'&&i===4));
   });
   if (t==='classifica')  renderRanking();
   if (t==='valutazioni') renderValutazioni();
   if (t==='calendario')  caricaCalendario();
+  if (t==='mvp')         renderMVP();
 }
 
 /* ════════════════════════════════════════════
@@ -1132,6 +1216,229 @@ function scaricaCalendarioICS() {
     setTimeout(() => URL.revokeObjectURL(url), 15000);
   } else {
     window.open(CAL_ICS_URL, '_blank');
+  }
+}
+
+/* ════════════════════════════════════════════
+   VOTO MVP DEL PUBBLICO (parallelo al fantasy)
+════════════════════════════════════════════ */
+let mvpSelected = null;
+
+function renderMVP() {
+  const cont = document.getElementById('mvpContent');
+  const lblMatch = document.getElementById('mvpVoteMatch');
+  if (lblMatch) lblMatch.textContent = (mvpMatch && mvpMatch.titolo) ? mvpMatch.titolo : '—';
+
+  renderMVPStagione(); // albo stagionale (persistente)
+
+  if (!mvpMatch || !mvpMatch.attivo) {
+    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">🔒</div>Il voto per l\'MVP non è attivo al momento.<br>Torna dopo la prossima partita!</div>';
+    // mostra comunque i risultati se disponibili
+    mostraRisultatiMVP(null, true);
+    return;
+  }
+
+  mvpSelected = null;
+  const pre = currentUser || {};
+  const cards = players.map(p => {
+    const foto = p.photo
+      ? `<img class="mvp-pick-photo" src="${p.photo}" alt="${p.name}" loading="lazy" onerror="this.classList.add('mvp-pick-ph');this.removeAttribute('src')">`
+      : `<div class="mvp-pick-ph">${p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</div>`;
+    return `<button type="button" class="mvp-pick" data-id="${p.id}" onclick="selezionaMVP(${p.id})">
+      ${foto}
+      <div class="mvp-pick-info">
+        <div class="mvp-pick-name">${p.name}</div>
+        <div class="mvp-pick-role">${p.role||''}</div>
+      </div>
+      <div class="mvp-pick-check">✓</div>
+    </button>`;
+  }).join('');
+
+  cont.innerHTML = `
+    <p class="mvp-intro">Scegli il <b>miglior giocatore</b> della partita. Un solo voto per email. È un premio del pubblico, <b>non incide</b> sul punteggio del fantasy game.</p>
+    <div class="mvp-reg">
+      <input type="text" id="mvpNome" placeholder="Nome" value="${pre.nome||''}">
+      <input type="text" id="mvpCognome" placeholder="Cognome" value="${pre.cognome||''}">
+    </div>
+    <input type="email" id="mvpEmail" class="mvp-email-input" placeholder="latua@email.it" value="${pre.email||''}">
+    <div class="mvp-grid">${cards}</div>
+    <button class="mvp-submit" id="mvpSubmitBtn" onclick="submitMVP()" disabled>Conferma il tuo MVP</button>`;
+}
+
+function selezionaMVP(id) {
+  mvpSelected = id;
+  document.querySelectorAll('#mvpContent .mvp-pick').forEach(el => {
+    el.classList.toggle('sel', String(el.dataset.id) === String(id));
+  });
+  const btn = document.getElementById('mvpSubmitBtn');
+  if (btn) btn.disabled = false;
+  suonoTap(false); vibra(12);
+}
+
+function submitMVP() {
+  const nome    = (document.getElementById('mvpNome').value || '').trim();
+  const cognome = (document.getElementById('mvpCognome').value || '').trim();
+  const email   = (document.getElementById('mvpEmail').value || '').trim().toLowerCase();
+  if (!nome || !cognome) { alert('Inserisci nome e cognome.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Inserisci un indirizzo email valido.'); return; }
+  if (!mvpSelected) { alert('Seleziona un giocatore.'); return; }
+
+  const gioc = players.find(p => String(p.id) === String(mvpSelected));
+  const btn = document.getElementById('mvpSubmitBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Invio...'; }
+
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      tipo: 'mvp',
+      matchId: mvpMatch.id,
+      matchName: mvpMatch.titolo,
+      nome, cognome, email,
+      giocatore: gioc ? gioc.name : '',
+      giocatoreId: mvpSelected
+    })
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (res && res.giaVotato) {
+      lanciaConfetti(); // niente, ma feedback
+      mostraRisultatiMVP('__giaVotato__');
+    } else {
+      suonoConferma(); vibra([25,40,25,40,60]); lanciaConfetti();
+      mostraRisultatiMVP(gioc ? gioc.name : '');
+    }
+  })
+  .catch(() => {
+    // risposta non leggibile: assumo inviato e mostro i risultati
+    suonoConferma(); vibra([25,40,25,40,60]); lanciaConfetti();
+    mostraRisultatiMVP(gioc ? gioc.name : '');
+  });
+}
+
+// mostra i risultati live del voto MVP (dal foglio "MVP" pubblicato)
+async function mostraRisultatiMVP(votedName, soloRisultati) {
+  const cont = document.getElementById('mvpContent');
+  let intro = '';
+  if (!soloRisultati) {
+    if (votedName === '__giaVotato__') intro = `<div class="mvp-res-thanks">Hai <b>già votato</b> l'MVP per questa partita. Ecco come sta andando 👇</div>`;
+    else if (votedName) intro = `<div class="mvp-res-thanks">Grazie! Hai votato <b>${votedName}</b> come MVP. Ecco i risultati live 👇</div>`;
+  }
+
+  if (!CSV_MVP) {
+    cont.innerHTML = (intro || '') + '<div class="val-empty" style="padding:20px 10px"><div class="val-empty-icon">📊</div>I risultati live compariranno qui una volta pubblicato il foglio "MVP".</div>';
+    return;
+  }
+
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_MVP))).text()).slice(1);
+    // colonne: 0 Timestamp,1 Nome,2 Cognome,3 Email,4 Giocatore,5 ID Giocatore,6 ID Partita,7 Partita
+    const conteggi = {}; let totale = 0;
+    rows.forEach(r => {
+      if (String(r[6]).trim() !== String(mvpMatch.id).trim()) return; // solo la partita corrente
+      const pid = String(r[5]).trim();
+      if (!pid) return;
+      conteggi[pid] = (conteggi[pid] || 0) + 1; totale++;
+    });
+    if (totale === 0) {
+      cont.innerHTML = (intro || '') + '<div class="val-empty" style="padding:20px 10px"><div class="val-empty-icon">🏆</div>Ancora nessun voto per questa partita. Sii il primo!</div>';
+      return;
+    }
+    const ordinati = players
+      .map(p => ({ p, n: conteggi[String(p.id)] || 0 }))
+      .filter(x => x.n > 0)
+      .sort((a,b) => b.n - a.n);
+    const max = ordinati[0].n;
+    let html = intro || '';
+    ordinati.forEach((x, i) => {
+      const pct = Math.round((x.n / totale) * 100);
+      const w = Math.round((x.n / max) * 100);
+      const foto = x.p.photo
+        ? `<img class="mvp-res-photo" src="${x.p.photo}" alt="${x.p.name}" onerror="this.classList.add('mvp-res-ph');this.removeAttribute('src')">`
+        : `<div class="mvp-res-ph">${x.p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</div>`;
+      html += `<div class="mvp-res-row ${i===0?'leader':''}">
+        ${foto}
+        <div class="mvp-res-body">
+          <div class="mvp-res-top">
+            <span class="mvp-res-name">${x.p.name}${i===0?'<span class="mvp-crown">👑</span>':''}</span>
+            <span class="mvp-res-val">${x.n} (${pct}%)</span>
+          </div>
+          <div class="mvp-res-bar"><span style="width:0%" data-w="${w}"></span></div>
+        </div>
+      </div>`;
+    });
+    html += `<div class="mvp-res-count">${totale} ${totale===1?'voto totale':'voti totali'} · aggiornato in tempo reale</div>`;
+    cont.innerHTML = html;
+    // anima le barre
+    requestAnimationFrame(() => {
+      cont.querySelectorAll('.mvp-res-bar span').forEach(s => { s.style.width = (s.dataset.w||0) + '%'; });
+    });
+  } catch (e) {
+    cont.innerHTML = (intro || '') + '<div class="val-empty" style="padding:20px 10px">Impossibile caricare i risultati. Riprova più tardi.</div>';
+  }
+}
+
+// albo stagionale: giocatori per titoli MVP vinti + voti totali ricevuti
+async function renderMVPStagione() {
+  const cont = document.getElementById('mvpSeasonContent');
+  if (!cont) return;
+  if (!CSV_MVP) {
+    cont.innerHTML = '<div class="val-empty" style="padding:18px 10px"><div class="val-empty-icon">🏅</div>L\'albo comparirà qui una volta pubblicato il foglio "MVP".</div>';
+    return;
+  }
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_MVP))).text()).slice(1);
+    // colonne: 5 ID Giocatore, 6 ID Partita
+    const perPartita = {}; // matchId -> { playerId: conteggio }
+    const votiTot = {};    // playerId -> voti totali stagione
+    rows.forEach(r => {
+      const pid = String(r[5]).trim();
+      const mid = String(r[6]).trim();
+      if (!pid || !mid) return;
+      (perPartita[mid] = perPartita[mid] || {})[pid] = (perPartita[mid][pid] || 0) + 1;
+      votiTot[pid] = (votiTot[pid] || 0) + 1;
+    });
+    // titoli: vincitore (o vincitori, in caso di parità) di ogni partita
+    const titoli = {};
+    let nPartite = 0;
+    Object.values(perPartita).forEach(counts => {
+      const vals = Object.values(counts);
+      if (!vals.length) return;
+      nPartite++;
+      const max = Math.max(...vals);
+      Object.entries(counts).forEach(([pid, c]) => { if (c === max) titoli[pid] = (titoli[pid] || 0) + 1; });
+    });
+
+    const classifica = players
+      .map(p => ({ p, titoli: titoli[String(p.id)] || 0, voti: votiTot[String(p.id)] || 0 }))
+      .filter(x => x.voti > 0)
+      .sort((a,b) => b.titoli - a.titoli || b.voti - a.voti);
+
+    if (classifica.length === 0) {
+      cont.innerHTML = '<div class="val-empty" style="padding:18px 10px"><div class="val-empty-icon">🏅</div>Ancora nessun voto MVP registrato in stagione.</div>';
+      return;
+    }
+
+    let html = '';
+    classifica.forEach((x, i) => {
+      const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+      const foto = x.p.photo
+        ? `<img class="mvp-res-photo" src="${x.p.photo}" alt="${x.p.name}" onerror="this.classList.add('mvp-res-ph');this.removeAttribute('src')">`
+        : `<div class="mvp-res-ph">${x.p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</div>`;
+      html += `<div class="mvpseas-row ${i===0?'leader':''}">
+        <div class="mvpseas-pos">${medal}</div>
+        ${foto}
+        <div class="mvpseas-name">${x.p.name}${i===0&&x.titoli>0?'<span class="mvp-crown">👑</span>':''}<div class="mvpseas-role">${x.p.role||''}</div></div>
+        <div class="mvpseas-stats">
+          <div class="mvpseas-titoli">🏆 <b>${x.titoli}</b></div>
+          <div class="mvpseas-voti">${x.voti} ${x.voti===1?'voto':'voti'}</div>
+        </div>
+      </div>`;
+    });
+    html += `<div class="mvp-res-count">${nPartite} ${nPartite===1?'partita':'partite'} con voti MVP in stagione</div>`;
+    cont.innerHTML = html;
+    animaNumeri(cont);
+  } catch (e) {
+    cont.innerHTML = '<div class="val-empty" style="padding:18px 10px">Impossibile caricare l\'albo. Riprova più tardi.</div>';
   }
 }
 
@@ -1331,6 +1638,8 @@ const CSV_CLASSIFICA = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmf
 // pubblica il foglio "Punteggi" (File → Condividi → Pubblica sul web → foglio "Punteggi" come CSV)
 // e incolla qui sotto l'URL. Se lasciato vuoto, la classifica mostra solo il totale.
 const CSV_PUNTEGGI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=595880493&single=true&output=csv';
+// Voti MVP del pubblico: pubblica il foglio "MVP" come CSV e incolla qui l'URL (per mostrare i risultati live).
+const CSV_MVP = '';
 
 // parser CSV semplice (gestisce campi tra virgolette)
 function parseCSV(text) {
