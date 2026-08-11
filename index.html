@@ -690,7 +690,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="brand-icon">🏀</div>
       <div class="brand-name">Fanta<span>Libertas</span></div>
     </div>
-    <div class="match-title" id="matchTitle">Libertas Livorno vs Cividale</div>
+    <div class="match-title" id="matchTitle">Libertas Livorno vs Pistoia Basket</div>
     <div class="match-teams" id="matchTeams"></div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
@@ -1052,7 +1052,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-07-23T14:00');
+let kickoffDate = new Date('2026-08-11T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1065,7 +1065,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas.png" },
-  trasferta: { nome: "Cividale",         logo: "cividale.png" }
+  trasferta: { nome: "Cividale",         logo: "pistoia.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1076,7 +1076,7 @@ let matchTeams = {
 ──────────────────────────────────────────────────────────────── */
 let mvpMatch = {
   id:     "20260722",                          // ID univoco della partita PRECEDENTE (consiglio: la sua data in formato AAAAMMGG). NON cambiarlo a voto aperto.
-  titolo: "Libertas Livorno vs Cividale",      // TITOLO della partita PRECEDENTE (quella già giocata)
+  titolo: "Libertas Livorno vs Gema Montecatini",      // TITOLO della partita PRECEDENTE (quella già giocata)
   attivo: true                                 // metti false per chiudere il voto MVP
 };
 
