@@ -69,6 +69,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 /* cards generiche */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:1.3rem;margin-bottom:1rem}
 .section-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+/* landing: intestazione registrazione d'impatto */
+.reg-card{position:relative;overflow:hidden}
+.reg-hero{text-align:center;margin:2px 0 20px;animation:regHeroIn .7s cubic-bezier(.2,.8,.2,1) both}
+.reg-hero-badge{display:inline-block;font-family:var(--font-d);font-size:10.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--orange2);background:rgba(174,16,64,0.14);border:1px solid rgba(174,16,64,0.3);border-radius:20px;padding:5px 14px;margin-bottom:14px}
+.reg-hero-title{font-family:var(--font-hero,'Anton');font-size:42px;line-height:1.02;letter-spacing:1px;text-transform:uppercase;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,0.4)}
+.reg-hero-title span{background:linear-gradient(120deg,#E8567E 0%,#FF9FB8 50%,#E8567E 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(232,86,126,0.45))}
+.reg-hero-sub{font-family:var(--font-b);font-size:13.5px;line-height:1.5;color:var(--muted);max-width:420px;margin:12px auto 0}
+.reg-datalabel{padding-top:16px;border-top:1px solid var(--line)}
+@keyframes regHeroIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* CTA landing con leggero pulsare per attirare l'attenzione */
+.btn-hero{animation:heroPulse 2.6s ease-in-out infinite}
+@keyframes heroPulse{0%,100%{box-shadow:0 6px 20px rgba(139,13,47,0.4)}50%{box-shadow:0 6px 30px rgba(232,86,126,0.55)}}
+@media(max-width:520px){.reg-hero-title{font-size:34px}}
 
 /* form elementi */
 .form-row{margin-bottom:12px}
@@ -138,6 +151,11 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 
 /* admin */
 .admin-toggle-row{text-align:center;margin-top:1.5rem}
+/* pulsante Associati (Instagram Associazione Tifosi) — minimale, coordinato */
+.associati-row{text-align:center;margin:1.5rem auto 0;padding:0 12px}
+.associati-btn{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:8px 18px;color:var(--muted);text-decoration:none;font-family:var(--font-b);font-size:12px;letter-spacing:.2px;transition:all .2s}
+.associati-btn:hover{border-color:rgba(174,16,64,0.45);color:var(--text)}
+.associati-btn svg{width:15px;height:15px;fill:currentColor;flex:0 0 auto;opacity:.9}
 .site-footer{text-align:center;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--line)}
 .site-footer-pre{font-family:var(--font-b);font-size:8px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(192,154,170,0.35);margin-bottom:2px}
 .site-footer-main{font-family:var(--font-d);font-size:9px;font-weight:500;letter-spacing:1.3px;text-transform:uppercase;color:rgba(192,154,170,0.42)}
@@ -176,7 +194,7 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 /* classifica */
 .rank-table{width:100%;border-collapse:collapse;font-size:13px}
 .rank-table th{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
-.rank-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.rank-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
 .rank-table tr:last-child td{border-bottom:none}
 .rank-table tr:hover td{background:rgba(255,255,255,0.03)}
 .rank-pos{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--muted);width:32px}
@@ -188,6 +206,20 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .rank-sub-num.pos{color:#5fd88a}
 .rank-sub-num.neg{color:#e88}
 .rank-legend{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center;line-height:1.5}
+/* classifica ottimizzata per smartphone: compatta, allineata, leggibile */
+@media(max-width:520px){
+  .rank-table{font-size:12px}
+  .rank-table th{padding:7px 4px;font-size:8.5px;letter-spacing:0}
+  .rank-table td{padding:8px 4px}
+  .rank-table th:first-child,.rank-table td:first-child{padding-left:4px}
+  .rank-pos{font-size:18px;width:24px;text-align:center}
+  .rank-score{font-size:19px}
+  .rank-sub-num{font-size:13px}
+  .rank-table td .rank-nm{font-size:12.5px;line-height:1.15}
+  .rank-table td .rank-em{font-size:9.5px}
+  .rank-table th.sortable{text-align:right}
+  .rank-sort-caret{margin-left:1px}
+}
 .cal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .cal-dl-btn{background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:20px;padding:8px 16px;font-family:var(--font-d);font-size:12px;font-weight:600;letter-spacing:.5px;color:#fff;cursor:pointer;box-shadow:0 4px 14px rgba(139,13,47,0.35);transition:transform .2s}
 .cal-dl-btn:hover{transform:translateY(-1px)}
@@ -658,7 +690,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="brand-icon">🏀</div>
       <div class="brand-name">Fanta<span>Libertas</span></div>
     </div>
-    <div class="match-title" id="matchTitle">Libertas Livorno vs Pistoia Basket</div>
+    <div class="match-title" id="matchTitle">Libertas Livorno vs Cividale</div>
     <div class="match-teams" id="matchTeams"></div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
@@ -691,8 +723,12 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
     <!-- step 1: registrazione -->
     <div id="stepReg">
-      <div class="card">
-        <div class="section-label">I tuoi dati</div>
+      <div class="card reg-card">
+        <div class="reg-hero">
+          <div class="reg-hero-title">Schiera i tuoi <span>campioni</span></div>
+          <p class="reg-hero-sub">Crea la tua formazione, pronostica i vincitori delle 3 partite di Serie A2 e scala la classifica sfidando gli altri tifosi Amaranto!</p>
+        </div>
+        <div class="section-label reg-datalabel">I tuoi dati</div>
         <div class="form-row form-row-2">
           <div>
             <label class="form-label">Nome *</label>
@@ -711,13 +747,13 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
           <div class="form-error" id="errEmail">Inserisci un'email valida</div>
         </div>
         <div class="form-row">
-          <label class="form-label">Sei associato? *</label>
+          <label class="form-label">Sei Associato/a? *</label>
           <div class="radio-group">
-            <div class="radio-btn active" id="rbSi" onclick="setAssoc('si')">✅ Associato</div>
-            <div class="radio-btn" id="rbNo" onclick="setAssoc('no')">👤 Non associato</div>
+            <div class="radio-btn active" id="rbSi" onclick="setAssoc('si')">✅ Associato/a</div>
+            <div class="radio-btn" id="rbNo" onclick="setAssoc('no')">👤 Non associato/a</div>
           </div>
         </div>
-        <button class="btn" style="margin-top:.5rem" onclick="submitReg()">Continua →</button>
+        <button class="btn btn-hero" style="margin-top:.7rem" onclick="submitReg()">🏀 Partecipa al FantaLibertas!</button>
       </div>
     </div>
 
@@ -849,6 +885,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
   <!-- powered by -->
   <div class="powered-by"><span class="pb-pre">Powered by</span><img class="pb-logo" src="logo-libertas.png" alt="Associazione Tifosi Libertas" onerror="this.outerHTML='<span class=&quot;pb-fallback&quot;>Associazione Tifosi Libertas</span>'"></div>
+
+  <!-- associati: pagina Instagram dell'Associazione Tifosi -->
+  <div class="associati-row">
+    <a class="associati-btn" href="https://www.instagram.com/p/Db5Fgx3jLfA/?igsh=cHRvZXo5dnYwc2hl" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.19.41-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.42-.36 1.04-.41 2.19-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.05 1.15.25 1.77.41 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.16 1.04.36 2.19.41 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.25 2.19-.41.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.42.36-1.04.41-2.19.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.25-1.77-.41-2.19a3.6 3.6 0 00-.88-1.35 3.6 3.6 0 00-1.35-.88c-.42-.16-1.04-.36-2.19-.41-1.24-.06-1.61-.07-4.75-.07zM12 6.87A5.13 5.13 0 106.87 12 5.13 5.13 0 0012 6.87zm0 8.46A3.33 3.33 0 1115.33 12 3.33 3.33 0 0112 15.33zm6.54-8.66a1.2 1.2 0 11-1.2-1.2 1.2 1.2 0 011.2 1.2z"/></svg>
+      <span>Scopri il mondo Associazione Tifosi su Instagram</span>
+    </a>
+  </div>
 
   <!-- admin toggle -->
   <div class="admin-toggle-row">
@@ -1008,7 +1052,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-10T23:00');
+let kickoffDate = new Date('2026-07-23T14:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1020,8 +1064,8 @@ let votingClosed = false;
    Se un logo manca, compare un cerchio con le iniziali della squadra.
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
-  casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Pistoia Basket",         logo: "pistoia.png" }
+  casa:      { nome: "Libertas Livorno", logo: "libertas.png" },
+  trasferta: { nome: "Cividale",         logo: "cividale.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1032,7 +1076,7 @@ let matchTeams = {
 ──────────────────────────────────────────────────────────────── */
 let mvpMatch = {
   id:     "20260722",                          // ID univoco della partita PRECEDENTE (consiglio: la sua data in formato AAAAMMGG). NON cambiarlo a voto aperto.
-  titolo: "Libertas Livorno vs Gema Montecatini",      // TITOLO della partita PRECEDENTE (quella già giocata)
+  titolo: "Libertas Livorno vs Cividale",      // TITOLO della partita PRECEDENTE (quella già giocata)
   attivo: true                                 // metti false per chiudere il voto MVP
 };
 
@@ -1631,7 +1675,7 @@ function renderPronostici() {
 /* ════════════════════════════════════════════
    SUBMIT VOTO
 ════════════════════════════════════════════ */
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwc5oyAc54glrPkf2Y7RrNkEhb-_4HziCcWF7ykBT2rB4DcQWghzQDUfuiXQNYZa1-Y/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxu9ydxcVrPr23q50icmhoeDpF7413OxBtVR5fpPpBO5YcDosdvTZEpvObEN4cyyUm1/exec';
 const CSV_VOTI       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1798318624&single=true&output=csv';
 const CSV_CLASSIFICA = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1187424992&single=true&output=csv';
 // Per mostrare in classifica il dettaglio "punti giocatori / bonus pronostici":
@@ -1639,7 +1683,7 @@ const CSV_CLASSIFICA = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmf
 // e incolla qui sotto l'URL. Se lasciato vuoto, la classifica mostra solo il totale.
 const CSV_PUNTEGGI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=595880493&single=true&output=csv';
 // Voti MVP del pubblico: pubblica il foglio "MVP" come CSV e incolla qui l'URL (per mostrare i risultati live).
-const CSV_MVP = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=649819874&single=true&output=csv';
+const CSV_MVP = '';
 
 // parser CSV semplice (gestisce campi tra virgolette)
 function parseCSV(text) {
@@ -2779,7 +2823,7 @@ function drawRanking() {
     }
     html += `<tr data-name="${nameL}" data-email="${(e.email||'').toLowerCase().trim()}">
       <td class="rank-pos ${posClass}">${medal||i+1}</td>
-      <td><div style="font-weight:500">${e.nome} ${e.cognome}</div><div style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
+      <td><div class="rank-nm" style="font-weight:500">${e.nome} ${e.cognome}</div><div class="rank-em" style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
       ${mid}
       <td class="rank-score"><span class="animate-num" data-target="${parseFloat(e.totale)||0}" data-dec="1">0.0</span></td>
     </tr>`;
