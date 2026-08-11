@@ -44,6 +44,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .brand-name{font-family:var(--font-d);font-size:22px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
 .brand-name span{color:var(--orange2)}
 .match-title{font-family:var(--font-d);font-size:42px;font-weight:800;letter-spacing:1px;text-transform:uppercase;line-height:1.02;margin-bottom:1.1rem;background:linear-gradient(180deg,#FFFFFF 0%,#F5D9E1 60%,#E8A9BB 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 2px 20px rgba(139,13,47,0.25);position:relative}
+.match-title .mt-part{display:block;white-space:nowrap;background:linear-gradient(180deg,#FFFFFF 0%,#F5D9E1 60%,#E8A9BB 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.04}
+.match-title .mt-vs{display:block;font-size:.4em;font-weight:600;letter-spacing:4px;color:var(--orange2);-webkit-text-fill-color:currentColor;background:none;margin:.14em 0;opacity:.85}
+/* intestazione: loghi ai lati del titolo, proporzionati ed eleganti */
+.match-hero{display:flex;align-items:center;justify-content:center;gap:clamp(8px,3vw,26px);margin-bottom:1.15rem}
+.match-hero .match-title{margin-bottom:0;flex:0 1 auto;font-size:clamp(23px,5.6vw,40px)}
+.mh-side{flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.mh-logo{width:clamp(50px,14vw,92px);height:auto;object-fit:contain;filter:drop-shadow(0 6px 22px rgba(139,13,47,0.5));animation:mhLogoIn .7s cubic-bezier(.2,.8,.2,1) both}
+.mh-side:last-child .mh-logo{animation-delay:.1s}
+.mh-ph{width:clamp(50px,14vw,92px);aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--court2,#2D0014),rgba(139,13,47,0.22));font-family:var(--font-num);font-weight:700;font-size:clamp(18px,5vw,30px);color:rgba(255,255,255,0.45);filter:drop-shadow(0 6px 18px rgba(0,0,0,0.4))}
+@keyframes mhLogoIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@media(max-width:520px){.match-hero{gap:8px}}
 .match-title::after{content:'';display:block;width:64px;height:3px;margin:0.7rem auto 0;background:linear-gradient(90deg,transparent,var(--orange2),transparent);border-radius:2px}
 .match-meta{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
 /* loghi squadre sotto il titolo */
@@ -690,11 +701,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="brand-icon">🏀</div>
       <div class="brand-name">Fanta<span>Libertas</span></div>
     </div>
-    <div class="match-title" id="matchTitle">Libertas Livorno vs Pistoia Basket</div>
-    <div class="match-teams" id="matchTeams"></div>
+    <div class="match-hero">
+      <div class="mh-side" id="mhHome"></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Pistoia Basket</span></div>
+      <div class="mh-side" id="mhAway"></div>
+    </div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
-        <div class="dl-label" data-def="⏳ Scadenza per partecipare">⏳ Scadenza per partecipare</div>
+        <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
           <span class="dl-date"><span id="matchDateLabel">Dom 28 Sett 18:00</span></span>
           <span class="dl-sep"></span>
@@ -2213,9 +2227,28 @@ function addPlayer() {
   buildAdminGrid();
 }
 
+// imposta il titolo su 3 righe (casa / vs / ospite) mantenendo textContent = "Casa vs Ospite"
+function setMatchTitle(str) {
+  const el = document.getElementById('matchTitle');
+  if (!el) return;
+  const s = (str || '').trim();
+  const parts = s.split(/\s+vs\s+/i);
+  el.textContent = '';
+  if (parts.length === 2) {
+    const a = document.createElement('span'); a.className = 'mt-part'; a.textContent = parts[0].trim();
+    const v = document.createElement('span'); v.className = 'mt-vs';   v.textContent = 'vs';
+    const b = document.createElement('span'); b.className = 'mt-part'; b.textContent = parts[1].trim();
+    el.appendChild(a); el.appendChild(document.createTextNode(' '));
+    el.appendChild(v); el.appendChild(document.createTextNode(' '));
+    el.appendChild(b);
+  } else {
+    el.textContent = s; // nessun "vs": una riga sola
+  }
+}
+
 function applyAdmin() {
   const mn = document.getElementById('adminMatchName').value.trim();
-  if (mn) document.getElementById('matchTitle').textContent = mn;
+  if (mn) setMatchTitle(mn);
 
   const ko = document.getElementById('adminKickoff').value;
   if (ko) {
@@ -3360,17 +3393,18 @@ renderMatchTeams();
 
 // mostra i due loghi delle squadre della partita (sotto il titolo)
 function renderMatchTeams() {
-  const box = document.getElementById('matchTeams');
-  if (!box || !matchTeams) return;
-  const team = t => {
+  if (!matchTeams) return;
+  const teamLogo = t => {
     if (!t || !t.nome) return '';
     const initials = t.nome.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,3);
-    const logo = t.logo
-      ? `<img class="mt-logo" src="${t.logo}" alt="${t.nome}" loading="lazy" onerror="this.outerHTML='<span class=\\'mt-ph\\'>${initials}</span>'">`
-      : `<span class="mt-ph">${initials}</span>`;
-    return `<div class="mt-team">${logo}</div>`;
+    return t.logo
+      ? `<img class="mh-logo" src="${t.logo}" alt="${t.nome}" loading="lazy" onerror="this.outerHTML='<span class=&quot;mh-ph&quot;>${initials}</span>'">`
+      : `<span class="mh-ph">${initials}</span>`;
   };
-  box.innerHTML = `${team(matchTeams.casa)}<span class="mt-vs">VS</span>${team(matchTeams.trasferta)}`;
+  const home = document.getElementById('mhHome');
+  const away = document.getElementById('mhAway');
+  if (home) home.innerHTML = teamLogo(matchTeams.casa);
+  if (away) away.innerHTML = teamLogo(matchTeams.trasferta);
 }
 
 /* contatore partecipanti: legge i voti dal CSV e conta le email uniche della partita */
