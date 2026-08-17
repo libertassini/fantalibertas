@@ -794,7 +794,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="section-label">La tua selezione</div>
       <div class="slots-row" id="slotsRow"></div>
 
-      <div class="section-label" id="pronosticiLabel" style="display:none">Pronostici della giornata · +10 / −10 punti</div>
+      <div class="section-label" id="pronosticiLabel" style="display:none">Pronostici della giornata · +5 / −5 punti</div>
       <div id="pronosticiBox"></div>
 
       <div class="card">
@@ -1074,7 +1074,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-17T23:30');
+let kickoffDate = new Date('2026-08-11T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1109,9 +1109,9 @@ let mvpMatch = {
    Ogni pronostico indovinato: +10 punti · sbagliato: -10 punti.
 ──────────────────────────────────────────────────────────────── */
 let pronostici = [
-  { id:"p1", casa:"Juvi Cremona",       casaLogo:"cremona.png",  trasferta:"Valtur Brindisi", trasfertaLogo:"brindisi.png" },
-  { id:"p2", casa:"Sella Cento",       casaLogo:"cento.png",  trasferta:"VL Pesaro", trasfertaLogo:"pesro.png" },
-  { id:"p3", casa:"Reale Mutua Torino", casaLogo:"torino.png",   trasferta:"Gemini Mestre",  trasfertaLogo:"mestre.png" },
+  { id:"p1", casa:"Dole Rimini",       casaLogo:"rimini.png",  trasferta:"Urania Milano", trasfertaLogo:"milano.png" },
+  { id:"p2", casa:"Valtur Brindisi",       casaLogo:"brindisi.png",  trasferta:"Fortitudo Bologna", trasfertaLogo:"bologna.png" },
+  { id:"p3", casa:"Dinamo Sassari", casaLogo:"sassari.png",   trasferta:"VL Pesaro",  trasfertaLogo:"pesaro.png" },
 ];
 let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 
@@ -2431,7 +2431,7 @@ async function salvaValutazioni() {
     pronostici.forEach((p, idx) => {
       const pick = picks[idx];
       const win  = pronVincenti[p.id];
-      if (pick && win) bonus += (pick === win) ? 10 : -10;
+      if (pick && win) bonus += (pick === win) ? 5 : -5;
     });
 
     const puntiPartita = parseFloat((base + bonus).toFixed(1));
@@ -2870,7 +2870,7 @@ function drawRanking() {
     </tr>`;
   });
   html += '</tbody></table>';
-  if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+10 / −10) · tocca le icone per ordinare</p>`;
+  if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+5 / −5) · tocca le icone per ordinare</p>`;
   cont.innerHTML = html;
   animaNumeri(cont);
   filtraClassifica(); // riapplica l'eventuale evidenziazione della ricerca
@@ -3182,7 +3182,7 @@ async function cercaStorico() {
           if (vinc) {
             nValut++;
             const ok = scelta === vinc;
-            if (ok) { bonus += 10; nGiusti++; } else { bonus -= 10; }
+            if (ok) { bonus += 5; nGiusti++; } else { bonus -= 5; }
             return `<span class="st-pron-chip ${ok ? 'ok' : 'ko'}">${ok ? '✓' : '✗'} ${scelta}</span>`;
           }
           return `<span class="st-pron-chip">${scelta}</span>`;
