@@ -44,6 +44,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .brand-name{font-family:var(--font-d);font-size:22px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
 .brand-name span{color:var(--orange2)}
 .match-title{font-family:var(--font-d);font-size:42px;font-weight:800;letter-spacing:1px;text-transform:uppercase;line-height:1.02;margin-bottom:1.1rem;background:linear-gradient(180deg,#FFFFFF 0%,#F5D9E1 60%,#E8A9BB 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 2px 20px rgba(139,13,47,0.25);position:relative}
+.match-title .mt-part{display:block;white-space:nowrap;background:linear-gradient(180deg,#FFFFFF 0%,#F5D9E1 60%,#E8A9BB 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.04}
+.match-title .mt-vs{display:block;font-size:.4em;font-weight:600;letter-spacing:4px;color:var(--orange2);-webkit-text-fill-color:currentColor;background:none;margin:.14em 0;opacity:.85}
+/* intestazione: loghi ai lati del titolo, proporzionati ed eleganti */
+.match-hero{display:flex;align-items:center;justify-content:center;gap:clamp(8px,3vw,26px);margin-bottom:1.15rem}
+.match-hero .match-title{margin-bottom:0;flex:0 1 auto;font-size:clamp(23px,5.6vw,40px)}
+.mh-side{flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.mh-logo{width:clamp(50px,14vw,92px);height:auto;object-fit:contain;filter:drop-shadow(0 6px 22px rgba(139,13,47,0.5));animation:mhLogoIn .7s cubic-bezier(.2,.8,.2,1) both}
+.mh-side:last-child .mh-logo{animation-delay:.1s}
+.mh-ph{width:clamp(50px,14vw,92px);aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--court2,#2D0014),rgba(139,13,47,0.22));font-family:var(--font-num);font-weight:700;font-size:clamp(18px,5vw,30px);color:rgba(255,255,255,0.45);filter:drop-shadow(0 6px 18px rgba(0,0,0,0.4))}
+@keyframes mhLogoIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@media(max-width:520px){.match-hero{gap:8px}}
 .match-title::after{content:'';display:block;width:64px;height:3px;margin:0.7rem auto 0;background:linear-gradient(90deg,transparent,var(--orange2),transparent);border-radius:2px}
 .match-meta{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
 /* loghi squadre sotto il titolo */
@@ -69,6 +80,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 /* cards generiche */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:1.3rem;margin-bottom:1rem}
 .section-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+/* landing: intestazione registrazione d'impatto */
+.reg-card{position:relative;overflow:hidden}
+.reg-hero{text-align:center;margin:2px 0 20px;animation:regHeroIn .7s cubic-bezier(.2,.8,.2,1) both}
+.reg-hero-badge{display:inline-block;font-family:var(--font-d);font-size:10.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--orange2);background:rgba(174,16,64,0.14);border:1px solid rgba(174,16,64,0.3);border-radius:20px;padding:5px 14px;margin-bottom:14px}
+.reg-hero-title{font-family:var(--font-hero,'Anton');font-size:42px;line-height:1.02;letter-spacing:1px;text-transform:uppercase;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,0.4)}
+.reg-hero-title span{background:linear-gradient(120deg,#E8567E 0%,#FF9FB8 50%,#E8567E 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(232,86,126,0.45))}
+.reg-hero-sub{font-family:var(--font-b);font-size:13.5px;line-height:1.5;color:var(--muted);max-width:420px;margin:12px auto 0}
+.reg-datalabel{padding-top:16px;border-top:1px solid var(--line)}
+@keyframes regHeroIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* CTA landing con leggero pulsare per attirare l'attenzione */
+.btn-hero{animation:heroPulse 2.6s ease-in-out infinite}
+@keyframes heroPulse{0%,100%{box-shadow:0 6px 20px rgba(139,13,47,0.4)}50%{box-shadow:0 6px 30px rgba(232,86,126,0.55)}}
+@media(max-width:520px){.reg-hero-title{font-size:34px}}
 
 /* form elementi */
 .form-row{margin-bottom:12px}
@@ -138,6 +162,11 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 
 /* admin */
 .admin-toggle-row{text-align:center;margin-top:1.5rem}
+/* pulsante Associati (Instagram Associazione Tifosi) — minimale, coordinato */
+.associati-row{text-align:center;margin:1.5rem auto 0;padding:0 12px}
+.associati-btn{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:8px 18px;color:var(--muted);text-decoration:none;font-family:var(--font-b);font-size:12px;letter-spacing:.2px;transition:all .2s}
+.associati-btn:hover{border-color:rgba(174,16,64,0.45);color:var(--text)}
+.associati-btn svg{width:15px;height:15px;fill:currentColor;flex:0 0 auto;opacity:.9}
 .site-footer{text-align:center;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--line)}
 .site-footer-pre{font-family:var(--font-b);font-size:8px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(192,154,170,0.35);margin-bottom:2px}
 .site-footer-main{font-family:var(--font-d);font-size:9px;font-weight:500;letter-spacing:1.3px;text-transform:uppercase;color:rgba(192,154,170,0.42)}
@@ -176,7 +205,7 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 /* classifica */
 .rank-table{width:100%;border-collapse:collapse;font-size:13px}
 .rank-table th{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
-.rank-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.rank-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
 .rank-table tr:last-child td{border-bottom:none}
 .rank-table tr:hover td{background:rgba(255,255,255,0.03)}
 .rank-pos{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--muted);width:32px}
@@ -188,6 +217,20 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .rank-sub-num.pos{color:#5fd88a}
 .rank-sub-num.neg{color:#e88}
 .rank-legend{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center;line-height:1.5}
+/* classifica ottimizzata per smartphone: compatta, allineata, leggibile */
+@media(max-width:520px){
+  .rank-table{font-size:12px}
+  .rank-table th{padding:7px 4px;font-size:8.5px;letter-spacing:0}
+  .rank-table td{padding:8px 4px}
+  .rank-table th:first-child,.rank-table td:first-child{padding-left:4px}
+  .rank-pos{font-size:18px;width:24px;text-align:center}
+  .rank-score{font-size:19px}
+  .rank-sub-num{font-size:13px}
+  .rank-table td .rank-nm{font-size:12.5px;line-height:1.15}
+  .rank-table td .rank-em{font-size:9.5px}
+  .rank-table th.sortable{text-align:right}
+  .rank-sort-caret{margin-left:1px}
+}
 .cal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .cal-dl-btn{background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:20px;padding:8px 16px;font-family:var(--font-d);font-size:12px;font-weight:600;letter-spacing:.5px;color:#fff;cursor:pointer;box-shadow:0 4px 14px rgba(139,13,47,0.35);transition:transform .2s}
 .cal-dl-btn:hover{transform:translateY(-1px)}
@@ -202,6 +245,55 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .cal-next-tag{display:inline-block;font-family:var(--font-d);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange2);margin-bottom:3px}
 .cal-iframe{width:100%;height:520px;border:none;border-radius:12px;background:#fff}
 .cal-note{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center}
+/* ===== voto MVP del pubblico ===== */
+.mvp-vote-head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.mvp-vote-trophy{font-size:34px;line-height:1}
+.mvp-vote-match{font-family:var(--font-d);font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;color:var(--text)}
+.mvp-reg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.mvp-reg input,.mvp-email-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:10px;padding:11px 13px;color:var(--text);font-family:var(--font-b);font-size:14px;outline:none}
+.mvp-email-input{margin-bottom:14px}
+.mvp-reg input:focus,.mvp-email-input:focus{border-color:rgba(174,16,64,0.6)}
+.mvp-intro{font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.5}
+.mvp-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.mvp-pick{position:relative;display:flex;align-items:center;gap:11px;background:rgba(255,255,255,0.04);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;transition:all .18s;text-align:left}
+.mvp-pick:hover{border-color:rgba(174,16,64,0.5);background:rgba(139,13,47,0.12)}
+.mvp-pick.sel{border-color:var(--orange2);background:linear-gradient(135deg,rgba(139,13,47,0.35),rgba(45,0,20,0.5));box-shadow:0 6px 20px rgba(139,13,47,0.3)}
+.mvp-pick-photo{width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:top center;flex:0 0 auto;background:#2D0014}
+.mvp-pick-ph{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:linear-gradient(160deg,#2D0014,#8B0D2F);font-family:var(--font-num);font-size:16px;font-weight:700;color:rgba(255,255,255,0.55)}
+.mvp-pick-info{min-width:0}
+.mvp-pick-name{font-family:var(--font-d);font-size:13.5px;font-weight:600;color:var(--text);line-height:1.15;text-transform:uppercase;letter-spacing:.2px}
+.mvp-pick-role{font-size:11px;color:var(--muted);margin-top:1px}
+.mvp-pick-check{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--orange2);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:bold}
+.mvp-pick.sel .mvp-pick-check{display:flex}
+.mvp-submit{width:100%;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:12px;padding:14px;font-family:var(--font-d);font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(139,13,47,0.4);transition:all .2s}
+.mvp-submit:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+/* risultati MVP */
+.mvp-res-thanks{text-align:center;background:linear-gradient(135deg,rgba(46,204,113,0.14),rgba(139,13,47,0.14));border:1px solid rgba(46,204,113,0.35);border-radius:12px;padding:14px;margin-bottom:16px;font-size:13.5px;color:#a7e8c4}
+.mvp-res-thanks b{color:#fff}
+.mvp-res-row{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.mvp-res-photo{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:top center;flex:0 0 auto;background:#2D0014}
+.mvp-res-ph{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:linear-gradient(160deg,#2D0014,#8B0D2F);font-family:var(--font-num);font-size:14px;font-weight:700;color:rgba(255,255,255,0.55)}
+.mvp-res-body{flex:1;min-width:0}
+.mvp-res-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.mvp-res-name{font-family:var(--font-d);font-size:13px;font-weight:600;text-transform:uppercase;color:var(--text)}
+.mvp-res-name .mvp-crown{margin-left:5px}
+.mvp-res-val{font-family:var(--font-num);font-size:14px;font-weight:700;color:var(--orange2)}
+.mvp-res-bar{height:9px;border-radius:5px;background:rgba(255,255,255,0.07);overflow:hidden}
+.mvp-res-bar span{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#8B0D2F,#E8567E);transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.mvp-res-row.leader .mvp-res-bar span{background:linear-gradient(90deg,#E8A44a,#FFD97A)}
+.mvp-res-row.leader .mvp-res-val{color:#FFD97A}
+.mvp-res-count{text-align:center;font-size:11.5px;color:rgba(192,154,170,0.7);margin-top:10px}
+/* albo MVP stagionale */
+.mvpseas-row{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin-bottom:8px}
+.mvpseas-row.leader{border-color:rgba(232,164,74,0.45);background:linear-gradient(135deg,rgba(232,164,74,0.14),rgba(139,13,47,0.12))}
+.mvpseas-pos{flex:0 0 auto;width:26px;text-align:center;font-family:var(--font-num);font-size:16px;font-weight:700;color:var(--muted)}
+.mvpseas-name{flex:1;min-width:0;font-family:var(--font-d);font-size:13.5px;font-weight:600;text-transform:uppercase;letter-spacing:.2px;color:var(--text)}
+.mvpseas-role{font-family:var(--font-b);font-size:11px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);margin-top:1px}
+.mvpseas-stats{flex:0 0 auto;text-align:right}
+.mvpseas-titoli{font-family:var(--font-num);font-size:17px;font-weight:700;color:#FFD97A;line-height:1}
+.mvpseas-titoli b{font-family:var(--font-num)}
+.mvpseas-voti{font-size:11px;color:var(--muted);margin-top:2px}
+.mvpseas-row.leader .mvpseas-pos{color:#FFD97A}
 /* ricerca classifica */
 .rank-search{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:12px}
 .rank-search svg{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
@@ -259,7 +351,8 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 /* tab nav */
 .tab-nav{display:flex;gap:6px;margin-bottom:1.2rem;background:rgba(255,255,255,0.03);padding:5px;border-radius:calc(var(--r) + 4px);border:1px solid var(--line)}
 .tab-btn{flex:1;padding:10px 4px;font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;background:transparent;border:none;border-radius:var(--r);cursor:pointer;color:var(--muted);transition:all .22s;white-space:nowrap}
-@media(max-width:520px){.tab-btn{font-size:11px;padding:9px 3px;letter-spacing:0}}
+@media(max-width:520px){.tab-btn{font-size:10px;padding:9px 2px;letter-spacing:0}}
+@media(max-width:380px){.tab-btn{font-size:9px}}
 .tab-btn:hover{color:var(--text)}
 .tab-btn.active{background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);color:#fff;box-shadow:0 3px 12px rgba(139,13,47,0.45)}
 
@@ -438,6 +531,12 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .deadline-box .dl-count{font-family:var(--font-num);font-size:30px;font-weight:700;letter-spacing:1px;color:var(--orange2);line-height:1;font-variant-numeric:tabular-nums}
 .deadline-box.closed{border-color:rgba(231,76,60,0.4);background:linear-gradient(160deg,rgba(231,76,60,0.18),rgba(45,0,20,0.5))}
 .deadline-box.closed .dl-count{color:var(--red);font-family:var(--font-d);font-size:20px;letter-spacing:1px}
+/* countdown LIVE: ultimi 15 minuti */
+.deadline-box.live{border-color:rgba(231,76,60,0.7);background:linear-gradient(160deg,rgba(231,76,60,0.25),rgba(139,13,47,0.5));animation:livePulse 1.1s ease-in-out infinite}
+.deadline-box.live .dl-label{color:#ff6b5e}
+.deadline-box.live .dl-count{color:#ff8a7e;font-size:36px;text-shadow:0 0 16px rgba(255,90,70,0.6)}
+@keyframes livePulse{0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 0 0 0 rgba(231,76,60,0.5)}50%{box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 0 26px 3px rgba(231,76,60,0.55)}}
+@media(max-width:520px){.deadline-box.live .dl-count{font-size:30px}}
 @media(max-width:520px){.deadline-box{padding:12px 20px}.deadline-box .dl-body{gap:12px}.deadline-box .dl-date{font-size:14px}.deadline-box .dl-count{font-size:26px}}
 .player-initials,.val-card-ph{font-family:var(--font-num)}
 
@@ -450,6 +549,8 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .mvp-info{flex:1;min-width:0}
 .mvp-name{font-family:var(--font-d);font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;line-height:1.1;color:#fff}
 .mvp-role{font-size:12px;color:var(--muted);margin-top:2px}
+.mvp-share{margin-top:9px;background:rgba(255,255,255,0.08);border:1px solid rgba(232,169,187,0.4);border-radius:16px;padding:5px 12px;font-family:var(--font-b);font-size:11.5px;font-weight:600;color:#F0DCE3;cursor:pointer;transition:all .2s}
+.mvp-share:hover{background:rgba(174,16,64,0.3);border-color:rgba(232,169,187,0.7)}
 .mvp-score{flex:0 0 auto;text-align:center;font-family:var(--font-num);font-size:40px;font-weight:800;line-height:.9;background:linear-gradient(180deg,#FFFFFF,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .mvp-score-lbl{display:block;font-family:var(--font-b);font-size:9px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);-webkit-text-fill-color:var(--muted);margin-bottom:2px}
 
@@ -549,9 +650,46 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 @media(max-width:520px){.powered-by .pb-logo{width:110px}}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ===== schermata di benvenuto ===== */
+#splash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 35%,#3d0a1e 0%,#1A0008 70%);transition:opacity .6s ease,visibility .6s}
+#splash.hide{opacity:0;visibility:hidden}
+.splash-inner{text-align:center;padding:20px}
+.splash-logo-wrap{position:relative;display:inline-block;margin-bottom:26px}
+.splash-logo{width:150px;height:150px;border-radius:34px;box-shadow:0 12px 44px rgba(139,13,47,0.6);opacity:0;transform:scale(.6);animation:splashPop .7s cubic-bezier(.2,1.3,.4,1) .15s forwards}
+.splash-ball{position:absolute;top:-16px;right:-14px;font-size:44px;opacity:0;animation:splashBall .6s ease .55s forwards, splashBounce 1.1s ease .95s infinite}
+.splash-name{font-family:var(--font-hero,'Anton');font-size:40px;font-weight:900;letter-spacing:2px;color:#fff;opacity:0;transform:translateY(14px);animation:splashUp .6s ease .45s forwards}
+.splash-name span{color:#E8567E}
+.splash-sub{font-family:var(--font-d,'Oswald');font-size:14px;letter-spacing:8px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:8px;opacity:0;animation:splashUp .6s ease .6s forwards}
+.splash-load{width:120px;height:4px;border-radius:3px;background:rgba(255,255,255,0.12);margin:28px auto 0;overflow:hidden;opacity:0;animation:splashUp .5s ease .8s forwards}
+.splash-load span{display:block;height:100%;width:0;background:linear-gradient(90deg,#8B0D2F,#E8567E);border-radius:3px;animation:splashBar 1.4s ease .8s forwards}
+@keyframes splashPop{to{opacity:1;transform:scale(1)}}
+@keyframes splashUp{to{opacity:1;transform:translateY(0)}}
+@keyframes splashBall{to{opacity:1}}
+@keyframes splashBounce{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(18deg)}}
+@keyframes splashBar{to{width:100%}}
+/* interruttore suoni */
+.sound-toggle{position:fixed;top:12px;left:12px;z-index:200;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(26,0,8,0.6);backdrop-filter:blur(6px);color:var(--muted);font-size:16px;cursor:pointer;transition:all .2s;padding:0;line-height:1}
+.sound-toggle:hover{border-color:rgba(174,16,64,0.5);color:var(--text)}
 </style>
 </head>
 <body>
+
+<!-- schermata di benvenuto animata -->
+<div id="splash">
+  <div class="splash-inner">
+    <div class="splash-logo-wrap">
+      <img id="splashLogo" class="splash-logo" src="icon-192.png" alt="FantaLibertas" onerror="this.style.display='none'">
+      <div class="splash-ball">🏀</div>
+    </div>
+    <div class="splash-name">FANTA<span>LIBERTAS</span></div>
+    <div class="splash-sub">Fantasy Game</div>
+    <div class="splash-load"><span></span></div>
+  </div>
+</div>
+
+<!-- interruttore suoni -->
+<button id="soundToggle" class="sound-toggle" onclick="toggleSuono()" title="Attiva/disattiva suoni">🔊</button>
 <canvas id="fxParticles"></canvas>
 
 <!-- ══ PAGINA PRINCIPALE ══ -->
@@ -563,11 +701,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="brand-icon">🏀</div>
       <div class="brand-name">Fanta<span>Libertas</span></div>
     </div>
-    <div class="match-title" id="matchTitle">Libertas Livorno vs Cividale</div>
-    <div class="match-teams" id="matchTeams"></div>
+    <div class="match-hero">
+      <div class="mh-side" id="mhHome"></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Pistoia Basket</span></div>
+      <div class="mh-side" id="mhAway"></div>
+    </div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
-        <div class="dl-label">⏳ Scadenza per partecipare</div>
+        <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
           <span class="dl-date"><span id="matchDateLabel">Dom 28 Sett 18:00</span></span>
           <span class="dl-sep"></span>
@@ -585,6 +726,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
   <!-- TAB -->
   <div class="tab-nav">
     <button class="tab-btn active" onclick="showTab('voto')">Vota</button>
+    <button class="tab-btn" onclick="showTab('mvp')">MVP</button>
     <button class="tab-btn" onclick="showTab('classifica')">Classifica</button>
     <button class="tab-btn" onclick="showTab('valutazioni')">Valutazioni</button>
     <button class="tab-btn" onclick="showTab('calendario')">Calendario</button>
@@ -595,8 +737,12 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
     <!-- step 1: registrazione -->
     <div id="stepReg">
-      <div class="card">
-        <div class="section-label">I tuoi dati</div>
+      <div class="card reg-card">
+        <div class="reg-hero">
+          <div class="reg-hero-title">Schiera i tuoi <span>campioni</span></div>
+          <p class="reg-hero-sub">Crea la tua formazione, pronostica i vincitori delle 3 partite di Serie A2 e scala la classifica sfidando gli altri tifosi Amaranto!</p>
+        </div>
+        <div class="section-label reg-datalabel">I tuoi dati</div>
         <div class="form-row form-row-2">
           <div>
             <label class="form-label">Nome *</label>
@@ -615,13 +761,13 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
           <div class="form-error" id="errEmail">Inserisci un'email valida</div>
         </div>
         <div class="form-row">
-          <label class="form-label">Sei associato? *</label>
+          <label class="form-label">Sei Associato/a? *</label>
           <div class="radio-group">
-            <div class="radio-btn active" id="rbSi" onclick="setAssoc('si')">✅ Associato</div>
-            <div class="radio-btn" id="rbNo" onclick="setAssoc('no')">👤 Non associato</div>
+            <div class="radio-btn active" id="rbSi" onclick="setAssoc('si')">✅ Associato/a</div>
+            <div class="radio-btn" id="rbNo" onclick="setAssoc('no')">👤 Non associato/a</div>
           </div>
         </div>
-        <button class="btn" style="margin-top:.5rem" onclick="submitReg()">Continua →</button>
+        <button class="btn btn-hero" style="margin-top:.7rem" onclick="submitReg()">🏀 Partecipa al FantaLibertas!</button>
       </div>
     </div>
 
@@ -648,7 +794,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="section-label">La tua selezione</div>
       <div class="slots-row" id="slotsRow"></div>
 
-      <div class="section-label" id="pronosticiLabel" style="display:none">Pronostici della giornata · +10 / −10 punti</div>
+      <div class="section-label" id="pronosticiLabel" style="display:none">Pronostici della giornata · +5 / −5 punti</div>
       <div id="pronosticiBox"></div>
 
       <div class="card">
@@ -732,8 +878,43 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
   </div>
 
+  <!-- ── TAB MVP (voto del pubblico, parallelo) ── -->
+  <div id="tabMvp" style="display:none">
+    <div class="card">
+      <div class="mvp-vote-head">
+        <div class="mvp-vote-trophy">🏆</div>
+        <div>
+          <div class="section-label" style="margin-bottom:2px">Vota l'MVP del pubblico</div>
+          <div class="mvp-vote-match" id="mvpVoteMatch">—</div>
+        </div>
+      </div>
+      <div id="mvpContent"><div class="val-empty"><div class="val-empty-icon">🏆</div>Caricamento...</div></div>
+    </div>
+    <div class="card">
+      <div class="section-label">🏅 Albo MVP · Stagione</div>
+      <p style="font-size:12.5px;color:var(--muted);margin:2px 0 14px;line-height:1.5">Classifica dei giocatori per <b>titoli MVP</b> vinti e <b>voti totali</b> ricevuti dal pubblico in tutta la stagione.</p>
+      <div id="mvpSeasonContent"><div class="val-empty"><div class="val-empty-icon">🏅</div>Caricamento...</div></div>
+    </div>
+  </div>
+
   <!-- powered by -->
   <div class="powered-by"><span class="pb-pre">Powered by</span><img class="pb-logo" src="logo-libertas.png" alt="Associazione Tifosi Libertas" onerror="this.outerHTML='<span class=&quot;pb-fallback&quot;>Associazione Tifosi Libertas</span>'"></div>
+
+  <!-- scarica la guida (PDF) -->
+  <div class="associati-row">
+    <a class="associati-btn" href="GUIDA_Utente_FantaLibertas.pdf" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5l-4-4h2.5V4h3v7.5H16l-4 4zM5 18h14v2H5v-2z"/></svg>
+      <span>Scarica la guida al FantaLibertas</span>
+    </a>
+  </div>
+
+  <!-- associati: pagina Instagram dell'Associazione Tifosi -->
+  <div class="associati-row" style="margin-top:.7rem">
+    <a class="associati-btn" href="https://www.instagram.com/p/Db5Fgx3jLfA/?igsh=cHRvZXo5dnYwc2hl" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.19.41-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.42-.36 1.04-.41 2.19-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.05 1.15.25 1.77.41 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.16 1.04.36 2.19.41 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.25 2.19-.41.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.42.36-1.04.41-2.19.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.25-1.77-.41-2.19a3.6 3.6 0 00-.88-1.35 3.6 3.6 0 00-1.35-.88c-.42-.16-1.04-.36-2.19-.41-1.24-.06-1.61-.07-4.75-.07zM12 6.87A5.13 5.13 0 106.87 12 5.13 5.13 0 0012 6.87zm0 8.46A3.33 3.33 0 1115.33 12 3.33 3.33 0 0112 15.33zm6.54-8.66a1.2 1.2 0 11-1.2-1.2 1.2 1.2 0 011.2 1.2z"/></svg>
+      <span>Scopri il mondo Associazione Tifosi su Instagram</span>
+    </a>
+  </div>
 
   <!-- admin toggle -->
   <div class="admin-toggle-row">
@@ -893,7 +1074,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-10T16:00');
+let kickoffDate = new Date('2026-08-11T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -905,8 +1086,20 @@ let votingClosed = false;
    Se un logo manca, compare un cerchio con le iniziali della squadra.
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
-  casa:      { nome: "Libertas Livorno", logo: "libertas.png" },
-  trasferta: { nome: "Cividale",         logo: "cividale.png" }
+  casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
+  trasferta: { nome: "Cividale",         logo: "pistoia.png" }
+};
+
+/* ────────────────────────────────────────────────────────────────
+   VOTO MVP DEL PUBBLICO (parallelo, non incide sul fantasy game)
+   >>> SI RIFERISCE ALLA PARTITA PRECEDENTE (quella appena giocata). <<<
+   Metti qui il TITOLO di quella partita e un ID univoco.
+   Gli utenti votano 1 solo giocatore. Un voto per email per partita.
+──────────────────────────────────────────────────────────────── */
+let mvpMatch = {
+  id:     "20260722",                          // ID univoco della partita PRECEDENTE (consiglio: la sua data in formato AAAAMMGG). NON cambiarlo a voto aperto.
+  titolo: "Libertas Livorno vs Gema Montecatini",      // TITOLO della partita PRECEDENTE (quella già giocata)
+  attivo: true                                 // metti false per chiudere il voto MVP
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -964,15 +1157,17 @@ function load() {
 ════════════════════════════════════════════ */
 function showTab(t) {
   document.getElementById('tabVoto').style.display        = t==='voto' ? 'block' : 'none';
+  document.getElementById('tabMvp').style.display         = t==='mvp' ? 'block' : 'none';
   document.getElementById('tabClassifica').style.display  = t==='classifica' ? 'block' : 'none';
   document.getElementById('tabValutazioni').style.display = t==='valutazioni' ? 'block' : 'none';
   document.getElementById('tabCalendario').style.display  = t==='calendario' ? 'block' : 'none';
   document.querySelectorAll('.tab-btn').forEach((b,i)=>{
-    b.classList.toggle('active', (t==='voto'&&i===0)||(t==='classifica'&&i===1)||(t==='valutazioni'&&i===2)||(t==='calendario'&&i===3));
+    b.classList.toggle('active', (t==='voto'&&i===0)||(t==='mvp'&&i===1)||(t==='classifica'&&i===2)||(t==='valutazioni'&&i===3)||(t==='calendario'&&i===4));
   });
   if (t==='classifica')  renderRanking();
   if (t==='valutazioni') renderValutazioni();
   if (t==='calendario')  caricaCalendario();
+  if (t==='mvp')         renderMVP();
 }
 
 /* ════════════════════════════════════════════
@@ -1091,6 +1286,229 @@ function scaricaCalendarioICS() {
 }
 
 /* ════════════════════════════════════════════
+   VOTO MVP DEL PUBBLICO (parallelo al fantasy)
+════════════════════════════════════════════ */
+let mvpSelected = null;
+
+function renderMVP() {
+  const cont = document.getElementById('mvpContent');
+  const lblMatch = document.getElementById('mvpVoteMatch');
+  if (lblMatch) lblMatch.textContent = (mvpMatch && mvpMatch.titolo) ? mvpMatch.titolo : '—';
+
+  renderMVPStagione(); // albo stagionale (persistente)
+
+  if (!mvpMatch || !mvpMatch.attivo) {
+    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">🔒</div>Il voto per l\'MVP non è attivo al momento.<br>Torna dopo la prossima partita!</div>';
+    // mostra comunque i risultati se disponibili
+    mostraRisultatiMVP(null, true);
+    return;
+  }
+
+  mvpSelected = null;
+  const pre = currentUser || {};
+  const cards = players.map(p => {
+    const foto = p.photo
+      ? `<img class="mvp-pick-photo" src="${p.photo}" alt="${p.name}" loading="lazy" onerror="this.classList.add('mvp-pick-ph');this.removeAttribute('src')">`
+      : `<div class="mvp-pick-ph">${p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</div>`;
+    return `<button type="button" class="mvp-pick" data-id="${p.id}" onclick="selezionaMVP(${p.id})">
+      ${foto}
+      <div class="mvp-pick-info">
+        <div class="mvp-pick-name">${p.name}</div>
+        <div class="mvp-pick-role">${p.role||''}</div>
+      </div>
+      <div class="mvp-pick-check">✓</div>
+    </button>`;
+  }).join('');
+
+  cont.innerHTML = `
+    <p class="mvp-intro">Scegli il <b>miglior giocatore</b> della partita. Un solo voto per email. È un premio del pubblico, <b>non incide</b> sul punteggio del fantasy game.</p>
+    <div class="mvp-reg">
+      <input type="text" id="mvpNome" placeholder="Nome" value="${pre.nome||''}">
+      <input type="text" id="mvpCognome" placeholder="Cognome" value="${pre.cognome||''}">
+    </div>
+    <input type="email" id="mvpEmail" class="mvp-email-input" placeholder="latua@email.it" value="${pre.email||''}">
+    <div class="mvp-grid">${cards}</div>
+    <button class="mvp-submit" id="mvpSubmitBtn" onclick="submitMVP()" disabled>Conferma il tuo MVP</button>`;
+}
+
+function selezionaMVP(id) {
+  mvpSelected = id;
+  document.querySelectorAll('#mvpContent .mvp-pick').forEach(el => {
+    el.classList.toggle('sel', String(el.dataset.id) === String(id));
+  });
+  const btn = document.getElementById('mvpSubmitBtn');
+  if (btn) btn.disabled = false;
+  suonoTap(false); vibra(12);
+}
+
+function submitMVP() {
+  const nome    = (document.getElementById('mvpNome').value || '').trim();
+  const cognome = (document.getElementById('mvpCognome').value || '').trim();
+  const email   = (document.getElementById('mvpEmail').value || '').trim().toLowerCase();
+  if (!nome || !cognome) { alert('Inserisci nome e cognome.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Inserisci un indirizzo email valido.'); return; }
+  if (!mvpSelected) { alert('Seleziona un giocatore.'); return; }
+
+  const gioc = players.find(p => String(p.id) === String(mvpSelected));
+  const btn = document.getElementById('mvpSubmitBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Invio...'; }
+
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      tipo: 'mvp',
+      matchId: mvpMatch.id,
+      matchName: mvpMatch.titolo,
+      nome, cognome, email,
+      giocatore: gioc ? gioc.name : '',
+      giocatoreId: mvpSelected
+    })
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (res && res.giaVotato) {
+      lanciaConfetti(); // niente, ma feedback
+      mostraRisultatiMVP('__giaVotato__');
+    } else {
+      suonoConferma(); vibra([25,40,25,40,60]); lanciaConfetti();
+      mostraRisultatiMVP(gioc ? gioc.name : '');
+    }
+  })
+  .catch(() => {
+    // risposta non leggibile: assumo inviato e mostro i risultati
+    suonoConferma(); vibra([25,40,25,40,60]); lanciaConfetti();
+    mostraRisultatiMVP(gioc ? gioc.name : '');
+  });
+}
+
+// mostra i risultati live del voto MVP (dal foglio "MVP" pubblicato)
+async function mostraRisultatiMVP(votedName, soloRisultati) {
+  const cont = document.getElementById('mvpContent');
+  let intro = '';
+  if (!soloRisultati) {
+    if (votedName === '__giaVotato__') intro = `<div class="mvp-res-thanks">Hai <b>già votato</b> l'MVP per questa partita. Ecco come sta andando 👇</div>`;
+    else if (votedName) intro = `<div class="mvp-res-thanks">Grazie! Hai votato <b>${votedName}</b> come MVP. Ecco i risultati live 👇</div>`;
+  }
+
+  if (!CSV_MVP) {
+    cont.innerHTML = (intro || '') + '<div class="val-empty" style="padding:20px 10px"><div class="val-empty-icon">📊</div>I risultati live compariranno qui una volta pubblicato il foglio "MVP".</div>';
+    return;
+  }
+
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_MVP))).text()).slice(1);
+    // colonne: 0 Timestamp,1 Nome,2 Cognome,3 Email,4 Giocatore,5 ID Giocatore,6 ID Partita,7 Partita
+    const conteggi = {}; let totale = 0;
+    rows.forEach(r => {
+      if (String(r[6]).trim() !== String(mvpMatch.id).trim()) return; // solo la partita corrente
+      const pid = String(r[5]).trim();
+      if (!pid) return;
+      conteggi[pid] = (conteggi[pid] || 0) + 1; totale++;
+    });
+    if (totale === 0) {
+      cont.innerHTML = (intro || '') + '<div class="val-empty" style="padding:20px 10px"><div class="val-empty-icon">🏆</div>Ancora nessun voto per questa partita. Sii il primo!</div>';
+      return;
+    }
+    const ordinati = players
+      .map(p => ({ p, n: conteggi[String(p.id)] || 0 }))
+      .filter(x => x.n > 0)
+      .sort((a,b) => b.n - a.n);
+    const max = ordinati[0].n;
+    let html = intro || '';
+    ordinati.forEach((x, i) => {
+      const pct = Math.round((x.n / totale) * 100);
+      const w = Math.round((x.n / max) * 100);
+      const foto = x.p.photo
+        ? `<img class="mvp-res-photo" src="${x.p.photo}" alt="${x.p.name}" onerror="this.classList.add('mvp-res-ph');this.removeAttribute('src')">`
+        : `<div class="mvp-res-ph">${x.p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</div>`;
+      html += `<div class="mvp-res-row ${i===0?'leader':''}">
+        ${foto}
+        <div class="mvp-res-body">
+          <div class="mvp-res-top">
+            <span class="mvp-res-name">${x.p.name}${i===0?'<span class="mvp-crown">👑</span>':''}</span>
+            <span class="mvp-res-val">${x.n} (${pct}%)</span>
+          </div>
+          <div class="mvp-res-bar"><span style="width:0%" data-w="${w}"></span></div>
+        </div>
+      </div>`;
+    });
+    html += `<div class="mvp-res-count">${totale} ${totale===1?'voto totale':'voti totali'} · aggiornato in tempo reale</div>`;
+    cont.innerHTML = html;
+    // anima le barre
+    requestAnimationFrame(() => {
+      cont.querySelectorAll('.mvp-res-bar span').forEach(s => { s.style.width = (s.dataset.w||0) + '%'; });
+    });
+  } catch (e) {
+    cont.innerHTML = (intro || '') + '<div class="val-empty" style="padding:20px 10px">Impossibile caricare i risultati. Riprova più tardi.</div>';
+  }
+}
+
+// albo stagionale: giocatori per titoli MVP vinti + voti totali ricevuti
+async function renderMVPStagione() {
+  const cont = document.getElementById('mvpSeasonContent');
+  if (!cont) return;
+  if (!CSV_MVP) {
+    cont.innerHTML = '<div class="val-empty" style="padding:18px 10px"><div class="val-empty-icon">🏅</div>L\'albo comparirà qui una volta pubblicato il foglio "MVP".</div>';
+    return;
+  }
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_MVP))).text()).slice(1);
+    // colonne: 5 ID Giocatore, 6 ID Partita
+    const perPartita = {}; // matchId -> { playerId: conteggio }
+    const votiTot = {};    // playerId -> voti totali stagione
+    rows.forEach(r => {
+      const pid = String(r[5]).trim();
+      const mid = String(r[6]).trim();
+      if (!pid || !mid) return;
+      (perPartita[mid] = perPartita[mid] || {})[pid] = (perPartita[mid][pid] || 0) + 1;
+      votiTot[pid] = (votiTot[pid] || 0) + 1;
+    });
+    // titoli: vincitore (o vincitori, in caso di parità) di ogni partita
+    const titoli = {};
+    let nPartite = 0;
+    Object.values(perPartita).forEach(counts => {
+      const vals = Object.values(counts);
+      if (!vals.length) return;
+      nPartite++;
+      const max = Math.max(...vals);
+      Object.entries(counts).forEach(([pid, c]) => { if (c === max) titoli[pid] = (titoli[pid] || 0) + 1; });
+    });
+
+    const classifica = players
+      .map(p => ({ p, titoli: titoli[String(p.id)] || 0, voti: votiTot[String(p.id)] || 0 }))
+      .filter(x => x.voti > 0)
+      .sort((a,b) => b.titoli - a.titoli || b.voti - a.voti);
+
+    if (classifica.length === 0) {
+      cont.innerHTML = '<div class="val-empty" style="padding:18px 10px"><div class="val-empty-icon">🏅</div>Ancora nessun voto MVP registrato in stagione.</div>';
+      return;
+    }
+
+    let html = '';
+    classifica.forEach((x, i) => {
+      const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+      const foto = x.p.photo
+        ? `<img class="mvp-res-photo" src="${x.p.photo}" alt="${x.p.name}" onerror="this.classList.add('mvp-res-ph');this.removeAttribute('src')">`
+        : `<div class="mvp-res-ph">${x.p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</div>`;
+      html += `<div class="mvpseas-row ${i===0?'leader':''}">
+        <div class="mvpseas-pos">${medal}</div>
+        ${foto}
+        <div class="mvpseas-name">${x.p.name}${i===0&&x.titoli>0?'<span class="mvp-crown">👑</span>':''}<div class="mvpseas-role">${x.p.role||''}</div></div>
+        <div class="mvpseas-stats">
+          <div class="mvpseas-titoli">🏆 <b>${x.titoli}</b></div>
+          <div class="mvpseas-voti">${x.voti} ${x.voti===1?'voto':'voti'}</div>
+        </div>
+      </div>`;
+    });
+    html += `<div class="mvp-res-count">${nPartite} ${nPartite===1?'partita':'partite'} con voti MVP in stagione</div>`;
+    cont.innerHTML = html;
+    animaNumeri(cont);
+  } catch (e) {
+    cont.innerHTML = '<div class="val-empty" style="padding:18px 10px">Impossibile caricare l\'albo. Riprova più tardi.</div>';
+  }
+}
+
+/* ════════════════════════════════════════════
    REGISTRAZIONE
 ════════════════════════════════════════════ */
 let assocVal = 'si';
@@ -1180,10 +1598,10 @@ function renderPlayers() {
       <div class="sel-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>`;
     const toggle = () => {
       if (votingClosed) return;
-      if (selected.includes(p.id)) { selected = selected.filter(x=>x!==p.id); }
+      if (selected.includes(p.id)) { selected = selected.filter(x=>x!==p.id); suonoTap(true); }
       else {
         if (selected.length >= MAX_SEL || (getSpent()+p.cost) > BUDGET) return;
-        selected.push(p.id);
+        selected.push(p.id); suonoTap(false); vibra(12);
       }
       renderPlayers(); updateBudget(); renderSlots(); updateSubmit();
     };
@@ -1286,6 +1704,8 @@ const CSV_CLASSIFICA = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmf
 // pubblica il foglio "Punteggi" (File → Condividi → Pubblica sul web → foglio "Punteggi" come CSV)
 // e incolla qui sotto l'URL. Se lasciato vuoto, la classifica mostra solo il totale.
 const CSV_PUNTEGGI = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=595880493&single=true&output=csv';
+// Voti MVP del pubblico: pubblica il foglio "MVP" come CSV e incolla qui l'URL (per mostrare i risultati live).
+const CSV_MVP = '';
 
 // parser CSV semplice (gestisce campi tra virgolette)
 function parseCSV(text) {
@@ -1365,6 +1785,8 @@ function submitVoto() {
   document.getElementById('mainPage').style.display = 'none';
   document.getElementById('successPage').style.display = 'block';
   lanciaConfetti();
+  suonoConferma();
+  vibra([25, 40, 25, 40, 60]);
   document.getElementById('successPills').innerHTML = sel.map(p => `<span class="success-pill">${p.name} · ${p.cost} cr.</span>`).join('');
 
   // pronostici scelti
@@ -1398,6 +1820,55 @@ function tornaAlVoto() {
   document.getElementById('regNome').value = '';
   document.getElementById('regCognome').value = '';
   document.getElementById('regEmail').value = '';
+}
+
+// ════════════════════════════════════════════
+//  SUONI + FEEDBACK APTICO (leggeri)
+// ════════════════════════════════════════════
+let _audioCtx = null;
+let _soundOn = (localStorage.getItem('fl_sound') !== 'off');
+
+function _ac() {
+  if (!_audioCtx) { try { _audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){ return null; } }
+  if (_audioCtx && _audioCtx.state === 'suspended') _audioCtx.resume();
+  return _audioCtx;
+}
+
+function _beep(freq, dur, type, vol, delay) {
+  const ac = _ac(); if (!ac) return;
+  const t0 = ac.currentTime + (delay || 0);
+  const osc = ac.createOscillator();
+  const g = ac.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.setValueAtTime(freq, t0);
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(vol || 0.15, t0 + 0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  osc.connect(g); g.connect(ac.destination);
+  osc.start(t0); osc.stop(t0 + dur + 0.02);
+}
+
+// tap alla selezione (acuto = aggiunto, più basso = rimosso)
+function suonoTap(rimosso) {
+  if (!_soundOn) return;
+  _beep(rimosso ? 320 : 660, 0.09, 'triangle', 0.12);
+}
+// arpeggio positivo alla conferma del voto
+function suonoConferma() {
+  if (!_soundOn) return;
+  [523, 659, 784, 1047].forEach((f, i) => _beep(f, 0.28, 'triangle', 0.16, i * 0.09));
+}
+// vibrazione (dove supportata: Android)
+function vibra(pattern) {
+  if (_soundOn && navigator.vibrate) { try { navigator.vibrate(pattern); } catch(e){} }
+}
+// on/off suoni + aptico
+function toggleSuono() {
+  _soundOn = !_soundOn;
+  localStorage.setItem('fl_sound', _soundOn ? 'on' : 'off');
+  const b = document.getElementById('soundToggle');
+  if (b) b.textContent = _soundOn ? '🔊' : '🔇';
+  if (_soundOn) suonoTap();
 }
 
 // pioggia di coriandoli amaranto alla conferma del voto
@@ -1581,6 +2052,70 @@ function condividiStory() {
     }, 'image/png');
   }).catch(() => {});
 }
+
+// ════════════════════════════════════════════
+//  CARD SOCIAL SPETTACOLARE — MVP di giornata
+// ════════════════════════════════════════════
+function generaCardMVP() {
+  if (typeof html2canvas === 'undefined') { alert('Attendi un istante e riprova.'); return Promise.reject(); }
+  const d = window._mvpData;
+  if (!d) return Promise.reject();
+
+  const initialsDiv = `<div style="width:340px;height:340px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#2D0014,#8B0D2F);border:8px solid rgba(255,255,255,0.9);font-family:Anton;font-size:150px;color:rgba(255,255,255,0.85)">${d.initials}</div>`;
+
+  return (d.photo ? preloadImg(d.photo) : Promise.resolve(false)).then(ok => {
+    const foto = ok
+      ? `<img src="${d.photo}" style="width:340px;height:340px;border-radius:50%;object-fit:cover;object-position:top center;border:8px solid rgba(255,255,255,0.9);box-shadow:0 20px 60px rgba(0,0,0,0.5)">`
+      : initialsDiv;
+
+    const el = document.createElement('div');
+    el.style.cssText = 'position:fixed;left:-99999px;top:0;width:1080px;height:1080px;overflow:hidden;box-sizing:border-box';
+    el.innerHTML = `
+      <div style="width:1080px;height:1080px;position:relative;background:radial-gradient(circle at 50% 32%,#5a1228 0%,#2d0a18 55%,#1A0008 100%);font-family:'Inter',Arial,sans-serif;box-sizing:border-box;overflow:hidden">
+        <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:1400px;height:1400px;background:conic-gradient(from 0deg,rgba(255,215,150,0.10) 0deg,transparent 22deg,rgba(255,215,150,0.10) 44deg,transparent 66deg,rgba(255,215,150,0.10) 88deg,transparent 110deg,rgba(255,215,150,0.10) 132deg,transparent 154deg,rgba(255,215,150,0.10) 176deg,transparent 198deg,rgba(255,215,150,0.10) 220deg,transparent 242deg,rgba(255,215,150,0.10) 264deg,transparent 286deg,rgba(255,215,150,0.10) 308deg,transparent 330deg,rgba(255,215,150,0.10) 352deg);border-radius:50%"></div>
+        <div style="position:absolute;inset:0;padding:70px 60px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;text-align:center">
+          <img src="icon-192.png" style="width:96px;height:96px;border-radius:22px;margin-bottom:14px">
+          <div style="display:inline-block;background:linear-gradient(135deg,#FFD97A,#E8A44a);color:#3a1500;font-family:'Anton',sans-serif;font-size:34px;letter-spacing:3px;padding:12px 34px;border-radius:40px;box-shadow:0 8px 24px rgba(232,180,80,0.4)">⭐ MVP DI GIORNATA</div>
+          <div style="margin-top:40px">${foto}</div>
+          <div style="font-family:'Anton',sans-serif;font-size:72px;color:#fff;letter-spacing:1px;line-height:1.05;margin-top:30px;text-transform:uppercase;text-shadow:0 4px 20px rgba(0,0,0,0.5)">${d.name}</div>
+          ${d.role ? `<div style="font-family:'Oswald',sans-serif;font-size:28px;letter-spacing:4px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-top:6px">${d.role}</div>` : ''}
+          <div style="display:flex;align-items:baseline;gap:14px;margin-top:22px">
+            <span style="font-family:'Oswald',sans-serif;font-size:26px;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase">VOTO</span>
+            <span style="font-family:'Anton',sans-serif;font-size:120px;line-height:1;color:#FFD97A">${Number(d.voto).toFixed(1)}</span>
+          </div>
+          <div style="margin-top:auto;text-align:center">
+            <div style="font-family:'Anton',sans-serif;font-size:30px;color:#E8567E;letter-spacing:1px">FANTALIBERTAS</div>
+            <div style="font-size:22px;color:rgba(255,255,255,0.4);margin-top:4px">${d.match || 'libertassini.github.io/fantalibertas'}</div>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(el);
+    return preloadImg('icon-192.png')
+      .then(() => html2canvas(el, { backgroundColor:'#1A0008', width:1080, height:1080, windowWidth:1080, windowHeight:1080, scale:1, useCORS:true, logging:false }))
+      .then(c => { el.remove(); return c; })
+      .catch(e => { el.remove(); throw e; });
+  });
+}
+
+function condividiCardMVP() {
+  const testo = (window._mvpData ? window._mvpData.name + ' è l\'MVP di giornata! 🏀' : 'MVP di giornata!') + ' FantaLibertas';
+  generaCardMVP().then(canvas => {
+    canvas.toBlob(blob => {
+      const file = new File([blob], 'MVP_FantaLibertas.png', { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], text: testo }).catch(() => {});
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'MVP_FantaLibertas.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      alert('📲 Card MVP salvata! Ora puoi pubblicarla sui social.');
+    }, 'image/png');
+  }).catch(() => {});
+}
+
 function startCountdown() {
   if (countdownTimer) clearInterval(countdownTimer);
   function tick() {
@@ -1610,6 +2145,15 @@ function startCountdown() {
     val.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
     chip.classList.remove('closed');
     votingClosed = false;
+    // modalità "LIVE": ultimi 15 minuti prima della chiusura
+    const lbl = chip.querySelector('.dl-label');
+    if (diff <= 15 * 60 * 1000) {
+      chip.classList.add('live');
+      if (lbl) lbl.innerHTML = '🔴 Ultimi minuti per votare!';
+    } else {
+      chip.classList.remove('live');
+      if (lbl && lbl.dataset.def) lbl.textContent = lbl.dataset.def;
+    }
   }
   tick();
   countdownTimer = setInterval(tick, 1000);
@@ -1691,9 +2235,28 @@ function addPlayer() {
   buildAdminGrid();
 }
 
+// imposta il titolo su 3 righe (casa / vs / ospite) mantenendo textContent = "Casa vs Ospite"
+function setMatchTitle(str) {
+  const el = document.getElementById('matchTitle');
+  if (!el) return;
+  const s = (str || '').trim();
+  const parts = s.split(/\s+vs\s+/i);
+  el.textContent = '';
+  if (parts.length === 2) {
+    const a = document.createElement('span'); a.className = 'mt-part'; a.textContent = parts[0].trim();
+    const v = document.createElement('span'); v.className = 'mt-vs';   v.textContent = 'vs';
+    const b = document.createElement('span'); b.className = 'mt-part'; b.textContent = parts[1].trim();
+    el.appendChild(a); el.appendChild(document.createTextNode(' '));
+    el.appendChild(v); el.appendChild(document.createTextNode(' '));
+    el.appendChild(b);
+  } else {
+    el.textContent = s; // nessun "vs": una riga sola
+  }
+}
+
 function applyAdmin() {
   const mn = document.getElementById('adminMatchName').value.trim();
-  if (mn) document.getElementById('matchTitle').textContent = mn;
+  if (mn) setMatchTitle(mn);
 
   const ko = document.getElementById('adminKickoff').value;
   if (ko) {
@@ -1868,7 +2431,7 @@ async function salvaValutazioni() {
     pronostici.forEach((p, idx) => {
       const pick = picks[idx];
       const win  = pronVincenti[p.id];
-      if (pick && win) bonus += (pick === win) ? 10 : -10;
+      if (pick && win) bonus += (pick === win) ? 5 : -5;
     });
 
     const puntiPartita = parseFloat((base + bonus).toFixed(1));
@@ -2142,6 +2705,8 @@ function renderValutazioni() {
   if (mvpId !== null) {
     const mp = players.find(p => String(p.id) === String(mvpId));
     if (mp) {
+      // memorizza i dati MVP per la card social
+      window._mvpData = { name: mp.name, role: mp.role||'', voto: mvpVal, photo: mp.photo||'', match: ultimo.matchName || '', initials: mp.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) };
       const mphoto = mp.photo
         ? `<img class="mvp-photo" src="${mp.photo}" alt="${mp.name}" loading="lazy">`
         : `<div class="mvp-photo mvp-ph">${mp.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</div>`;
@@ -2151,6 +2716,7 @@ function renderValutazioni() {
         <div class="mvp-info">
           <div class="mvp-name">${mp.name}</div>
           <div class="mvp-role">${mp.role||''}</div>
+          <button class="mvp-share" onclick="condividiCardMVP()">📲 Condividi la card MVP</button>
         </div>
         <div class="mvp-score"><span class="mvp-score-lbl">Voto</span><span class="animate-num" data-target="${mvpVal}" data-dec="1">0.0</span></div>
       </div>`;
@@ -2298,13 +2864,13 @@ function drawRanking() {
     }
     html += `<tr data-name="${nameL}" data-email="${(e.email||'').toLowerCase().trim()}">
       <td class="rank-pos ${posClass}">${medal||i+1}</td>
-      <td><div style="font-weight:500">${e.nome} ${e.cognome}</div><div style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
+      <td><div class="rank-nm" style="font-weight:500">${e.nome} ${e.cognome}</div><div class="rank-em" style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
       ${mid}
       <td class="rank-score"><span class="animate-num" data-target="${parseFloat(e.totale)||0}" data-dec="1">0.0</span></td>
     </tr>`;
   });
   html += '</tbody></table>';
-  if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+10 / −10) · tocca le icone per ordinare</p>`;
+  if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+5 / −5) · tocca le icone per ordinare</p>`;
   cont.innerHTML = html;
   animaNumeri(cont);
   filtraClassifica(); // riapplica l'eventuale evidenziazione della ricerca
@@ -2616,7 +3182,7 @@ async function cercaStorico() {
           if (vinc) {
             nValut++;
             const ok = scelta === vinc;
-            if (ok) { bonus += 10; nGiusti++; } else { bonus -= 10; }
+            if (ok) { bonus += 5; nGiusti++; } else { bonus -= 5; }
             return `<span class="st-pron-chip ${ok ? 'ok' : 'ko'}">${ok ? '✓' : '✗'} ${scelta}</span>`;
           }
           return `<span class="st-pron-chip">${scelta}</span>`;
@@ -2822,19 +3388,31 @@ caricaStatsPartita();
 ripristinaPromemoria();
 renderMatchTeams();
 
+// schermata di benvenuto: mostra all'avvio, poi sfuma (una volta per sessione, tap per saltare)
+(function initSplash(){
+  const sp = document.getElementById('splash');
+  if (!sp) return;
+  if (sessionStorage.getItem('fl_splash') === '1') { sp.remove(); return; }
+  sessionStorage.setItem('fl_splash', '1');
+  const chiudi = () => { sp.classList.add('hide'); setTimeout(()=>sp.remove(), 650); };
+  const t = setTimeout(chiudi, 2400);
+  sp.addEventListener('click', () => { clearTimeout(t); chiudi(); });
+})();
+
 // mostra i due loghi delle squadre della partita (sotto il titolo)
 function renderMatchTeams() {
-  const box = document.getElementById('matchTeams');
-  if (!box || !matchTeams) return;
-  const team = t => {
+  if (!matchTeams) return;
+  const teamLogo = t => {
     if (!t || !t.nome) return '';
     const initials = t.nome.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,3);
-    const logo = t.logo
-      ? `<img class="mt-logo" src="${t.logo}" alt="${t.nome}" loading="lazy" onerror="this.outerHTML='<span class=\\'mt-ph\\'>${initials}</span>'">`
-      : `<span class="mt-ph">${initials}</span>`;
-    return `<div class="mt-team">${logo}</div>`;
+    return t.logo
+      ? `<img class="mh-logo" src="${t.logo}" alt="${t.nome}" loading="lazy" onerror="this.outerHTML='<span class=&quot;mh-ph&quot;>${initials}</span>'">`
+      : `<span class="mh-ph">${initials}</span>`;
   };
-  box.innerHTML = `${team(matchTeams.casa)}<span class="mt-vs">VS</span>${team(matchTeams.trasferta)}`;
+  const home = document.getElementById('mhHome');
+  const away = document.getElementById('mhAway');
+  if (home) home.innerHTML = teamLogo(matchTeams.casa);
+  if (away) away.innerHTML = teamLogo(matchTeams.trasferta);
 }
 
 /* contatore partecipanti: legge i voti dal CSV e conta le email uniche della partita */
