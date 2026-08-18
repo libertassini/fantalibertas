@@ -652,6 +652,21 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 /* interruttore suoni */
 .sound-toggle{position:fixed;top:12px;left:12px;z-index:200;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(26,0,8,0.6);backdrop-filter:blur(6px);color:var(--muted);font-size:16px;cursor:pointer;transition:all .2s;padding:0;line-height:1}
 .sound-toggle:hover{border-color:rgba(174,16,64,0.5);color:var(--text)}
+/* ===== onboarding nuovi utenti ===== */
+.ob-overlay{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:rgba(10,0,4,0.82);backdrop-filter:blur(6px);padding:20px;animation:obFade .3s ease both}
+.ob-card{position:relative;width:100%;max-width:380px;background:linear-gradient(165deg,#2a0812,#1a0008);border:1px solid rgba(174,16,64,0.4);border-radius:22px;padding:34px 26px 24px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+.ob-close{position:absolute;top:12px;right:16px;font-size:16px;color:var(--muted);cursor:pointer;line-height:1}
+.ob-slide{display:none}
+.ob-slide.active{display:block;animation:obFade .35s ease both}
+.ob-ico{font-size:52px;margin-bottom:14px;line-height:1}
+.ob-t{font-family:var(--font-d);font-size:21px;font-weight:700;color:#fff;letter-spacing:.3px;margin-bottom:10px}
+.ob-d{font-size:14px;color:var(--muted);line-height:1.55;max-width:300px;margin:0 auto}
+.ob-d b{color:#F0DCE3}
+.ob-dots{display:flex;justify-content:center;gap:7px;margin:22px 0 18px}
+.ob-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.18);transition:all .25s}
+.ob-dots span.on{background:var(--orange2);width:22px;border-radius:4px}
+.ob-btn{width:100%;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:12px;padding:13px;font-family:var(--font-d);font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(139,13,47,0.4)}
+@keyframes obFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -671,6 +686,37 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
 <!-- interruttore suoni -->
 <button id="soundToggle" class="sound-toggle" onclick="toggleSuono()" title="Attiva/disattiva suoni">🔊</button>
+
+<!-- onboarding nuovi utenti (primo voto per questa email) -->
+<div id="onboarding" class="ob-overlay" style="display:none">
+  <div class="ob-card">
+    <div class="ob-close" onclick="chiudiOnboarding()">✕</div>
+    <div class="ob-slides" id="obSlides">
+      <div class="ob-slide">
+        <div class="ob-ico">👋</div>
+        <div class="ob-t" id="obWelcome">Benvenuto/a al FantaLibertas!</div>
+        <div class="ob-d">In pochi tocchi schieri la tua squadra e sfidi gli altri tifosi Amaranto. Ecco come funziona.</div>
+      </div>
+      <div class="ob-slide">
+        <div class="ob-ico">🏀</div>
+        <div class="ob-t">1 · Scegli 3 giocatori</div>
+        <div class="ob-d">Hai <b>10 crediti</b>: ogni giocatore ha un costo. Componi la tua formazione restando nel budget.</div>
+      </div>
+      <div class="ob-slide">
+        <div class="ob-ico">🎯</div>
+        <div class="ob-t">2 · Fai i 3 pronostici</div>
+        <div class="ob-d">Indovina la vincente di 3 partite di Serie A2: <b>+5</b> se azzecchi, <b>−5</b> se sbagli.</div>
+      </div>
+      <div class="ob-slide">
+        <div class="ob-ico">🏆</div>
+        <div class="ob-t">3 · Invia e scala la classifica</div>
+        <div class="ob-d">Conferma prima del fischio d'inizio. A fine partita i voti dei tuoi giocatori diventano punti in <b>classifica</b>!</div>
+      </div>
+    </div>
+    <div class="ob-dots" id="obDots"></div>
+    <button class="ob-btn" id="obBtn" onclick="onboardingNext()">Avanti →</button>
+  </div>
+</div>
 <canvas id="fxParticles"></canvas>
 
 <!-- ══ PAGINA PRINCIPALE ══ -->
@@ -894,6 +940,11 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
   <div class="admin-panel" id="adminPanel">
     <div class="admin-title">⚙ Pannello Admin</div>
 
+    <div style="margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)">
+      <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--muted)" onclick="verificaCollegamenti()">🔍 Verifica collegamenti (stato sistema)</button>
+      <div id="diagResult" style="margin-top:10px;font-size:12px;line-height:1.7;display:none"></div>
+    </div>
+
     <div class="form-row">
       <label class="form-label" style="font-size:11px;color:var(--muted)">Nome partita</label>
       <input class="admin-input" id="adminMatchName" type="text" value="Libertas Livorno vs Cento" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r);padding:9px 12px;font-size:14px;color:var(--text);font-family:var(--font-b);outline:none;width:100%">
@@ -1023,7 +1074,10 @@ let matchesHistory = {};
    aggiornata (sostituendo questa) al prossimo commit su GitHub.
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
-let valutazioniStorico = [];
+let valutazioniStorico = [
+  { matchId:"20260722", matchName:"Libertas Livorno vs Cividale", date:"2026-07-22", vals:{1:10,2:20,3:30,4:15,5:12,6:12,7:14,8:14,9:5,10:12,11:0,12:1} },
+  { matchId:"20260720", matchName:"Libertas Livorno vs Cividale", date:"2026-07-20", vals:{1:10,2:23,3:4,4:5,5:1,6:4,7:7,8:8,9:4,10:5,11:1} }
+];
 
 /* ────────────────────────────────────────────────────────────────
    ESITI PRONOSTICI (pubblico, visibile a tutti)
@@ -1034,14 +1088,13 @@ let valutazioniStorico = [];
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
 let pronosticiEsiti = [
-  { matchId:"20260818", vincenti:{p1:"Dole Rimini", p2:"Valtur Brindisi", p3:"Dinamo Sassari"} },
   { matchId:"20260722", vincenti:{p1:"Dole Rimini", p2:"Valtur Brindisi", p3:"Dinamo Sassari"} }
 ];
 
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-18T23:00');
+let kickoffDate = new Date('2026-08-11T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1284,12 +1337,55 @@ function submitReg() {
   updateBudget();
   renderSlots();
   updateSubmit();
+  checkOnboarding(email, nome);
 }
 
 /* ════════════════════════════════════════════
-   GIOCATORI
+   ONBOARDING NUOVI UTENTI (primo voto per email)
 ════════════════════════════════════════════ */
-function initials(name) { return name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+let _obStep = 0, _obTotal = 4;
+
+// mostra l'onboarding solo se l'email non ha mai votato (controllo sul CSV dei voti)
+async function checkOnboarding(email, nome) {
+  try {
+    if (localStorage.getItem('fl_ob_' + email) === '1') return; // già visto su questo dispositivo
+  } catch (e) {}
+  let nuovo = true;
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_VOTI))).text()).slice(1);
+    nuovo = !rows.some(r => (r[3] || '').toLowerCase().trim() === email);
+  } catch (e) { /* se il CSV non è raggiungibile, mostriamo comunque l'onboarding al primo accesso su questo device */ }
+  try { localStorage.setItem('fl_ob_' + email, '1'); } catch (e) {}
+  if (!nuovo) return; // utente di ritorno: niente onboarding
+  const w = document.getElementById('obWelcome');
+  if (w) w.textContent = nome ? `Benvenuto/a, ${nome}!` : 'Benvenuto/a al FantaLibertas!';
+  _obStep = 0;
+  renderOnboarding();
+  document.getElementById('onboarding').style.display = 'flex';
+}
+
+function renderOnboarding() {
+  const slides = document.querySelectorAll('#obSlides .ob-slide');
+  _obTotal = slides.length;
+  slides.forEach((s, i) => s.classList.toggle('active', i === _obStep));
+  const dots = document.getElementById('obDots');
+  if (dots) dots.innerHTML = Array.from({length:_obTotal}, (_,i) => `<span class="${i===_obStep?'on':''}"></span>`).join('');
+  const btn = document.getElementById('obBtn');
+  if (btn) btn.textContent = (_obStep >= _obTotal - 1) ? '🏀 Inizia a giocare!' : 'Avanti →';
+}
+
+function onboardingNext() {
+  suonoTap();
+  if (_obStep >= _obTotal - 1) { chiudiOnboarding(); return; }
+  _obStep++;
+  renderOnboarding();
+}
+
+function chiudiOnboarding() {
+  const o = document.getElementById('onboarding');
+  if (o) o.style.display = 'none';
+}
+
 function getSpent() { return selected.reduce((a,id)=>{ const p=players.find(x=>x.id===id); return a+(p?p.cost:0); },0); }
 
 function renderPlayers() {
@@ -1427,7 +1523,7 @@ function renderPronostici() {
 /* ════════════════════════════════════════════
    SUBMIT VOTO
 ════════════════════════════════════════════ */
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzAuYuRU7o1WCiR79jbzUzDqft-vhiiJBSGbYmouU6l69q8Lt3GeqAqEkxQJeXKv2VA/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxu9ydxcVrPr23q50icmhoeDpF7413OxBtVR5fpPpBO5YcDosdvTZEpvObEN4cyyUm1/exec';
 const CSV_VOTI       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1798318624&single=true&output=csv';
 const CSV_CLASSIFICA = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSX6tnmfi8Sxjg6HeJ2GCZcOf0E5_mvW8zDaOWYeh9hsBz21z_1rGO7OWv30Su7oM9mO8P6P5oi9fdG/pub?gid=1187424992&single=true&output=csv';
 // Per mostrare in classifica il dettaglio "punti giocatori / bonus pronostici":
@@ -1879,7 +1975,7 @@ function generaCardGiornata(idx) {
       ${g.utente ? `<div style="text-align:center;font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.75);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">${g.utente}</div>` : ''}
       <div style="text-align:center;font-family:'Anton',sans-serif;font-size:46px;color:#fff;text-transform:uppercase;line-height:1.05;margin:6px 0 26px">${g.match}</div>
       <div style="text-align:center;margin-bottom:30px">
-        <span style="font-family:'Anton',sans-serif;font-size:150px;line-height:1;background:linear-gradient(180deg,#FFFFFF,#FFB8CE);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">${Number(g.totale).toFixed(1)}</span>
+        <span style="font-family:'Anton',sans-serif;font-size:150px;line-height:1;color:#FFD1DE;text-shadow:0 4px 24px rgba(232,86,126,0.45)">${Number(g.totale).toFixed(1)}</span>
         <span style="font-family:'Oswald',sans-serif;font-size:40px;color:rgba(255,255,255,0.6);margin-left:10px">PUNTI</span>
         ${(g.player!==null&&g.player!==undefined) ? `<div style="font-family:'Oswald',sans-serif;font-size:26px;color:rgba(255,255,255,0.55);margin-top:8px">🏀 ${Number(g.player).toFixed(1)} giocatori${(g.bonus!==null&&g.bonus!==undefined)?` &nbsp;·&nbsp; 🎯 ${g.bonus>=0?'+':''}${g.bonus} pronostici`:''}</div>` : ''}
       </div>
@@ -2050,6 +2146,51 @@ function setMatchTitle(str) {
   } else {
     el.textContent = s; // nessun "vs": una riga sola
   }
+}
+
+// diagnostica: verifica che lo script e i CSV rispondano correttamente
+async function verificaCollegamenti() {
+  const box = document.getElementById('diagResult');
+  if (!box) return;
+  box.style.display = 'block';
+  box.innerHTML = '⏳ Verifica in corso...';
+  const righe = [];
+
+  // 1) Script (SHEETS_URL) — deve rispondere con la versione
+  try {
+    const res = await fetch(SHEETS_URL, { method: 'GET' });
+    const txt = await res.text();
+    let ver = '';
+    try { ver = (JSON.parse(txt).versione) || ''; } catch (e) {}
+    if (ver) righe.push(`✅ Script collegato · versione <b>${ver}</b>`);
+    else righe.push(`⚠️ Script raggiunto ma risposta inattesa (potrebbe essere una versione vecchia). Ridistribuisci lo script.`);
+  } catch (e) {
+    righe.push(`❌ Script NON raggiungibile: controlla <b>SHEETS_URL</b> e che la distribuzione sia "Chiunque".`);
+  }
+
+  // 2) CSV pubblicati
+  const csvs = [
+    ['Voti', typeof CSV_VOTI !== 'undefined' ? CSV_VOTI : ''],
+    ['Classifica', typeof CSV_CLASSIFICA !== 'undefined' ? CSV_CLASSIFICA : ''],
+    ['Punteggi', typeof CSV_PUNTEGGI !== 'undefined' ? CSV_PUNTEGGI : '']
+  ];
+  for (const [nome, url] of csvs) {
+    if (!url) { righe.push(`⚪ CSV ${nome}: non impostato`); continue; }
+    try {
+      const r = await fetch(noCache(url));
+      const t = await r.text();
+      if (r.ok && t && t.indexOf('<') !== 0) {
+        const n = Math.max(0, t.trim().split('\n').length - 1);
+        righe.push(`✅ CSV ${nome}: ok (${n} righe)`);
+      } else {
+        righe.push(`⚠️ CSV ${nome}: risposta non valida (ripubblica il foglio come CSV)`);
+      }
+    } catch (e) {
+      righe.push(`❌ CSV ${nome}: non raggiungibile`);
+    }
+  }
+
+  box.innerHTML = righe.map(r => `<div>${r}</div>`).join('');
 }
 
 function applyAdmin() {
