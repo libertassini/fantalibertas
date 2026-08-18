@@ -7,6 +7,21 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>FantaLibertas</title>
+<!-- Open Graph / anteprima link su WhatsApp, Instagram, Facebook, ecc. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FantaLibertas">
+<meta property="og:title" content="FantaLibertas — Fantasy Basket Libertas Livorno">
+<meta property="og:description" content="Schiera la tua formazione, pronostica le partite di Serie A2 e scala la classifica sfidando gli altri tifosi Amaranto!">
+<meta property="og:image" content="https://libertassini.github.io/fantalibertas/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://libertassini.github.io/fantalibertas/">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FantaLibertas — Fantasy Basket Libertas Livorno">
+<meta name="twitter:description" content="Schiera la tua formazione, pronostica le partite di Serie A2 e scala la classifica sfidando gli altri tifosi Amaranto!">
+<meta name="twitter:image" content="https://libertassini.github.io/fantalibertas/og-image.png">
+<meta name="theme-color" content="#1A0008">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#8B0D2F">
 <meta name="mobile-web-app-capable" content="yes">
@@ -555,6 +570,8 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .st-breakdown .st-pos{color:#5fd88a}
 .st-breakdown .st-neg{color:#e88}
 .st-match b{color:var(--orange2)}
+.st-share{margin-top:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(232,169,187,0.35);border-radius:18px;padding:8px 16px;font-family:var(--font-b);font-size:12px;font-weight:600;color:#F0DCE3;cursor:pointer;transition:all .2s}
+.st-share:hover{background:rgba(174,16,64,0.3);border-color:rgba(232,169,187,0.7)}
 .st-pills{display:flex;flex-wrap:wrap;gap:6px}
 .st-pill{background:rgba(139,13,47,0.15);border:1px solid rgba(174,16,64,0.3);border-radius:14px;padding:4px 11px;font-size:12px;color:var(--muted)}
 .st-prons{font-size:11.5px;color:rgba(192,154,170,0.7);margin-top:8px}
@@ -1026,7 +1043,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-18T23:00');
+let kickoffDate = new Date('2026-08-11T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1825,6 +1842,76 @@ function condividiCardMVP() {
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(() => URL.revokeObjectURL(url), 4000);
       alert('📲 Card MVP salvata! Ora puoi pubblicarla sui social.');
+    }, 'image/png');
+  }).catch(() => {});
+}
+
+// ════════════════════════════════════════════
+//  CARD RISULTATO DI GIORNATA (condivisibile WhatsApp/Instagram)
+// ════════════════════════════════════════════
+function generaCardGiornata(idx) {
+  if (typeof html2canvas === 'undefined') { alert('Attendi un istante e riprova.'); return Promise.reject(); }
+  const g = (window._storicoGiornate || [])[idx];
+  if (!g) return Promise.reject();
+
+  const giocatoriHtml = (g.giocatori || []).map(p => {
+    const voto = (p.voto !== null && p.voto !== undefined) ? Number(p.voto).toFixed(1) : '–';
+    return `<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.18);border-radius:18px;padding:18px 26px;margin-bottom:14px">
+      <span style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#fff">${p.mvp ? '⭐ ' : ''}${p.name}</span>
+      <span style="font-family:'Anton',sans-serif;font-size:40px;color:#E8567E">${voto}</span>
+    </div>`;
+  }).join('');
+
+  const pronHtml = (g.pronostici || []).length
+    ? `<div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:8px">` + g.pronostici.map(p => {
+        const col = p.stato === 'ok' ? '#1f8f4e' : (p.stato === 'ko' ? '#b23b3b' : 'rgba(255,255,255,0.12)');
+        const ic = p.stato === 'ok' ? '✓ ' : (p.stato === 'ko' ? '✗ ' : '');
+        return `<span style="font-family:'Oswald',sans-serif;font-size:26px;color:#fff;background:${col};border-radius:22px;padding:8px 20px">${ic}${p.scelta}</span>`;
+      }).join('') + `</div>`
+    : '';
+
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;left:-99999px;top:0;width:1080px;overflow:hidden;box-sizing:border-box';
+  el.innerHTML = `
+    <div style="width:1080px;position:relative;background:radial-gradient(circle at 50% 12%,#5a1228 0%,#2d0a18 55%,#1A0008 100%);font-family:'Inter',Arial,sans-serif;box-sizing:border-box;padding:64px 60px 54px">
+      <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:10px">
+        <img src="icon-192.png" style="width:72px;height:72px;border-radius:18px" onerror="this.style.display='none'">
+        <span style="font-family:'Anton',sans-serif;font-size:40px;color:#E8567E;letter-spacing:1px">FANTALIBERTAS</span>
+      </div>
+      ${g.utente ? `<div style="text-align:center;font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.75);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">${g.utente}</div>` : ''}
+      <div style="text-align:center;font-family:'Anton',sans-serif;font-size:46px;color:#fff;text-transform:uppercase;line-height:1.05;margin:6px 0 26px">${g.match}</div>
+      <div style="text-align:center;margin-bottom:30px">
+        <span style="font-family:'Anton',sans-serif;font-size:150px;line-height:1;background:linear-gradient(180deg,#FFFFFF,#FFB8CE);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">${Number(g.totale).toFixed(1)}</span>
+        <span style="font-family:'Oswald',sans-serif;font-size:40px;color:rgba(255,255,255,0.6);margin-left:10px">PUNTI</span>
+        ${(g.player!==null&&g.player!==undefined) ? `<div style="font-family:'Oswald',sans-serif;font-size:26px;color:rgba(255,255,255,0.55);margin-top:8px">🏀 ${Number(g.player).toFixed(1)} giocatori${(g.bonus!==null&&g.bonus!==undefined)?` &nbsp;·&nbsp; 🎯 ${g.bonus>=0?'+':''}${g.bonus} pronostici`:''}</div>` : ''}
+      </div>
+      ${giocatoriHtml}
+      ${pronHtml}
+      <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:24px;color:rgba(255,255,255,0.4);margin-top:36px;letter-spacing:1px">libertassini.github.io/fantalibertas</div>
+    </div>`;
+  document.body.appendChild(el);
+  return preloadImg('icon-192.png')
+    .then(() => html2canvas(el, { backgroundColor:'#1A0008', width:1080, windowWidth:1080, scale:1, useCORS:true, logging:false }))
+    .then(c => { el.remove(); return c; })
+    .catch(e => { el.remove(); throw e; });
+}
+
+function condividiGiornata(idx) {
+  const g = (window._storicoGiornate || [])[idx];
+  const testo = (g ? `${g.utente ? g.utente + ' — ' : ''}${g.match}: ${Number(g.totale).toFixed(1)} punti al FantaLibertas! 🏀` : 'Il mio risultato al FantaLibertas! 🏀');
+  generaCardGiornata(idx).then(canvas => {
+    canvas.toBlob(blob => {
+      const file = new File([blob], 'Risultato_FantaLibertas.png', { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], text: testo }).catch(() => {});
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'Risultato_FantaLibertas.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      alert('📲 Immagine salvata! Ora puoi condividerla su WhatsApp o Instagram.');
     }, 'image/png');
   }).catch(() => {});
 }
@@ -2860,6 +2947,7 @@ async function cercaStorico() {
     const partIds = new Set();
 
     let itemsHtml = '';
+    window._storicoGiornate = [];
     rows.sort((a, b) => String(b[6]).localeCompare(String(a[6])));
     rows.forEach(r => {
       const mid = String(r[6]).trim();
@@ -2870,16 +2958,20 @@ async function cercaStorico() {
 
       // punti giocatori
       let ptGio = null;
+      const giocatoriData = [];
       const pills = picks.map(nm => {
         let rval = '';
+        let votoNum = null;
         const pid = nameToId[nm];
         if (vd && pid !== undefined && vd.vals[pid] !== undefined) {
           const rr = parseFloat(vd.vals[pid]);
           rval = ' · ' + rr.toFixed(1);
+          votoNum = rr;
           ptGio = (ptGio || 0) + rr;
           if (mvpByMid[mid] && String(pid) === mvpByMid[mid]) pickedMVP = true;
         }
         const isMvp = (vd && pid !== undefined && mvpByMid[mid] === String(pid));
+        giocatoriData.push({ name: nm, voto: votoNum, mvp: isMvp });
         return `<span class="st-pill${isMvp ? ' st-mvp' : ''}">${isMvp ? '⭐ ' : ''}${nm}${rval}</span>`;
       }).join('');
 
@@ -2887,6 +2979,7 @@ async function cercaStorico() {
       const pronPicks = [r[11], r[12], r[13]];
       let bonus = 0, nGiusti = 0, nValut = 0;
       let pronHtml = '';
+      const pronData = [];
       if (esiti && pronostici && pronostici.length) {
         pronHtml = pronostici.map((p, idx) => {
           const scelta = (pronPicks[idx] || '').trim();
@@ -2896,14 +2989,17 @@ async function cercaStorico() {
             nValut++;
             const ok = scelta === vinc;
             if (ok) { bonus += 5; nGiusti++; } else { bonus -= 5; }
+            pronData.push({ scelta, stato: ok ? 'ok' : 'ko' });
             return `<span class="st-pron-chip ${ok ? 'ok' : 'ko'}">${ok ? '✓' : '✗'} ${scelta}</span>`;
           }
+          pronData.push({ scelta, stato: '' });
           return `<span class="st-pron-chip">${scelta}</span>`;
         }).join('');
         if (nValut === 3 && nGiusti === 3) enPlein = true;
         if (nGiusti > 0) pronRightAny = true;
       } else {
         const prons = pronPicks.filter(Boolean);
+        prons.forEach(s => pronData.push({ scelta: s, stato: '' }));
         pronHtml = prons.map(s => `<span class="st-pron-chip">${s}</span>`).join('');
       }
 
@@ -2928,6 +3024,18 @@ async function cercaStorico() {
           (dispBonus !== null && dispBonus !== undefined ? ` <span>🎯 <b class="${dispBonus>=0?'st-pos':'st-neg'}">${dispBonus>=0?'+':''}${dispBonus}</b> pronostici</span>` : '') +
           `</div>`;
       }
+      window._storicoGiornate.push({
+        utente: nomeCompleto || '',
+        match: matchName,
+        totale: dispTot,
+        player: dispPlayer, bonus: dispBonus,
+        giocatori: giocatoriData,
+        pronostici: pronData
+      });
+      const gidx = window._storicoGiornate.length - 1;
+      const shareBtn = dispTot !== null
+        ? `<button class="st-share" onclick="condividiGiornata(${gidx})">📲 Condividi risultato</button>`
+        : '';
       itemsHtml += `<div class="storico-item">
         <div class="st-match-row">
           <div class="st-match">${matchName}</div>
@@ -2936,6 +3044,7 @@ async function cercaStorico() {
         ${breakdown}
         <div class="st-pills">${pills}</div>
         ${pronHtml ? `<div class="st-prons"><span class="st-prons-lbl">Pronostici:</span> ${pronHtml}</div>` : ''}
+        ${shareBtn}
       </div>`;
     });
 
