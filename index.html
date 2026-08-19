@@ -64,18 +64,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 /* header */
 .header{padding:2.2rem 0 1.5rem;text-align:center;position:relative}
 /* ===== TEMA MATCH DAY ===== */
-.matchday-banner{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px auto 0;max-width:520px;padding:11px 20px;border-radius:30px;background:linear-gradient(135deg,#c0182f 0%,#8B0D2F 100%);box-shadow:0 8px 28px rgba(200,20,45,0.45);animation:mdBannerIn .6s cubic-bezier(.2,.9,.2,1) both, mdGlow 2s ease-in-out infinite}
-.matchday-banner .md-text{font-family:var(--font-d);font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#fff}
-.matchday-banner .md-match{font-family:var(--font-b);font-size:12px;color:rgba(255,255,255,0.85);border-left:1px solid rgba(255,255,255,0.35);padding-left:10px;margin-left:2px}
-.matchday-banner .md-dot{width:11px;height:11px;border-radius:50%;background:#fff;box-shadow:0 0 0 0 rgba(255,255,255,0.7);animation:mdDot 1.3s ease-out infinite;flex:0 0 auto}
-@keyframes mdDot{0%{box-shadow:0 0 0 0 rgba(255,255,255,0.6)}70%{box-shadow:0 0 0 9px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
-@keyframes mdGlow{0%,100%{box-shadow:0 8px 28px rgba(200,20,45,0.4)}50%{box-shadow:0 8px 36px rgba(200,20,45,0.7)}}
-@keyframes mdBannerIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.matchday-banner{display:flex;align-items:center;justify-content:center;margin:16px auto 0;max-width:520px;padding:8px 34px;border-radius:30px;background:linear-gradient(180deg,rgba(139,13,47,0.16),rgba(45,0,20,0.32));border:1px solid rgba(200,20,45,0.35);box-shadow:0 8px 30px rgba(139,13,47,0.3),inset 0 1px 0 rgba(255,255,255,0.05);transform-origin:center;animation:mdBannerIn .5s ease both, heartbeat 1.5s ease-in-out .5s infinite}
+.matchday-banner .md-text{font-family:var(--font-hero,'Anton'),var(--font-d),sans-serif;font-size:clamp(28px,7.5vw,42px);font-weight:400;letter-spacing:2px;text-transform:uppercase;line-height:1;background:linear-gradient(180deg,#E8567E 0%,#C81A3F 55%,#8B0D2F 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(200,20,45,0.55))}
+@keyframes heartbeat{0%{transform:scale(1)}12%{transform:scale(1.07)}24%{transform:scale(1)}36%{transform:scale(1.07)}52%,100%{transform:scale(1)}}
+@keyframes mdBannerIn{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 /* accento su tutta la pagina quando è match day */
 body.is-matchday .match-hero .mh-logo,body.is-matchday .match-hero .mh-ph{animation:mhLogoIn .7s cubic-bezier(.2,.8,.2,1) both, mdLogoPulse 2.4s ease-in-out infinite}
 @keyframes mdLogoPulse{0%,100%{filter:drop-shadow(0 6px 22px rgba(139,13,47,0.5))}50%{filter:drop-shadow(0 6px 30px rgba(232,86,126,0.75))}}
 body.is-matchday .deadline-box{border-color:rgba(200,20,45,0.55)}
-@media(max-width:520px){.matchday-banner{flex-wrap:wrap;gap:6px;padding:9px 14px}.matchday-banner .md-match{border-left:none;padding-left:0;margin-left:0;width:100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){.matchday-banner{animation:mdBannerIn .5s ease both}}
 .brand{display:inline-flex;align-items:center;gap:11px;margin-bottom:1.3rem;padding:6px 16px 6px 8px;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:40px;backdrop-filter:blur(4px)}
 .brand-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 3px 12px rgba(139,13,47,0.5)}
 .brand-name{font-family:var(--font-d);font-size:22px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
@@ -323,10 +320,30 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .success-title{font-family:var(--font-hero);font-size:40px;font-weight:400;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;background:linear-gradient(180deg,#FFFFFF 0%,#F5D9E1 60%,#E8A9BB 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(174,16,64,0.25))}
 .success-sub{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:1.3rem;position:relative}
 .success-section-label{font-family:var(--font-d);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(192,154,170,0.7);margin:1.3rem 0 9px;position:relative}
-.success-pills{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;position:relative}
-.success-pill{display:inline-flex;align-items:center;gap:10px;background:rgba(139,13,47,0.2);border:1px solid rgba(174,16,64,0.4);border-radius:24px;padding:6px 16px 6px 6px;font-size:13px;color:var(--orange2);font-weight:500}
-.success-pill-photo,.success-pill-ph{width:34px;height:34px;border-radius:50%;flex:0 0 auto;object-fit:cover;object-position:top center;border:1.5px solid rgba(232,169,187,0.4)}
-.success-pill-ph{display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#3a0e1e,#8B0D2F);font-family:var(--font-d);font-size:13px;color:rgba(255,255,255,0.65)}
+.success-pills{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;position:relative}
+.success-photo{width:104px;height:104px;border-radius:50%;overflow:hidden;flex:0 0 auto;border:3px solid rgba(232,169,187,0.5);box-shadow:0 8px 22px rgba(139,13,47,0.45),inset 0 0 0 1px rgba(0,0,0,0.2);background:linear-gradient(160deg,#3a0e1e,#8B0D2F)}
+.success-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.success-photo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:34px;color:rgba(255,255,255,0.6)}
+/* ===== REGIA CINEMATOGRAFICA INVIO VOTO ===== */
+.cinema{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 40%,rgba(64,12,32,0.96),rgba(10,0,4,0.98));animation:cinemaIn .3s ease both}
+.cinema.cinema-out{animation:cinemaOut .55s ease both}
+@keyframes cinemaIn{from{opacity:0}to{opacity:1}}
+@keyframes cinemaOut{from{opacity:1}to{opacity:0}}
+.cinema-flash{position:absolute;inset:0;background:#fff;animation:cinemaFlash .55s ease both}
+@keyframes cinemaFlash{0%{opacity:.9}100%{opacity:0}}
+.cinema-glow{position:absolute;width:150vw;height:150vw;left:50%;top:40%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(174,16,64,0.4),transparent 60%);animation:cinemaGlow 2.2s ease-in-out both}
+@keyframes cinemaGlow{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}40%{opacity:1}100%{opacity:.35;transform:translate(-50%,-50%) scale(1.15)}}
+.cinema-stage{position:relative;z-index:1;text-align:center;padding:20px}
+.cinema-photos{display:flex;justify-content:center;gap:16px;margin-bottom:30px}
+.cinema-photo{width:clamp(84px,26vw,116px);height:clamp(84px,26vw,116px);border-radius:50%;overflow:hidden;border:3px solid rgba(232,169,187,0.7);box-shadow:0 12px 34px rgba(139,13,47,0.6),0 0 34px rgba(232,86,126,0.5);background:linear-gradient(160deg,#3a0e1e,#8B0D2F);opacity:0;transform:scale(.2) translateY(50px);animation:cinemaPhoto .7s cubic-bezier(.2,1.35,.4,1) forwards}
+.cinema-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.cinema-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:34px;color:rgba(255,255,255,0.7)}
+@keyframes cinemaPhoto{to{opacity:1;transform:scale(1) translateY(0)}}
+.cinema-title{font-family:var(--font-hero,'Anton'),sans-serif;font-size:clamp(34px,10vw,60px);text-transform:uppercase;letter-spacing:1px;line-height:.98;background:linear-gradient(180deg,#fff 0%,#FFB8CE 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 22px rgba(232,86,126,0.6));opacity:0;transform:scale(.8);animation:cinemaTitle .6s cubic-bezier(.2,1.25,.3,1) .6s forwards}
+@keyframes cinemaTitle{to{opacity:1;transform:scale(1)}}
+.cinema-sub{font-family:var(--font-b);font-size:16px;color:var(--muted);margin-top:16px;opacity:0;animation:cinemaSub .5s ease .95s forwards}
+@keyframes cinemaSub{to{opacity:1}}
+@media(max-width:400px){.success-photo{width:92px;height:92px}}
 .success-pron{display:flex;flex-direction:column;gap:7px;max-width:340px;margin:0 auto;position:relative}
 .success-pron-item{background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:10px;padding:8px 13px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:8px}
 .success-pron-item b{color:#fff;font-family:var(--font-d);font-weight:600;letter-spacing:.3px;text-transform:uppercase;font-size:12px;text-align:right}
@@ -744,9 +761,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
   <!-- tema match day: banner "oggi si gioca" (mostrato solo il giorno della partita) -->
   <div id="matchdayBanner" class="matchday-banner" style="display:none">
-    <span class="md-dot"></span>
     <span class="md-text">Match Day!</span>
-    <span class="md-match" id="mdMatch"></span>
   </div>
 
   <header class="header">
@@ -1113,7 +1128,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-19T23:30');
+let kickoffDate = new Date('2026-08-18T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1627,15 +1642,13 @@ function submitVoto() {
 
   document.getElementById('mainPage').style.display = 'none';
   document.getElementById('successPage').style.display = 'block';
-  lanciaConfetti();
-  suonoConferma();
-  vibra([25, 40, 25, 40, 60]);
+  playCinematicSubmit(sel);
   document.getElementById('successPills').innerHTML = sel.map(p => {
     const initials = p.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
-    const foto = p.photo
-      ? `<img class="success-pill-photo" src="${p.photo}" alt="" onerror="this.outerHTML='<span class=&quot;success-pill-ph&quot;>${initials}</span>'">`
-      : `<span class="success-pill-ph">${initials}</span>`;
-    return `<span class="success-pill">${foto}<span>${p.name} · ${p.cost} cr.</span></span>`;
+    const inner = p.photo
+      ? `<img src="${p.photo}" alt="${p.name}" onerror="this.outerHTML='<span class=&quot;success-photo-ph&quot;>${initials}</span>'">`
+      : `<span class="success-photo-ph">${initials}</span>`;
+    return `<div class="success-photo" title="${p.name}">${inner}</div>`;
   }).join('');
 
   // pronostici scelti
@@ -1707,6 +1720,35 @@ function suonoConferma() {
   if (!_soundOn) return;
   [523, 659, 784, 1047].forEach((f, i) => _beep(f, 0.28, 'triangle', 0.16, i * 0.09));
 }
+// BOATO da palazzetto: colpo grave + folla che esplode (rumore filtrato che gonfia)
+function suonoBoato() {
+  if (!_soundOn) return;
+  const ac = _ac(); if (!ac) return;
+  const t0 = ac.currentTime;
+  // colpo grave d'impatto
+  const boom = ac.createOscillator(); const bg = ac.createGain();
+  boom.type = 'sine';
+  boom.frequency.setValueAtTime(95, t0); boom.frequency.exponentialRampToValueAtTime(42, t0 + 0.5);
+  bg.gain.setValueAtTime(0.0001, t0); bg.gain.exponentialRampToValueAtTime(0.5, t0 + 0.04); bg.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.7);
+  boom.connect(bg); bg.connect(ac.destination); boom.start(t0); boom.stop(t0 + 0.72);
+  // folla: rumore bianco filtrato che gonfia e poi scende
+  const dur = 2.0;
+  const buf = ac.createBuffer(1, Math.floor(ac.sampleRate * dur), ac.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  const src = ac.createBufferSource(); src.buffer = buf;
+  const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 0.6;
+  bp.frequency.setValueAtTime(500, t0); bp.frequency.linearRampToValueAtTime(1500, t0 + 0.9);
+  const ng = ac.createGain();
+  ng.gain.setValueAtTime(0.0001, t0);
+  ng.gain.exponentialRampToValueAtTime(0.3, t0 + 0.55);
+  ng.gain.setValueAtTime(0.3, t0 + 1.0);
+  ng.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  src.connect(bp); bp.connect(ng); ng.connect(ac.destination);
+  src.start(t0); src.stop(t0 + dur);
+  // squillo positivo che emerge sopra la folla
+  [659, 880, 1047].forEach((f, i) => _beep(f, 0.5, 'triangle', 0.14, 0.5 + i * 0.12));
+}
 // vibrazione (dove supportata: Android)
 function vibra(pattern) {
   if (_soundOn && navigator.vibrate) { try { navigator.vibrate(pattern); } catch(e){} }
@@ -1718,6 +1760,37 @@ function toggleSuono() {
   const b = document.getElementById('soundToggle');
   if (b) b.textContent = _soundOn ? '🔊' : '🔇';
   if (_soundOn) suonoTap();
+}
+
+// ════════════════════════════════════════════
+//  REGIA CINEMATOGRAFICA INVIO VOTO
+// ════════════════════════════════════════════
+function playCinematicSubmit(sel) {
+  suonoBoato();
+  vibra([30, 50, 30, 90, 140]);
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  lanciaConfetti();
+  if (reduce) return;
+  const photos = (sel || []).map((p, i) => {
+    const initials = p.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+    const inner = p.photo
+      ? `<img src="${p.photo}" alt="" onerror="this.outerHTML='<span class=&quot;cinema-ph&quot;>${initials}</span>'">`
+      : `<span class="cinema-ph">${initials}</span>`;
+    return `<div class="cinema-photo" style="animation-delay:${(0.14 + i * 0.15).toFixed(2)}s">${inner}</div>`;
+  }).join('');
+  const ov = document.createElement('div');
+  ov.className = 'cinema';
+  ov.innerHTML = `
+    <div class="cinema-flash"></div>
+    <div class="cinema-glow"></div>
+    <div class="cinema-stage">
+      <div class="cinema-photos">${photos}</div>
+      <div class="cinema-title">Formazione<br>schierata!</div>
+      <div class="cinema-sub">La tua squadra scende in campo 🏀</div>
+    </div>`;
+  document.body.appendChild(ov);
+  setTimeout(() => ov.classList.add('cinema-out'), 2000);
+  setTimeout(() => { if (ov.parentNode) ov.remove(); }, 2600);
 }
 
 // pioggia di coriandoli amaranto alla conferma del voto
@@ -3421,12 +3494,7 @@ function checkMatchDay() {
   const banner = document.getElementById('matchdayBanner');
   if (isToday) {
     document.body.classList.add('is-matchday');
-    if (banner) {
-      const mt = document.getElementById('matchTitle');
-      const md = document.getElementById('mdMatch');
-      if (md && mt) md.textContent = (mt.textContent || '').trim();
-      banner.style.display = 'flex';
-    }
+    if (banner) banner.style.display = 'flex';
   } else {
     document.body.classList.remove('is-matchday');
     if (banner) banner.style.display = 'none';
