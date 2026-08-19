@@ -51,6 +51,15 @@ html{scroll-behavior:smooth}
 body{background:var(--court);color:var(--text);font-family:var(--font-b);font-size:15px;line-height:1.6;min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 50% -10%,rgba(139,13,47,0.18) 0%,transparent 60%),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.025) 59px,rgba(255,255,255,0.025) 60px);pointer-events:none;z-index:0}
 .wrap{max-width:720px;margin:0 auto;padding:0 1rem 4rem;position:relative;z-index:1}
+/* ===== sfondo vivo: logo Libertas in filigrana + bagliori che derivano ===== */
+.bg-decor{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-decor .bg-crest{position:absolute;top:46%;left:50%;width:min(74vw,540px);height:min(74vw,540px);transform:translate(-50%,-50%);background:url('libertas-bg.png') center/contain no-repeat;opacity:0.07;animation:bgFloat 24s ease-in-out infinite}
+.bg-decor .bg-glow1{position:absolute;top:-12%;right:-16%;width:62vw;height:62vw;background:radial-gradient(circle,rgba(174,16,64,0.20),transparent 62%);animation:bgGlow1 18s ease-in-out infinite}
+.bg-decor .bg-glow2{position:absolute;bottom:-16%;left:-14%;width:56vw;height:56vw;background:radial-gradient(circle,rgba(139,13,47,0.18),transparent 60%);animation:bgGlow2 21s ease-in-out infinite}
+@keyframes bgFloat{0%,100%{transform:translate(-50%,-50%) scale(1) rotate(0deg)}50%{transform:translate(-50%,-53%) scale(1.05) rotate(3deg)}}
+@keyframes bgGlow1{0%,100%{transform:translate(0,0);opacity:.65}50%{transform:translate(-7%,9%);opacity:1}}
+@keyframes bgGlow2{0%,100%{transform:translate(0,0);opacity:.6}50%{transform:translate(8%,-7%);opacity:.95}}
+@media(prefers-reduced-motion:reduce){.bg-decor .bg-crest,.bg-decor .bg-glow1,.bg-decor .bg-glow2{animation:none}}
 
 /* header */
 .header{padding:2.2rem 0 1.5rem;text-align:center;position:relative}
@@ -328,12 +337,17 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .share-hint{text-align:center;font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px}
 
 /* tab nav */
-.tab-nav{display:flex;gap:6px;margin-bottom:1.2rem;background:rgba(255,255,255,0.03);padding:5px;border-radius:calc(var(--r) + 4px);border:1px solid var(--line)}
-.tab-btn{flex:1;padding:10px 4px;font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;background:transparent;border:none;border-radius:var(--r);cursor:pointer;color:var(--muted);transition:all .22s;white-space:nowrap}
-@media(max-width:520px){.tab-btn{font-size:10px;padding:9px 2px;letter-spacing:0}}
-@media(max-width:380px){.tab-btn{font-size:9px}}
+.tab-nav{display:flex;gap:6px;margin-bottom:1.2rem;background:linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));padding:6px;border-radius:calc(var(--r) + 6px);border:1px solid rgba(232,169,187,0.14);box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 8px 24px rgba(0,0,0,0.25);backdrop-filter:blur(4px)}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:9px 3px;font-family:var(--font-d);font-weight:700;letter-spacing:0.4px;text-transform:uppercase;background:transparent;border:none;border-radius:var(--r);cursor:pointer;color:var(--muted);transition:all .25s cubic-bezier(.2,.7,.2,1);white-space:nowrap;position:relative;overflow:hidden}
+.tab-btn .tab-ic{font-size:17px;line-height:1;transition:transform .25s;filter:grayscale(.4) opacity(.85)}
+.tab-btn .tab-lb{font-size:11px}
+@media(max-width:520px){.tab-btn .tab-lb{font-size:9.5px;letter-spacing:0}.tab-btn .tab-ic{font-size:16px}}
+@media(max-width:380px){.tab-btn .tab-lb{font-size:8.5px}}
 .tab-btn:hover{color:var(--text)}
-.tab-btn.active{background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);color:#fff;box-shadow:0 3px 12px rgba(139,13,47,0.45)}
+.tab-btn:hover .tab-ic{transform:translateY(-1px) scale(1.08);filter:grayscale(0) opacity(1)}
+.tab-btn.active{background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 55%,#c81a3f 100%);color:#fff;box-shadow:0 4px 16px rgba(174,16,64,0.5),inset 0 1px 0 rgba(255,255,255,0.18);transform:translateY(-1px)}
+.tab-btn.active .tab-ic{filter:grayscale(0) opacity(1) drop-shadow(0 0 6px rgba(255,190,210,0.7));transform:scale(1.12)}
+.tab-btn.active::after{content:'';position:absolute;left:50%;bottom:3px;transform:translateX(-50%);width:16px;height:2.5px;border-radius:2px;background:rgba(255,255,255,0.85);box-shadow:0 0 8px rgba(255,255,255,0.6)}
 
 /* valutazioni ultimo match */
 .val-match-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:14px}
@@ -684,6 +698,9 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
   </div>
 </div>
 
+<!-- sfondo vivo (logo in filigrana + bagliori) -->
+<div class="bg-decor" aria-hidden="true"><div class="bg-glow1"></div><div class="bg-glow2"></div><div class="bg-crest"></div></div>
+
 <!-- interruttore suoni -->
 <button id="soundToggle" class="sound-toggle" onclick="toggleSuono()" title="Attiva/disattiva suoni">🔊</button>
 
@@ -726,7 +743,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
   <!-- tema match day: banner "oggi si gioca" (mostrato solo il giorno della partita) -->
   <div id="matchdayBanner" class="matchday-banner" style="display:none">
     <span class="md-dot"></span>
-    <span class="md-text">Oggi si gioca!</span>
+    <span class="md-text">Match Day!</span>
     <span class="md-match" id="mdMatch"></span>
   </div>
 
@@ -737,7 +754,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Gema Montecatini</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Pistoia Basket</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
@@ -759,10 +776,10 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
   <!-- TAB -->
   <div class="tab-nav">
-    <button class="tab-btn active" onclick="showTab('voto')">Vota</button>
-    <button class="tab-btn" onclick="showTab('classifica')">Classifica</button>
-    <button class="tab-btn" onclick="showTab('valutazioni')">Valutazioni</button>
-    <button class="tab-btn" onclick="showTab('calendario')">Calendario</button>
+    <button class="tab-btn active" onclick="showTab('voto')"><span class="tab-ic">🏀</span><span class="tab-lb">Vota</span></button>
+    <button class="tab-btn" onclick="showTab('classifica')"><span class="tab-ic">🏆</span><span class="tab-lb">Classifica</span></button>
+    <button class="tab-btn" onclick="showTab('valutazioni')"><span class="tab-ic">⭐</span><span class="tab-lb">Valutazioni</span></button>
+    <button class="tab-btn" onclick="showTab('calendario')"><span class="tab-ic">📅</span><span class="tab-lb">Calendario</span></button>
   </div>
 
   <!-- ── TAB VOTO ── -->
@@ -1094,7 +1111,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-19T23:00');
+let kickoffDate = new Date('2026-08-18T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1107,7 +1124,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Cividale",         logo: "montecatini.png" }
+  trasferta: { nome: "Cividale",         logo: "pistoia.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -3400,6 +3417,32 @@ function checkMatchDay() {
   }
 }
 checkMatchDay();
+
+// effetto tilt 3D premium sulle card giocatore (segue il cursore, solo desktop)
+function initCardTilt() {
+  if (!window.matchMedia || !window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  const grid = document.getElementById('playersGrid');
+  if (!grid) return;
+  grid.addEventListener('pointermove', e => {
+    const card = e.target.closest('.player-card');
+    if (!card || !grid.contains(card)) return;
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    const rx = (-py * 7).toFixed(2);
+    const ry = (px * 9).toFixed(2);
+    card.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px) scale(1.02)`;
+    card.style.transition = 'transform .06s linear';
+  });
+  grid.addEventListener('pointerleave', () => {
+    grid.querySelectorAll('.player-card').forEach(c => { c.style.transform = ''; c.style.transition = ''; });
+  });
+  grid.addEventListener('pointerout', e => {
+    const card = e.target.closest('.player-card');
+    if (card && !card.contains(e.relatedTarget)) { card.style.transform = ''; card.style.transition = ''; }
+  });
+}
+initCardTilt();
 
 // schermata di benvenuto: mostra all'avvio, poi sfuma (una volta per sessione, tap per saltare)
 (function initSplash(){
