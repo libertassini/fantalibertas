@@ -53,7 +53,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .wrap{max-width:720px;margin:0 auto;padding:0 1rem 4rem;position:relative;z-index:1}
 /* ===== sfondo vivo: logo Libertas in filigrana + bagliori che derivano ===== */
 .bg-decor{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bg-decor .bg-crest{position:absolute;top:46%;left:50%;width:min(74vw,540px);height:min(74vw,540px);transform:translate(-50%,-50%);background:url('libertas-bg.png') center/contain no-repeat;opacity:0.07;animation:bgFloat 24s ease-in-out infinite}
+.bg-decor .bg-crest{position:absolute;top:46%;left:50%;width:min(78vw,560px);height:min(78vw,560px);transform:translate(-50%,-50%);opacity:0.07;animation:bgFloat 24s ease-in-out infinite}
+.bg-decor .bg-crest svg{width:100%;height:100%;display:block}
 .bg-decor .bg-glow1{position:absolute;top:-12%;right:-16%;width:62vw;height:62vw;background:radial-gradient(circle,rgba(174,16,64,0.20),transparent 62%);animation:bgGlow1 18s ease-in-out infinite}
 .bg-decor .bg-glow2{position:absolute;bottom:-16%;left:-14%;width:56vw;height:56vw;background:radial-gradient(circle,rgba(139,13,47,0.18),transparent 60%);animation:bgGlow2 21s ease-in-out infinite}
 @keyframes bgFloat{0%,100%{transform:translate(-50%,-50%) scale(1) rotate(0deg)}50%{transform:translate(-50%,-53%) scale(1.05) rotate(3deg)}}
@@ -1111,7 +1112,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-19T23:30');
+let kickoffDate = new Date('2026-08-18T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1967,9 +1968,14 @@ function generaCardGiornata(idx) {
 
   const giocatoriHtml = (g.giocatori || []).map(p => {
     const voto = (p.voto !== null && p.voto !== undefined) ? Number(p.voto).toFixed(1) : '–';
-    return `<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.18);border-radius:18px;padding:18px 26px;margin-bottom:14px">
-      <span style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#fff">${p.mvp ? '⭐ ' : ''}${p.name}</span>
-      <span style="font-family:'Anton',sans-serif;font-size:40px;color:#E8567E">${voto}</span>
+    const initials = p.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+    const foto = p.photo
+      ? `<img src="${p.photo}" style="width:78px;height:78px;border-radius:50%;object-fit:cover;object-position:top center;border:2px solid rgba(232,169,187,0.45);flex:0 0 auto;background:#2d0a18" onerror="this.outerHTML='<div style=&quot;width:78px;height:78px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#3a0e1e,#8B0D2F);font-family:Anton,sans-serif;font-size:30px;color:rgba(255,255,255,0.6)&quot;>${initials}</div>'">`
+      : `<div style="width:78px;height:78px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#3a0e1e,#8B0D2F);font-family:'Anton',sans-serif;font-size:30px;color:rgba(255,255,255,0.6)">${initials}</div>`;
+    return `<div style="display:flex;align-items:center;gap:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.18);border-radius:20px;padding:14px 22px;margin-bottom:14px">
+      ${foto}
+      <span style="flex:1;font-family:'Oswald',sans-serif;font-size:33px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#fff;line-height:1.1">${p.mvp ? '⭐ ' : ''}${p.name}</span>
+      <span style="font-family:'Anton',sans-serif;font-size:42px;color:#E8567E;flex:0 0 auto">${voto}</span>
     </div>`;
   }).join('');
 
@@ -2001,7 +2007,8 @@ function generaCardGiornata(idx) {
       <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:24px;color:rgba(255,255,255,0.4);margin-top:36px;letter-spacing:1px">libertassini.github.io/fantalibertas</div>
     </div>`;
   document.body.appendChild(el);
-  return preloadImg('icon-192.png')
+  const fotoDaCaricare = ['icon-192.png'].concat((g.giocatori || []).map(p => p.photo).filter(Boolean));
+  return Promise.all(fotoDaCaricare.map(src => preloadImg(src)))
     .then(() => html2canvas(el, { backgroundColor:'#1A0008', width:1080, windowWidth:1080, scale:1, useCORS:true, logging:false }))
     .then(c => { el.remove(); return c; })
     .catch(e => { el.remove(); throw e; });
@@ -3156,7 +3163,8 @@ async function cercaStorico() {
           if (mvpByMid[mid] && String(pid) === mvpByMid[mid]) pickedMVP = true;
         }
         const isMvp = (vd && pid !== undefined && mvpByMid[mid] === String(pid));
-        giocatoriData.push({ name: nm, voto: votoNum, mvp: isMvp });
+        const pObj = (pid !== undefined) ? players.find(x => x.id === pid) : null;
+        giocatoriData.push({ name: nm, voto: votoNum, mvp: isMvp, photo: pObj ? pObj.photo : null });
         return `<span class="st-pill${isMvp ? ' st-mvp' : ''}">${isMvp ? '⭐ ' : ''}${nm}${rval}</span>`;
       }).join('');
 
