@@ -2425,6 +2425,8 @@ function renderClassificaCalcolata(classifica) {
   html += `<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
       <button class="admin-save-btn btn-green" id="salvaPunteggiBtn" style="background:#2E7D46" onclick="salvaPunteggiGiornata()">💾 Salva punteggi di giornata nel foglio</button>
       <p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">Archivia in modo permanente i punti di ogni email per questa giornata nel foglio <b>"Punteggi"</b> (creato in automatico). Così lo storico resta salvato e verificabile. Se ricalcoli la stessa giornata, i valori vengono aggiornati (nessun doppione).</p>
+      <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--muted);margin-top:6px" onclick="copiaPunteggi()">📋 Copia punteggi (metodo manuale)</button>
+      <p style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5">In alternativa al salvataggio automatico: copia i punteggi e <b>incollali a mano</b> nel foglio <b>"Punteggi"</b>, alla <b>prima riga vuota</b>. Se il foglio non esiste ancora, l'istruzione dopo la copia ti guida.</p>
     </div>`;
   html += `<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
       <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--muted)" onclick="copiaValutazioniCodice()">📋 Copia valutazioni per il codice</button>
@@ -2469,6 +2471,33 @@ function salvaPunteggiGiornata() {
     reset();
     alert('La risposta non è leggibile dal browser (può capitare), quindi non posso confermare in automatico.\n\nControlla la scheda "Punteggi" su Google Sheets:\n• se compare → tutto ok.\n• se NON compare → il SHEETS_URL nel file index.html non è quello nuovo (deve mostrare "punteggi-v1"). Aggiornalo e ricarica su GitHub.');
   });
+}
+
+// copia i punteggi di giornata in formato TSV, da incollare a mano nel foglio "Punteggi"
+function copiaPunteggi() {
+  const dati = window._punteggiExport;
+  if (!dati || !dati.righe || dati.righe.length === 0) { alert('Prima calcola i punteggi della giornata (pulsante "Calcola punteggi classifica").'); return; }
+  const now = new Date().toLocaleString('it-IT');
+  // colonne del foglio "Punteggi": Timestamp | ID Partita | Partita | Nome | Cognome | Email | Punti Giocatori | Bonus Pronostici | Totale Giornata
+  let tsv = '';
+  dati.righe.forEach(r => {
+    tsv += `${now}\t${dati.matchId}\t${dati.matchName}\t${r.nome}\t${r.cognome}\t${r.email}\t${r.puntiGiocatori}\t${r.bonus}\t${r.totale}\n`;
+  });
+  const istruzioni = '✅ Punteggi copiati! (' + dati.righe.length + ' righe)\n\n'
+    + 'Come incollarli nel foglio "Punteggi":\n'
+    + '1) Apri il foglio "Punteggi" su Google Sheets.\n'
+    + '2) Clicca sulla PRIMA CELLA VUOTA della colonna A (sotto le righe già presenti) e incolla (Ctrl+V).\n\n'
+    + 'Se il foglio "Punteggi" NON esiste ancora:\n'
+    + '• crealo (tab in basso, "+"), rinominalo "Punteggi";\n'
+    + '• nella riga 1 incolla questa intestazione (una colonna per cella):\n'
+    + 'Timestamp | ID Partita | Partita | Nome | Cognome | Email | Punti Giocatori | Bonus Pronostici | Totale Giornata\n'
+    + '• poi incolla i dati copiati dalla riga 2.\n\n'
+    + '⚠️ Se stai RICALCOLANDO la stessa partita, prima elimina dal foglio le righe con lo stesso "ID Partita" (' + dati.matchId + '), per non avere doppioni.';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(tsv).then(() => alert(istruzioni)).catch(() => fallbackCopy(tsv));
+  } else {
+    fallbackCopy(tsv);
+  }
 }
 
 // copia la classifica negli appunti in formato TSV (incollabile su Google Sheets)
