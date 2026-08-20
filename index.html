@@ -165,7 +165,27 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 
 /* giocatori */
 .players-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(154px,1fr));gap:10px;margin-bottom:1.5rem}
-.player-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);cursor:pointer;transition:border-color .18s,background .18s,transform .12s;overflow:hidden;position:relative;user-select:none}
+.player-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);cursor:pointer;transition:border-color .18s,background .18s,transform .12s;overflow:hidden;position:relative;user-select:none;perspective:1000px}
+/* ===== flip card giocatore (retro fantasy) ===== */
+.pc-inner{position:relative;width:100%;transition:transform .55s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.player-card.flipped .pc-inner{transform:rotateY(180deg)}
+.pc-front,.pc-back{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.pc-front{position:relative}
+.pc-back{position:absolute;inset:0;transform:rotateY(180deg);background:linear-gradient(165deg,#2c0913,#180007);border-radius:var(--rl);display:flex;flex-direction:column;padding:14px 13px 12px;overflow:hidden}
+.pc-info{position:absolute;top:8px;right:8px;z-index:5;width:23px;height:23px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.4);color:#fff;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pc-info:hover{background:rgba(174,16,64,0.6);border-color:rgba(232,169,187,0.6)}
+.pc-close{position:absolute;top:8px;right:8px;z-index:5;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.07);color:var(--muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pcb-head{font-family:var(--font-d);font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.3px;color:#fff;line-height:1.1;padding-right:28px}
+.pcb-role{font-size:10px;color:var(--muted);margin:2px 0 11px}
+.pcb-rows{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.pcb-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:10.5px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:5px}
+.pcb-row b{color:#F0DCE3;font-size:11.5px;text-align:right;font-weight:600}
+.pcb-forma{margin-top:auto;display:flex;align-items:center;gap:6px}
+.pcb-forma-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.pcb-dots{display:flex;gap:4px}
+.pcb-dot{min-width:19px;height:19px;padding:0 3px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:9.5px;font-weight:700;color:#fff}
+.pcb-dot.g{background:#1f8f4e}.pcb-dot.y{background:#b8860b}.pcb-dot.r{background:#b23b3b}.pcb-dot.n{background:rgba(255,255,255,0.14);color:var(--muted)}
+.pcb-trend{font-size:13px;margin-left:auto}
 .player-card:hover{background:var(--card-h);border-color:rgba(255,255,255,0.15);transform:translateY(-2px)}
 .player-card.selected{border-color:var(--orange);background:rgba(139,13,47,0.15)}
 .player-card.disabled{opacity:.35;pointer-events:none}
@@ -380,9 +400,9 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .val-card-body{padding:10px 12px 13px}
 .val-card-name{font-family:var(--font-d);font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;line-height:1.15;margin-bottom:2px}
 .val-card-role{font-size:10px;color:var(--muted);margin-bottom:9px}
-.val-card-score{display:flex;align-items:flex-end;justify-content:space-between}
+.val-card-score{display:flex;align-items:flex-end;justify-content:space-between;gap:6px}
 .val-score-big{font-family:var(--font-d);font-size:30px;font-weight:800;line-height:1;background:linear-gradient(180deg,#FFFFFF,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.val-score-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:3px}
+.val-score-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:3px;line-height:1.2}
 .val-avg{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
 .val-avg b{color:var(--orange2);font-family:var(--font-d);font-size:15px;font-weight:700}
 .val-empty{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:13px}
@@ -781,7 +801,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Valtur Brindisi</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Pistoia Basket</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
@@ -1138,7 +1158,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-20T23:50');
+let kickoffDate = new Date('2026-08-18T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1151,7 +1171,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Cividale",         logo: "brindisi.png" }
+  trasferta: { nome: "Cividale",         logo: "pistoia.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1436,6 +1456,16 @@ function renderPlayers() {
   const grid = document.getElementById('playersGrid');
   grid.innerHTML = '';
   const spent = getSpent();
+  // statistiche fantasy per il retro (flip): media e forma recente da valutazioniStorico
+  const _vd = ((typeof getValutazioniData === 'function' ? getValutazioniData() : []) || [])
+    .slice().sort((a,b) => String(a.date||a.matchId||'').localeCompare(String(b.date||b.matchId||'')));
+  const giocStats = {};
+  _vd.forEach(m => {
+    Object.entries(m.vals || {}).forEach(([pid, v]) => {
+      const val = parseFloat(v);
+      if (!isNaN(val)) (giocStats[pid] = giocStats[pid] || { vals: [] }).vals.push(val);
+    });
+  });
   players.forEach(p => {
     const isSel   = selected.includes(p.id);
     const maxed   = selected.length >= MAX_SEL && !isSel;
@@ -1449,24 +1479,53 @@ function renderPlayers() {
       ? `<img class="player-photo" src="${p.photo}" alt="Foto ${p.name}" loading="lazy">`
       : `<div class="player-placeholder"><div class="player-initials">${initials(p.name)}</div></div>`;
     // percentuale di scelta (per la partita corrente), se disponibile
-    let pctHtml = '';
+    let pctHtml = '', pct = null;
     if (statsPartitaCache && statsPartitaCache.totale > 0) {
       const cnt = statsPartitaCache.pick[p.name] || 0;
-      const pct = Math.round(cnt / statsPartitaCache.totale * 100);
+      pct = Math.round(cnt / statsPartitaCache.totale * 100);
       pctHtml = `<div class="pick-pct" title="Scelto dal ${pct}% dei votanti"><span class="pick-bar"><span style="width:${pct}%"></span></span><span class="pick-lbl">${pct}%</span></div>`;
     }
-    card.innerHTML = `${photoHtml}
-      <div class="player-info">
-        <div class="player-name">${p.name}</div>
-        <div class="player-role">${p.role}</div>
-        <div class="player-cost-row">
-          <span class="player-cost-num">${p.cost}</span>
-          <span class="player-cost-lbl">${p.cost === 1 ? 'credito' : 'crediti'}</span>
+    // dati fantasy per il retro
+    const gs = giocStats[p.id];
+    const media = (gs && gs.vals.length) ? (gs.vals.reduce((a,b)=>a+b,0)/gs.vals.length) : null;
+    const forma = gs ? gs.vals.slice(-3) : [];
+    const dotCls = v => media==null ? 'n' : (v >= media ? 'g' : (v >= media*0.82 ? 'y' : 'r'));
+    const formaHtml = forma.length
+      ? forma.map(v => `<span class="pcb-dot ${dotCls(v)}">${v % 1 ? v.toFixed(1) : v.toFixed(0)}</span>`).join('')
+      : '<span class="pcb-dot n">–</span>';
+    let trend = '';
+    if (forma.length >= 2) { const d = forma[forma.length-1] - forma[forma.length-2]; trend = d>0.05?'📈':(d<-0.05?'📉':'➡️'); }
+    const statsTxt = (p.stats && p.stats.length) ? p.stats.join(' · ') : '';
+    card.innerHTML = `<div class="pc-inner">
+      <div class="pc-front">
+        <button class="pc-info" type="button" aria-label="Scheda giocatore">i</button>
+        ${photoHtml}
+        <div class="player-info">
+          <div class="player-name">${p.name}</div>
+          <div class="player-role">${p.role}</div>
+          <div class="player-cost-row">
+            <span class="player-cost-num">${p.cost}</span>
+            <span class="player-cost-lbl">${p.cost === 1 ? 'credito' : 'crediti'}</span>
+          </div>
+          ${pctHtml}
         </div>
-        ${pctHtml}
+        <div class="sel-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </div>
-      <div class="sel-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>`;
+      <div class="pc-back">
+        <button class="pc-close" type="button" aria-label="Chiudi scheda">↩</button>
+        <div class="pcb-head">${p.name}</div>
+        <div class="pcb-role">${p.role}</div>
+        <div class="pcb-rows">
+          <div class="pcb-row"><span>Quotazione</span><b>${p.cost} cr.</b></div>
+          ${statsTxt ? `<div class="pcb-row"><span>Statistiche</span><b>${statsTxt}</b></div>` : ''}
+          <div class="pcb-row"><span>Media camp.</span><b>${media!=null?media.toFixed(1):'–'}</b></div>
+          <div class="pcb-row"><span>Scelto da</span><b>${pct!=null?pct+'%':'–'}</b></div>
+        </div>
+        <div class="pcb-forma"><span class="pcb-forma-lbl">Forma</span><span class="pcb-dots">${formaHtml}</span><span class="pcb-trend">${trend}</span></div>
+      </div>
+    </div>`;
     const toggle = () => {
+      if (card.classList.contains('flipped')) { card.classList.remove('flipped'); return; }
       if (votingClosed) return;
       if (selected.includes(p.id)) { selected = selected.filter(x=>x!==p.id); suonoTap(true); }
       else {
@@ -1477,6 +1536,10 @@ function renderPlayers() {
     };
     card.addEventListener('click', toggle);
     card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+    const infoBtn = card.querySelector('.pc-info');
+    if (infoBtn) infoBtn.addEventListener('click', e=>{ e.stopPropagation(); card.classList.add('flipped'); suonoTap(false); });
+    const closeBtn = card.querySelector('.pc-back .pc-close');
+    if (closeBtn) closeBtn.addEventListener('click', e=>{ e.stopPropagation(); card.classList.remove('flipped'); suonoTap(true); });
     grid.appendChild(card);
   });
 }
@@ -2801,7 +2864,7 @@ function renderValutazioni() {
           <div class="mvp-role">${mp.role||''}</div>
           <button class="mvp-share" onclick="condividiCardMVP()">📲 Condividi la card MVP</button>
         </div>
-        <div class="mvp-score"><span class="mvp-score-lbl">Voto</span><span class="animate-num" data-target="${mvpVal}" data-dec="1">0.0</span></div>
+        <div class="mvp-score"><span class="mvp-score-lbl">Val.</span><span class="animate-num" data-target="${mvpVal}" data-dec="1">0.0</span></div>
       </div>`;
     }
   }
@@ -2826,7 +2889,7 @@ function renderValutazioni() {
         <div class="val-card-name">${p.name}</div>
         <div class="val-card-role">${p.role||''}</div>
         <div class="val-card-score">
-          <span class="val-score-lbl">Voto</span>
+          <span class="val-score-lbl">Val.</span>
           <span class="val-score-big animate-num" data-target="${voto}" data-dec="1">0.0</span>
         </div>
         ${media !== null ? `<div class="val-avg"><span>Media campionato</span><b>${media.toFixed(1)}</b></div>` : ''}
