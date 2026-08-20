@@ -470,6 +470,16 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .val-cards .val-card:nth-child(6){animation-delay:.27s}
 .val-cards .val-card:nth-child(n+7){animation-delay:.32s}
 .val-card:hover{box-shadow:0 12px 30px rgba(139,13,47,0.35),inset 0 1px 0 rgba(255,255,255,0.08)}
+/* reveal cinema dei voti (pop + bagliore, a cascata) */
+.val-score-big{animation:voteReveal .55s cubic-bezier(.2,1.5,.3,1) both}
+@keyframes voteReveal{0%{opacity:0;transform:scale(2.1);filter:blur(2px) drop-shadow(0 0 16px rgba(232,86,126,0.9))}55%{opacity:1;filter:blur(0) drop-shadow(0 0 14px rgba(232,86,126,0.7))}100%{opacity:1;transform:scale(1);filter:blur(0) drop-shadow(0 0 0 rgba(232,86,126,0))}}
+.val-cards .val-card:nth-child(1) .val-score-big{animation-delay:.30s}
+.val-cards .val-card:nth-child(2) .val-score-big{animation-delay:.40s}
+.val-cards .val-card:nth-child(3) .val-score-big{animation-delay:.50s}
+.val-cards .val-card:nth-child(4) .val-score-big{animation-delay:.60s}
+.val-cards .val-card:nth-child(5) .val-score-big{animation-delay:.70s}
+.val-cards .val-card:nth-child(6) .val-score-big{animation-delay:.80s}
+.val-cards .val-card:nth-child(n+7) .val-score-big{animation-delay:.90s}
 
 /* classifica: righe in ingresso + evidenza podio */
 .rank-table tbody tr{animation:riseIn .5s ease both}
@@ -771,7 +781,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Valtur Brindisi</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Pistoia Basket</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
@@ -1128,7 +1138,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-20T23:50');
+let kickoffDate = new Date('2026-08-18T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1141,7 +1151,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Cividale",         logo: "brindisi.png" }
+  trasferta: { nome: "Cividale",         logo: "pistoia.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -2817,7 +2827,7 @@ function renderValutazioni() {
         <div class="val-card-role">${p.role||''}</div>
         <div class="val-card-score">
           <span class="val-score-lbl">Voto</span>
-          <span class="val-score-big">${voto.toFixed(1)}</span>
+          <span class="val-score-big animate-num" data-target="${voto}" data-dec="1">0.0</span>
         </div>
         ${media !== null ? `<div class="val-avg"><span>Media campionato</span><b>${media.toFixed(1)}</b></div>` : ''}
       </div>
@@ -2935,7 +2945,7 @@ function drawRanking() {
     } else {
       mid = `<td><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>`;
     }
-    html += `<tr data-name="${nameL}" data-email="${(e.email||'').toLowerCase().trim()}">
+    html += `<tr data-name="${nameL}" data-email="${(e.email||'').toLowerCase().trim()}" style="animation-delay:${Math.min(i*0.06,1.4).toFixed(2)}s">
       <td class="rank-pos ${posClass}">${medal||i+1}</td>
       <td><div class="rank-nm" style="font-weight:500">${e.nome} ${e.cognome}</div><div class="rank-em" style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
       ${mid}
