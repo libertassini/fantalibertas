@@ -171,21 +171,29 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .player-card.flipped .pc-inner{transform:rotateY(180deg)}
 .pc-front,.pc-back{backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .pc-front{position:relative}
-.pc-back{position:absolute;inset:0;transform:rotateY(180deg);background:linear-gradient(165deg,#2c0913,#180007);border-radius:var(--rl);display:flex;flex-direction:column;padding:14px 13px 12px;overflow:hidden}
-.pc-info{position:absolute;top:8px;right:8px;z-index:5;width:23px;height:23px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.4);color:#fff;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pc-back{position:absolute;inset:0;transform:rotateY(180deg);background:radial-gradient(circle at 50% -10%,#43112680,transparent 60%),linear-gradient(165deg,#320d1d,#160006);border:1px solid rgba(200,20,45,0.3);border-radius:var(--rl);display:flex;flex-direction:column;padding:15px 14px 14px;overflow:hidden}
+.pcb-crest{position:absolute;right:-34px;bottom:-34px;width:150px;height:150px;background:url('libertas-bg.png') center/contain no-repeat;opacity:0.06;pointer-events:none;z-index:0}
+.pcb-top,.pcb-stats,.pcb-forma{position:relative;z-index:1}
+.pc-info{position:absolute;top:8px;right:8px;z-index:6;width:23px;height:23px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.4);color:#fff;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .pc-info:hover{background:rgba(174,16,64,0.6);border-color:rgba(232,169,187,0.6)}
-.pc-close{position:absolute;top:8px;right:8px;z-index:5;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.07);color:var(--muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.pcb-head{font-family:var(--font-d);font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.3px;color:#fff;line-height:1.1;padding-right:28px}
-.pcb-role{font-size:10px;color:var(--muted);margin:2px 0 11px}
-.pcb-rows{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
-.pcb-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:10.5px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:5px}
-.pcb-row b{color:#F0DCE3;font-size:11.5px;text-align:right;font-weight:600}
-.pcb-forma{margin-top:auto;display:flex;align-items:center;gap:6px}
-.pcb-forma-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
-.pcb-dots{display:flex;gap:4px}
-.pcb-dot{min-width:19px;height:19px;padding:0 3px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:9.5px;font-weight:700;color:#fff}
-.pcb-dot.g{background:#1f8f4e}.pcb-dot.y{background:#b8860b}.pcb-dot.r{background:#b23b3b}.pcb-dot.n{background:rgba(255,255,255,0.14);color:var(--muted)}
-.pcb-trend{font-size:13px;margin-left:auto}
+.pc-close{position:absolute;top:8px;right:8px;z-index:6;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.07);color:var(--muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pc-close:hover{background:rgba(174,16,64,0.5);color:#fff}
+.pc-cost-badge{position:absolute;top:8px;left:8px;z-index:5;display:flex;align-items:baseline;gap:2px;font-family:var(--font-d);font-weight:800;font-size:15px;color:#fff;background:linear-gradient(135deg,#c81a3f,#8B0D2F);border:1px solid rgba(232,169,187,0.4);border-radius:10px;padding:3px 9px;box-shadow:0 3px 10px rgba(139,13,47,0.55)}
+.pc-cost-badge span{font-size:8px;font-weight:600;text-transform:uppercase;opacity:.85}
+.pcb-top{padding-right:26px;margin-bottom:14px}
+.pcb-head{font-family:var(--font-d);font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.3px;color:#fff;line-height:1.05}
+.pcb-role-badge{display:inline-block;margin-top:7px;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#F0DCE3;background:linear-gradient(135deg,rgba(174,16,64,0.55),rgba(139,13,47,0.3));border:1px solid rgba(232,169,187,0.3);border-radius:20px;padding:3px 11px}
+.pcb-stats{display:flex;justify-content:space-between;gap:6px;margin-bottom:14px}
+.pcb-stat{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:9px 2px}
+.pcb-stat-v{font-family:var(--font-num,var(--font-d));font-weight:800;font-size:20px;line-height:1;background:linear-gradient(180deg,#fff,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.pcb-stat-l{font-size:7.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.pcb-forma{margin-top:auto}
+.pcb-forma-lbl{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:7px}
+.pcb-forma-row{display:flex;align-items:center;gap:6px}
+.pcb-dots{display:flex;gap:5px}
+.pcb-dot{min-width:26px;height:26px;padding:0 4px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:11px;font-weight:700;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.35)}
+.pcb-dot.g{background:linear-gradient(160deg,#2aa763,#1f8f4e)}.pcb-dot.y{background:linear-gradient(160deg,#d6a419,#b8860b)}.pcb-dot.r{background:linear-gradient(160deg,#cc4d4d,#b23b3b)}.pcb-dot.n{background:rgba(255,255,255,0.14);color:var(--muted)}
+.pcb-trend{font-size:16px;margin-left:auto}
 .player-card:hover{background:var(--card-h);border-color:rgba(255,255,255,0.15);transform:translateY(-2px)}
 .player-card.selected{border-color:var(--orange);background:rgba(139,13,47,0.15)}
 .player-card.disabled{opacity:.35;pointer-events:none}
@@ -801,7 +809,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Fortitudo Bologna</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Pistoia Basket</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
@@ -1113,15 +1121,15 @@ let players = [
   {id:1,name:"Matthew James Tiby",    role:"Ala grande",  cost:6, stats:["23.1 ppg","6.2 rpg"], photo:"tiby.png"},
   {id:2,name:"Jayvon Graves",    role:"Guardia",  cost:6, stats:["23.1 ppg","6.2 rpg"], photo:"graves.png"},
   {id:3,name:"Luca Tozzi",   role:"Ala grande",     cost:3, stats:["17.4 ppg","3.1 apg"], photo:"tozzi.png"},
-  {id:4,name:"Matteo Piccoli",       role:"Ala piccola", cost:3, stats:["12.8 ppg","2.9 rpg"], photo:"piccoli.png"},
-  {id:5,name:"Nicolò Filoni",role:"Ala",         cost:2, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
+  {id:4,name:"Matteo Piccoli",       role:"Ala piccola", cost:2, stats:["12.8 ppg","2.9 rpg"], photo:"piccoli.png"},
+  {id:5,name:"Nicolò Filoni",role:"Ala",         cost:4, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
   {id:6,name:"Luca Possamai",  role:"Centro",     cost:3, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
-  {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:3, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
+  {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:2, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
   {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
-  {id:9,name:"David Reginald Cournooh",      role:"Guardia",         cost:4, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
-  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
-  {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
-  {id:12,name:"Sakine Yassine",    role:"Centro",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
+  {id:9,name:"David Reginald Cournooh",      role:"Guardia",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
+  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
+  {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
+  {id:12,name:"Sakine Yassine",    role:"Centro",     cost:3, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
 ];
 
 // voti in corso per questa partita: { email: { nome, cognome, email, assoc, scelta:[id,...], matchId } }
@@ -1139,7 +1147,6 @@ let matchesHistory = {};
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
 let valutazioniStorico = [
-  { matchId:"20260820", matchName:"Libertas Livorno vs Valtur Brinidisi", date:"2026-08-20", vals:{1:23,2:21,3:13,4:4,5:1,6:5,7:7,8:6,9:9,10:8,11:4,12:0} },
   { matchId:"20260722", matchName:"Libertas Livorno vs Cividale", date:"2026-07-22", vals:{1:10,2:20,3:30,4:15,5:12,6:12,7:14,8:14,9:5,10:12,11:0,12:1} },
   { matchId:"20260720", matchName:"Libertas Livorno vs Cividale", date:"2026-07-20", vals:{1:10,2:23,3:4,4:5,5:1,6:4,7:7,8:8,9:4,10:5,11:1} }
 ];
@@ -1153,14 +1160,13 @@ let valutazioniStorico = [
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
 let pronosticiEsiti = [
-  { matchId:"20260820", vincenti:{p1:"Dole Rimini", p2:"Fortitudo Bologna", p3:"VL Pesaro"} },
   { matchId:"20260722", vincenti:{p1:"Dole Rimini", p2:"Valtur Brindisi", p3:"Dinamo Sassari"} }
 ];
 
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-23T23:50');
+let kickoffDate = new Date('2026-08-18T23:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1173,7 +1179,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Fortitudo Bologn",         logo: "bologna.png" }
+  trasferta: { nome: "Cividale",         logo: "pistoia.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1497,33 +1503,34 @@ function renderPlayers() {
       : '<span class="pcb-dot n">–</span>';
     let trend = '';
     if (forma.length >= 2) { const d = forma[forma.length-1] - forma[forma.length-2]; trend = d>0.05?'📈':(d<-0.05?'📉':'➡️'); }
-    const statsTxt = (p.stats && p.stats.length) ? p.stats.join(' · ') : '';
     card.innerHTML = `<div class="pc-inner">
       <div class="pc-front">
         <button class="pc-info" type="button" aria-label="Scheda giocatore">i</button>
+        <div class="pc-cost-badge">${p.cost}<span>cr</span></div>
         ${photoHtml}
         <div class="player-info">
           <div class="player-name">${p.name}</div>
           <div class="player-role">${p.role}</div>
-          <div class="player-cost-row">
-            <span class="player-cost-num">${p.cost}</span>
-            <span class="player-cost-lbl">${p.cost === 1 ? 'credito' : 'crediti'}</span>
-          </div>
           ${pctHtml}
         </div>
         <div class="sel-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </div>
       <div class="pc-back">
         <button class="pc-close" type="button" aria-label="Chiudi scheda">↩</button>
-        <div class="pcb-head">${p.name}</div>
-        <div class="pcb-role">${p.role}</div>
-        <div class="pcb-rows">
-          <div class="pcb-row"><span>Quotazione</span><b>${p.cost} cr.</b></div>
-          ${statsTxt ? `<div class="pcb-row"><span>Statistiche</span><b>${statsTxt}</b></div>` : ''}
-          <div class="pcb-row"><span>Media camp.</span><b>${media!=null?media.toFixed(1):'–'}</b></div>
-          <div class="pcb-row"><span>Scelto da</span><b>${pct!=null?pct+'%':'–'}</b></div>
+        <div class="pcb-crest"></div>
+        <div class="pcb-top">
+          <div class="pcb-head">${p.name}</div>
+          <div class="pcb-role-badge">${p.role}</div>
         </div>
-        <div class="pcb-forma"><span class="pcb-forma-lbl">Forma</span><span class="pcb-dots">${formaHtml}</span><span class="pcb-trend">${trend}</span></div>
+        <div class="pcb-stats">
+          <div class="pcb-stat"><span class="pcb-stat-v">${p.cost}</span><span class="pcb-stat-l">Crediti</span></div>
+          <div class="pcb-stat"><span class="pcb-stat-v">${media!=null?media.toFixed(1):'–'}</span><span class="pcb-stat-l">Media</span></div>
+          <div class="pcb-stat"><span class="pcb-stat-v">${pct!=null?pct+'%':'–'}</span><span class="pcb-stat-l">Scelto</span></div>
+        </div>
+        <div class="pcb-forma">
+          <span class="pcb-forma-lbl">Forma recente</span>
+          <div class="pcb-forma-row"><span class="pcb-dots">${formaHtml}</span><span class="pcb-trend">${trend}</span></div>
+        </div>
       </div>
     </div>`;
     const toggle = () => {
