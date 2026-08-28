@@ -32,7 +32,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Tangerine:wght@700&family=Oswald:wght@400;500;600;700&family=Teko:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Squada+One&family=Tangerine:wght@700&family=Oswald:wght@400;500;600;700&family=Teko:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -102,8 +102,11 @@ body.is-matchday .deadline-box{border-color:rgba(200,20,45,0.55)}
 .meta-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.07);border:1px solid var(--line);border-radius:20px;padding:6px 15px;font-size:13px;color:var(--muted);transition:border-color .2s}
 .cd-chip{background:rgba(139,13,47,0.20);border-color:rgba(139,13,47,0.4);color:var(--orange2);font-weight:600;font-variant-numeric:tabular-nums;min-width:130px;justify-content:center;box-shadow:0 0 0 1px rgba(139,13,47,0.1)}
 .cd-chip.closed{background:rgba(231,76,60,0.15);border-color:rgba(231,76,60,0.3);color:var(--red)}
-.voters-line{margin-top:14px;display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:20px;padding:6px 16px;animation:riseIn .6s ease both}
-.voters-line b{color:var(--orange2);font-family:var(--font-num);font-size:17px;font-weight:700;letter-spacing:.5px}
+.voters-line{margin-top:14px;display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);background:linear-gradient(180deg,rgba(174,16,64,0.16),rgba(255,255,255,0.03));border:1px solid rgba(232,169,187,0.3);border-radius:22px;padding:8px 18px;animation:riseIn .6s ease both;box-shadow:0 5px 20px rgba(139,13,47,0.28),inset 0 1px 0 rgba(255,255,255,0.06)}
+.voters-line .vl-dot{width:9px;height:9px;border-radius:50%;background:#37d67a;flex:0 0 auto;box-shadow:0 0 0 0 rgba(55,214,122,0.6);animation:vlPulse 1.6s ease-out infinite}
+@keyframes vlPulse{0%{box-shadow:0 0 0 0 rgba(55,214,122,0.55)}70%{box-shadow:0 0 0 9px rgba(55,214,122,0)}100%{box-shadow:0 0 0 0 rgba(55,214,122,0)}}
+.voters-line .vl-num{font-family:var(--font-num);font-size:23px;font-weight:700;letter-spacing:.5px;line-height:1;background:linear-gradient(180deg,#FFFFFF,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 10px rgba(232,86,126,0.4))}
+.voters-line .vl-txt{color:var(--muted)}
 .remind-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:7px 16px;font-size:12px;color:var(--muted);cursor:pointer;font-family:var(--font-b);transition:all .2s}
 .remind-btn:hover{border-color:rgba(174,16,64,0.5);color:var(--text)}
 .remind-btn.on{border-color:rgba(37,211,102,0.5);color:#4ade80;background:rgba(37,211,102,0.1)}
@@ -551,7 +554,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .success-title{font-family:var(--font-hero);font-weight:400;letter-spacing:1.5px}
 /* brand e display: Oswald, tracking curato */
 .brand{padding:8px 20px 8px 10px}
-.brand-name{font-family:'Tangerine',cursive;font-size:58px;letter-spacing:1px;font-weight:700;position:relative;line-height:.9;text-transform:none;background:linear-gradient(100deg,#a9761f 0%,#f0cf76 13%,#fff3c4 23%,#E8567E 40%,#8B0D2F 50%,#E8567E 60%,#fff3c4 77%,#f0cf76 87%,#a9761f 100%);background-size:260% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#f0cf76;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 16px rgba(200,20,45,0.45));animation:goldAmaShine 5s linear infinite}
+.brand-name{font-family:'Squada One',var(--font-hero),sans-serif;font-size:34px;letter-spacing:1.5px;font-weight:400;position:relative;line-height:1;text-transform:uppercase;background:linear-gradient(100deg,#a9761f 0%,#f0cf76 13%,#fff3c4 23%,#E8567E 40%,#8B0D2F 50%,#E8567E 60%,#fff3c4 77%,#f0cf76 87%,#a9761f 100%);background-size:260% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#f0cf76;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 16px rgba(200,20,45,0.45));animation:goldAmaShine 5s linear infinite}
 .brand-name span{background:linear-gradient(100deg,#a9761f 0%,#f0cf76 13%,#fff3c4 23%,#E8567E 40%,#8B0D2F 50%,#E8567E 60%,#fff3c4 77%,#f0cf76 87%,#a9761f 100%);background-size:260% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(200,20,45,0.5));animation:goldAmaShine 5s linear infinite}
 @keyframes goldAmaShine{0%{background-position:0% 50%}100%{background-position:260% 50%}}
 @keyframes goldShine{0%{background-position:0% 50%}100%{background-position:250% 50%}}
@@ -3701,8 +3704,9 @@ async function aggiornaContatore() {
     const n = emails.size;
     const line = document.getElementById('votersLine');
     if (line && n > 0) {
-      line.innerHTML = `👥 <b>${n}</b> ${n === 1 ? 'libertassino ha' : 'libertassini hanno'} già votato`;
+      line.innerHTML = `<span class="vl-dot"></span><b class="vl-num animate-num" data-target="${n}" data-dec="0">0</b><span class="vl-txt">${n === 1 ? 'libertassino ha già votato' : 'libertassini hanno già votato'}</span>`;
       line.style.display = 'inline-flex';
+      animaNumeri(line);
     }
   } catch (e) {}
 }
