@@ -815,7 +815,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Gema Montecatini</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Elachem Vigevano</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
@@ -1123,7 +1123,21 @@ const SK_RANK     = 'fl_rank_v2';
 const SK_MATCHES  = 'fl_matches_v2';
 const SK_CONFIG   = 'fl_config_v2';
 
-let players = [];
+let players = [
+  {id:1,name:"Matthew James Tiby",    role:"Ala grande",  cost:6, stats:["23.1 ppg","6.2 rpg"], photo:"tiby.png"},
+  {id:2,name:"Jayvon Graves",    role:"Guardia",  cost:6, stats:["23.1 ppg","6.2 rpg"], photo:"graves.png"},
+  {id:3,name:"Luca Tozzi",   role:"Ala grande",     cost:3, stats:["17.4 ppg","3.1 apg"], photo:"tozzi.png"},
+  {id:4,name:"Matteo Piccoli",       role:"Ala piccola", cost:3, stats:["12.8 ppg","2.9 rpg"], photo:"piccoli.png"},
+  {id:5,name:"Nicolò Filoni",role:"Ala",         cost:2, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
+  {id:6,name:"Luca Possamai",  role:"Centro",     cost:2, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
+  {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:3, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
+  {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
+  {id:9,name:"David Reginald Cournooh",      role:"Guardia",         cost:4, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
+  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
+  {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
+  {id:12,name:"Sakine Yassine",    role:"Centro",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
+];
+
 // voti in corso per questa partita: { email: { nome, cognome, email, assoc, scelta:[id,...], matchId } }
 let votes = {};
 // classifica cumulativa: { email: { nome, cognome, assoc, totale, partite:[{matchId,matchName,punti}] } }
@@ -1138,7 +1152,11 @@ let matchesHistory = {};
    aggiornata (sostituendo questa) al prossimo commit su GitHub.
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
-let valutazioniStorico = [];
+let valutazioniStorico = [
+  { matchId:"20260822", matchName:"Libertas Livorno vs Juve Caserta", date:"2026-08-22", vals:{1:31,2:23,3:11,4:7,5:2,6:3,7:9,8:6,9:16,10:9,11:6,12:1} },
+  { matchId:"20260722", matchName:"Libertas Livorno vs Cividale", date:"2026-07-22", vals:{1:10,2:20,3:30,4:15,5:12,6:12,7:14,8:14,9:5,10:12,11:0,12:1} },
+  { matchId:"20260720", matchName:"Libertas Livorno vs Cividale", date:"2026-07-20", vals:{1:10,2:23,3:4,4:5,5:1,6:4,7:7,8:8,9:4,10:5,11:1} }
+];
 
 /* ────────────────────────────────────────────────────────────────
    ESITI PRONOSTICI (pubblico, visibile a tutti)
@@ -1148,12 +1166,15 @@ let valutazioniStorico = [];
    Serve allo storico personale per calcolare bonus/malus dei pronostici.
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
-let pronosticiEsiti = [];
+let pronosticiEsiti = [
+  { matchId:"20260822", vincenti:{p1:"Dole Rimini", p2:"Fortitudo Bologna", p3:"Dinamo Sassari"} },
+  { matchId:"20260722", vincenti:{p1:"Dole Rimini", p2:"Valtur Brindisi", p3:"Dinamo Sassari"} }
+];
 
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-31T23:50');
+let kickoffDate = new Date('2026-08-24T23:50');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1166,7 +1187,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Gema Montecatini",         logo: "montecatini.png" }
+  trasferta: { nome: "Elachem Vigevano",         logo: "vigevano.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
