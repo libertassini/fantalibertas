@@ -815,14 +815,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Elachem Vigevano</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Gema Montecatini</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
         <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
-          <span class="dl-date"><span id="matchDateLabel">Dom 28 Sett 18:00</span></span>
+          <span class="dl-date"><span id="matchDateLabel">Sabato 4 Sett 18:30</span></span>
           <span class="dl-sep"></span>
           <span class="dl-count"><span id="cdVal">--:--:--</span></span>
         </div>
@@ -1152,11 +1152,7 @@ let matchesHistory = {};
    aggiornata (sostituendo questa) al prossimo commit su GitHub.
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
-let valutazioniStorico = [
-  { matchId:"20260822", matchName:"Libertas Livorno vs Juve Caserta", date:"2026-08-22", vals:{1:31,2:23,3:11,4:7,5:2,6:3,7:9,8:6,9:16,10:9,11:6,12:1} },
-  { matchId:"20260722", matchName:"Libertas Livorno vs Cividale", date:"2026-07-22", vals:{1:10,2:20,3:30,4:15,5:12,6:12,7:14,8:14,9:5,10:12,11:0,12:1} },
-  { matchId:"20260720", matchName:"Libertas Livorno vs Cividale", date:"2026-07-20", vals:{1:10,2:23,3:4,4:5,5:1,6:4,7:7,8:8,9:4,10:5,11:1} }
-];
+let valutazioniStorico = [];
 
 /* ────────────────────────────────────────────────────────────────
    ESITI PRONOSTICI (pubblico, visibile a tutti)
@@ -1166,15 +1162,12 @@ let valutazioniStorico = [
    Serve allo storico personale per calcolare bonus/malus dei pronostici.
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
-let pronosticiEsiti = [
-  { matchId:"20260822", vincenti:{p1:"Dole Rimini", p2:"Fortitudo Bologna", p3:"Dinamo Sassari"} },
-  { matchId:"20260722", vincenti:{p1:"Dole Rimini", p2:"Valtur Brindisi", p3:"Dinamo Sassari"} }
-];
+let pronosticiEsiti = [];
 
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-08-24T23:50');
+let kickoffDate = new Date('2026-09-01T23:50');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1187,7 +1180,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Elachem Vigevano",         logo: "vigevano.png" }
+  trasferta: { nome: "Elachem Vigevano",         logo: "montecatini.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
