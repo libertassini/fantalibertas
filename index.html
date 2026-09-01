@@ -417,27 +417,8 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .val-score-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:3px;line-height:1.2}
 .val-avg{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
 .val-avg b{color:var(--orange2);font-family:var(--font-d);font-size:15px;font-weight:700}
-.val-empty{text-align:center;padding:3rem 1.2rem;color:var(--muted);font-size:13.5px;position:relative;line-height:1.6}
-.val-empty::before{content:'';position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:200px;height:200px;background:url('libertas-bg.png') center/contain no-repeat;opacity:0.05;pointer-events:none}
-.val-empty>*{position:relative;z-index:1}
-.val-empty-icon{font-size:46px;opacity:0.55;margin-bottom:12px;filter:drop-shadow(0 5px 14px rgba(139,13,47,0.45));animation:emptyFloat 3.5s ease-in-out infinite}
-.val-empty-title{font-family:var(--font-d);font-size:16px;color:#F0DCE3;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700}
-@keyframes emptyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-/* transizione fluida tra schede */
-@keyframes tabIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-/* scheletro di caricamento */
-.skel-wrap{padding:4px 0}
-.skel-head{display:flex;align-items:center;justify-content:center;gap:11px;margin:8px 0 18px}
-.skel-logo{width:42px;height:42px;border-radius:11px;background:url('libertas-bg.png') center/contain no-repeat;opacity:.5;animation:skelPulse 1.5s ease-in-out infinite;flex:0 0 auto}
-@keyframes skelPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.65;transform:scale(1.06)}}
-.skel-row{display:flex;align-items:center;gap:12px;padding:13px 14px;margin-bottom:8px;background:rgba(255,255,255,0.025);border:1px solid var(--line);border-radius:12px}
-.skel{position:relative;overflow:hidden;background:rgba(255,255,255,0.06)}
-.skel::after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.10),transparent);animation:skelShine 1.35s infinite}
-@keyframes skelShine{100%{transform:translateX(100%)}}
-.skel-badge{width:28px;height:28px;border-radius:50%;flex:0 0 auto}
-.skel-line{height:12px;border-radius:6px}
-.rank-share-btn{background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:22px;padding:11px 26px;font-family:var(--font-d);font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(139,13,47,0.45);transition:transform .15s,box-shadow .15s}
-.rank-share-btn:hover{transform:translateY(-2px);box-shadow:0 9px 26px rgba(139,13,47,0.6)}
+.val-empty{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:13px}
+.val-empty-icon{font-size:38px;opacity:0.4;margin-bottom:10px}
 
 /* modal overlay */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(5,10,20,0.85);z-index:100;align-items:center;justify-content:center;padding:1rem}
@@ -572,13 +553,13 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .match-title{font-family:var(--font-hero);font-weight:400;letter-spacing:1.5px}
 .success-title{font-family:var(--font-hero);font-weight:400;letter-spacing:1.5px}
 /* brand e display: Oswald, tracking curato */
-.brand{padding:7px 19px 7px 9px;gap:11px}
-.brand-name{font-family:'Oswald',var(--font-d),sans-serif;font-size:clamp(26px,7vw,32px);font-weight:700;letter-spacing:.6px;position:relative;line-height:1;text-transform:uppercase;background:linear-gradient(100deg,#b98a2e 0%,#f0cf76 16%,#fff6da 27%,#E8567E 42%,#AE1040 50%,#E8567E 58%,#fff6da 73%,#f0cf76 84%,#b98a2e 100%);background-size:240% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#f0cf76;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5)) drop-shadow(0 0 12px rgba(200,20,45,0.4));animation:goldAmaShine 5s linear infinite}
-.brand-name span{font-weight:500;background:linear-gradient(100deg,#b98a2e 0%,#f0cf76 16%,#fff6da 27%,#E8567E 42%,#AE1040 50%,#E8567E 58%,#fff6da 73%,#f0cf76 84%,#b98a2e 100%);background-size:240% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(200,20,45,0.45));animation:goldAmaShine 5s linear infinite}
+.brand{padding:8px 20px 8px 10px}
+.brand-name{font-family:'Squada One',var(--font-hero),sans-serif;font-size:34px;letter-spacing:1.5px;font-weight:400;position:relative;line-height:1;text-transform:uppercase;background:linear-gradient(100deg,#a9761f 0%,#f0cf76 13%,#fff3c4 23%,#E8567E 40%,#8B0D2F 50%,#E8567E 60%,#fff3c4 77%,#f0cf76 87%,#a9761f 100%);background-size:260% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#f0cf76;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 16px rgba(200,20,45,0.45));animation:goldAmaShine 5s linear infinite}
+.brand-name span{background:linear-gradient(100deg,#a9761f 0%,#f0cf76 13%,#fff3c4 23%,#E8567E 40%,#8B0D2F 50%,#E8567E 60%,#fff3c4 77%,#f0cf76 87%,#a9761f 100%);background-size:260% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(200,20,45,0.5));animation:goldAmaShine 5s linear infinite}
 @keyframes goldAmaShine{0%{background-position:0% 50%}100%{background-position:260% 50%}}
 @keyframes goldShine{0%{background-position:0% 50%}100%{background-position:250% 50%}}
 @keyframes nameShimmer{0%{background-position:0% 50%}100%{background-position:220% 50%}}
-.brand-icon{width:40px;height:40px;font-size:19px;border-radius:11px;animation:ballFloat 3.4s ease-in-out infinite}
+.brand-icon{width:42px;height:42px;font-size:20px;border-radius:11px;animation:ballFloat 3.4s ease-in-out infinite}
 @keyframes ballFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3px) scale(1.05)}}
 .brand-icon::after{animation:iconGlow 2.6s ease-in-out infinite}
 @keyframes iconGlow{0%,100%{opacity:.5;box-shadow:0 0 14px rgba(174,16,64,0.5)}50%{opacity:.95;box-shadow:0 0 22px rgba(174,16,64,0.85)}}
@@ -834,7 +815,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Gema Montecatini</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Elachem Vigevano</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
@@ -1171,7 +1152,11 @@ let matchesHistory = {};
    aggiornata (sostituendo questa) al prossimo commit su GitHub.
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
-let valutazioniStorico = [];
+let valutazioniStorico = [
+  { matchId:"20260822", matchName:"Libertas Livorno vs Juve Caserta", date:"2026-08-22", vals:{1:31,2:23,3:11,4:7,5:2,6:3,7:9,8:6,9:16,10:9,11:6,12:1} },
+  { matchId:"20260722", matchName:"Libertas Livorno vs Cividale", date:"2026-07-22", vals:{1:10,2:20,3:30,4:15,5:12,6:12,7:14,8:14,9:5,10:12,11:0,12:1} },
+  { matchId:"20260720", matchName:"Libertas Livorno vs Cividale", date:"2026-07-20", vals:{1:10,2:23,3:4,4:5,5:1,6:4,7:7,8:8,9:4,10:5,11:1} }
+];
 
 /* ────────────────────────────────────────────────────────────────
    ESITI PRONOSTICI (pubblico, visibile a tutti)
@@ -1181,12 +1166,15 @@ let valutazioniStorico = [];
    Serve allo storico personale per calcolare bonus/malus dei pronostici.
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
-let pronosticiEsiti = [];
+let pronosticiEsiti = [
+  { matchId:"20260822", vincenti:{p1:"Dole Rimini", p2:"Fortitudo Bologna", p3:"Dinamo Sassari"} },
+  { matchId:"20260722", vincenti:{p1:"Dole Rimini", p2:"Valtur Brindisi", p3:"Dinamo Sassari"} }
+];
 
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-09-01T23:50');
+let kickoffDate = new Date('2026-08-24T23:50');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1199,7 +1187,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Gema Montecatini",         logo: "montecatini.png" }
+  trasferta: { nome: "Elachem Vigevano",         logo: "vigevano.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1256,10 +1244,10 @@ function load() {
    TAB
 ════════════════════════════════════════════ */
 function showTab(t) {
-  const map = { voto:'tabVoto', classifica:'tabClassifica', valutazioni:'tabValutazioni', calendario:'tabCalendario' };
-  Object.entries(map).forEach(([k,id]) => { const el=document.getElementById(id); if(el) el.style.display = (t===k)?'block':'none'; });
-  const shown = document.getElementById(map[t]);
-  if (shown) { shown.style.animation='none'; void shown.offsetWidth; shown.style.animation='tabIn .4s cubic-bezier(.2,.7,.2,1) both'; }
+  document.getElementById('tabVoto').style.display        = t==='voto' ? 'block' : 'none';
+  document.getElementById('tabClassifica').style.display  = t==='classifica' ? 'block' : 'none';
+  document.getElementById('tabValutazioni').style.display = t==='valutazioni' ? 'block' : 'none';
+  document.getElementById('tabCalendario').style.display  = t==='calendario' ? 'block' : 'none';
   document.querySelectorAll('.tab-btn').forEach((b,i)=>{
     b.classList.toggle('active', (t==='voto'&&i===0)||(t==='classifica'&&i===1)||(t==='valutazioni'&&i===2)||(t==='calendario'&&i===3));
   });
@@ -1772,6 +1760,7 @@ function submitVoto() {
   const now = new Date();
   document.getElementById('successInfoDate').textContent = '🕒 ' + now.toLocaleString('it-IT', {day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'});
   setTimeout(() => { try { aggiornaContatore(); } catch(e){} }, 2500); // aggiorna il contatore dopo l'invio
+  preparaCondivisioneRiepilogo(); // pre-genera l'immagine così la condivisione WhatsApp parte subito (iOS)
 }
 
 function tornaAlVoto() {
@@ -1977,12 +1966,9 @@ function generaImmagineRiepilogo() {
     ? `<div style="font-family:'Oswald',sans-serif;font-size:30px;letter-spacing:5px;color:rgba(255,255,255,0.5);text-transform:uppercase;text-align:center;margin:46px 0 22px">I tuoi pronostici</div>`
       + prons.map(p => {
           const logoTag = p.logo
-            ? `<img src="${p.logo}" style="width:56px;height:56px;object-fit:contain;flex:0 0 auto" onerror="this.style.display='none'">`
+            ? `<img src="${p.logo}" style="width:64px;height:64px;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 3px 8px rgba(0,0,0,0.4))" onerror="this.style.display='none'">`
             : '';
-          const pickTag = p.logo
-            ? `<span style="display:flex;align-items:center;gap:12px;flex:0 0 auto">${logoTag}<span style="font-family:'Oswald',sans-serif;font-size:30px;font-weight:700;color:#F5D9E1;text-transform:uppercase">${p.pick}</span></span>`
-            : `<span style="font-family:'Oswald',sans-serif;font-size:33px;font-weight:700;color:#F5D9E1;text-transform:uppercase;text-align:right">${p.pick}</span>`;
-          return `<div style="display:flex;justify-content:space-between;align-items:center;gap:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:18px;padding:18px 30px;margin-bottom:14px"><span style="font-size:29px;color:rgba(255,255,255,0.7)">${p.match}</span>${pickTag}</div>`;
+          return `<div style="display:flex;justify-content:space-between;align-items:center;gap:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:18px;padding:16px 30px;margin-bottom:14px"><span style="font-size:29px;color:rgba(255,255,255,0.7)">${p.match}</span><span style="display:flex;align-items:center;gap:14px;flex:0 0 auto">${logoTag}<span style="font-family:'Oswald',sans-serif;font-size:31px;font-weight:700;color:#F5D9E1;text-transform:uppercase">${p.pick}</span></span></div>`;
         }).join('')
     : '';
 
@@ -2004,7 +1990,10 @@ function generaImmagineRiepilogo() {
       <div style="font-family:'Oswald',sans-serif;font-size:30px;letter-spacing:5px;color:rgba(255,255,255,0.5);text-transform:uppercase;text-align:center;margin-bottom:26px">La tua squadra</div>
       <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:34px">${fotoHtml}</div>
       ${pronHtml}
-      <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:26px;color:rgba(255,255,255,0.4);margin-top:46px;letter-spacing:1px">libertassini.github.io/fantalibertas</div>
+      <div style="margin-top:44px;text-align:center;background:linear-gradient(135deg,#8B0D2F 0%,#AE1040 100%);border:1px solid rgba(232,169,187,0.35);border-radius:26px;padding:30px 30px 32px;box-shadow:0 10px 30px rgba(139,13,47,0.5)">
+        <div style="font-family:'Anton',sans-serif;font-size:44px;color:#fff;text-transform:uppercase;letter-spacing:1px;line-height:1">⚔️ Sfida i tuoi amici!</div>
+        <div style="font-family:'Oswald',sans-serif;font-size:31px;color:#FFD1DE;margin-top:12px;line-height:1.35">Crea la tua squadra e scala la classifica<br>👉 <b style="color:#fff;font-weight:700">libertassini.github.io/fantalibertas</b></div>
+      </div>
     </div>`;
   document.body.appendChild(el);
   const fotoSel = ['icon-192.png', mCasa.logo, mAway.logo]
@@ -2042,18 +2031,34 @@ function scaricaRiepilogo() {
   }).catch(() => alert('Impossibile generare l\'immagine. Attendi il caricamento e riprova.'));
 }
 
+// pre-genera l'immagine e la tiene pronta come File (così navigator.share parte subito al tocco → iOS-safe)
+let _riepilogoFile = null;
+function preparaCondivisioneRiepilogo() {
+  _riepilogoFile = null;
+  try {
+    generaImmagineRiepilogo().then(canvas => {
+      canvas.toBlob(blob => { if (blob) _riepilogoFile = new File([blob], 'FantaLibertas.png', { type: 'image/png' }); }, 'image/png');
+    }).catch(() => {});
+  } catch (e) {}
+}
+
 // condivide l'immagine su WhatsApp / Instagram
 function condividiRiepilogo(dove) {
-  const testo = 'Ho appena votato al FantaLibertas! 🏀 Vota anche tu: https://libertassini.github.io/fantalibertas';
+  const testo = 'Ho appena votato al FantaLibertas! 🏀 Crea la tua squadra e sfidami: https://libertassini.github.io/fantalibertas';
+  // 1) se l'immagine è già pronta, condividi SUBITO (mantiene l'attivazione utente su iPhone)
+  if (_riepilogoFile && navigator.canShare && navigator.canShare({ files: [_riepilogoFile] })) {
+    navigator.share({ files: [_riepilogoFile], text: testo }).catch(() => {});
+    return;
+  }
+  // 2) altrimenti genera al volo e poi condividi / scarica
   generaImmagineRiepilogo().then(canvas => {
     canvas.toBlob(blob => {
       const file = new File([blob], 'FantaLibertas.png', { type: 'image/png' });
-      // Web Share API con file: il modo migliore su smartphone (apre WhatsApp, Instagram, ecc.)
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         navigator.share({ files: [file], text: testo }).catch(() => {});
         return;
       }
-      // Fallback: scarica l'immagine e apri l'app
+      // Fallback desktop: scarica l'immagine e apri WhatsApp col testo (l'immagine va allegata a mano)
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url; a.download = 'FantaLibertas.png';
@@ -2066,7 +2071,7 @@ function condividiRiepilogo(dove) {
         alert('Immagine salvata! Aprila su Instagram per pubblicarla nella tua storia.');
       }
     }, 'image/png');
-  }).catch(() => {});
+  }).catch(() => alert('Impossibile generare l\'immagine. Attendi il caricamento e riprova.'));
 }
 
 // genera un'immagine verticale 9:16 ottimizzata per le storie Instagram
@@ -2259,61 +2264,6 @@ function condividiGiornata(idx) {
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(() => URL.revokeObjectURL(url), 4000);
       alert('📲 Immagine salvata! Ora puoi condividerla su WhatsApp o Instagram.');
-    }, 'image/png');
-  }).catch(() => {});
-}
-
-// ════════════════════════════════════════════
-//  CARD CLASSIFICA CONDIVISIBILE (Top 5)
-// ════════════════════════════════════════════
-function generaCardClassifica() {
-  if (typeof html2canvas === 'undefined') { alert('Attendi un istante e riprova.'); return Promise.reject(); }
-  const top = window._classificaTop || [];
-  if (!top.length) { alert('Classifica non ancora disponibile.'); return Promise.reject(); }
-  const medaglia = p => p===1?'🥇':p===2?'🥈':p===3?'🥉':`<span style="font-family:'Anton',sans-serif;font-size:38px;color:rgba(255,255,255,0.5)">${p}</span>`;
-  const colore = p => p===1?'linear-gradient(135deg,#f7d774,#c99a3a)':p===2?'linear-gradient(135deg,#e8e8ee,#b9bcc7)':p===3?'linear-gradient(135deg,#e0a877,#b5794a)':'rgba(255,255,255,0.05)';
-  const righe = top.map(e => `
-    <div style="display:flex;align-items:center;gap:22px;background:${e.pos<=3?'rgba(255,255,255,0.07)':'rgba(255,255,255,0.04)'};border:1px solid rgba(232,169,187,0.16);border-radius:20px;padding:20px 28px;margin-bottom:14px">
-      <div style="width:66px;height:66px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:38px;background:${e.pos<=3?colore(e.pos):'rgba(255,255,255,0.05)'};box-shadow:${e.pos<=3?'0 6px 18px rgba(0,0,0,0.35)':'none'}">${e.pos<=3?medaglia(e.pos):`<span style=\"font-family:'Anton',sans-serif;font-size:34px;color:rgba(255,255,255,0.55)\">${e.pos}</span>`}</div>
-      <span style="flex:1;font-family:'Oswald',sans-serif;font-size:36px;font-weight:600;text-transform:uppercase;color:#fff;letter-spacing:.5px">${e.nome} ${e.cognome}</span>
-      <span style="font-family:'Anton',sans-serif;font-size:46px;color:#FFD1DE">${e.totale.toFixed(1)}</span>
-    </div>`).join('');
-
-  const el = document.createElement('div');
-  el.style.cssText = 'position:fixed;left:-99999px;top:0;width:1080px;overflow:hidden;box-sizing:border-box';
-  el.innerHTML = `
-    <div style="width:1080px;background:radial-gradient(circle at 50% 6%,#5a1228 0%,#2d0a18 55%,#1A0008 100%);font-family:'Inter',Arial,sans-serif;box-sizing:border-box;padding:64px 60px 54px">
-      <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:14px">
-        <img src="icon-192.png" style="width:74px;height:74px;border-radius:18px" onerror="this.style.display='none'">
-        <span style="font-family:'Anton',sans-serif;font-size:42px;color:#E8567E;letter-spacing:1px">FANTALIBERTAS</span>
-      </div>
-      <div style="text-align:center;font-family:'Anton',sans-serif;font-size:80px;line-height:1;color:#fff;text-transform:uppercase;margin-bottom:8px">Classifica</div>
-      <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:28px;letter-spacing:4px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:38px">Top 5 · Tifosi Amaranto</div>
-      ${righe}
-      <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:26px;color:rgba(255,255,255,0.4);margin-top:40px;letter-spacing:1px">libertassini.github.io/fantalibertas</div>
-    </div>`;
-  document.body.appendChild(el);
-  return preloadImg('icon-192.png')
-    .then(() => html2canvas(el, { backgroundColor:'#1A0008', width:1080, windowWidth:1080, scale:1, useCORS:true, logging:false }))
-    .then(c => { el.remove(); return c; })
-    .catch(e => { el.remove(); throw e; });
-}
-
-function condividiClassifica() {
-  const testo = 'Classifica FantaLibertas 🏀 Sfida gli altri tifosi Amaranto: libertassini.github.io/fantalibertas';
-  generaCardClassifica().then(canvas => {
-    canvas.toBlob(blob => {
-      const file = new File([blob], 'Classifica_FantaLibertas.png', { type: 'image/png' });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        navigator.share({ files: [file], text: testo }).catch(() => {});
-        return;
-      }
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'Classifica_FantaLibertas.png';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 4000);
-      alert('📲 Classifica salvata! Ora puoi condividerla su WhatsApp o Instagram.');
     }, 'image/png');
   }).catch(() => {});
 }
@@ -2951,7 +2901,7 @@ function renderValutazioni() {
   const data = getValutazioniData();
 
   if (data.length === 0) {
-    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">📊</div><div class="val-empty-title">Ancora nessuna valutazione</div>I voti dei giocatori appariranno qui dopo la prima partita elaborata.</div>';
+    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">📊</div>Nessuna valutazione ancora disponibile.<br>Appariranno qui dopo la prima partita elaborata.</div>';
     return;
   }
 
@@ -3062,19 +3012,9 @@ function animaNumeri(container) {
   });
 }
 
-// scheletro di caricamento elegante con logo Libertas
-function skeletonClassifica() {
-  let rows = '';
-  for (let i = 0; i < 6; i++) {
-    const w = 110 + (i % 3) * 45;
-    rows += `<div class="skel-row"><div class="skel skel-badge"></div><div class="skel skel-line" style="flex:1;max-width:${w}px"></div><div class="skel skel-line" style="width:46px"></div></div>`;
-  }
-  return `<div class="skel-wrap"><div class="skel-head"><div class="skel-logo"></div><div class="skel skel-line" style="width:150px;height:14px"></div></div>${rows}</div>`;
-}
-
 async function renderRanking() {
   const cont = document.getElementById('rankContent');
-  cont.innerHTML = skeletonClassifica();
+  cont.innerHTML = '<p style="color:var(--muted);font-size:13px">⏳ Caricamento classifica...</p>';
 
   let entries = [];
   try {
@@ -3090,7 +3030,7 @@ async function renderRanking() {
   }
 
   if (entries.length === 0) {
-    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">🏆</div><div class="val-empty-title">Classifica in arrivo</div>Nessuna partita ancora disputata. Torna dopo la prima giornata!</div>';
+    cont.innerHTML = '<p style="color:var(--muted);font-size:13px">Nessuna partita ancora disputata.</p>';
     return;
   }
 
@@ -3157,8 +3097,6 @@ function drawRanking() {
   });
   html += '</tbody></table>';
   if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+5 / −5) · tocca le icone per ordinare</p>`;
-  html += `<div style="text-align:center;margin-top:14px"><button class="rank-share-btn" onclick="condividiClassifica()">📲 Condividi la classifica</button></div>`;
-  window._classificaTop = sorted.slice(0, 5).map((e,i) => ({ pos:i+1, nome:e.nome, cognome:e.cognome, totale: parseFloat(e.totale)||0 }));
   cont.innerHTML = html;
   animaNumeri(cont);
   filtraClassifica(); // riapplica l'eventuale evidenziazione della ricerca
