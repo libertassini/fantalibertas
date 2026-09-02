@@ -1172,7 +1172,7 @@ let pronosticiEsiti = [];
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-09-02T23:50');
+let kickoffDate = new Date('2026-09-04T18:30');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1195,9 +1195,9 @@ let matchTeams = {
    Ogni pronostico indovinato: +10 punti · sbagliato: -10 punti.
 ──────────────────────────────────────────────────────────────── */
 let pronostici = [
-  { id:"p1", casa:"Dole Rimini",       casaLogo:"rimini.png",  trasferta:"Urania Milano", trasfertaLogo:"milano.png" },
-  { id:"p2", casa:"UEB Cividale",       casaLogo:"cividale.png",  trasferta:"Fortitudo Bologna", trasfertaLogo:"bologna.png" },
-  { id:"p3", casa:"Dinamo Sassari", casaLogo:"sassari.png",   trasferta:"VL Pesaro",  trasfertaLogo:"pesaro.png" },
+  { id:"p1", casa:"Gema Montecatini",       casaLogo:"montecatini.png",  trasferta:"Libertas Livorno", trasfertaLogo:"libertas1.png" },
+  { id:"p2", casa:"Pistoia Basket",       casaLogo:"pistoia.png",  trasferta:"Valtur Brindisi", trasfertaLogo:"brindisi.png" },
+  { id:"p3", casa:"Vincente", casaLogo:"libertas1.png",   trasferta:"Perdente",  trasfertaLogo:"libertas1.png" },
 ];
 let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 
