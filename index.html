@@ -177,27 +177,31 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .pc-front{position:relative}
 .pc-back{position:absolute;inset:0;transform:rotateY(180deg);background:radial-gradient(circle at 50% -10%,#43112680,transparent 60%),linear-gradient(165deg,#320d1d,#160006);border:1px solid rgba(200,20,45,0.3);border-radius:var(--rl);display:flex;flex-direction:column;padding:15px 14px 14px;overflow:hidden}
 .pcb-crest{position:absolute;right:-34px;bottom:-34px;width:150px;height:150px;background:url('libertas-bg.png') center/contain no-repeat;opacity:0.06;pointer-events:none;z-index:0}
-.pcb-top,.pcb-stats,.pcb-forma{position:relative;z-index:1}
-.pc-info{position:absolute;top:8px;right:8px;z-index:6;width:23px;height:23px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.4);color:#fff;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pcb-top,.pcb-media,.pcb-pie{position:relative;z-index:1}
+.pc-info{position:absolute;top:8px;right:8px;z-index:6;width:23px;height:23px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.4);color:#fff;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .pc-info:hover{background:rgba(174,16,64,0.6);border-color:rgba(232,169,187,0.6)}
+.sel-check{backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .pc-close{position:absolute;top:8px;right:8px;z-index:6;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.07);color:var(--muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .pc-close:hover{background:rgba(174,16,64,0.5);color:#fff}
-.pc-cost-badge{position:absolute;top:8px;left:8px;z-index:5;display:flex;align-items:baseline;gap:2px;font-family:var(--font-d);font-weight:800;font-size:15px;color:#fff;background:linear-gradient(135deg,#c81a3f,#8B0D2F);border:1px solid rgba(232,169,187,0.4);border-radius:10px;padding:3px 9px;box-shadow:0 3px 10px rgba(139,13,47,0.55)}
+.pc-cost-badge{position:absolute;top:8px;left:8px;z-index:5;display:flex;align-items:baseline;gap:2px;font-family:var(--font-d);font-weight:800;font-size:15px;color:#fff;background:linear-gradient(135deg,#c81a3f,#8B0D2F);border:1px solid rgba(232,169,187,0.4);border-radius:10px;padding:3px 9px;box-shadow:0 3px 10px rgba(139,13,47,0.55);backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .pc-cost-badge span{font-size:8px;font-weight:600;text-transform:uppercase;opacity:.85}
 .pcb-top{padding-right:26px;margin-bottom:14px}
 .pcb-head{font-family:var(--font-d);font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.3px;color:#fff;line-height:1.05}
 .pcb-role-badge{display:inline-block;margin-top:7px;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#F0DCE3;background:linear-gradient(135deg,rgba(174,16,64,0.55),rgba(139,13,47,0.3));border:1px solid rgba(232,169,187,0.3);border-radius:20px;padding:3px 11px}
-.pcb-stats{display:flex;justify-content:space-between;gap:6px;margin-bottom:14px}
-.pcb-stat{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:9px 2px}
-.pcb-stat-v{font-family:var(--font-num,var(--font-d));font-weight:800;font-size:20px;line-height:1;background:linear-gradient(180deg,#fff,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.pcb-stat-l{font-size:7.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
-.pcb-forma{margin-top:auto}
-.pcb-forma-lbl{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:7px}
-.pcb-forma-row{display:flex;align-items:center;gap:6px}
-.pcb-dots{display:flex;gap:5px}
-.pcb-dot{min-width:26px;height:26px;padding:0 4px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:11px;font-weight:700;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.35)}
-.pcb-dot.g{background:linear-gradient(160deg,#2aa763,#1f8f4e)}.pcb-dot.y{background:linear-gradient(160deg,#d6a419,#b8860b)}.pcb-dot.r{background:linear-gradient(160deg,#cc4d4d,#b23b3b)}.pcb-dot.n{background:rgba(255,255,255,0.14);color:var(--muted)}
-.pcb-trend{font-size:16px;margin-left:auto}
+/* MEDIA scenografica + trend ultimi 5 voti */
+.pcb-media{margin-bottom:12px}
+.pcb-media-head{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.pcb-media-v{font-family:var(--font-num,var(--font-d));font-weight:800;font-size:38px;line-height:1;background:linear-gradient(180deg,#fff,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.pcb-media-l{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.pcb-tr{font-size:14px}
+.pcb-spark{display:flex;align-items:flex-end;gap:6px;height:52px;padding:0 2px}
+.pcb-bar{width:100%;max-width:16px;flex:1;border-radius:4px 4px 2px 2px;min-height:12px;box-shadow:0 2px 5px rgba(0,0,0,0.3)}
+.pcb-bar.g{background:linear-gradient(180deg,#2aa763,#1f8f4e)}.pcb-bar.y{background:linear-gradient(180deg,#d6a419,#b8860b)}.pcb-bar.r{background:linear-gradient(180deg,#cc4d4d,#b23b3b)}.pcb-bar.n{background:rgba(255,255,255,0.14)}
+.pcb-spark-l{font-size:8px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-top:5px}
+/* torta % scelta */
+.pcb-pie{margin-top:auto;display:flex;align-items:center;gap:14px}
+.pcb-pie-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);line-height:1.5}
+.pcb-pie-lbl b{font-family:var(--font-num,var(--font-d));font-size:20px;color:#fff;letter-spacing:0}
 .player-card:hover{background:var(--card-h);border-color:rgba(255,255,255,0.15);transform:translateY(-2px)}
 .player-card.selected{border-color:var(--orange);background:rgba(139,13,47,0.15)}
 .player-card.disabled{opacity:.35;pointer-events:none}
@@ -1021,6 +1025,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <div style="margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)">
       <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--muted)" onclick="verificaCollegamenti()">🔍 Verifica collegamenti (stato sistema)</button>
       <div id="diagResult" style="margin-top:10px;font-size:12px;line-height:1.7;display:none"></div>
+      <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(201,60,60,0.5);color:#e88;margin-top:8px" onclick="resetValutazioniLocali()">🗑️ Azzera valutazioni e forma (memoria locale)</button>
     </div>
 
     <div class="form-row">
@@ -1497,13 +1502,22 @@ function renderPlayers() {
     // dati fantasy per il retro
     const gs = giocStats[p.id];
     const media = (gs && gs.vals.length) ? (gs.vals.reduce((a,b)=>a+b,0)/gs.vals.length) : null;
-    const forma = gs ? gs.vals.slice(-3) : [];
+    const forma = gs ? gs.vals.slice(-5) : [];
     const dotCls = v => media==null ? 'n' : (v >= media ? 'g' : (v >= media*0.82 ? 'y' : 'r'));
-    const formaHtml = forma.length
-      ? forma.map(v => `<span class="pcb-dot ${dotCls(v)}">${v % 1 ? v.toFixed(1) : v.toFixed(0)}</span>`).join('')
-      : '<span class="pcb-dot n">–</span>';
+    const maxV = forma.length ? Math.max(...forma, media||0, 1) : 1;
+    const sparkHtml = forma.length
+      ? forma.map(v => { const h = Math.max(14, Math.round(v / maxV * 100)); return `<span class="pcb-bar ${dotCls(v)}" style="height:${h}%" title="${v}"></span>`; }).join('')
+      : '<span style="color:var(--muted);font-size:11px;align-self:center">nessun voto</span>';
     let trend = '';
     if (forma.length >= 2) { const d = forma[forma.length-1] - forma[forma.length-2]; trend = d>0.05?'📈':(d<-0.05?'📉':'➡️'); }
+    // grafico a torta (ciambella) per la % di scelta
+    const pctVal = (pct != null) ? pct : 0;
+    const circ = (2 * Math.PI * 26).toFixed(1);
+    const donutSvg = `<svg width="82" height="82" viewBox="0 0 82 82" style="flex:0 0 auto">
+      <circle cx="41" cy="41" r="26" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="9"/>
+      <circle cx="41" cy="41" r="26" fill="none" stroke="#E8567E" stroke-width="9" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${(circ * (1 - pctVal/100)).toFixed(1)}" transform="rotate(-90 41 41)"/>
+      <text x="41" y="47" text-anchor="middle" font-family="'Teko',sans-serif" font-size="21" font-weight="700" fill="#fff">${pct!=null?pct+'%':'–'}</text>
+    </svg>`;
     card.innerHTML = `<div class="pc-inner">
       <div class="pc-front">
         <button class="pc-info" type="button" aria-label="Scheda giocatore">i</button>
@@ -1523,14 +1537,14 @@ function renderPlayers() {
           <div class="pcb-head">${p.name}</div>
           <div class="pcb-role-badge">${p.role}</div>
         </div>
-        <div class="pcb-stats">
-          <div class="pcb-stat"><span class="pcb-stat-v">${p.cost}</span><span class="pcb-stat-l">Crediti</span></div>
-          <div class="pcb-stat"><span class="pcb-stat-v">${media!=null?media.toFixed(1):'–'}</span><span class="pcb-stat-l">Media</span></div>
-          <div class="pcb-stat"><span class="pcb-stat-v">${pct!=null?pct+'%':'–'}</span><span class="pcb-stat-l">Scelto</span></div>
+        <div class="pcb-media">
+          <div class="pcb-media-head"><span class="pcb-media-v">${media!=null?media.toFixed(1):'–'}</span><span class="pcb-media-l">Media${trend?` <span class="pcb-tr">${trend}</span>`:''}</span></div>
+          <div class="pcb-spark" aria-label="Trend ultimi 5 voti">${sparkHtml}</div>
+          <div class="pcb-spark-l">Ultimi 5 voti</div>
         </div>
-        <div class="pcb-forma">
-          <span class="pcb-forma-lbl">Forma recente</span>
-          <div class="pcb-forma-row"><span class="pcb-dots">${formaHtml}</span><span class="pcb-trend">${trend}</span></div>
+        <div class="pcb-pie">
+          ${donutSvg}
+          <div class="pcb-pie-lbl">Scelto dal<br><b>${pct!=null?pct+'%':'–'}</b><br>dei votanti</div>
         </div>
       </div>
     </div>`;
@@ -1940,7 +1954,7 @@ function generaImmagineRiepilogo() {
     alert('Attendi un istante il caricamento e riprova.');
     return Promise.reject();
   }
-  const sel = selected || [];
+  const sel = (selected || []).map(id => players.find(p => p.id === id)).filter(Boolean);
   const mCasa = (matchTeams && matchTeams.casa) || {};
   const mAway = (matchTeams && matchTeams.trasferta) || {};
   const fotoHtml = sel.map(p => {
@@ -2024,78 +2038,98 @@ function scaricaRiepilogo() {
   }).catch(() => alert('Impossibile generare l\'immagine. Attendi il caricamento e riprova.'));
 }
 
-// pre-genera l'immagine e la tiene pronta come File (così navigator.share parte subito al tocco → iOS-safe)
+// pre-genera l'immagine e la tiene pronta come File (navigator.share deve partire subito al tocco → iOS)
 let _riepilogoFile = null;
+let _riepilogoInCorso = false;
 function preparaCondivisioneRiepilogo() {
-  _riepilogoFile = null;
-  try {
-    generaImmagineRiepilogo().then(canvas => {
-      canvas.toBlob(blob => { if (blob) _riepilogoFile = new File([blob], 'FantaLibertas.png', { type: 'image/png' }); }, 'image/png');
-    }).catch(() => {});
-  } catch (e) {}
-}
-
-// condivide l'immagine su WhatsApp / Instagram
-function condividiRiepilogo(dove) {
-  const testo = 'Ho appena votato al FantaLibertas! 🏀 Crea la tua squadra e sfidami: https://libertassini.github.io/fantalibertas';
-  // 1) se l'immagine è già pronta, condividi SUBITO (mantiene l'attivazione utente su iPhone)
-  if (_riepilogoFile && navigator.canShare && navigator.canShare({ files: [_riepilogoFile] })) {
-    navigator.share({ files: [_riepilogoFile], text: testo }).catch(() => {});
-    return;
-  }
-  // 2) altrimenti genera al volo e poi condividi / scarica
+  _riepilogoFile = null; _riepilogoInCorso = true;
   generaImmagineRiepilogo().then(canvas => {
     canvas.toBlob(blob => {
-      const file = new File([blob], 'FantaLibertas.png', { type: 'image/png' });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        navigator.share({ files: [file], text: testo }).catch(() => {});
-        return;
-      }
-      // Fallback desktop: scarica l'immagine e apri WhatsApp col testo (l'immagine va allegata a mano)
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'FantaLibertas.png';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 4000);
-      if (dove === 'whatsapp') {
-        window.open('https://wa.me/?text=' + encodeURIComponent(testo), '_blank');
-        alert('Immagine salvata! Allegala nella chat di WhatsApp che si è aperta.');
-      } else {
-        alert('Immagine salvata! Aprila su Instagram per pubblicarla nella tua storia.');
-      }
+      if (blob) _riepilogoFile = new File([blob], 'FantaLibertas.png', { type: 'image/png' });
+      _riepilogoInCorso = false;
     }, 'image/png');
-  }).catch(() => alert('Impossibile generare l\'immagine. Attendi il caricamento e riprova.'));
+  }).catch(() => { _riepilogoInCorso = false; });
+}
+
+// fallback: scarica l'immagine e apre l'app (desktop o Web Share non disponibile)
+function _fallbackCondivisione(file, dove, testo) {
+  try {
+    const url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'FantaLibertas.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 6000);
+  } catch (e) {}
+  if (dove === 'instagram') {
+    alert('📥 Immagine scaricata! Aprila su Instagram per pubblicarla nella tua storia.');
+  } else {
+    window.open('https://wa.me/?text=' + encodeURIComponent(testo), '_blank');
+    alert('📥 Immagine scaricata! Allegala nella chat di WhatsApp che si è aperta (icona 📎).');
+  }
+}
+
+// condivide l'immagine su WhatsApp / Instagram (robusto, senza fallimenti silenziosi)
+function condividiRiepilogo(dove) {
+  const testo = 'Ho appena votato al FantaLibertas! 🏀 Crea la tua squadra e sfidami: https://libertassini.github.io/fantalibertas';
+  const condividiFile = (file) => {
+    if (!file) { alert('Non riesco a generare l\'immagine. Riprova tra un istante.'); return; }
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], text: testo }).catch(err => {
+        if (err && err.name !== 'AbortError') _fallbackCondivisione(file, dove, testo);
+      });
+    } else {
+      _fallbackCondivisione(file, dove, testo);
+    }
+  };
+  // 1) immagine già pronta → condividi SUBITO (mantiene l'attivazione su iPhone)
+  if (_riepilogoFile) { condividiFile(_riepilogoFile); return; }
+  // 2) in preparazione → avvisa, niente fallimento silenzioso
+  if (_riepilogoInCorso) { alert('⏳ Sto preparando l\'immagine da condividere… tocca di nuovo tra un secondo.'); return; }
+  // 3) non pronta → generala ora e chiedi di ritoccare
+  preparaCondivisioneRiepilogo();
+  alert('⏳ Sto preparando l\'immagine… tocca di nuovo "WhatsApp" tra un secondo.');
 }
 
 // genera un'immagine verticale 9:16 ottimizzata per le storie Instagram
 function generaImmagineStory() {
   if (typeof html2canvas === 'undefined') { alert('Attendi un istante il caricamento e riprova.'); return Promise.reject(); }
   const titolo = (document.getElementById('matchTitle')?.textContent || 'FantaLibertas').trim();
-  const players3 = (selected || []).map(p => p.name);
-  const prons = (pronostici || []).map(p => ({ match: `${p.casa} - ${p.trasferta}`, pick: pronosticiScelti[p.id] || '—' }));
+  const sel3 = (selected || []).map(id => players.find(x => x.id === id)).filter(Boolean);
+  const prons = (pronostici || []).map(p => {
+    const pick = pronosticiScelti[p.id] || '';
+    const logo = pick === p.casa ? p.casaLogo : (pick === p.trasferta ? p.trasfertaLogo : '');
+    return { match: `${p.casa} - ${p.trasferta}`, pick: pick || '—', logo };
+  });
 
   const el = document.createElement('div');
   el.style.cssText = 'position:fixed;left:-9999px;top:0;width:1080px;height:1920px;overflow:hidden;box-sizing:border-box;';
   el.innerHTML = `
-    <div style="width:1080px;height:1920px;background:linear-gradient(160deg,#1A0008 0%,#3d0a1e 55%,#8B0D2F 135%);box-sizing:border-box;padding:90px 80px;font-family:'Inter',Arial,sans-serif;color:#fff;position:relative;">
-      <div style="text-align:center;margin-bottom:64px;">
-        <img src="icon-192.png" alt="FantaLibertas" style="width:180px;height:180px;border-radius:38px;box-shadow:0 10px 34px rgba(0,0,0,0.45);margin-bottom:24px;" onerror="this.style.display='none'">
-        <div style="font-family:'Anton',sans-serif;font-size:66px;letter-spacing:2px;">FANTA<span style="color:#E8567E;">LIBERTAS</span></div>
+    <div style="width:1080px;height:1920px;background:linear-gradient(160deg,#1A0008 0%,#3d0a1e 55%,#8B0D2F 135%);box-sizing:border-box;padding:80px 80px;font-family:'Inter',Arial,sans-serif;color:#fff;position:relative;">
+      <div style="text-align:center;margin-bottom:48px;">
+        <img src="icon-192.png" alt="FantaLibertas" style="width:168px;height:168px;border-radius:38px;box-shadow:0 10px 34px rgba(0,0,0,0.45);margin-bottom:22px;" onerror="this.style.display='none'">
+        <div style="font-family:'Anton',sans-serif;font-size:64px;letter-spacing:2px;">FANTA<span style="color:#E8567E;">LIBERTAS</span></div>
         <div style="font-size:24px;letter-spacing:10px;color:rgba(255,255,255,0.5);margin-top:8px;">FANTASY GAME</div>
       </div>
-      <div style="text-align:center;font-family:'Anton',sans-serif;font-size:54px;line-height:1.1;color:#F5D9E1;margin-bottom:18px;">${titolo}</div>
-      <div style="text-align:center;font-size:32px;color:#E8567E;font-weight:700;letter-spacing:3px;margin-bottom:58px;">HO VOTATO! 🏀</div>
+      <div style="text-align:center;font-family:'Anton',sans-serif;font-size:50px;line-height:1.1;color:#F5D9E1;margin-bottom:14px;">${titolo}</div>
+      <div style="text-align:center;font-size:32px;color:#E8567E;font-weight:700;letter-spacing:3px;margin-bottom:44px;">HO VOTATO! 🏀</div>
       <div style="font-family:'Oswald',sans-serif;font-size:26px;letter-spacing:4px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-bottom:22px;">La mia formazione</div>
-      ${players3.map(n => `<div style="background:rgba(255,255,255,0.06);border:2px solid rgba(174,16,64,0.5);border-radius:22px;padding:28px 34px;margin-bottom:18px;font-family:'Oswald',sans-serif;font-size:42px;font-weight:600;text-transform:uppercase;">${n}</div>`).join('')}
-      ${prons.length ? `<div style="font-family:'Oswald',sans-serif;font-size:26px;letter-spacing:4px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin:44px 0 22px;">I miei pronostici</div>` : ''}
-      ${prons.map(p => `<div style="display:flex;justify-content:space-between;align-items:center;gap:20px;background:rgba(255,255,255,0.04);border-radius:18px;padding:22px 30px;margin-bottom:14px;"><span style="font-size:27px;color:rgba(255,255,255,0.65);">${p.match}</span><span style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#F5D9E1;white-space:nowrap;">${p.pick}</span></div>`).join('')}
-      <div style="position:absolute;left:0;right:0;bottom:78px;text-align:center;">
-        <div style="font-family:'Anton',sans-serif;font-size:46px;color:#fff;letter-spacing:1px;">VOTA ANCHE TU</div>
+      ${sel3.map(p => {
+        const initials = p.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+        const foto = p.photo
+          ? `<img src="${p.photo}" style="width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:top center;border:3px solid rgba(232,169,187,0.5);flex:0 0 auto" onerror="this.outerHTML='<span style=&quot;width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#3a0e1e;font-family:Anton,sans-serif;font-size:36px;color:rgba(255,255,255,0.6);flex:0 0 auto&quot;>${initials}</span>'">`
+          : `<span style="width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#3a0e1e;font-family:'Anton',sans-serif;font-size:36px;color:rgba(255,255,255,0.6);flex:0 0 auto">${initials}</span>`;
+        return `<div style="display:flex;align-items:center;gap:26px;background:rgba(255,255,255,0.06);border:2px solid rgba(174,16,64,0.5);border-radius:22px;padding:18px 30px;margin-bottom:16px;">${foto}<span style="font-family:'Oswald',sans-serif;font-size:40px;font-weight:600;text-transform:uppercase;">${p.name}</span></div>`;
+      }).join('')}
+      ${prons.length ? `<div style="font-family:'Oswald',sans-serif;font-size:26px;letter-spacing:4px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin:40px 0 20px;">I miei pronostici</div>` : ''}
+      ${prons.map(p => `<div style="display:flex;justify-content:space-between;align-items:center;gap:20px;background:rgba(255,255,255,0.04);border-radius:18px;padding:18px 30px;margin-bottom:14px;"><span style="font-size:27px;color:rgba(255,255,255,0.65);">${p.match}</span><span style="display:flex;align-items:center;gap:12px;white-space:nowrap;">${p.logo?`<img src="${p.logo}" style="width:52px;height:52px;object-fit:contain" onerror="this.style.display='none'">`:''}<span style="font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;color:#F5D9E1;">${p.pick}</span></span></div>`).join('')}
+      <div style="position:absolute;left:0;right:0;bottom:70px;text-align:center;">
+        <div style="font-family:'Anton',sans-serif;font-size:46px;color:#fff;letter-spacing:1px;">⚔️ VOTA ANCHE TU</div>
         <div style="font-size:29px;color:#E8A9BB;margin-top:10px;">libertassini.github.io/fantalibertas</div>
       </div>
     </div>`;
   document.body.appendChild(el);
-  return preloadImg('icon-192.png')
+  const imgStory = ['icon-192.png'].concat(sel3.map(p => p.photo)).concat(prons.map(p => p.logo)).filter(Boolean);
+  return Promise.all(imgStory.map(src => preloadImg(src)))
     .then(() => html2canvas(el, { backgroundColor: '#1A0008', width: 1080, height: 1920, windowWidth: 1080, windowHeight: 1920, scale: 1, useCORS: true, logging: false }))
     .then(c => { el.remove(); return c; })
     .catch(e => { el.remove(); throw e; });
@@ -2866,6 +2900,16 @@ function maskEmail(email) {
    VALUTAZIONI ULTIMO MATCH + MEDIE CAMPIONATO
 ════════════════════════════════════════════ */
 // unisce lo storico dal codice (pubblico) con quello in memoria locale (admin)
+// RESET GO-LIVE: azzera lo storico valutazioni salvato nel browser admin (media + forma recente)
+function resetValutazioniLocali() {
+  if (!confirm('Azzerare valutazioni e forma recente salvate in questo browser?\n\nRicorda: per un reset completo svuota anche valutazioniStorico/pronosticiEsiti nel file e i fogli Punteggi/Classifica.')) return;
+  try { localStorage.removeItem(SK_MATCHES); } catch (e) {}
+  matchesHistory = {};
+  try { renderPlayers(); } catch (e) {}
+  try { renderValutazioni(); } catch (e) {}
+  alert('✅ Fatto! Media e forma recente ripartono da zero (memoria locale svuotata). Aggiorneranno con le valutazioni reali.');
+}
+
 function getValutazioniData() {
   const byId = {};
   (valutazioniStorico || []).forEach(m => {
