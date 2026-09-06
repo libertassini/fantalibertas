@@ -747,6 +747,8 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .ob-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.18);transition:all .25s}
 .ob-dots span.on{background:var(--orange2);width:22px;border-radius:4px}
 .ob-btn{width:100%;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:12px;padding:13px;font-family:var(--font-d);font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(139,13,47,0.4)}
+.ob-btn-sec{width:100%;margin-top:10px;background:transparent;border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:11px;font-family:var(--font-d);font-size:13px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);cursor:pointer}
+.ob-btn-sec:hover{border-color:rgba(232,169,187,0.5);color:var(--text)}
 @keyframes obFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
@@ -799,6 +801,18 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="ob-dots" id="obDots"></div>
     <button class="ob-btn" id="obBtn" onclick="onboardingNext()">Avanti →</button>
+  </div>
+</div>
+
+<!-- pannello di conferma voto (voto unico e non modificabile) -->
+<div id="confermaVotoModal" class="ob-overlay" style="display:none">
+  <div class="ob-card">
+    <div class="ob-ico">⚠️</div>
+    <div class="ob-t">Confermi la tua votazione?</div>
+    <div class="ob-d" style="margin-bottom:6px">Puoi votare <b>una sola volta per partita</b> con la stessa email.</div>
+    <div class="ob-d"><b>Il voto non sarà modificabile</b> dopo la conferma. Controlla bene la tua formazione e i pronostici.</div>
+    <button class="ob-btn" onclick="confermaInvioVoto()">✅ Confermo e invio</button>
+    <button class="ob-btn-sec" onclick="chiudiConfermaVoto()">Annulla e rivedi</button>
   </div>
 </div>
 <canvas id="fxParticles"></canvas>
@@ -913,7 +927,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div id="pronosticiBox"></div>
 
       <div class="card">
-        <button class="btn" id="submitVotoBtn" disabled onclick="submitVoto()">Invia votazione</button>
+        <button class="btn" id="submitVotoBtn" disabled onclick="mostraConfermaVoto()">Invia votazione</button>
         <div class="deadline-note">Le votazioni chiudono al fischio d'inizio.</div>
       </div>
 
@@ -1381,7 +1395,16 @@ function setAssoc(v) {
 
 function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
-function submitReg() {
+// controllo AUTOREVOLE sul foglio Voti: true se quell'email ha già votato per quella partita (vale anche da altri dispositivi)
+async function haGiaVotato(email, mid) {
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_VOTI))).text()).slice(1);
+    const e = (email || '').toLowerCase().trim();
+    return rows.some(r => String(r[6]).trim() === String(mid) && (r[3] || '').toLowerCase().trim() === e);
+  } catch (e) { return false; } // se il foglio non è raggiungibile, non blocchiamo (resta il controllo locale)
+}
+
+async function submitReg() {
   const nome    = document.getElementById('regNome').value.trim();
   const cognome = document.getElementById('regCognome').value.trim();
   const email   = document.getElementById('regEmail').value.trim().toLowerCase();
@@ -1397,9 +1420,15 @@ function submitReg() {
   }
 
   // blocca se ha già votato per questa partita
-  const key = email + '_' + (matchId||'default');
+  const mid = matchId || 'default';
+  const key = email + '_' + mid;
   if (votes[key]) {
     alert('Hai già votato per questa partita. Non è possibile modificare il voto.');
+    return;
+  }
+  // controllo autorevole sul foglio Voti (blocca anche da altri dispositivi)
+  if (await haGiaVotato(email, mid)) {
+    alert('Risulta già un voto per questa partita con questa email.\nÈ possibile votare una sola volta per partita.');
     return;
   }
 
@@ -1689,12 +1718,33 @@ function noCache(url) {
   return url + '&_t=' + Date.now();
 }
 
-function submitVoto() {
+// mostra il pannello di conferma (voto unico e non modificabile)
+function mostraConfermaVoto() {
+  const btn = document.getElementById('submitVotoBtn');
+  if (btn && btn.disabled) return;
+  const m = document.getElementById('confermaVotoModal');
+  if (m) m.style.display = 'flex';
+}
+function chiudiConfermaVoto() {
+  const m = document.getElementById('confermaVotoModal');
+  if (m) m.style.display = 'none';
+}
+function confermaInvioVoto() {
+  chiudiConfermaVoto();
+  submitVoto();
+}
+
+async function submitVoto() {
   if (!currentUser) return;
   if (votingClosed) { alert('Le votazioni sono chiuse.'); return; }
 
   const mid = matchId || 'default';
   const key = currentUser.email.toLowerCase() + '_' + mid;
+  // guardia anti-doppio-voto sul foglio (autorevole, anche da altri dispositivi)
+  if (await haGiaVotato(currentUser.email, mid)) {
+    alert('Risulta già un voto per questa partita con la tua email.\nÈ possibile votare una sola volta per partita.');
+    return;
+  }
   const sel = selected.map(id => players.find(p => p.id === id));
 
   // pronostici scelti (nell'ordine p1,p2,p3)
