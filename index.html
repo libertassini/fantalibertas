@@ -833,14 +833,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Pistoia Basket</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Fortitudo Bologna</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
         <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
-          <span class="dl-date"><span id="matchDateLabel">Domenica 6 Sett 21:00</span></span>
+          <span class="dl-date"><span id="matchDateLabel">Sabato 12 Sett 18:00</span></span>
           <span class="dl-sep"></span>
           <span class="dl-count"><span id="cdVal">--:--:--</span></span>
         </div>
@@ -1172,6 +1172,7 @@ let matchesHistory = {};
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
 let valutazioniStorico = [
+  { matchId:"20260906", matchName:"Libertas Livorno vs Pistoia Basket", date:"2026-09-06", vals:{1:0,2:33,3:4,4:7,5:1,6:1,7:1,8:14,9:9,10:2,11:3,12:-5} },
   { matchId:"20260905", matchName:"Libertas Livorno vs Gema Montecatini", date:"2026-09-05", vals:{1:4,2:28,3:8,4:0,5:0,6:11,7:0,8:3,9:24,10:12,11:-1,12:2} }
 ];
 
@@ -1184,6 +1185,7 @@ let valutazioniStorico = [
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
 let pronosticiEsiti = [
+  { matchId:"20260906", vincenti:{p1:"Libertas Livorno", p2:"Gema Montecatini", p3:"Vincente"} },
   { matchId:"20260905", vincenti:{p1:"Libertas Livorno", p2:"Pistoia Basket", p3:"Vincente"} }
 ];
 
@@ -1203,7 +1205,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Elachem Vigevano",         logo: "pistoia.png" }
+  trasferta: { nome: "Elachem Vigevano",         logo: "bologna.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
