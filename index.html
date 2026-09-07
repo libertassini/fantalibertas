@@ -282,6 +282,8 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .rank-pos.top1{color:var(--gold)}
 .rank-pos.top2{color:#C0C0C0}
 .rank-pos.top3{color:#CD7F32}
+.rank-var{display:block;font-family:var(--font-b);font-size:9.5px;font-weight:700;line-height:1;margin-top:3px;letter-spacing:0}
+.rank-var.up{color:#37d67a}.rank-var.down{color:#e06666}.rank-var.same{color:var(--muted)}.rank-var.new{color:#E8A9BB;font-size:8px;letter-spacing:.3px}
 .rank-score{font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--orange);text-align:right}
 .rank-sub-num{font-family:var(--font-num);font-size:16px;font-weight:600;color:var(--muted);text-align:right;white-space:nowrap}
 .rank-sub-num.pos{color:#5fd88a}
@@ -406,6 +408,23 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 
 /* valutazioni ultimo match */
 .val-match-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+/* ===== pannello Highlights di giornata (a scomparsa) ===== */
+.vh-panel{background:linear-gradient(135deg,rgba(139,13,47,0.22),rgba(45,0,20,0.5));border:1px solid rgba(232,169,187,0.28);border-radius:var(--rl);margin-bottom:16px;overflow:hidden}
+.vh-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;background:transparent;border:none;cursor:pointer;padding:14px 16px;font-family:var(--font-d);font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff}
+.vh-arrow{color:var(--orange2);font-size:14px;transition:transform .3s}
+.vh-panel.open .vh-arrow{transform:rotate(180deg)}
+.vh-body{max-height:0;opacity:0;transition:max-height .4s ease,opacity .3s ease,padding .3s ease;padding:0 16px}
+.vh-panel.open .vh-body{max-height:520px;opacity:1;padding:0 16px 14px}
+.vh-block{margin-top:8px}
+.vh-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px;font-weight:600}
+.vh-p{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:12px;padding:8px 12px;margin-bottom:7px}
+.vh-medal{font-size:17px;flex:0 0 auto}
+.vh-ph{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:top center;flex:0 0 auto;border:1.5px solid rgba(232,169,187,0.4)}
+.vh-ph-ini{display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#3a0e1e,#8B0D2F);font-family:var(--font-d);font-size:12px;color:rgba(255,255,255,0.7)}
+.vh-nm{flex:1;font-family:var(--font-d);font-size:14px;font-weight:600;text-transform:uppercase;color:#fff;letter-spacing:.3px}
+.vh-v{font-family:var(--font-num,var(--font-d));font-size:19px;font-weight:700;color:#E8A9BB;flex:0 0 auto}
+.vh-pct{color:#37d67a}
+.vh-loading{font-size:12px;color:var(--muted)}
 .val-match-name{font-family:var(--font-d);font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text)}
 .val-match-date{font-size:12px;color:var(--muted)}
 .val-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}
@@ -423,8 +442,12 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .val-avg b{color:var(--orange2);font-family:var(--font-d);font-size:15px;font-weight:700}
 .val-pick{margin-top:6px;padding-top:6px}
 .val-pick b{color:#37d67a}
-.val-empty{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:13px}
-.val-empty-icon{font-size:38px;opacity:0.4;margin-bottom:10px}
+.val-empty{text-align:center;padding:3rem 1.2rem;color:var(--muted);font-size:13.5px;position:relative;line-height:1.6}
+.val-empty::before{content:'';position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:200px;height:200px;background:url('libertas-bg.png') center/contain no-repeat;opacity:0.05;pointer-events:none}
+.val-empty>*{position:relative;z-index:1}
+.val-empty-icon{font-size:46px;opacity:0.55;margin-bottom:12px;filter:drop-shadow(0 5px 14px rgba(139,13,47,0.45));animation:emptyFloat 3.5s ease-in-out infinite;display:inline-block}
+.val-empty-title{font-family:var(--font-d);font-size:16px;color:#F0DCE3;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700}
+@keyframes emptyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 /* modal overlay */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(5,10,20,0.85);z-index:100;align-items:center;justify-content:center;padding:1rem}
@@ -727,8 +750,8 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .sp-inner{position:relative;z-index:1;text-align:center;max-width:460px;width:100%;animation:spRise .8s cubic-bezier(.2,.8,.2,1) both}
 @keyframes spRise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .sp-kicker{font-family:var(--font-d,'Oswald');font-size:16px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);line-height:1.2}
-.sp-brand{font-family:var(--font-d,'Oswald');font-weight:800;font-size:34px;letter-spacing:1px;line-height:1;margin:6px 0;color:#fff}
-.sp-brand span{color:#E8567E}
+.sp-brand{font-family:var(--font-d,'Oswald');font-weight:800;font-size:34px;letter-spacing:1px;line-height:1;margin:6px 0;background:linear-gradient(100deg,#a9761f 0%,#f0cf76 13%,#fff3c4 23%,#E8567E 40%,#8B0D2F 50%,#E8567E 60%,#fff3c4 77%,#f0cf76 87%,#a9761f 100%);background-size:260% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(200,20,45,0.45));animation:goldAmaShine 5s linear infinite}
+.sp-brand span{-webkit-text-fill-color:transparent}
 .sp-kicker2{margin-bottom:22px;color:#F0DCE3;font-weight:600}
 .sp-logo-wrap{margin-bottom:16px;min-height:0}
 .sp-logo{max-width:180px;max-height:90px;object-fit:contain;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.5))}
@@ -747,8 +770,8 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .splash-logo-wrap{position:relative;display:inline-block;margin-bottom:26px}
 .splash-logo{width:150px;height:150px;border-radius:34px;box-shadow:0 12px 44px rgba(139,13,47,0.6);opacity:0;transform:scale(.6);animation:splashPop .7s cubic-bezier(.2,1.3,.4,1) .15s forwards}
 .splash-ball{position:absolute;top:-16px;right:-14px;font-size:44px;opacity:0;animation:splashBall .6s ease .55s forwards, splashBounce 1.1s ease .95s infinite}
-.splash-name{font-family:var(--font-hero,'Anton');font-size:40px;font-weight:900;letter-spacing:2px;color:#fff;opacity:0;transform:translateY(14px);animation:splashUp .6s ease .45s forwards}
-.splash-name span{color:#E8567E}
+.splash-name{font-family:var(--font-hero,'Anton');font-size:40px;font-weight:900;letter-spacing:2px;opacity:0;transform:translateY(14px);animation:splashUp .6s ease .45s forwards;background:linear-gradient(100deg,#a9761f 0%,#f0cf76 13%,#fff3c4 23%,#E8567E 40%,#8B0D2F 50%,#E8567E 60%,#fff3c4 77%,#f0cf76 87%,#a9761f 100%);background-size:260% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(200,20,45,0.45));animation:splashUp .6s ease .45s forwards, goldAmaShine 5s linear infinite}
+.splash-name span{-webkit-text-fill-color:transparent}
 .splash-sub{font-family:var(--font-d,'Oswald');font-size:14px;letter-spacing:8px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:8px;opacity:0;animation:splashUp .6s ease .6s forwards}
 .splash-load{width:120px;height:4px;border-radius:3px;background:rgba(255,255,255,0.12);margin:28px auto 0;overflow:hidden;opacity:0;animation:splashUp .5s ease .8s forwards}
 .splash-load span{display:block;height:100%;width:0;background:linear-gradient(90deg,#8B0D2F,#E8567E);border-radius:3px;animation:splashBar 1.4s ease .8s forwards}
@@ -1024,7 +1047,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
         <div class="section-label" style="margin-bottom:0">Classifica FantaLibertas</div>
         <button class="cal-dl-btn" onclick="condividiClassificaPDF()">📄 Condividi PDF</button>
       </div>
-      <div id="rankContent"><p style="color:var(--muted);font-size:13px">Nessuna partita ancora disputata.</p></div>
+      <div id="rankContent"><div class="val-empty"><div class="val-empty-icon">🏆</div><div class="val-empty-title">Classifica in arrivo</div>Nessuna partita ancora disputata. Torna dopo la prima giornata!</div></div>
     </div>
   </div>
 
@@ -1270,9 +1293,9 @@ let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 ──────────────────────────────────────────────────────────────── */
 let sponsorGiornata = {
   attivo: true,
-  foto:  "logo-libertas.png",   // immagine principale dello sponsor (carica su GitHub, root)
+  foto:  "sponsor.png",   // immagine principale dello sponsor (carica su GitHub, root)
   logo:  "",              // logo sponsor (facoltativo)
-  nome:  "Associazione Tifosi Libertas"               // nome sponsor (facoltativo, mostrato sotto)
+  nome:  ""               // nome sponsor (facoltativo, mostrato sotto)
 };
 
 /* ════════════════════════════════════════════
@@ -1395,7 +1418,7 @@ function renderCalendario(eventi) {
                        .sort((a,b) => a.date - b.date)
                        .slice(0, 10);
   if (futuri.length === 0) {
-    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">📅</div>Nessuna partita in programma al momento.</div>';
+    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">📅</div><div class="val-empty-title">Nessuna partita in programma</div>Il calendario apparirà qui appena disponibile.</div>';
     return;
   }
   const mesi = ['GEN','FEB','MAR','APR','MAG','GIU','LUG','AGO','SET','OTT','NOV','DIC'];
@@ -3048,7 +3071,7 @@ function renderValutazioni() {
   const data = getValutazioniData();
 
   if (data.length === 0) {
-    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">📊</div>Nessuna valutazione ancora disponibile.<br>Appariranno qui dopo la prima partita elaborata.</div>';
+    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">📊</div><div class="val-empty-title">Ancora nessuna valutazione</div>I voti dei giocatori appariranno qui dopo la prima partita elaborata.</div>';
     return;
   }
 
@@ -3100,6 +3123,29 @@ function renderValutazioni() {
       <div class="val-match-name">${ultimo.matchName || 'Ultima partita'}</div>
       <div class="val-match-date">${dateStr}${data.length > 1 ? ' · media su ' + data.length + ' partite' : ''}</div>
     </div>`;
+  // ── PANNELLO HIGHLIGHTS (a scomparsa): Il più gettonato + Top 3 ideale ──
+  const top3 = Object.entries(ultimo.vals || {})
+    .map(([pid, v]) => ({ p: players.find(x => String(x.id) === String(pid)), v: parseFloat(v) }))
+    .filter(x => x.p && !isNaN(x.v))
+    .sort((a, b) => b.v - a.v).slice(0, 3);
+  const miniFoto = p => p.photo
+    ? `<img class="vh-ph" src="${p.photo}" alt="" loading="lazy" onerror="this.outerHTML='<span class=&quot;vh-ph vh-ph-ini&quot;>${p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</span>'">`
+    : `<span class="vh-ph vh-ph-ini">${p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</span>`;
+  const top3Html = top3.map((x, idx) => `<div class="vh-p"><span class="vh-medal">${['🥇','🥈','🥉'][idx]}</span>${miniFoto(x.p)}<span class="vh-nm">${x.p.name}</span><span class="vh-v">${x.v.toFixed(1)}</span></div>`).join('');
+  html += `<div class="vh-panel open" id="vhPanel">
+      <button class="vh-head" onclick="toggleVH()"><span>📊 Highlights di giornata</span><span class="vh-arrow">▾</span></button>
+      <div class="vh-body">
+        <div class="vh-block">
+          <div class="vh-lbl">🔥 Il più gettonato</div>
+          <div class="vh-gett" id="vhGett"><span class="vh-loading">Calcolo in corso…</span></div>
+        </div>
+        <div class="vh-block">
+          <div class="vh-lbl">⭐ Top 3 ideale della giornata</div>
+          <div class="vh-top3">${top3Html || '<span class="vh-loading">—</span>'}</div>
+        </div>
+      </div>
+    </div>`;
+
   html += '<div class="val-cards">';
 
   // mostra i giocatori che hanno una valutazione in questa partita
@@ -3147,16 +3193,42 @@ async function getPickStats(mid) {
   } catch (e) { return null; }
 }
 
-// riempie la "% Scelto da" nelle card valutazioni per l'ultima partita
+// riempie la "% Scelto da" nelle card + "Il più gettonato", dai voti dell'ultima partita
 async function fillValPick(mid) {
   const stats = await getPickStats(mid);
   const badges = document.querySelectorAll('.val-pick b[data-pname]');
-  if (!stats || !stats.totale) { badges.forEach(b => b.textContent = '–'); return; }
+  const gett = document.getElementById('vhGett');
+  if (!stats || !stats.totale) {
+    badges.forEach(b => b.textContent = '–');
+    if (gett) gett.innerHTML = '<span class="vh-loading">Nessun voto ancora</span>';
+    return;
+  }
   badges.forEach(b => {
     const n = b.getAttribute('data-pname');
     const cnt = stats.pick[n] || 0;
     b.textContent = Math.round(cnt / stats.totale * 100) + '%';
   });
+  // il più gettonato
+  if (gett) {
+    let bestN = null, bestC = -1;
+    Object.entries(stats.pick).forEach(([n, c]) => { if (c > bestC) { bestC = c; bestN = n; } });
+    if (bestN) {
+      const p = players.find(x => x.name === bestN);
+      const pct = Math.round(bestC / stats.totale * 100);
+      const foto = (p && p.photo)
+        ? `<img class="vh-ph" src="${p.photo}" alt="" onerror="this.outerHTML='<span class=&quot;vh-ph vh-ph-ini&quot;>${bestN.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</span>'">`
+        : `<span class="vh-ph vh-ph-ini">${bestN.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}</span>`;
+      gett.innerHTML = `<div class="vh-p">${foto}<span class="vh-nm">${bestN}</span><span class="vh-v vh-pct">${pct}%</span></div>`;
+    } else {
+      gett.innerHTML = '<span class="vh-loading">—</span>';
+    }
+  }
+}
+
+// apri/chiudi il pannello highlights
+function toggleVH() {
+  const el = document.getElementById('vhPanel');
+  if (el) el.classList.toggle('open');
 }
 
 let _rankState = { entries: [], breakdown: null, hasBreak: false, sortBy: 'totale' };
@@ -3207,12 +3279,13 @@ async function renderRanking() {
   }
 
   if (entries.length === 0) {
-    cont.innerHTML = '<p style="color:var(--muted);font-size:13px">Nessuna partita ancora disputata.</p>';
+    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">🏆</div><div class="val-empty-title">Classifica in arrivo</div>Nessuna partita ancora disputata. Torna dopo la prima giornata!</div>';
     return;
   }
 
   const breakdown = await getBreakdownPunteggi();
-  _rankState = { entries, breakdown, hasBreak: breakdown && Object.keys(breakdown).length > 0, sortBy: 'totale' };
+  const variazioni = await getVariazioni();
+  _rankState = { entries, breakdown, hasBreak: breakdown && Object.keys(breakdown).length > 0, sortBy: 'totale', variazioni };
   drawRanking();
 }
 
@@ -3248,6 +3321,18 @@ function drawRanking() {
   }
 
   let html = `<table class="rank-table"><thead><tr>${head}</tr></thead><tbody>`;
+  const vz = _rankState.variazioni || { ok:false, prevPos:{} };
+  // badge variazione posizione (solo con ordinamento per Totale e con almeno 2 giornate)
+  const varHtml = (e, i) => {
+    if (!vz.ok || sortBy !== 'totale') return '';
+    const email = (e.email||'').toLowerCase().trim();
+    const pp = vz.prevPos[email];
+    if (pp === undefined) return '<span class="rank-var new">NEW</span>';
+    const d = pp - (i + 1);
+    if (d > 0) return `<span class="rank-var up">▲${d}</span>`;
+    if (d < 0) return `<span class="rank-var down">▼${-d}</span>`;
+    return '<span class="rank-var same">=</span>';
+  };
   sorted.forEach((e,i) => {
     const posClass = i===0?'top1':i===1?'top2':i===2?'top3':'';
     const medal    = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
@@ -3266,7 +3351,7 @@ function drawRanking() {
       mid = `<td><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>`;
     }
     html += `<tr data-name="${nameL}" data-email="${(e.email||'').toLowerCase().trim()}" style="animation-delay:${Math.min(i*0.06,1.4).toFixed(2)}s">
-      <td class="rank-pos ${posClass}">${medal||i+1}</td>
+      <td class="rank-pos ${posClass}">${medal||i+1}${varHtml(e,i)}</td>
       <td><div class="rank-nm" style="font-weight:500">${e.nome} ${e.cognome}</div><div class="rank-em" style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
       ${mid}
       <td class="rank-score"><span class="animate-num" data-target="${parseFloat(e.totale)||0}" data-dec="1">0.0</span></td>
@@ -3401,6 +3486,37 @@ function condividiClassificaPDF() {
       }
     })
     .catch(() => { el.remove(); alert('Impossibile generare il PDF. Riprova.'); });
+}
+
+// calcola la variazione di posizione rispetto alla giornata precedente (dal foglio Punteggi)
+async function getVariazioni() {
+  if (!CSV_PUNTEGGI) return { ok: false, prevPos: {} };
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_PUNTEGGI))).text()).slice(1);
+    // colonne: 1 ID Partita, 5 Email, 8 Totale giornata
+    const per = {}; const midsSet = new Set();
+    rows.forEach(r => {
+      const email = (r[5] || '').toLowerCase().trim();
+      const mid = String(r[1] || '').trim();
+      const tot = parseFloat(r[8]);
+      if (!email || !mid || isNaN(tot)) return;
+      midsSet.add(mid);
+      per[email] = per[email] || {};
+      per[email][mid] = (per[email][mid] || 0) + tot;
+    });
+    const mids = [...midsSet].sort();
+    if (mids.length < 2) return { ok: false, prevPos: {} }; // serve almeno 2 giornate
+    const latest = mids[mids.length - 1];
+    const prev = {};
+    Object.entries(per).forEach(([email, m]) => {
+      let p = 0, giocatePrima = false;
+      Object.entries(m).forEach(([mid, v]) => { if (mid !== latest) { p += v; giocatePrima = true; } });
+      if (giocatePrima) prev[email] = p;
+    });
+    const prevRank = Object.keys(prev).sort((a, b) => prev[b] - prev[a]);
+    const prevPos = {}; prevRank.forEach((e, i) => prevPos[e] = i + 1);
+    return { ok: true, prevPos };
+  } catch (e) { return { ok: false, prevPos: {} }; }
 }
 
 // aggrega il foglio "Punteggi" per email → { email: { player, bonus } }
