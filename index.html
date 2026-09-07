@@ -421,6 +421,8 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .val-score-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:3px;line-height:1.2}
 .val-avg{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
 .val-avg b{color:var(--orange2);font-family:var(--font-d);font-size:15px;font-weight:700}
+.val-pick{margin-top:6px;padding-top:6px}
+.val-pick b{color:#37d67a}
 .val-empty{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:13px}
 .val-empty-icon{font-size:38px;opacity:0.4;margin-bottom:10px}
 
@@ -578,6 +580,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .rank-score{font-family:var(--font-num);font-weight:600;font-size:27px;line-height:1}
 .rank-pos{font-family:var(--font-num);font-weight:600;font-size:25px;line-height:1}
 .val-score-big{font-family:var(--font-num);font-weight:700;font-size:42px}
+.rank-nores{text-align:center;color:var(--muted);font-size:13px;padding:16px 10px;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;margin-top:10px}
 .val-score-lbl{font-family:var(--font-b)}
 .val-avg b{font-family:var(--font-num);font-weight:600;font-size:20px}
 .slot-cost{font-family:var(--font-num);font-weight:600;font-size:16px}
@@ -715,6 +718,30 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 
 /* ===== schermata di benvenuto ===== */
 #splash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 35%,#3d0a1e 0%,#1A0008 70%);transition:opacity .6s ease,visibility .6s}
+/* ===== SCHERMATA SPONSOR DI GIORNATA ===== */
+#sponsorScreen{position:fixed;inset:0;z-index:9998;display:none;align-items:center;justify-content:center;padding:26px;overflow:hidden;background:radial-gradient(circle at 50% 24%,#4a1226 0%,#25081a 55%,#12030b 100%);opacity:0;transition:opacity .7s ease}
+#sponsorScreen.show{opacity:1}
+#sponsorScreen.hide{opacity:0}
+#sponsorScreen .sp-decor{position:absolute;inset:0;background:radial-gradient(circle at 18% 12%,rgba(174,16,64,0.35),transparent 45%),radial-gradient(circle at 100% 100%,rgba(139,13,47,0.4),transparent 55%);animation:spGlow 6s ease-in-out infinite}
+@keyframes spGlow{0%,100%{opacity:.7}50%{opacity:1}}
+.sp-inner{position:relative;z-index:1;text-align:center;max-width:460px;width:100%;animation:spRise .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes spRise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.sp-kicker{font-family:var(--font-d,'Oswald');font-size:16px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);line-height:1.2}
+.sp-brand{font-family:var(--font-d,'Oswald');font-weight:800;font-size:34px;letter-spacing:1px;line-height:1;margin:6px 0;color:#fff}
+.sp-brand span{color:#E8567E}
+.sp-kicker2{margin-bottom:22px;color:#F0DCE3;font-weight:600}
+.sp-logo-wrap{margin-bottom:16px;min-height:0}
+.sp-logo{max-width:180px;max-height:90px;object-fit:contain;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.5))}
+.sp-photo-frame{position:relative;display:inline-block;border-radius:22px;padding:8px;background:linear-gradient(135deg,rgba(232,169,187,0.5),rgba(139,13,47,0.5));box-shadow:0 20px 60px rgba(139,13,47,0.55);animation:spPop .9s cubic-bezier(.2,1.2,.3,1) .15s both}
+@keyframes spPop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.sp-photo{display:block;max-width:100%;max-height:52vh;border-radius:16px}
+.sp-name{font-family:var(--font-d,'Oswald');font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#fff;margin-top:18px}
+.sp-hint{font-size:12px;color:rgba(255,255,255,0.45);margin-top:14px;letter-spacing:.5px}
+.sp-bar{width:180px;height:4px;border-radius:3px;background:rgba(255,255,255,0.12);margin:16px auto 0;overflow:hidden}
+.sp-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#8B0D2F,#E8567E);border-radius:3px}
+#sponsorScreen.show .sp-bar span{animation:spBar 5s linear forwards}
+@keyframes spBar{from{width:0}to{width:100%}}
+@media(prefers-reduced-motion:reduce){.sp-inner,.sp-photo-frame,.sp-decor{animation:none}}
 #splash.hide{opacity:0;visibility:hidden}
 .splash-inner{text-align:center;padding:20px}
 .splash-logo-wrap{position:relative;display:inline-block;margin-bottom:26px}
@@ -764,6 +791,21 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <div class="splash-name">FANTA<span>LIBERTAS</span></div>
     <div class="splash-sub">Fantasy Game</div>
     <div class="splash-load"><span></span></div>
+  </div>
+</div>
+
+<!-- schermata SPONSOR di giornata (mostrata dopo lo splash) -->
+<div id="sponsorScreen">
+  <div class="sp-decor"></div>
+  <div class="sp-inner">
+    <div class="sp-kicker">La prossima giornata del</div>
+    <div class="sp-brand">FANTA<span>LIBERTAS</span></div>
+    <div class="sp-kicker sp-kicker2">è promossa da:</div>
+    <div class="sp-logo-wrap" id="spLogoWrap"><img id="spLogo" class="sp-logo" src="" alt=""></div>
+    <div class="sp-photo-frame"><img id="spFoto" class="sp-photo" src="" alt="Sponsor di giornata"></div>
+    <div class="sp-name" id="spName"></div>
+    <div class="sp-hint">Tocca per continuare</div>
+    <div class="sp-bar"><span></span></div>
   </div>
 </div>
 
@@ -1220,6 +1262,18 @@ let pronostici = [
   { id:"p3", casa:"Vincente", casaLogo:"libertas1.png",   trasferta:"Perdente",  trasfertaLogo:"libertas1.png" },
 ];
 let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
+
+/* ────────────────────────────────────────────────────────────────
+   SPONSOR DI GIORNATA (schermata mostrata all'avvio, dopo lo splash)
+   Carica su GitHub (root) la FOTO dello sponsor (foto:) e, se vuoi,
+   il suo LOGO (logo:). Metti attivo:false per non mostrarla.
+──────────────────────────────────────────────────────────────── */
+let sponsorGiornata = {
+  attivo: true,
+  foto:  "sponsor.png",   // immagine principale dello sponsor (carica su GitHub, root)
+  logo:  "",              // logo sponsor (facoltativo)
+  nome:  ""               // nome sponsor (facoltativo, mostrato sotto)
+};
 
 /* ════════════════════════════════════════════
    PERSISTENZA
@@ -3066,6 +3120,7 @@ function renderValutazioni() {
           <span class="val-score-big animate-num" data-target="${voto}" data-dec="1">0.0</span>
         </div>
         ${media !== null ? `<div class="val-avg"><span>Media campionato</span><b>${media.toFixed(1)}</b></div>` : ''}
+        <div class="val-avg val-pick"><span>Scelto da</span><b data-pname="${(p.name||'').replace(/"/g,'&quot;')}">…</b></div>
       </div>
     </div>`;
   });
@@ -3073,6 +3128,35 @@ function renderValutazioni() {
   html += '</div>';
   cont.innerHTML = html;
   animaNumeri(cont);
+  fillValPick(ultimo.matchId); // riempie le % di scelta dell'ultima giornata
+}
+
+// legge i voti di una specifica partita e conta le scelte per giocatore (email uniche)
+async function getPickStats(mid) {
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_VOTI))).text()).slice(1);
+    const seen = new Set(); const pick = {}; let tot = 0;
+    rows.forEach(r => {
+      if (String(r[6]).trim() !== String(mid)) return;
+      const email = (r[3] || '').toLowerCase().trim();
+      if (!email || seen.has(email)) return;
+      seen.add(email); tot++;
+      [r[7], r[8], r[9]].forEach(nome => { if (nome && nome.trim()) { const n = nome.trim(); pick[n] = (pick[n] || 0) + 1; } });
+    });
+    return { totale: tot, pick };
+  } catch (e) { return null; }
+}
+
+// riempie la "% Scelto da" nelle card valutazioni per l'ultima partita
+async function fillValPick(mid) {
+  const stats = await getPickStats(mid);
+  const badges = document.querySelectorAll('.val-pick b[data-pname]');
+  if (!stats || !stats.totale) { badges.forEach(b => b.textContent = '–'); return; }
+  badges.forEach(b => {
+    const n = b.getAttribute('data-pname');
+    const cnt = stats.pick[n] || 0;
+    b.textContent = Math.round(cnt / stats.totale * 100) + '%';
+  });
 }
 
 let _rankState = { entries: [], breakdown: null, hasBreak: false, sortBy: 'totale' };
@@ -3204,12 +3288,26 @@ function filtraClassifica() {
   const q = input.value.toLowerCase().trim();
   if (clear) clear.style.display = q ? 'block' : 'none';
   const rows = document.querySelectorAll('#rankContent .rank-table tbody tr');
+  let trovati = 0;
   rows.forEach(tr => {
     tr.classList.remove('row-hit', 'row-dim');
+    tr.style.display = '';
     if (!q) return;
     const hit = (tr.dataset.name || '').includes(q) || (tr.dataset.email || '').includes(q);
-    tr.classList.add(hit ? 'row-hit' : 'row-dim');
+    if (hit) { tr.classList.add('row-hit'); trovati++; }
+    else { tr.style.display = 'none'; } // isola: nasconde chi non corrisponde
   });
+  // messaggio "nessun risultato"
+  let msg = document.getElementById('rankNoRes');
+  if (q && trovati === 0) {
+    if (!msg) {
+      msg = document.createElement('div'); msg.id = 'rankNoRes'; msg.className = 'rank-nores';
+      const tbl = document.querySelector('#rankContent .rank-table');
+      if (tbl && tbl.parentNode) tbl.parentNode.insertBefore(msg, tbl.nextSibling);
+    }
+    msg.textContent = 'Nessun partecipante trovato per "' + input.value.trim() + '".';
+    msg.style.display = 'block';
+  } else if (msg) { msg.style.display = 'none'; }
 }
 function pulisciRicerca() {
   const input = document.getElementById('rankSearch');
@@ -3777,13 +3875,42 @@ initCardTilt();
 // schermata di benvenuto: mostra all'avvio, poi sfuma (una volta per sessione, tap per saltare)
 (function initSplash(){
   const sp = document.getElementById('splash');
-  if (!sp) return;
-  if (sessionStorage.getItem('fl_splash') === '1') { sp.remove(); return; }
+  if (sessionStorage.getItem('fl_splash') === '1') {
+    if (sp) sp.remove();
+    const s = document.getElementById('sponsorScreen'); if (s) s.remove();
+    return;
+  }
   sessionStorage.setItem('fl_splash', '1');
-  const chiudi = () => { sp.classList.add('hide'); setTimeout(()=>sp.remove(), 650); };
+  if (!sp) { mostraSponsor(); return; }
+  const chiudi = () => { sp.classList.add('hide'); setTimeout(()=>{ sp.remove(); mostraSponsor(); }, 650); };
   const t = setTimeout(chiudi, 2400);
   sp.addEventListener('click', () => { clearTimeout(t); chiudi(); });
 })();
+
+// mostra la schermata dello sponsor di giornata per 5 secondi, poi svanisce
+function mostraSponsor(){
+  const s = document.getElementById('sponsorScreen');
+  if (!s) return;
+  if (typeof sponsorGiornata === 'undefined' || !sponsorGiornata.attivo || !sponsorGiornata.foto) { s.remove(); return; }
+  const foto = document.getElementById('spFoto');
+  const logoW = document.getElementById('spLogoWrap');
+  const logo = document.getElementById('spLogo');
+  const name = document.getElementById('spName');
+  if (foto) {
+    foto.src = sponsorGiornata.foto;
+    foto.onerror = () => { s.remove(); }; // se la foto manca, salta la schermata
+  }
+  if (logo && logoW) {
+    if (sponsorGiornata.logo) { logo.src = sponsorGiornata.logo; logo.onerror = () => { logoW.style.display='none'; }; }
+    else { logoW.style.display = 'none'; }
+  }
+  if (name) name.textContent = sponsorGiornata.nome || '';
+  s.style.display = 'flex';
+  requestAnimationFrame(() => s.classList.add('show'));
+  const chiudiS = () => { s.classList.add('hide'); setTimeout(() => s.remove(), 700); };
+  const t = setTimeout(chiudiS, 5000);
+  s.addEventListener('click', () => { clearTimeout(t); chiudiS(); });
+}
 
 // mostra i due loghi delle squadre della partita (sotto il titolo)
 function renderMatchTeams() {
