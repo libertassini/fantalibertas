@@ -3123,7 +3123,7 @@ function renderValutazioni() {
       <div class="val-match-name">${ultimo.matchName || 'Ultima partita'}</div>
       <div class="val-match-date">${dateStr}${data.length > 1 ? ' · media su ' + data.length + ' partite' : ''}</div>
     </div>`;
-  // ── PANNELLO HIGHLIGHTS (a scomparsa): Il più gettonato + Top 3 ideale ──
+  // ── PANNELLO HIGHLIGHTS (a scomparsa): Il più votato + Top 3  ──
   const top3 = Object.entries(ultimo.vals || {})
     .map(([pid, v]) => ({ p: players.find(x => String(x.id) === String(pid)), v: parseFloat(v) }))
     .filter(x => x.p && !isNaN(x.v))
@@ -3136,11 +3136,11 @@ function renderValutazioni() {
       <button class="vh-head" onclick="toggleVH()"><span>📊 Highlights di giornata</span><span class="vh-arrow">▾</span></button>
       <div class="vh-body">
         <div class="vh-block">
-          <div class="vh-lbl">🔥 Il più gettonato</div>
+          <div class="vh-lbl">🔥 Il più votato</div>
           <div class="vh-gett" id="vhGett"><span class="vh-loading">Calcolo in corso…</span></div>
         </div>
         <div class="vh-block">
-          <div class="vh-lbl">⭐ Top 3 ideale della giornata</div>
+          <div class="vh-lbl">⭐ Top 3 della giornata</div>
           <div class="vh-top3">${top3Html || '<span class="vh-loading">—</span>'}</div>
         </div>
       </div>
