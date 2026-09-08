@@ -72,6 +72,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 body.is-matchday .match-hero .mh-logo,body.is-matchday .match-hero .mh-ph{animation:mhLogoIn .7s cubic-bezier(.2,.8,.2,1) both, mdLogoPulse 2.4s ease-in-out infinite}
 @keyframes mdLogoPulse{0%,100%{filter:drop-shadow(0 6px 22px rgba(139,13,47,0.5))}50%{filter:drop-shadow(0 6px 30px rgba(232,86,126,0.75))}}
 body.is-matchday .deadline-box{border-color:rgba(200,20,45,0.55)}
+/* countdown scenografico nel giorno partita */
+body.is-matchday .deadline-box{background:linear-gradient(160deg,rgba(139,13,47,0.32),rgba(45,0,20,0.5));border:1.5px solid rgba(200,20,45,0.6);box-shadow:0 10px 40px rgba(139,13,47,0.45),inset 0 1px 0 rgba(255,255,255,0.08);padding:15px 16px 16px;animation:mdCdGlow 2.6s ease-in-out infinite}
+@keyframes mdCdGlow{0%,100%{box-shadow:0 10px 40px rgba(139,13,47,0.4)}50%{box-shadow:0 12px 56px rgba(200,20,45,0.7)}}
+body.is-matchday .deadline-box .dl-date,body.is-matchday .deadline-box .dl-sep{display:none}
+body.is-matchday .deadline-box .dl-body{justify-content:center}
+body.is-matchday .deadline-box .dl-label{font-size:13px;letter-spacing:1px;color:#F0DCE3;margin-bottom:10px}
+.cd-tiles{display:inline-flex;align-items:flex-start;justify-content:center;gap:9px}
+.cdt{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:66px;background:linear-gradient(180deg,#2c0913,#170006);border:1px solid rgba(232,169,187,0.35);border-radius:13px;padding:11px 6px 8px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),0 6px 18px rgba(0,0,0,0.35)}
+.cdt b{font-family:var(--font-num,'Teko'),sans-serif;font-size:44px;line-height:.9;font-weight:700;background:linear-gradient(180deg,#ffffff,#AE1040);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cdt i{font-style:normal;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.cdt-colon{font-family:var(--font-num,'Teko');font-size:38px;font-weight:700;color:rgba(232,169,187,0.55);align-self:flex-start;padding-top:12px}
+.cdt-sec b{animation:cdSecPulse 1s ease-in-out infinite}
+@keyframes cdSecPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.06);opacity:.85}}
+body.is-matchday .deadline-box.live{border-color:rgba(232,86,126,0.8);animation:mdCdGlow 1.1s ease-in-out infinite}
+body.is-matchday .deadline-box.live .cdt b{background:linear-gradient(180deg,#fff,#ff8fae);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+@media(prefers-reduced-motion:reduce){body.is-matchday .deadline-box,.cdt-sec b{animation:none}}
 @media(prefers-reduced-motion:reduce){.matchday-banner{animation:mdBannerIn .5s ease both}}
 .brand{display:inline-flex;align-items:center;gap:11px;margin-bottom:1.3rem;padding:6px 16px 6px 8px;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:40px;backdrop-filter:blur(4px)}
 .brand-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 100%);border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 3px 12px rgba(139,13,47,0.5)}
@@ -880,6 +896,20 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <button class="ob-btn-sec" onclick="chiudiConfermaVoto()">Annulla e rivedi</button>
   </div>
 </div>
+<!-- modale: testo email di avviso generato dai dati della dashboard -->
+<div id="emailModal" class="ob-overlay" style="display:none">
+  <div class="ob-card" style="max-width:470px">
+    <div class="ob-close" onclick="chiudiEmailModal()">✕</div>
+    <div class="ob-t" style="margin-bottom:8px">✉️ Email di avviso</div>
+    <div class="ob-d" style="margin-bottom:12px">Testo pronto, compilato dai dati della giornata. Copialo in una nuova email (destinatari in <b>CCN</b>) oppure aprilo già pronto in Gmail.</div>
+    <div style="text-align:left;font-size:11px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Oggetto</div>
+    <input id="emailSubj" readonly onclick="this.select()" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:8px;padding:9px 11px;color:var(--text);font-size:13px;margin-bottom:11px;font-family:var(--font-b)">
+    <div style="text-align:left;font-size:11px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Testo</div>
+    <textarea id="emailBody" readonly onclick="this.select()" style="width:100%;height:240px;background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:8px;padding:11px;color:var(--text);font-size:12.5px;line-height:1.5;resize:vertical;font-family:var(--font-b)"></textarea>
+    <button class="ob-btn" onclick="copiaEmailAvviso()">📋 Copia testo</button>
+    <button class="ob-btn-sec" onclick="apriGmailAvviso()">Apri già pronta in Gmail</button>
+  </div>
+</div>
 <canvas id="fxParticles"></canvas>
 
 <!-- ══ PAGINA PRINCIPALE ══ -->
@@ -1105,6 +1135,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--muted)" onclick="verificaCollegamenti()">🔍 Verifica collegamenti (stato sistema)</button>
       <div id="diagResult" style="margin-top:10px;font-size:12px;line-height:1.7;display:none"></div>
       <button class="admin-save-btn" style="background:transparent;border:1px solid rgba(201,60,60,0.5);color:#e88;margin-top:8px" onclick="resetValutazioniLocali()">🗑️ Azzera valutazioni e forma (memoria locale)</button>
+      <button class="admin-save-btn" style="background:#185FA5;margin-top:8px" onclick="generaEmailAvviso()">✉️ Genera email avviso (voto aperto + classifica)</button>
     </div>
 
     <div class="form-row">
@@ -2454,7 +2485,13 @@ function startCountdown() {
     const h = Math.floor(diff/3600000);
     const m = Math.floor((diff%3600000)/60000);
     const s = Math.floor((diff%60000)/1000);
-    val.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const hh=String(h).padStart(2,'0'), mm=String(m).padStart(2,'0'), ss=String(s).padStart(2,'0');
+    const isMD = document.body.classList.contains('is-matchday');
+    if (isMD) {
+      val.innerHTML = `<span class="cd-tiles"><span class="cdt"><b>${hh}</b><i>ore</i></span><span class="cdt-colon">:</span><span class="cdt"><b>${mm}</b><i>min</i></span><span class="cdt-colon">:</span><span class="cdt cdt-sec"><b>${ss}</b><i>sec</i></span></span>`;
+    } else {
+      val.textContent = `${hh}:${mm}:${ss}`;
+    }
     chip.classList.remove('closed');
     votingClosed = false;
     // modalità "LIVE": ultimi 15 minuti prima della chiusura
@@ -2464,7 +2501,7 @@ function startCountdown() {
       if (lbl) lbl.innerHTML = '🔴 Ultimi minuti per votare!';
     } else {
       chip.classList.remove('live');
-      if (lbl && lbl.dataset.def) lbl.textContent = lbl.dataset.def;
+      if (lbl) lbl.textContent = isMD ? '🏀 Palla a due tra' : (lbl.dataset.def || '⏱ Countdown to Next Match');
     }
   }
   tick();
@@ -2567,6 +2604,75 @@ function setMatchTitle(str) {
 }
 
 // diagnostica: verifica che lo script e i CSV rispondano correttamente
+// ════════════════════════════════════════════
+//  GENERATORE EMAIL DI AVVISO (voto aperto + classifica)
+//  Compila il testo dai dati: prossima partita (matchTitle+kickoffDate)
+//  e partita appena trascorsa (ultima valutazione).
+// ════════════════════════════════════════════
+function generaEmailAvviso() {
+  const prossima = (document.getElementById('matchTitle')?.textContent || '').trim() || 'la prossima partita';
+  // data/ora prossima partita
+  let quando = '';
+  try {
+    if (kickoffDate && !isNaN(kickoffDate.getTime())) {
+      let gg = kickoffDate.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
+      gg = gg.charAt(0).toUpperCase() + gg.slice(1);
+      const hh = kickoffDate.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+      quando = gg + ', palla a due alle ' + hh;
+    }
+  } catch (e) {}
+  // partita appena trascorsa (per riferire la classifica aggiornata)
+  let trascorsa = '';
+  try {
+    const d = (typeof getValutazioniData === 'function' ? getValutazioniData() : []) || [];
+    if (d.length && d[0] && d[0].matchName) trascorsa = String(d[0].matchName).trim();
+  } catch (e) {}
+  const rifTxt = trascorsa ? `dopo ${trascorsa} ` : "dopo l'ultima giornata ";
+
+  const subj = '🏀 FantaLibertas — Votazione aperta + classifica aggiornata!';
+  const body =
+`Ciao a tutti,
+
+la nuova giornata del FantaLibertas è ufficialmente aperta! 🔴
+
+📊 Classifica aggiornata: ${rifTxt}i punteggi sono stati caricati — scopri la tua nuova posizione e quanto sei salito (o sceso 😉).
+
+🗳️ Votazione aperta per la prossima sfida:
+${prossima}${quando ? ' — ' + quando : ''}.
+
+Cosa fare, in pochi tocchi dal telefono:
+🏀 Schiera i tuoi 3 giocatori (budget 10 crediti)
+🎯 Pronostica le 3 partite di giornata (+5 se indovini, −5 se sbagli)
+📲 Condividi la tua formazione e sfida gli altri tifosi
+
+⏰ Ricordati di votare prima della palla a due: dopo il fischio d'inizio le votazioni si chiudono e il voto non è più modificabile (si vota una sola volta per partita).
+
+👉 Vota qui: https://libertassini.github.io/fantalibertas
+
+Grazie a tutti per la partecipazione: più siamo, più ci divertiamo. Facciamo sentire la nostra passione amaranto, dentro e fuori dal campo!
+
+Forza Libertas! 🔴`;
+
+  window._emailAvviso = { subj, body };
+  const s = document.getElementById('emailSubj'); if (s) s.value = subj;
+  const b = document.getElementById('emailBody'); if (b) b.value = body;
+  const m = document.getElementById('emailModal'); if (m) m.style.display = 'flex';
+}
+function chiudiEmailModal() { const m = document.getElementById('emailModal'); if (m) m.style.display = 'none'; }
+function copiaEmailAvviso() {
+  const e = window._emailAvviso; if (!e) return;
+  const testo = 'Oggetto: ' + e.subj + '\n\n' + e.body;
+  const done = () => alert('📋 Testo copiato!\n\nApri una nuova email in Gmail, incolla, metti i destinatari in CCN e invia.');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(testo).then(done).catch(() => { const t=document.getElementById('emailBody'); if(t){t.focus();t.select();} });
+  } else { const t=document.getElementById('emailBody'); if(t){t.focus();t.select();} }
+}
+function apriGmailAvviso() {
+  const e = window._emailAvviso; if (!e) return;
+  const url = 'https://mail.google.com/mail/?view=cm&fs=1&su=' + encodeURIComponent(e.subj) + '&body=' + encodeURIComponent(e.body);
+  window.open(url, '_blank');
+}
+
 async function verificaCollegamenti() {
   const box = document.getElementById('diagResult');
   if (!box) return;
