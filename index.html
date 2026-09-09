@@ -935,7 +935,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="deadline-box" id="cdChip">
         <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
-          <span class="dl-date"><span id="matchDateLabel">Sabato 12 Sett 18:00</span></span>
+          <span class="dl-date"><span id="matchDateLabel">Sabato 12 Sett 16:00</span></span>
           <span class="dl-sep"></span>
           <span class="dl-count"><span id="cdVal">--:--:--</span></span>
         </div>
@@ -1288,7 +1288,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-09-12T18:00');
+let kickoffDate = new Date('2026-09-12T16:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
