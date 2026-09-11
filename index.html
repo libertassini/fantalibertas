@@ -3849,7 +3849,7 @@ async function getProfiloData(email) {
     const idx = rows.findIndex(r => r.email === e);
     if (idx >= 0) { out.pos = idx+1; if (!out.nome) out.nome = rows[idx].nome; if (!out.punti) out.punti = rows[idx].tot; }
   } catch (err) {}
-  // Voti → giocatore feticcio
+  // Voti → giocatore pupillo
   try {
     const rows = parseCSV(await (await fetch(noCache(CSV_VOTI))).text()).slice(1);
     const cnt = {};
@@ -3890,7 +3890,7 @@ function renderProfilo(d) {
       <div class="prof-stat"><div class="ps-v">🔥 ${d.streak}</div><div class="ps-l">Giornate di fila</div></div>
     </div>
     ${d.migliore ? `<div class="prof-sect">La tua miglior giornata</div><div class="prof-best"><span class="pb-em">💥</span><div><div class="pb-t">${d.migliore.tot.toFixed(1)} punti</div><div class="pb-s">${d.migliore.match||''}</div></div></div>` : ''}
-    ${d.giocatoreTop ? `<div class="prof-sect">Il tuo giocatore feticcio</div><div class="prof-best"><span class="pb-em">⭐</span><div><div class="pb-t">${d.giocatoreTop.name}</div><div class="pb-s">schierato ${d.giocatoreTop.volte} volte</div></div></div>` : ''}
+    ${d.giocatoreTop ? `<div class="prof-sect">Il tuo giocatore pupillo</div><div class="prof-best"><span class="pb-em">⭐</span><div><div class="pb-t">${d.giocatoreTop.name}</div><div class="pb-s">schierato ${d.giocatoreTop.volte} volte</div></div></div>` : ''}
     <div class="prof-sect">Andamento punti</div>
     <div class="prof-trend">${trendHtml}</div>
     <button class="prof-wrap-btn" onclick="condividiWrapped()">🎁 Genera il tuo Wrapped</button>`;
@@ -3940,7 +3940,7 @@ function generaWrapped() {
     ${riga('Giornate giocate', d.giornate)}
     ${riga('Media a giornata', Number(d.media).toFixed(1))}
     ${d.migliore ? riga('Miglior giornata', Number(d.migliore.tot).toFixed(1)) : ''}
-    ${d.giocatoreTop ? `<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:18px;padding:18px 30px;margin-bottom:14px"><span style="font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px">Feticcio</span><span style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;color:#FFD1DE;text-transform:uppercase">${d.giocatoreTop.name}</span></div>` : ''}
+    ${d.giocatoreTop ? `<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:18px;padding:18px 30px;margin-bottom:14px"><span style="font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px">pupillo</span><span style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;color:#FFD1DE;text-transform:uppercase">${d.giocatoreTop.name}</span></div>` : ''}
     <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:26px;color:rgba(255,255,255,0.4);margin-top:38px;letter-spacing:1px">libertassini.github.io/fantalibertas</div>
   </div>`;
   document.body.appendChild(el);
