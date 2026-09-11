@@ -421,6 +421,47 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .tab-btn.active{background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 55%,#c81a3f 100%);color:#fff;box-shadow:0 4px 16px rgba(174,16,64,0.5),inset 0 1px 0 rgba(255,255,255,0.18);transform:translateY(-1px)}
 .tab-btn.active .tab-ic{filter:grayscale(0) opacity(1) drop-shadow(0 0 6px rgba(255,190,210,0.7));transform:scale(1.12)}
 .tab-btn.active::after{content:'';position:absolute;left:50%;bottom:3px;transform:translateX(-50%);width:16px;height:2.5px;border-radius:2px;background:rgba(255,255,255,0.85);box-shadow:0 0 8px rgba(255,255,255,0.6)}
+@keyframes tabIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* ===== transizioni slide direzionali tra schede ===== */
+@keyframes slideInR{from{opacity:0;transform:translateX(34px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideInL{from{opacity:0;transform:translateX(-34px)}to{opacity:1;transform:translateX(0)}}
+.wrap{overflow-x:hidden}
+/* ===== scheda Profilo ===== */
+.prof-search{display:flex;gap:8px;margin-bottom:14px}
+.prof-search input{flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--text);font-size:14px;font-family:var(--font-b);outline:none}
+.prof-search input:focus{border-color:rgba(174,16,64,0.6)}
+.prof-search .btn{width:auto;padding:11px 20px}
+.prof-hello{text-align:center;margin:6px 0 18px}
+.prof-hello .ph-hi{font-family:var(--font-d);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.prof-hello .ph-name{font-family:var(--font-hero,'Anton');font-size:34px;line-height:1.05;background:linear-gradient(180deg,#fff,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.prof-pos{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--orange),var(--orange2));border-radius:20px;padding:6px 16px;margin-top:8px;font-family:var(--font-d);font-weight:700;color:#fff;font-size:14px}
+.prof-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:6px}
+.prof-stat{background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:14px;padding:13px 12px;text-align:center}
+.prof-stat .ps-v{font-family:var(--font-num,'Teko');font-size:28px;font-weight:700;line-height:1;background:linear-gradient(180deg,#fff,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.prof-stat .ps-l{font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-top:5px}
+.prof-stat.wide{grid-column:1 / -1}
+.prof-sect{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:18px 0 8px;font-weight:600}
+.prof-trend{display:flex;align-items:flex-end;gap:6px;height:96px;padding:20px 4px 6px;background:rgba(255,255,255,0.02);border:1px solid var(--line);border-radius:12px}
+.pt-bar{flex:1;min-width:8px;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#E8567E,#8B0D2F);position:relative;min-height:6px}
+.pt-bar b{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-family:var(--font-num,'Teko');font-size:11px;color:var(--muted);font-weight:600}
+.prof-best{display:flex;align-items:center;gap:12px;background:rgba(139,13,47,0.15);border:1px solid rgba(232,169,187,0.2);border-radius:14px;padding:12px 14px;margin-top:6px}
+.prof-best .pb-em{font-size:26px;flex:0 0 auto}
+.prof-best .pb-t{font-family:var(--font-d);font-size:14px;font-weight:700;color:#fff;text-transform:uppercase}
+.prof-best .pb-s{font-size:11.5px;color:var(--muted)}
+.prof-wrap-btn{width:100%;margin-top:16px;background:linear-gradient(135deg,#7a4e10,#c99a3a);border:none;border-radius:14px;padding:14px;font-family:var(--font-d);font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#1A0008;cursor:pointer;box-shadow:0 8px 24px rgba(201,154,58,0.4)}
+/* muro dei tifosi */
+.muro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.muro-card{background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:14px;padding:11px}
+.muro-user{font-family:var(--font-d);font-size:12px;font-weight:700;text-transform:uppercase;color:#F0DCE3;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.muro-players{display:flex;gap:6px}
+.muro-ph{width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:top center;border:1.5px solid rgba(232,169,187,0.35);flex:0 0 auto;background:#3a0e1e}
+.muro-ph-ini{display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:12px;color:rgba(255,255,255,0.7)}
+/* ===== card olografica (top player) ===== */
+.holo{position:relative}
+.holo::before{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,0.18) 38%,rgba(232,86,126,0.22) 46%,rgba(240,207,118,0.25) 54%,rgba(120,200,255,0.18) 62%,transparent 80%);background-size:280% 280%;mix-blend-mode:screen;opacity:.7;animation:holoShift 4s linear infinite}
+.holo::after{content:'⭐';position:absolute;top:8px;left:8px;z-index:3;font-size:15px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6))}
+@keyframes holoShift{0%{background-position:0% 50%}100%{background-position:280% 50%}}
+@media(prefers-reduced-motion:reduce){.holo::before{animation:none}}
 
 /* valutazioni ultimo match */
 .val-match-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:14px}
@@ -912,6 +953,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 </div>
 <canvas id="fxParticles"></canvas>
 
+
 <!-- ══ PAGINA PRINCIPALE ══ -->
 <div id="mainPage">
 <div class="wrap">
@@ -954,6 +996,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <button class="tab-btn" onclick="showTab('classifica')"><span class="tab-ic">🏆</span><span class="tab-lb">Classifica</span></button>
     <button class="tab-btn" onclick="showTab('valutazioni')"><span class="tab-ic">⭐</span><span class="tab-lb">Valutazioni</span></button>
     <button class="tab-btn" onclick="showTab('calendario')"><span class="tab-ic">📅</span><span class="tab-lb">Calendario</span></button>
+    <button class="tab-btn" onclick="showTab('profilo')"><span class="tab-ic">👤</span><span class="tab-lb">Profilo</span></button>
   </div>
 
   <!-- ── TAB VOTO ── -->
@@ -1099,6 +1142,23 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
         <button class="cal-dl-btn" onclick="scaricaCalendarioICS()">⏰ Scarica calendario</button>
       </div>
       <div id="calContent"><div class="val-empty"><div class="val-empty-icon">📅</div>Caricamento calendario...</div></div>
+    </div>
+  </div>
+
+  <div id="tabProfilo" style="display:none">
+    <div class="card">
+      <div class="section-label">👤 Il mio profilo</div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Inserisci la tua email per vedere le tue statistiche, l'andamento e generare il tuo <b>Wrapped</b>.</p>
+      <div class="prof-search">
+        <input type="email" id="profEmail" placeholder="La tua email" autocomplete="email" onkeydown="if(event.key==='Enter')caricaProfilo()">
+        <button class="btn" onclick="caricaProfilo()">Cerca</button>
+      </div>
+      <div id="profContent"></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="section-label">🧱 Muro dei tifosi</div>
+      <p style="color:var(--muted);font-size:12.5px;margin-bottom:12px">Le formazioni schierate dai tifosi nell'ultima giornata.</p>
+      <div id="muroContent"><div class="val-empty"><div class="val-empty-icon">🧱</div><div class="val-empty-title">Nessuna formazione</div>Apparirà qui dopo la prima giornata votata.</div></div>
     </div>
   </div>
 
@@ -1369,17 +1429,24 @@ function load() {
 /* ════════════════════════════════════════════
    TAB
 ════════════════════════════════════════════ */
+let _tabCorrente = 'voto';
+const _tabOrder = { voto:0, classifica:1, valutazioni:2, calendario:3, profilo:4 };
 function showTab(t) {
-  document.getElementById('tabVoto').style.display        = t==='voto' ? 'block' : 'none';
-  document.getElementById('tabClassifica').style.display  = t==='classifica' ? 'block' : 'none';
-  document.getElementById('tabValutazioni').style.display = t==='valutazioni' ? 'block' : 'none';
-  document.getElementById('tabCalendario').style.display  = t==='calendario' ? 'block' : 'none';
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
-    b.classList.toggle('active', (t==='voto'&&i===0)||(t==='classifica'&&i===1)||(t==='valutazioni'&&i===2)||(t==='calendario'&&i===3));
-  });
+  const map = { voto:'tabVoto', classifica:'tabClassifica', valutazioni:'tabValutazioni', calendario:'tabCalendario', profilo:'tabProfilo' };
+  const dir = (_tabOrder[t] >= _tabOrder[_tabCorrente]) ? 1 : -1; // 1 = da destra, -1 = da sinistra
+  _tabCorrente = t;
+  Object.entries(map).forEach(([k,id]) => { const el=document.getElementById(id); if(el) el.style.display = (t===k)?'block':'none'; });
+  document.querySelectorAll('.tab-btn').forEach((b,i)=> b.classList.toggle('active', i===_tabOrder[t]));
+  const shown = document.getElementById(map[t]);
+  if (shown) {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    shown.style.animation = 'none'; void shown.offsetWidth;
+    shown.style.animation = reduce ? 'tabIn .3s ease both' : `${dir>0?'slideInR':'slideInL'} .38s cubic-bezier(.2,.7,.2,1) both`;
+  }
   if (t==='classifica')  renderRanking();
   if (t==='valutazioni') renderValutazioni();
   if (t==='calendario')  caricaCalendario();
+  if (t==='profilo')     initProfilo();
 }
 
 /* ════════════════════════════════════════════
@@ -3262,7 +3329,7 @@ function renderValutazioni() {
     const photo = p.photo
       ? `<img class="val-card-photo" src="${p.photo}" alt="${p.name}" loading="lazy">`
       : `<div class="val-card-ph">${(p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2))}</div>`;
-    html += `<div class="val-card">
+    html += `<div class="val-card${(String(p.id) === String(mvpId) && voto === mvpVal) ? ' holo' : ''}">
       ${photo}
       <div class="val-card-body">
         <div class="val-card-name">${p.name}</div>
@@ -3723,6 +3790,183 @@ function renderFormazionePopolare() {
 /* ════════════════════════════════════════════
    STORICO PERSONALE (solo email, senza login)
 ════════════════════════════════════════════ */
+// ════════════════════════════════════════════
+//  SCHEDA PROFILO (dashboard personale) + MURO + WRAPPED
+// ════════════════════════════════════════════
+function initProfilo() {
+  const inp = document.getElementById('profEmail');
+  if (inp && !inp.value) {
+    try { const e = localStorage.getItem('fl_last_email'); if (e) { inp.value = e; caricaProfilo(); } } catch (e) {}
+  }
+  renderMuro();
+}
+
+async function caricaProfilo() {
+  const inp = document.getElementById('profEmail');
+  const cont = document.getElementById('profContent');
+  const email = (inp && inp.value || '').trim();
+  if (!email) { if (cont) cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">✉️</div>Inserisci la tua email per vedere il profilo.</div>'; return; }
+  try { localStorage.setItem('fl_last_email', email.toLowerCase()); } catch (e) {}
+  if (cont) cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">⏳</div>Carico le tue statistiche…</div>';
+  const d = await getProfiloData(email);
+  renderProfilo(d);
+}
+
+async function getProfiloData(email) {
+  const e = (email || '').toLowerCase().trim();
+  if (!e) return null;
+  const out = { email:e, nome:'', giornate:0, punti:0, media:0, migliore:null, bonus:0, trend:[], pos:null, suTotale:0, giocatoreTop:null, streak:0 };
+  // Punteggi
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_PUNTEGGI))).text()).slice(1);
+    const allMids = new Set(); const mine = {};
+    rows.forEach(r => {
+      const mid = String(r[1]||'').trim(); if (mid) allMids.add(mid);
+      if ((r[5]||'').toLowerCase().trim() !== e) return;
+      const tot = parseFloat(r[8]); if (isNaN(tot)) return;
+      if (!out.nome) out.nome = (r[3]||'').trim();
+      mine[mid] = { tot, match:(r[2]||'').trim(), bonus: parseFloat(r[7])||0 };
+    });
+    const mids = Object.keys(mine).sort();
+    out.giornate = mids.length;
+    mids.forEach(mid => {
+      out.punti += mine[mid].tot; out.bonus += mine[mid].bonus;
+      out.trend.push({ mid, match:mine[mid].match, tot:mine[mid].tot });
+      if (!out.migliore || mine[mid].tot > out.migliore.tot) out.migliore = { tot:mine[mid].tot, match:mine[mid].match };
+    });
+    out.media = out.giornate ? out.punti / out.giornate : 0;
+    const all = [...allMids].sort();
+    let st = 0; for (let i = all.length-1; i >= 0; i--) { if (mine[all[i]] !== undefined) st++; else break; }
+    out.streak = st;
+  } catch (err) {}
+  // Classifica → posizione
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_CLASSIFICA))).text()).slice(1)
+      .map(r => ({ email:(r[2]||'').toLowerCase().trim(), tot: parseFloat(r[4])||0, nome:(r[0]||'').trim() }))
+      .filter(r => r.email);
+    rows.sort((a,b) => b.tot - a.tot);
+    out.suTotale = rows.length;
+    const idx = rows.findIndex(r => r.email === e);
+    if (idx >= 0) { out.pos = idx+1; if (!out.nome) out.nome = rows[idx].nome; if (!out.punti) out.punti = rows[idx].tot; }
+  } catch (err) {}
+  // Voti → giocatore feticcio
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_VOTI))).text()).slice(1);
+    const cnt = {};
+    rows.forEach(r => {
+      if ((r[3]||'').toLowerCase().trim() !== e) return;
+      if (!out.nome) out.nome = (r[1]||'').trim();
+      [r[7],r[8],r[9]].forEach(n => { if (n && n.trim()) { const nn = n.trim(); cnt[nn] = (cnt[nn]||0)+1; } });
+    });
+    let best=null, bc=0; Object.entries(cnt).forEach(([n,c]) => { if (c > bc) { bc=c; best=n; } });
+    if (best) out.giocatoreTop = { name:best, volte:bc };
+  } catch (err) {}
+  return out;
+}
+
+function renderProfilo(d) {
+  const cont = document.getElementById('profContent');
+  if (!cont) return;
+  if (!d || (!d.giornate && d.pos === null)) {
+    cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">🔍</div><div class="val-empty-title">Nessun dato trovato</div>Controlla di aver inserito l\'email con cui hai votato.</div>';
+    return;
+  }
+  window._profilo = d;
+  const nome = d.nome || 'Tifoso';
+  const maxTot = Math.max(...d.trend.map(t => t.tot), 1);
+  const trendHtml = d.trend.length
+    ? d.trend.map(t => { const h = Math.max(8, Math.round((t.tot/maxTot)*100)); return `<div class="pt-bar" style="height:${h}%" title="${t.match}: ${t.tot.toFixed(1)}"><b>${t.tot.toFixed(0)}</b></div>`; }).join('')
+    : '<div style="color:var(--muted);font-size:12px;margin:auto">Nessuna giornata</div>';
+  cont.innerHTML = `
+    <div class="prof-hello">
+      <div class="ph-hi">Bentornato</div>
+      <div class="ph-name">${nome}!</div>
+      ${d.pos ? `<div class="prof-pos">🏆 ${d.pos}° posto su ${d.suTotale}</div>` : ''}
+    </div>
+    <div class="prof-grid">
+      <div class="prof-stat"><div class="ps-v animate-num" data-target="${d.punti}" data-dec="1">0</div><div class="ps-l">Punti totali</div></div>
+      <div class="prof-stat"><div class="ps-v animate-num" data-target="${d.giornate}" data-dec="0">0</div><div class="ps-l">Giornate giocate</div></div>
+      <div class="prof-stat"><div class="ps-v animate-num" data-target="${d.media}" data-dec="1">0</div><div class="ps-l">Media a giornata</div></div>
+      <div class="prof-stat"><div class="ps-v">🔥 ${d.streak}</div><div class="ps-l">Giornate di fila</div></div>
+    </div>
+    ${d.migliore ? `<div class="prof-sect">La tua miglior giornata</div><div class="prof-best"><span class="pb-em">💥</span><div><div class="pb-t">${d.migliore.tot.toFixed(1)} punti</div><div class="pb-s">${d.migliore.match||''}</div></div></div>` : ''}
+    ${d.giocatoreTop ? `<div class="prof-sect">Il tuo giocatore feticcio</div><div class="prof-best"><span class="pb-em">⭐</span><div><div class="pb-t">${d.giocatoreTop.name}</div><div class="pb-s">schierato ${d.giocatoreTop.volte} volte</div></div></div>` : ''}
+    <div class="prof-sect">Andamento punti</div>
+    <div class="prof-trend">${trendHtml}</div>
+    <button class="prof-wrap-btn" onclick="condividiWrapped()">🎁 Genera il tuo Wrapped</button>`;
+  animaNumeri(cont);
+}
+
+// MURO DEI TIFOSI: formazioni dell'ultima giornata votata
+async function renderMuro() {
+  const cont = document.getElementById('muroContent');
+  if (!cont) return;
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_VOTI))).text()).slice(1).filter(r => (r[3]||'').trim());
+    if (!rows.length) return;
+    const mids = [...new Set(rows.map(r => String(r[6]||'').trim()).filter(Boolean))].sort();
+    const last = mids[mids.length-1];
+    const byEmail = {};
+    rows.filter(r => String(r[6]||'').trim() === last).forEach(r => { byEmail[(r[3]||'').toLowerCase().trim()] = r; });
+    const list = Object.values(byEmail).slice(0, 40);
+    if (!list.length) return;
+    const mini = nome => {
+      const p = players.find(x => x.name === nome);
+      const ini = (nome||'?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+      return (p && p.photo)
+        ? `<img class="muro-ph" src="${p.photo}" title="${nome}" onerror="this.outerHTML='<span class=&quot;muro-ph muro-ph-ini&quot;>${ini}</span>'">`
+        : `<span class="muro-ph muro-ph-ini" title="${nome}">${ini}</span>`;
+    };
+    cont.innerHTML = `<div class="muro-grid">` + list.map(r => {
+      const nomeU = ((r[1]||'') + ' ' + (r[2]||'')).trim() || 'Tifoso';
+      return `<div class="muro-card"><div class="muro-user">${nomeU}</div><div class="muro-players">${mini(r[7])}${mini(r[8])}${mini(r[9])}</div></div>`;
+    }).join('') + `</div>`;
+  } catch (e) {}
+}
+
+// WRAPPED: card riassuntiva condivisibile
+function generaWrapped() {
+  if (typeof html2canvas === 'undefined') { alert('Attendi un istante e riprova.'); return Promise.reject(); }
+  const d = window._profilo; if (!d) return Promise.reject();
+  const riga = (l, v) => `<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:18px;padding:20px 30px;margin-bottom:14px"><span style="font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px">${l}</span><span style="font-family:'Anton',sans-serif;font-size:40px;color:#FFD1DE">${v}</span></div>`;
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;left:-99999px;top:0;width:1080px;box-sizing:border-box';
+  el.innerHTML = `<div style="width:1080px;background:radial-gradient(circle at 50% 8%,#5a1228,#2d0a18 55%,#1A0008);font-family:'Inter',Arial,sans-serif;box-sizing:border-box;padding:70px 60px 58px;color:#fff">
+    <div style="text-align:center;font-family:'Anton',sans-serif;font-size:40px;color:#E8567E;letter-spacing:1px">FANTALIBERTAS</div>
+    <div style="text-align:center;font-family:'Anton',sans-serif;font-size:82px;line-height:1;color:#F5D9E1;margin:4px 0 4px">WRAPPED 🎁</div>
+    <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:34px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.7);margin-bottom:34px">${d.nome || 'Tifoso'}</div>
+    ${d.pos ? `<div style="text-align:center;margin-bottom:28px"><span style="font-family:'Anton',sans-serif;font-size:130px;line-height:1;background:linear-gradient(180deg,#f7d774,#c99a3a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">${d.pos}°</span><div style="font-family:'Oswald',sans-serif;font-size:28px;color:rgba(255,255,255,0.6)">posizione su ${d.suTotale} tifosi</div></div>` : ''}
+    ${riga('Punti totali', Number(d.punti).toFixed(1))}
+    ${riga('Giornate giocate', d.giornate)}
+    ${riga('Media a giornata', Number(d.media).toFixed(1))}
+    ${d.migliore ? riga('Miglior giornata', Number(d.migliore.tot).toFixed(1)) : ''}
+    ${d.giocatoreTop ? `<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:18px;padding:18px 30px;margin-bottom:14px"><span style="font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px">Feticcio</span><span style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;color:#FFD1DE;text-transform:uppercase">${d.giocatoreTop.name}</span></div>` : ''}
+    <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:26px;color:rgba(255,255,255,0.4);margin-top:38px;letter-spacing:1px">libertassini.github.io/fantalibertas</div>
+  </div>`;
+  document.body.appendChild(el);
+  return html2canvas(el, { backgroundColor:'#1A0008', width:1080, windowWidth:1080, scale:1, useCORS:true, logging:false })
+    .then(c => { el.remove(); return c; }).catch(e => { el.remove(); throw e; });
+}
+
+function condividiWrapped() {
+  const testo = 'Il mio FantaLibertas Wrapped! 🎁🏀 ' + (window._profilo && window._profilo.pos ? `${window._profilo.pos}° posto! ` : '') + 'Gioca anche tu: https://libertassini.github.io/fantalibertas';
+  generaWrapped().then(canvas => {
+    canvas.toBlob(blob => {
+      const file = new File([blob], 'FantaLibertas_Wrapped.png', { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], text: testo }).catch(err => { if (err && err.name !== 'AbortError') _dlBlob(blob); });
+      } else { _dlBlob(blob); }
+    }, 'image/png');
+  }).catch(() => {});
+}
+function _dlBlob(blob) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'FantaLibertas_Wrapped.png';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+  alert('📥 Wrapped salvato! Ora puoi condividerlo su WhatsApp o Instagram.');
+}
+
 async function cercaStorico() {
   const box = document.getElementById('storicoResult');
   const email = (document.getElementById('storicoEmail').value || '').toLowerCase().trim();
