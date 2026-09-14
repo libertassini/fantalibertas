@@ -100,11 +100,17 @@ body.is-matchday .deadline-box.live .cdt b{background:linear-gradient(180deg,#ff
 /* intestazione: loghi ai lati del titolo, proporzionati ed eleganti */
 .match-hero{display:flex;align-items:center;justify-content:center;gap:clamp(8px,3vw,26px);margin-bottom:1.15rem}
 .match-hero .match-title{margin-bottom:0;flex:0 1 auto;font-size:clamp(23px,5.6vw,40px)}
-.mh-side{flex:0 0 auto;display:flex;align-items:center;justify-content:center}
-.mh-logo{width:clamp(50px,14vw,92px);height:auto;object-fit:contain;filter:drop-shadow(0 6px 22px rgba(139,13,47,0.5));animation:mhLogoIn .7s cubic-bezier(.2,.8,.2,1) both}
+.mh-side{flex:0 0 auto;display:flex;align-items:center;justify-content:center;position:relative;animation:mhFloat 4.5s ease-in-out infinite}
+.mh-side:last-child{animation-delay:.5s}
+.mh-side::before{content:'';position:absolute;top:50%;left:50%;width:130%;height:130%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(174,16,64,0.35),transparent 62%);z-index:0;animation:mhGlowP 4.5s ease-in-out infinite;pointer-events:none}
+.mh-side:last-child::before{animation-delay:.5s}
+.mh-logo{position:relative;z-index:1;width:clamp(50px,14vw,92px);height:auto;object-fit:contain;filter:drop-shadow(0 6px 22px rgba(139,13,47,0.5));animation:mhLogoIn .7s cubic-bezier(.2,.8,.2,1) both}
 .mh-side:last-child .mh-logo{animation-delay:.1s}
-.mh-ph{width:clamp(50px,14vw,92px);aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--court2,#2D0014),rgba(139,13,47,0.22));font-family:var(--font-num);font-weight:700;font-size:clamp(18px,5vw,30px);color:rgba(255,255,255,0.45);filter:drop-shadow(0 6px 18px rgba(0,0,0,0.4))}
+.mh-ph{position:relative;z-index:1;width:clamp(50px,14vw,92px);aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--court2,#2D0014),rgba(139,13,47,0.22));font-family:var(--font-num);font-weight:700;font-size:clamp(18px,5vw,30px);color:rgba(255,255,255,0.45);filter:drop-shadow(0 6px 18px rgba(0,0,0,0.4))}
 @keyframes mhLogoIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes mhFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes mhGlowP{0%,100%{opacity:.45;transform:translate(-50%,-50%) scale(1)}50%{opacity:.85;transform:translate(-50%,-50%) scale(1.1)}}
+@media(prefers-reduced-motion:reduce){.mh-side{animation:none}.mh-side::before{animation:none}}
 @media(max-width:520px){.match-hero{gap:8px}}
 .match-title::after{content:'';display:block;width:64px;height:3px;margin:0.7rem auto 0;background:linear-gradient(90deg,transparent,var(--orange2),transparent);border-radius:2px}
 .match-meta{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
@@ -118,11 +124,11 @@ body.is-matchday .deadline-box.live .cdt b{background:linear-gradient(180deg,#ff
 .meta-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.07);border:1px solid var(--line);border-radius:20px;padding:6px 15px;font-size:13px;color:var(--muted);transition:border-color .2s}
 .cd-chip{background:rgba(139,13,47,0.20);border-color:rgba(139,13,47,0.4);color:var(--orange2);font-weight:600;font-variant-numeric:tabular-nums;min-width:130px;justify-content:center;box-shadow:0 0 0 1px rgba(139,13,47,0.1)}
 .cd-chip.closed{background:rgba(231,76,60,0.15);border-color:rgba(231,76,60,0.3);color:var(--red)}
-.voters-line{margin-top:14px;display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);background:linear-gradient(180deg,rgba(174,16,64,0.16),rgba(255,255,255,0.03));border:1px solid rgba(232,169,187,0.3);border-radius:22px;padding:8px 18px;animation:riseIn .6s ease both;box-shadow:0 5px 20px rgba(139,13,47,0.28),inset 0 1px 0 rgba(255,255,255,0.06)}
-.voters-line .vl-dot{width:9px;height:9px;border-radius:50%;background:#37d67a;flex:0 0 auto;box-shadow:0 0 0 0 rgba(55,214,122,0.6);animation:vlPulse 1.6s ease-out infinite}
-@keyframes vlPulse{0%{box-shadow:0 0 0 0 rgba(55,214,122,0.55)}70%{box-shadow:0 0 0 9px rgba(55,214,122,0)}100%{box-shadow:0 0 0 0 rgba(55,214,122,0)}}
-.voters-line .vl-num{font-family:var(--font-num);font-size:23px;font-weight:700;letter-spacing:.5px;line-height:1;background:linear-gradient(180deg,#FFFFFF,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 10px rgba(232,86,126,0.4))}
-.voters-line .vl-txt{color:var(--muted)}
+.voters-line{margin-top:16px;display:inline-flex;align-items:center;gap:11px;font-size:13.5px;color:#E8C4D0;background:linear-gradient(135deg,rgba(174,16,64,0.3),rgba(45,0,20,0.42));border:1px solid rgba(232,169,187,0.4);border-radius:24px;padding:9px 20px 9px 15px;animation:riseIn .6s ease both;box-shadow:0 8px 26px rgba(139,13,47,0.38),inset 0 1px 0 rgba(255,255,255,0.09)}
+.voters-line .vl-dot{width:10px;height:10px;border-radius:50%;background:#37d67a;flex:0 0 auto;box-shadow:0 0 0 0 rgba(55,214,122,0.6),0 0 10px rgba(55,214,122,0.7);animation:vlPulse 1.5s ease-out infinite}
+@keyframes vlPulse{0%{box-shadow:0 0 0 0 rgba(55,214,122,0.55),0 0 10px rgba(55,214,122,0.7)}70%{box-shadow:0 0 0 10px rgba(55,214,122,0),0 0 10px rgba(55,214,122,0.4)}100%{box-shadow:0 0 0 0 rgba(55,214,122,0),0 0 10px rgba(55,214,122,0.7)}}
+.voters-line .vl-num{font-family:var(--font-num);font-size:27px;font-weight:700;letter-spacing:.5px;line-height:1;background:linear-gradient(180deg,#FFFFFF,#E8567E);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(232,86,126,0.5))}
+.voters-line .vl-txt{color:#E8C4D0}
 .remind-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:7px 16px;font-size:12px;color:var(--muted);cursor:pointer;font-family:var(--font-b);transition:all .2s}
 .remind-btn:hover{border-color:rgba(174,16,64,0.5);color:var(--text)}
 .remind-btn.on{border-color:rgba(37,211,102,0.5);color:#4ade80;background:rgba(37,211,102,0.1)}
@@ -294,6 +300,14 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .rank-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
 .rank-table tr:last-child td{border-bottom:none}
 .rank-table tr:hover td{background:rgba(255,255,255,0.03)}
+/* evidenziazione podio top 3 */
+.rank-table tbody tr.rk1 td{background:linear-gradient(90deg,rgba(247,215,116,0.16),transparent 70%)}
+.rank-table tbody tr.rk2 td{background:linear-gradient(90deg,rgba(200,200,210,0.12),transparent 70%)}
+.rank-table tbody tr.rk3 td{background:linear-gradient(90deg,rgba(205,127,50,0.13),transparent 70%)}
+.rank-table tbody tr.rk1 td:first-child{box-shadow:inset 3px 0 0 #f7d774}
+.rank-table tbody tr.rk2 td:first-child{box-shadow:inset 3px 0 0 #C0C0C0}
+.rank-table tbody tr.rk3 td:first-child{box-shadow:inset 3px 0 0 #CD7F32}
+.rank-pos.top1,.rank-pos.top2,.rank-pos.top3{font-size:22px}
 .rank-pos{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--muted);width:32px}
 .rank-pos.top1{color:var(--gold)}
 .rank-pos.top2{color:#C0C0C0}
@@ -426,6 +440,12 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 @keyframes slideInR{from{opacity:0;transform:translateX(34px)}to{opacity:1;transform:translateX(0)}}
 @keyframes slideInL{from{opacity:0;transform:translateX(-34px)}to{opacity:1;transform:translateX(0)}}
 .wrap{overflow-x:hidden}
+/* skeleton calendario */
+.cal-skel{display:flex;gap:12px;align-items:center;padding:12px;margin-bottom:8px;background:rgba(255,255,255,0.02);border:1px solid var(--line);border-radius:12px}
+.cal-skel-date{width:48px;height:48px;border-radius:10px;flex:0 0 auto}
+.cskel{position:relative;overflow:hidden;background:rgba(255,255,255,0.06);border-radius:6px}
+.cskel::after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,0.10),transparent);animation:cskelShine 1.35s infinite}
+@keyframes cskelShine{100%{transform:translateX(100%)}}
 /* ===== scheda Profilo ===== */
 .prof-search{display:flex;gap:8px;margin-bottom:14px}
 .prof-search input{flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--text);font-size:14px;font-family:var(--font-b);outline:none}
@@ -448,7 +468,8 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .prof-best .pb-em{font-size:26px;flex:0 0 auto}
 .prof-best .pb-t{font-family:var(--font-d);font-size:14px;font-weight:700;color:#fff;text-transform:uppercase}
 .prof-best .pb-s{font-size:11.5px;color:var(--muted)}
-.prof-wrap-btn{width:100%;margin-top:16px;background:linear-gradient(135deg,#7a4e10,#c99a3a);border:none;border-radius:14px;padding:14px;font-family:var(--font-d);font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#1A0008;cursor:pointer;box-shadow:0 8px 24px rgba(201,154,58,0.4)}
+.prof-wrap-btn{width:100%;margin-top:12px;background:linear-gradient(135deg,#7a4e10,#c99a3a);border:none;border-radius:14px;padding:14px;font-family:var(--font-d);font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#1A0008;cursor:pointer;box-shadow:0 8px 24px rgba(201,154,58,0.4)}
+.prof-share-btn{width:100%;margin-top:16px;background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:14px;padding:13px;font-family:var(--font-d);font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff;cursor:pointer;box-shadow:0 6px 20px rgba(139,13,47,0.4)}
 /* muro dei tifosi */
 .muro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 .muro-card{background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:14px;padding:11px}
@@ -640,9 +661,9 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .success-title{font-family:var(--font-hero);font-weight:400;letter-spacing:1.5px}
 /* brand e display: Oswald, tracking curato */
 .brand{padding:8px 20px 8px 10px}
-.brand-name{font-family:'Squada One',var(--font-hero),sans-serif;font-size:34px;letter-spacing:1.5px;font-weight:400;position:relative;line-height:1;text-transform:uppercase;background:linear-gradient(100deg,#a9761f 0%,#f0cf76 13%,#fff3c4 23%,#E8567E 40%,#8B0D2F 50%,#E8567E 60%,#fff3c4 77%,#f0cf76 87%,#a9761f 100%);background-size:260% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#f0cf76;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6)) drop-shadow(0 0 16px rgba(200,20,45,0.45));animation:goldAmaShine 5s linear infinite}
-.brand-name span{background:linear-gradient(100deg,#a9761f 0%,#f0cf76 13%,#fff3c4 23%,#E8567E 40%,#8B0D2F 50%,#E8567E 60%,#fff3c4 77%,#f0cf76 87%,#a9761f 100%);background-size:260% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 16px rgba(200,20,45,0.5));animation:goldAmaShine 5s linear infinite}
-@keyframes goldAmaShine{0%{background-position:0% 50%}100%{background-position:260% 50%}}
+.brand-name{font-family:var(--font-hero,'Anton'),sans-serif;font-size:clamp(30px,8.5vw,42px);letter-spacing:1px;font-weight:400;position:relative;line-height:1;text-transform:uppercase;background:linear-gradient(90deg,#8B0D2F 0%,#C41E5A 18%,#E8567E 34%,#F7DCE4 52%,#f3d488 70%,#e8c063 86%,#c99a3a 100%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#e8c063;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.5)) drop-shadow(0 0 16px rgba(200,20,45,0.4));animation:goldAmaShine 5.5s linear infinite}
+.brand-name span{-webkit-text-fill-color:transparent;background:none;filter:none;animation:none}
+@keyframes goldAmaShine{0%{background-position:0% 50%}100%{background-position:220% 50%}}
 @keyframes goldShine{0%{background-position:0% 50%}100%{background-position:250% 50%}}
 @keyframes nameShimmer{0%{background-position:0% 50%}100%{background-position:220% 50%}}
 .brand-icon{width:42px;height:42px;font-size:20px;border-radius:11px;animation:ballFloat 3.4s ease-in-out infinite}
@@ -674,6 +695,9 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .deadline-box .dl-count{font-family:var(--font-num);font-size:30px;font-weight:700;letter-spacing:1px;color:var(--orange2);line-height:1;font-variant-numeric:tabular-nums}
 .deadline-box.closed{border-color:rgba(231,76,60,0.4);background:linear-gradient(160deg,rgba(231,76,60,0.18),rgba(45,0,20,0.5))}
 .deadline-box.closed .dl-count{color:var(--red);font-family:var(--font-d);font-size:20px;letter-spacing:1px}
+.deadline-box.closed .dl-label{font-size:15px;color:#ff8a7e;margin-bottom:6px}
+.deadline-box.closed .dl-date,.deadline-box.closed .dl-sep{display:none}
+.cd-closed-sub{font-family:var(--font-b);font-size:13px;font-weight:500;letter-spacing:.3px;color:var(--muted)}
 /* countdown LIVE: ultimi 15 minuti */
 .deadline-box.live{border-color:rgba(231,76,60,0.7);background:linear-gradient(160deg,rgba(231,76,60,0.25),rgba(139,13,47,0.5));animation:livePulse 1.1s ease-in-out infinite}
 .deadline-box.live .dl-label{color:#ff6b5e}
@@ -1156,7 +1180,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div id="profContent"></div>
     </div>
     <div class="card" style="margin-top:16px">
-      <div class="section-label">🧱 Muro dei tifosi</div>
+      <div class="section-label">🧱 Muro amaranto</div>
       <p style="color:var(--muted);font-size:12.5px;margin-bottom:12px">Le formazioni schierate dai tifosi nell'ultima giornata.</p>
       <div id="muroContent"><div class="val-empty"><div class="val-empty-icon">🧱</div><div class="val-empty-title">Nessuna formazione</div>Apparirà qui dopo la prima giornata votata.</div></div>
     </div>
@@ -1459,14 +1483,20 @@ let _calendarLoaded = false;
 
 async function caricaCalendario() {
   if (_calendarLoaded) return;
+  const cont = document.getElementById('calContent');
+  if (cont) cont.innerHTML = skeletonCalendario();
   const proxies = [
     u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
     u => 'https://corsproxy.io/?url=' + encodeURIComponent(u)
   ];
+  const fetchTimeout = (url, ms = 7000) => Promise.race([
+    fetch(url),
+    new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))
+  ]);
   for (const mk of proxies) {
     try {
-      const res = await fetch(mk(CAL_ICS_URL));
-      if (!res.ok) continue;
+      const res = await fetchTimeout(mk(CAL_ICS_URL));
+      if (!res || !res.ok) continue;
       const text = await res.text();
       if (text.indexOf('BEGIN:VEVENT') !== -1) {
         _calendarICS = text;
@@ -1476,8 +1506,16 @@ async function caricaCalendario() {
       }
     } catch (e) {}
   }
-  mostraCalendarioIframe();
-  _calendarLoaded = true;
+  // fallback pulito (niente iframe frammentato)
+  if (cont) cont.innerHTML = '<div class="val-empty"><div class="val-empty-icon">📅</div><div class="val-empty-title">Calendario non disponibile ora</div>Riprova tra poco, oppure scaricalo direttamente sul telefono.<div style="margin-top:14px"><button class="cal-dl-btn" onclick="scaricaCalendarioICS()">⏰ Scarica calendario</button></div></div>';
+  _calendarLoaded = false; // consenti un nuovo tentativo alla prossima apertura
+}
+
+// scheletro di caricamento del calendario
+function skeletonCalendario() {
+  let r = '';
+  for (let i = 0; i < 4; i++) r += '<div class="cal-skel"><div class="cskel cal-skel-date"></div><div style="flex:1"><div class="cskel cal-skel-l" style="width:70%;height:13px;margin-bottom:9px"></div><div class="cskel cal-skel-l" style="width:45%;height:10px"></div></div></div>';
+  return r;
 }
 
 function parseICSEvents(text) {
@@ -1594,6 +1632,9 @@ async function submitReg() {
   document.getElementById('errCognome').style.display = cognome ? 'none' : (ok=false,'block');
   document.getElementById('errEmail').style.display   = validEmail(email) ? 'none' : (ok=false,'block');
   if (!ok) return;
+
+  // salva i dati per velocizzare i prossimi voti (restano modificabili)
+  try { localStorage.setItem('fl_user', JSON.stringify({ nome, cognome, email })); } catch (e) {}
 
   if (votingClosed) {
     alert('Le votazioni per questa partita sono chiuse.');
@@ -2534,10 +2575,10 @@ function startCountdown() {
     if (!kickoffDate) { val.textContent='--:--:--'; return; }
     const diff = kickoffDate - new Date();
     if (diff <= 0) {
-      val.textContent = 'CHIUSE';
+      val.innerHTML = '<span class="cd-closed-sub">Punteggi in arrivo…</span>';
       chip.classList.add('closed');
       const lbl = chip.querySelector('.dl-label');
-      if (lbl) lbl.textContent = '🔒 Votazioni chiuse';
+      if (lbl) lbl.innerHTML = '🔒 Votazioni chiuse';
       const rr = document.querySelector('.remind-row');
       if (rr) rr.style.display = 'none';
       const rh = document.querySelector('.remind-hint');
@@ -2545,6 +2586,10 @@ function startCountdown() {
       votingClosed = true;
       updateSubmit();
       clearInterval(countdownTimer);
+      // votazioni chiuse: rimuovi il tema/banner Match Day
+      document.body.classList.remove('is-matchday');
+      const mdb = document.getElementById('matchdayBanner');
+      if (mdb) mdb.style.display = 'none';
       // mostra sezione valutazioni admin se pannello aperto
       document.getElementById('adminValSection').style.display = 'block';
       return;
@@ -3523,7 +3568,7 @@ function drawRanking() {
     } else {
       mid = `<td><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>`;
     }
-    html += `<tr data-name="${nameL}" data-email="${(e.email||'').toLowerCase().trim()}" style="animation-delay:${Math.min(i*0.06,1.4).toFixed(2)}s">
+    html += `<tr class="${(sortBy==='totale' && i<3)?('rk'+(i+1)):''}" data-name="${nameL}" data-email="${(e.email||'').toLowerCase().trim()}" style="animation-delay:${Math.min(i*0.06,1.4).toFixed(2)}s">
       <td class="rank-pos ${posClass}">${medal||i+1}${varHtml(e,i)}</td>
       <td><div class="rank-nm" style="font-weight:500">${e.nome} ${e.cognome}</div><div class="rank-em" style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
       ${mid}
@@ -3815,15 +3860,17 @@ async function caricaProfilo() {
 async function getProfiloData(email) {
   const e = (email || '').toLowerCase().trim();
   if (!e) return null;
-  const out = { email:e, nome:'', giornate:0, punti:0, media:0, migliore:null, bonus:0, trend:[], pos:null, suTotale:0, giocatoreTop:null, streak:0 };
-  // Punteggi
+  const out = { email:e, nome:'', giornate:0, punti:0, media:0, migliore:null, peggiore:null, bonus:0, trend:[], pos:null, suTotale:0, giocatoreTop:null, sfortunato:null, streak:0, pronPct:null, pronCorretti:0, pronTot:0, bestPos:null };
+  // Punteggi (miei + tutti, per ricostruire la posizione migliore)
   try {
     const rows = parseCSV(await (await fetch(noCache(CSV_PUNTEGGI))).text()).slice(1);
-    const allMids = new Set(); const mine = {};
+    const allMids = new Set(); const mine = {}; const allPer = {};
     rows.forEach(r => {
       const mid = String(r[1]||'').trim(); if (mid) allMids.add(mid);
-      if ((r[5]||'').toLowerCase().trim() !== e) return;
-      const tot = parseFloat(r[8]); if (isNaN(tot)) return;
+      const em = (r[5]||'').toLowerCase().trim();
+      const tot = parseFloat(r[8]); if (!em || isNaN(tot)) return;
+      (allPer[em] = allPer[em] || {})[mid] = tot;
+      if (em !== e) return;
       if (!out.nome) out.nome = (r[3]||'').trim();
       mine[mid] = { tot, match:(r[2]||'').trim(), bonus: parseFloat(r[7])||0 };
     });
@@ -3833,13 +3880,23 @@ async function getProfiloData(email) {
       out.punti += mine[mid].tot; out.bonus += mine[mid].bonus;
       out.trend.push({ mid, match:mine[mid].match, tot:mine[mid].tot });
       if (!out.migliore || mine[mid].tot > out.migliore.tot) out.migliore = { tot:mine[mid].tot, match:mine[mid].match };
+      if (!out.peggiore || mine[mid].tot < out.peggiore.tot) out.peggiore = { tot:mine[mid].tot, match:mine[mid].match };
     });
     out.media = out.giornate ? out.punti / out.giornate : 0;
     const all = [...allMids].sort();
     let st = 0; for (let i = all.length-1; i >= 0; i--) { if (mine[all[i]] !== undefined) st++; else break; }
     out.streak = st;
+    // posizione migliore mai raggiunta (classifica cumulativa a ogni giornata)
+    let cum = {}; let best = null;
+    all.forEach(mid => {
+      Object.keys(allPer).forEach(em => { cum[em] = (cum[em]||0) + (allPer[em][mid]||0); });
+      if (mine[mid] === undefined) return; // considera solo le giornate in cui ho giocato
+      const rank = Object.keys(cum).sort((a,b) => cum[b]-cum[a]).indexOf(e) + 1;
+      if (rank > 0 && (best === null || rank < best)) best = rank;
+    });
+    out.bestPos = best;
   } catch (err) {}
-  // Classifica → posizione
+  // Classifica → posizione attuale
   try {
     const rows = parseCSV(await (await fetch(noCache(CSV_CLASSIFICA))).text()).slice(1)
       .map(r => ({ email:(r[2]||'').toLowerCase().trim(), tot: parseFloat(r[4])||0, nome:(r[0]||'').trim() }))
@@ -3849,17 +3906,34 @@ async function getProfiloData(email) {
     const idx = rows.findIndex(r => r.email === e);
     if (idx >= 0) { out.pos = idx+1; if (!out.nome) out.nome = rows[idx].nome; if (!out.punti) out.punti = rows[idx].tot; }
   } catch (err) {}
-  // Voti → giocatore pupillo
+  // Voti → pupillo, % pronostici, giocatore sfortunato
   try {
     const rows = parseCSV(await (await fetch(noCache(CSV_VOTI))).text()).slice(1);
+    const esiti = (typeof getEsitiPronostici === 'function') ? getEsitiPronostici() : {};
+    const valMap = {}; ((typeof getValutazioniData === 'function' ? getValutazioniData() : []) || []).forEach(m => valMap[m.matchId] = m.vals || {});
     const cnt = {};
     rows.forEach(r => {
       if ((r[3]||'').toLowerCase().trim() !== e) return;
       if (!out.nome) out.nome = (r[1]||'').trim();
-      [r[7],r[8],r[9]].forEach(n => { if (n && n.trim()) { const nn = n.trim(); cnt[nn] = (cnt[nn]||0)+1; } });
+      const mid = String(r[6]||'').trim();
+      [r[7],r[8],r[9]].forEach(n => {
+        if (n && n.trim()) {
+          const nn = n.trim(); cnt[nn] = (cnt[nn]||0)+1;
+          // giocatore sfortunato: valutazione più bassa presa
+          const p = players.find(x => x.name === nn);
+          if (p && valMap[mid] && valMap[mid][p.id] !== undefined) {
+            const v = parseFloat(valMap[mid][p.id]);
+            if (!isNaN(v) && (out.sfortunato === null || v < out.sfortunato.val)) out.sfortunato = { name:nn, val:v };
+          }
+        }
+      });
+      // pronostici azzeccati
+      const es = esiti[mid];
+      if (es) { [r[11],r[12],r[13]].forEach((pick,i) => { const pid='p'+(i+1); const w=es[pid]; if (w){ out.pronTot++; if ((pick||'').trim()===w) out.pronCorretti++; } }); }
     });
     let best=null, bc=0; Object.entries(cnt).forEach(([n,c]) => { if (c > bc) { bc=c; best=n; } });
     if (best) out.giocatoreTop = { name:best, volte:bc };
+    if (out.pronTot > 0) out.pronPct = Math.round(out.pronCorretti / out.pronTot * 100);
   } catch (err) {}
   return out;
 }
@@ -3888,11 +3962,17 @@ function renderProfilo(d) {
       <div class="prof-stat"><div class="ps-v animate-num" data-target="${d.giornate}" data-dec="0">0</div><div class="ps-l">Giornate giocate</div></div>
       <div class="prof-stat"><div class="ps-v animate-num" data-target="${d.media}" data-dec="1">0</div><div class="ps-l">Media a giornata</div></div>
       <div class="prof-stat"><div class="ps-v">🔥 ${d.streak}</div><div class="ps-l">Giornate di fila</div></div>
+      <div class="prof-stat"><div class="ps-v">${d.pronPct !== null ? d.pronPct + '%' : '–'}</div><div class="ps-l">Pronostici ok</div></div>
+      <div class="prof-stat"><div class="ps-v">${d.bonus >= 0 ? '+' : ''}${d.bonus}</div><div class="ps-l">Bonus pronostici</div></div>
+      ${d.bestPos ? `<div class="prof-stat wide"><div class="ps-v">🥇 ${d.bestPos}°</div><div class="ps-l">Miglior posizione raggiunta</div></div>` : ''}
     </div>
     ${d.migliore ? `<div class="prof-sect">La tua miglior giornata</div><div class="prof-best"><span class="pb-em">💥</span><div><div class="pb-t">${d.migliore.tot.toFixed(1)} punti</div><div class="pb-s">${d.migliore.match||''}</div></div></div>` : ''}
-    ${d.giocatoreTop ? `<div class="prof-sect">Il tuo giocatore pupillo</div><div class="prof-best"><span class="pb-em">⭐</span><div><div class="pb-t">${d.giocatoreTop.name}</div><div class="pb-s">schierato ${d.giocatoreTop.volte} volte</div></div></div>` : ''}
+    ${d.peggiore && d.giornate > 1 ? `<div class="prof-sect">La giornata da dimenticare 😅</div><div class="prof-best"><span class="pb-em">🫣</span><div><div class="pb-t">${d.peggiore.tot.toFixed(1)} punti</div><div class="pb-s">${d.peggiore.match||''}</div></div></div>` : ''}
+    ${d.giocatoreTop ? `<div class="prof-sect">Il tuo pupillo</div><div class="prof-best"><span class="pb-em">⭐</span><div><div class="pb-t">${d.giocatoreTop.name}</div><div class="pb-s">schierato ${d.giocatoreTop.volte} volte</div></div></div>` : ''}
+    ${d.sfortunato ? `<div class="prof-sect">Il giocatore sfortunato 💀</div><div class="prof-best"><span class="pb-em">💀</span><div><div class="pb-t">${d.sfortunato.name}</div><div class="pb-s">la valutazione più bassa presa: ${d.sfortunato.val.toFixed(1)}</div></div></div>` : ''}
     <div class="prof-sect">Andamento punti</div>
     <div class="prof-trend">${trendHtml}</div>
+    <button class="prof-share-btn" onclick="condividiPosizione()">📲 Condividi la mia posizione</button>
     <button class="prof-wrap-btn" onclick="condividiWrapped()">🎁 Genera il tuo Wrapped</button>`;
   animaNumeri(cont);
 }
@@ -3928,23 +4008,26 @@ async function renderMuro() {
 function generaWrapped() {
   if (typeof html2canvas === 'undefined') { alert('Attendi un istante e riprova.'); return Promise.reject(); }
   const d = window._profilo; if (!d) return Promise.reject();
-  const riga = (l, v) => `<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:18px;padding:20px 30px;margin-bottom:14px"><span style="font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px">${l}</span><span style="font-family:'Anton',sans-serif;font-size:40px;color:#FFD1DE">${v}</span></div>`;
+  const stat = (v, l) => `<div style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.18);border-radius:20px;padding:22px 10px;text-align:center"><div style="font-family:'Anton',sans-serif;font-size:52px;line-height:1;color:#FFD1DE">${v}</div><div style="font-family:'Oswald',sans-serif;font-size:22px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.55);margin-top:8px">${l}</div></div>`;
+  const riga = (l, v) => `<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:18px;padding:20px 30px;margin-bottom:14px"><span style="font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px">${l}</span><span style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;color:#FFD1DE;text-transform:uppercase;text-align:right">${v}</span></div>`;
   const el = document.createElement('div');
   el.style.cssText = 'position:fixed;left:-99999px;top:0;width:1080px;box-sizing:border-box';
-  el.innerHTML = `<div style="width:1080px;background:radial-gradient(circle at 50% 8%,#5a1228,#2d0a18 55%,#1A0008);font-family:'Inter',Arial,sans-serif;box-sizing:border-box;padding:70px 60px 58px;color:#fff">
-    <div style="text-align:center;font-family:'Anton',sans-serif;font-size:40px;color:#E8567E;letter-spacing:1px">FANTALIBERTAS</div>
-    <div style="text-align:center;font-family:'Anton',sans-serif;font-size:82px;line-height:1;color:#F5D9E1;margin:4px 0 4px">WRAPPED 🎁</div>
-    <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:34px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.7);margin-bottom:34px">${d.nome || 'Tifoso'}</div>
-    ${d.pos ? `<div style="text-align:center;margin-bottom:28px"><span style="font-family:'Anton',sans-serif;font-size:130px;line-height:1;background:linear-gradient(180deg,#f7d774,#c99a3a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">${d.pos}°</span><div style="font-family:'Oswald',sans-serif;font-size:28px;color:rgba(255,255,255,0.6)">posizione su ${d.suTotale} tifosi</div></div>` : ''}
-    ${riga('Punti totali', Number(d.punti).toFixed(1))}
-    ${riga('Giornate giocate', d.giornate)}
-    ${riga('Media a giornata', Number(d.media).toFixed(1))}
-    ${d.migliore ? riga('Miglior giornata', Number(d.migliore.tot).toFixed(1)) : ''}
-    ${d.giocatoreTop ? `<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.15);border-radius:18px;padding:18px 30px;margin-bottom:14px"><span style="font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px">pupillo</span><span style="font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;color:#FFD1DE;text-transform:uppercase">${d.giocatoreTop.name}</span></div>` : ''}
+  el.innerHTML = `<div style="width:1080px;background:radial-gradient(circle at 50% 6%,#5a1228 0%,#2d0a18 55%,#1A0008 100%);font-family:'Inter',Arial,sans-serif;box-sizing:border-box;padding:66px 58px 56px;color:#fff;position:relative">
+    <div style="display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:8px">
+      <img src="icon-192.png" style="width:64px;height:64px;border-radius:15px" onerror="this.style.display='none'">
+      <span style="font-family:'Anton',sans-serif;font-size:40px;color:#E8567E;letter-spacing:1px">FANTALIBERTAS</span>
+    </div>
+    <div style="text-align:center;font-family:'Anton',sans-serif;font-size:88px;line-height:.95;background:linear-gradient(180deg,#f7d774,#c99a3a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px">WRAPPED</div>
+    <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:32px;text-transform:uppercase;letter-spacing:3px;color:rgba(255,255,255,0.75);margin-bottom:40px">${d.nome || 'Tifoso'}</div>
+    ${d.pos ? `<div style="text-align:center;background:linear-gradient(135deg,rgba(247,215,116,0.18),rgba(139,13,47,0.25));border:1px solid rgba(247,215,116,0.4);border-radius:26px;padding:26px 20px;margin-bottom:20px"><div style="font-family:'Oswald',sans-serif;font-size:26px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.6)">Posizione finale</div><div style="font-family:'Anton',sans-serif;font-size:150px;line-height:1;background:linear-gradient(180deg,#fff8e0,#e8c063);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">${d.pos}°</div><div style="font-family:'Oswald',sans-serif;font-size:26px;color:rgba(255,255,255,0.55)">su ${d.suTotale} tifosi amaranto</div></div>` : ''}
+    <div style="display:flex;gap:14px;margin-bottom:20px">${stat(Number(d.punti).toFixed(0), 'Punti')}${stat(d.giornate, 'Giornate')}${stat(Number(d.media).toFixed(1), 'Media')}</div>
+    ${d.migliore ? riga('Miglior giornata', Number(d.migliore.tot).toFixed(1) + ' pt') : ''}
+    ${d.giocatoreTop ? riga('Il tuo pupillo', d.giocatoreTop.name) : ''}
     <div style="text-align:center;font-family:'Oswald',sans-serif;font-size:26px;color:rgba(255,255,255,0.4);margin-top:38px;letter-spacing:1px">libertassini.github.io/fantalibertas</div>
   </div>`;
   document.body.appendChild(el);
-  return html2canvas(el, { backgroundColor:'#1A0008', width:1080, windowWidth:1080, scale:1, useCORS:true, logging:false })
+  return preloadImg('icon-192.png')
+    .then(() => html2canvas(el, { backgroundColor:'#1A0008', width:1080, windowWidth:1080, scale:1, useCORS:true, logging:false }))
     .then(c => { el.remove(); return c; }).catch(e => { el.remove(); throw e; });
 }
 
@@ -3964,7 +4047,38 @@ function _dlBlob(blob) {
   const a = document.createElement('a'); a.href = url; a.download = 'FantaLibertas_Wrapped.png';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 5000);
-  alert('📥 Wrapped salvato! Ora puoi condividerlo su WhatsApp o Instagram.');
+  alert('📥 Immagine salvata! Ora puoi condividerla su WhatsApp o Instagram.');
+}
+
+// CARD "La mia posizione" (compatta, quadrata)
+function condividiPosizione() {
+  const d = window._profilo; if (!d) return;
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;left:-99999px;top:0;width:1080px;box-sizing:border-box';
+  el.innerHTML = `<div style="width:1080px;background:radial-gradient(circle at 50% 10%,#5a1228 0%,#2d0a18 55%,#1A0008 100%);font-family:'Inter',Arial,sans-serif;box-sizing:border-box;padding:70px 60px 62px;color:#fff;text-align:center">
+    <div style="display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:26px"><img src="icon-192.png" style="width:70px;height:70px;border-radius:16px" onerror="this.style.display='none'"><span style="font-family:'Anton',sans-serif;font-size:42px;color:#E8567E;letter-spacing:1px">FANTALIBERTAS</span></div>
+    <div style="font-family:'Oswald',sans-serif;font-size:32px;text-transform:uppercase;letter-spacing:3px;color:rgba(255,255,255,0.7)">${d.nome || 'Tifoso'}</div>
+    ${d.pos ? `<div style="font-family:'Anton',sans-serif;font-size:210px;line-height:1;background:linear-gradient(180deg,#fff,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0">${d.pos}°</div><div style="font-family:'Oswald',sans-serif;font-size:30px;color:rgba(255,255,255,0.6);margin-bottom:34px">posto in classifica su ${d.suTotale} tifosi</div>` : `<div style="height:40px"></div>`}
+    <div style="display:flex;gap:16px;justify-content:center">
+      <div style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.18);border-radius:20px;padding:24px 10px"><div style="font-family:'Anton',sans-serif;font-size:54px;color:#FFD1DE">${Number(d.punti).toFixed(0)}</div><div style="font-family:'Oswald',sans-serif;font-size:22px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-top:6px">Punti</div></div>
+      <div style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(232,169,187,0.18);border-radius:20px;padding:24px 10px"><div style="font-family:'Anton',sans-serif;font-size:54px;color:#FFD1DE">${Number(d.media).toFixed(1)}</div><div style="font-family:'Oswald',sans-serif;font-size:22px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-top:6px">Media</div></div>
+    </div>
+    <div style="font-family:'Oswald',sans-serif;font-size:28px;color:#F0DCE3;margin-top:34px">⚔️ Riesci a battermi?</div>
+    <div style="font-family:'Oswald',sans-serif;font-size:26px;color:rgba(255,255,255,0.45);margin-top:8px;letter-spacing:1px">libertassini.github.io/fantalibertas</div>
+  </div>`;
+  document.body.appendChild(el);
+  const testo = (d.pos ? `Sono ${d.pos}° al FantaLibertas! ⚔️🏀 ` : 'Gioco al FantaLibertas! 🏀 ') + 'Riesci a battermi? https://libertassini.github.io/fantalibertas';
+  preloadImg('icon-192.png')
+    .then(() => html2canvas(el, { backgroundColor:'#1A0008', width:1080, windowWidth:1080, scale:1, useCORS:true, logging:false }))
+    .then(canvas => {
+      el.remove();
+      canvas.toBlob(blob => {
+        const file = new File([blob], 'FantaLibertas_Posizione.png', { type: 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file], text: testo }).catch(err => { if (err && err.name !== 'AbortError') _dlBlob(blob); });
+        } else { _dlBlob(blob); }
+      }, 'image/png');
+    }).catch(() => { el.remove(); });
 }
 
 async function cercaStorico() {
@@ -4311,6 +4425,18 @@ function checkMatchDay() {
   }
 }
 checkMatchDay();
+
+// precompila i dati salvati nel form di voto (modificabili)
+(function precompilaDati(){
+  try {
+    const u = JSON.parse(localStorage.getItem('fl_user') || 'null');
+    if (!u) return;
+    const n = document.getElementById('regNome'), c = document.getElementById('regCognome'), e = document.getElementById('regEmail');
+    if (n && !n.value && u.nome) n.value = u.nome;
+    if (c && !c.value && u.cognome) c.value = u.cognome;
+    if (e && !e.value && u.email) e.value = u.email;
+  } catch (err) {}
+})();
 
 // effetto tilt 3D premium sulle card giocatore (segue il cursore, solo desktop)
 function initCardTilt() {
