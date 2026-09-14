@@ -994,14 +994,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Fortitudo Bologna</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Pallacanestro Varese</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
         <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
-          <span class="dl-date"><span id="matchDateLabel">Sabato 12 Sett 16:00</span></span>
+          <span class="dl-date"><span id="matchDateLabel">Mercoledì 16 Sett 18:00</span></span>
           <span class="dl-sep"></span>
           <span class="dl-count"><span id="cdVal">--:--:--</span></span>
         </div>
@@ -1352,6 +1352,7 @@ let matchesHistory = {};
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
 let valutazioniStorico = [
+  { matchId:"20260912", matchName:"Fortitudo Bologna vs Libertas Livorno", date:"2026-09-12", vals:{1:0,2:12,3:9,4:8,5:0,6:7,7:13,8:2,9:0,10:4,11:3,12:2} },
   { matchId:"20260906", matchName:"Libertas Livorno vs Pistoia Basket", date:"2026-09-06", vals:{1:0,2:33,3:4,4:7,5:1,6:1,7:1,8:14,9:9,10:2,11:3,12:-5} },
   { matchId:"20260905", matchName:"Libertas Livorno vs Gema Montecatini", date:"2026-09-05", vals:{1:4,2:28,3:8,4:0,5:0,6:11,7:0,8:3,9:24,10:12,11:-1,12:2} }
 ];
@@ -1365,6 +1366,7 @@ let valutazioniStorico = [
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
 let pronosticiEsiti = [
+  { matchId:"20260912", vincenti:{p1:"Fortitudo Bologna", p2:"Valtur Brindisi", p3:"Lumos Pistoia"} },
   { matchId:"20260906", vincenti:{p1:"Libertas Livorno", p2:"Gema Montecatini", p3:"Vincente"} },
   { matchId:"20260905", vincenti:{p1:"Libertas Livorno", p2:"Pistoia Basket", p3:"Vincente"} }
 ];
@@ -1372,7 +1374,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-09-12T16:00');
+let kickoffDate = new Date('2026-09-16T18:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1385,7 +1387,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Elachem Vigevano",         logo: "bologna.png" }
+  trasferta: { nome: "Elachem Vigevano",         logo: "varese.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1395,8 +1397,8 @@ let matchTeams = {
    Ogni pronostico indovinato: +10 punti · sbagliato: -10 punti.
 ──────────────────────────────────────────────────────────────── */
 let pronostici = [
-  { id:"p1", casa:"Fortitudo Bologna",       casaLogo:"bologna.png",  trasferta:"Libertas Livorno", trasfertaLogo:"libertas1.png" },
-  { id:"p2", casa:"Dinamo Sassari",       casaLogo:"montecatini.png",  trasferta:"Valtur Brindisi", trasfertaLogo:"brindisi.png" },
+  { id:"p1", casa:"Varese Pallacanestro",       casaLogo:"varese.png",  trasferta:"Libertas Livorno", trasfertaLogo:"libertas1.png" },
+  { id:"p2", casa:"Sebastiani Rieti",       casaLogo:"rieti.png",  trasferta:"Gema Montecatini", trasfertaLogo:"montecatini.png" },
   { id:"p3", casa:"Lumos Pistoia", casaLogo:"pistoia.png",   trasferta:"Benedetto XVI Cento",  trasfertaLogo:"cento.png" },
 ];
 let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
