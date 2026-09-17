@@ -35,6 +35,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Squada+One&family=Tangerine:wght@700&family=Oswald:wght@400;500;600;700&family=Teko:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -347,6 +349,13 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .cal-next-tag{display:inline-block;font-family:var(--font-d);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange2);margin-bottom:3px}
 .cal-iframe{width:100%;height:520px;border:none;border-radius:12px;background:#fff}
 .cal-note{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center}
+.cal-dist{display:inline-block;margin-top:6px;font-size:11px;font-weight:600;color:#E8A9BB;background:rgba(139,13,47,0.25);border:1px solid rgba(232,169,187,0.25);border-radius:14px;padding:3px 10px}
+.cal-dist.casa{color:#37d67a;background:rgba(55,214,122,0.12);border-color:rgba(55,214,122,0.3)}
+#mappaTrasferte{width:100%;height:340px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#12030b;z-index:0}
+#mappaTrasferte .leaflet-popup-content-wrapper,#mappaTrasferte .leaflet-popup-tip{background:#2c0913;color:#F0DCE3}
+#mappaTrasferte .leaflet-popup-content{font-family:var(--font-b);font-size:12px}
+.mk{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:18px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5))}
+.mk-casa{font-size:22px}
 /* ricerca classifica */
 .rank-search{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:12px}
 .rank-search svg{width:16px;height:16px;color:var(--muted);flex:0 0 auto}
@@ -841,9 +850,11 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .sp-photo{display:block;max-width:100%;max-height:52vh;border-radius:16px}
 .sp-name{font-family:var(--font-d,'Oswald');font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#fff;margin-top:18px}
 .sp-hint{font-size:12px;color:rgba(255,255,255,0.45);margin-top:14px;letter-spacing:.5px}
+.sp-social{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:11px 22px;border-radius:24px;background:linear-gradient(135deg,var(--orange,#8B0D2F),var(--orange2,#AE1040));border:1px solid rgba(232,169,187,0.45);color:#fff;font-family:var(--font-d,'Oswald');font-size:14px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;text-decoration:none;box-shadow:0 6px 20px rgba(139,13,47,0.5);cursor:pointer;transition:transform .15s}
+.sp-social:hover{transform:translateY(-2px)}
 .sp-bar{width:180px;height:4px;border-radius:3px;background:rgba(255,255,255,0.12);margin:16px auto 0;overflow:hidden}
 .sp-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#8B0D2F,#E8567E);border-radius:3px}
-#sponsorScreen.show .sp-bar span{animation:spBar 5s linear forwards}
+#sponsorScreen.show .sp-bar span{animation:spBar 8s linear forwards}
 @keyframes spBar{from{width:0}to{width:100%}}
 @media(prefers-reduced-motion:reduce){.sp-inner,.sp-photo-frame,.sp-decor{animation:none}}
 #splash.hide{opacity:0;visibility:hidden}
@@ -908,7 +919,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <div class="sp-logo-wrap" id="spLogoWrap"><img id="spLogo" class="sp-logo" src="" alt=""></div>
     <div class="sp-photo-frame"><img id="spFoto" class="sp-photo" src="" alt="Sponsor di giornata"></div>
     <div class="sp-name" id="spName"></div>
-    <div class="sp-hint">Tocca per continuare</div>
+    <a id="spSocial" class="sp-social" href="#" target="_blank" rel="noopener" style="display:none">📲 Seguici sui nostri canali social</a>
     <div class="sp-bar"><span></span></div>
   </div>
 </div>
@@ -994,14 +1005,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Pallacanestro Varese</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Fortitudo Bologna</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
         <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
-          <span class="dl-date"><span id="matchDateLabel">Mercoledì 16 Sett 18:00</span></span>
+          <span class="dl-date"><span id="matchDateLabel">Sabato 12 Sett 16:00</span></span>
           <span class="dl-sep"></span>
           <span class="dl-count"><span id="cdVal">--:--:--</span></span>
         </div>
@@ -1166,6 +1177,11 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
         <button class="cal-dl-btn" onclick="scaricaCalendarioICS()">⏰ Scarica calendario</button>
       </div>
       <div id="calContent"><div class="val-empty"><div class="val-empty-icon">📅</div>Caricamento calendario...</div></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="section-label">🗺️ Mappa trasferte</div>
+      <p style="color:var(--muted);font-size:12.5px;margin-bottom:12px">Le sedi delle partite e la distanza dal Modigliani Forum di Livorno 🏠</p>
+      <div id="mappaTrasferte" style="display:none"></div>
     </div>
   </div>
 
@@ -1352,7 +1368,6 @@ let matchesHistory = {};
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
 let valutazioniStorico = [
-  { matchId:"20260912", matchName:"Fortitudo Bologna vs Libertas Livorno", date:"2026-09-12", vals:{1:0,2:12,3:9,4:8,5:0,6:7,7:13,8:2,9:0,10:4,11:3,12:2} },
   { matchId:"20260906", matchName:"Libertas Livorno vs Pistoia Basket", date:"2026-09-06", vals:{1:0,2:33,3:4,4:7,5:1,6:1,7:1,8:14,9:9,10:2,11:3,12:-5} },
   { matchId:"20260905", matchName:"Libertas Livorno vs Gema Montecatini", date:"2026-09-05", vals:{1:4,2:28,3:8,4:0,5:0,6:11,7:0,8:3,9:24,10:12,11:-1,12:2} }
 ];
@@ -1366,7 +1381,6 @@ let valutazioniStorico = [
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
 let pronosticiEsiti = [
-  { matchId:"20260912", vincenti:{p1:"Fortitudo Bologna", p2:"Valtur Brindisi", p3:"Lumos Pistoia"} },
   { matchId:"20260906", vincenti:{p1:"Libertas Livorno", p2:"Gema Montecatini", p3:"Vincente"} },
   { matchId:"20260905", vincenti:{p1:"Libertas Livorno", p2:"Pistoia Basket", p3:"Vincente"} }
 ];
@@ -1374,7 +1388,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-09-16T18:00');
+let kickoffDate = new Date('2026-09-12T16:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1387,7 +1401,7 @@ let votingClosed = false;
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
   casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Elachem Vigevano",         logo: "varese.png" }
+  trasferta: { nome: "Elachem Vigevano",         logo: "bologna.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1397,8 +1411,8 @@ let matchTeams = {
    Ogni pronostico indovinato: +10 punti · sbagliato: -10 punti.
 ──────────────────────────────────────────────────────────────── */
 let pronostici = [
-  { id:"p1", casa:"Varese Pallacanestro",       casaLogo:"varese.png",  trasferta:"Libertas Livorno", trasfertaLogo:"libertas1.png" },
-  { id:"p2", casa:"Sebastiani Rieti",       casaLogo:"rieti.png",  trasferta:"Gema Montecatini", trasfertaLogo:"montecatini.png" },
+  { id:"p1", casa:"Fortitudo Bologna",       casaLogo:"bologna.png",  trasferta:"Libertas Livorno", trasfertaLogo:"libertas1.png" },
+  { id:"p2", casa:"Dinamo Sassari",       casaLogo:"montecatini.png",  trasferta:"Valtur Brindisi", trasfertaLogo:"brindisi.png" },
   { id:"p3", casa:"Lumos Pistoia", casaLogo:"pistoia.png",   trasferta:"Benedetto XVI Cento",  trasfertaLogo:"cento.png" },
 ];
 let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
@@ -1412,7 +1426,8 @@ let sponsorGiornata = {
   attivo: true,
   foto:  "logo-libertas.png",   // immagine principale dello sponsor (carica su GitHub, root)
   logo:  "",              // logo sponsor (facoltativo)
-  nome:  "https://www.instagram.com/associazionetifosilibertas?stkn=MW91cmJlMXo1bjVubg=="               // nome sponsor (facoltativo, mostrato sotto)
+  nome:  "",              // nome sponsor (facoltativo, mostrato sotto)
+  social: ""              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
 };
 
 /* ════════════════════════════════════════════
@@ -1483,15 +1498,55 @@ const CAL_EMBED_URL = 'https://calendar.google.com/calendar/embed?src=libertassi
 let _calendarICS = null;
 let _calendarLoaded = false;
 
+// ── Sede di casa e coordinate città A2 (per distanze e mappa) ──
+const CASA_COORD = { lat: 43.5485, lng: 10.3106, nome: 'Modigliani Forum · Livorno' };
+const CITTA_COORD = {
+  'livorno':[43.5485,10.3106], 'vigevano':[45.3167,8.8583], 'pistoia':[43.9333,10.9167],
+  'rimini':[44.0594,12.5683], 'milano':[45.4642,9.1900], 'urania':[45.4642,9.1900],
+  'cividale':[46.0925,13.4326], 'bologna':[44.4949,11.3426], 'fortitudo':[44.4949,11.3426],
+  'sassari':[40.7259,8.5557], 'pesaro':[43.9102,12.9132], 'trapani':[38.0176,12.5365],
+  'brindisi':[40.6383,17.9463], 'montecatini':[43.8825,10.7717], 'cento':[44.7286,11.2889],
+  'torino':[45.0703,7.6869], 'verona':[45.4384,10.9916], 'udine':[46.0711,13.2346],
+  'cantù':[45.7386,9.1300], 'cantu':[45.7386,9.1300], 'forlì':[44.2226,12.0407], 'forli':[44.2226,12.0407],
+  'rieti':[42.4048,12.8567], 'cremona':[45.1333,10.0227], 'avellino':[40.9146,14.7907],
+  'nardò':[40.1787,17.9928], 'nardo':[40.1787,17.9928], 'roseto':[42.6736,14.0182],
+  'chiusi':[43.0169,11.9490], 'orzinuovi':[45.4028,9.9235], 'casale':[45.1355,8.4520],
+  'cassino':[41.4920,13.8300], 'latina':[41.4676,12.9037], 'ruvo':[41.1150,16.4870],
+  'fabriano':[43.3363,12.9048], 'mestre':[45.4903,12.2424], 'venezia':[45.4408,12.3155],
+  'piacenza':[45.0526,9.6930], 'san severo':[41.6875,15.3792], 'bergamo':[45.6949,9.6773],
+  'treviglio':[45.5216,9.5920], 'scafati':[40.7540,14.5260], 'agrigento':[37.3111,13.5765],
+  'monferrato':[45.1355,8.4520], 'lumezzane':[45.6460,10.2620]
+};
+function _haversine(lat1, lng1, lat2, lng2) {
+  const R = 6371, toR = x => x * Math.PI / 180;
+  const dLat = toR(lat2 - lat1), dLng = toR(lng2 - lng1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toR(lat1)) * Math.cos(toR(lat2)) * Math.sin(dLng/2)**2;
+  return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+}
+function _trovaCitta(txt) {
+  const t = (txt || '').toLowerCase();
+  for (const [k, c] of Object.entries(CITTA_COORD)) { if (t.indexOf(k) !== -1) return { key:k, lat:c[0], lng:c[1] }; }
+  return null;
+}
+// { casa:true } se è in casa (Livorno), altrimenti { km, lat, lng }
+function distanzaDaLivorno(loc, summary) {
+  const c = _trovaCitta(loc) || _trovaCitta(summary);
+  if (!c) return null;
+  if (c.key === 'livorno') return { casa: true, lat:c.lat, lng:c.lng };
+  return { km: _haversine(CASA_COORD.lat, CASA_COORD.lng, c.lat, c.lng), lat:c.lat, lng:c.lng };
+}
+
 async function caricaCalendario() {
   if (_calendarLoaded) return;
   const cont = document.getElementById('calContent');
   if (cont) cont.innerHTML = skeletonCalendario();
   const proxies = [
+    u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u),
     u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
-    u => 'https://corsproxy.io/?url=' + encodeURIComponent(u)
+    u => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
+    u => 'https://thingproxy.freeboard.io/fetch/' + u
   ];
-  const fetchTimeout = (url, ms = 7000) => Promise.race([
+  const fetchTimeout = (url, ms = 8000) => Promise.race([
     fetch(url),
     new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))
   ]);
@@ -1567,6 +1622,10 @@ function renderCalendario(eventi) {
     const oraStr = (d.getHours() || d.getMinutes())
       ? d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0')
       : '';
+    const dist = distanzaDaLivorno(e.location, e.summary);
+    let distTag = '';
+    if (dist && dist.casa) distTag = '<span class="cal-dist casa">🏠 In casa</span>';
+    else if (dist && dist.km != null) distTag = `<span class="cal-dist">🚗 ~${dist.km} km da Livorno</span>`;
     const meta = giorni[d.getDay()] + (oraStr ? ' · ' + oraStr : '') + (e.location ? ' · ' + e.location : '');
     html += `<div class="cal-item ${i===0?'cal-next':''}">
       <div class="cal-date"><div class="cal-d">${d.getDate()}</div><div class="cal-m">${mesi[d.getMonth()]}</div></div>
@@ -1574,11 +1633,48 @@ function renderCalendario(eventi) {
         ${i===0 ? '<div class="cal-next-tag">Prossima</div>' : ''}
         <div class="cal-match">${e.summary}</div>
         <div class="cal-meta">${meta}</div>
+        ${distTag}
       </div>
     </div>`;
   });
   html += `<p class="cal-note">Programma dal calendario ufficiale · tocca "Scarica calendario" per averlo sul telefono</p>`;
   cont.innerHTML = html;
+  initMappaTrasferte(eventi);
+}
+
+// Mappa d'Italia con le sedi delle partite (Leaflet + OpenStreetMap, gratis)
+let _mappaInit = false;
+function initMappaTrasferte(eventi) {
+  const box = document.getElementById('mappaTrasferte');
+  if (!box) return;
+  if (typeof L === 'undefined') { box.style.display = 'none'; return; } // libreria non disponibile
+  // raccogli sedi uniche (dalle partite) con coordinate note
+  const sedi = {};
+  (eventi || []).forEach(e => {
+    const c = _trovaCitta(e.location) || _trovaCitta(e.summary);
+    if (c && c.key !== 'livorno') sedi[c.key] = { lat:c.lat, lng:c.lng, nome:(e.location || e.summary || c.key) };
+  });
+  box.style.display = 'block';
+  if (_mappaInit && window._flMap) { window._flMap.invalidateSize(); return; }
+  try {
+    const map = L.map('mappaTrasferte', { scrollWheelZoom:false, attributionControl:true }).setView([43.0, 12.5], 5);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 12, attribution: '© OpenStreetMap © CARTO'
+    }).addTo(map);
+    // marker Casa (Livorno)
+    const casaIcon = L.divIcon({ className:'', html:'<div class="mk mk-casa">🏠</div>', iconSize:[30,30], iconAnchor:[15,15] });
+    L.marker([CASA_COORD.lat, CASA_COORD.lng], { icon: casaIcon }).addTo(map).bindPopup('<b>Casa</b><br>' + CASA_COORD.nome);
+    const pts = [[CASA_COORD.lat, CASA_COORD.lng]];
+    Object.values(sedi).forEach(s => {
+      const km = _haversine(CASA_COORD.lat, CASA_COORD.lng, s.lat, s.lng);
+      const ic = L.divIcon({ className:'', html:'<div class="mk mk-away">🏀</div>', iconSize:[26,26], iconAnchor:[13,13] });
+      L.marker([s.lat, s.lng], { icon: ic }).addTo(map).bindPopup('<b>' + s.nome + '</b><br>🚗 ~' + km + ' km da Livorno');
+      pts.push([s.lat, s.lng]);
+    });
+    if (pts.length > 1) map.fitBounds(pts, { padding:[36,36] });
+    window._flMap = map; _mappaInit = true;
+    setTimeout(() => map.invalidateSize(), 200);
+  } catch (e) { box.style.display = 'none'; }
 }
 
 function mostraCalendarioIframe() {
@@ -4499,11 +4595,15 @@ function mostraSponsor(){
     else { logoW.style.display = 'none'; }
   }
   if (name) name.textContent = sponsorGiornata.nome || '';
+  const social = document.getElementById('spSocial');
+  if (social) {
+    if (sponsorGiornata.social) { social.href = sponsorGiornata.social; social.style.display = 'inline-flex'; }
+    else { social.style.display = 'none'; }
+  }
   s.style.display = 'flex';
   requestAnimationFrame(() => s.classList.add('show'));
   const chiudiS = () => { s.classList.add('hide'); setTimeout(() => s.remove(), 700); };
-  const t = setTimeout(chiudiS, 5000);
-  s.addEventListener('click', () => { clearTimeout(t); chiudiS(); });
+  setTimeout(chiudiS, 8000); // logo sponsor visibile 8 secondi, senza possibilità di saltare
 }
 
 // mostra i due loghi delle squadre della partita (sotto il titolo)
