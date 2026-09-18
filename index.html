@@ -1393,10 +1393,7 @@ let matchesHistory = {};
    aggiornata (sostituendo questa) al prossimo commit su GitHub.
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
-let valutazioniStorico = [
-  { matchId:"20260906", matchName:"Libertas Livorno vs Pistoia Basket", date:"2026-09-06", vals:{1:0,2:33,3:4,4:7,5:1,6:1,7:1,8:14,9:9,10:2,11:3,12:-5} },
-  { matchId:"20260905", matchName:"Libertas Livorno vs Gema Montecatini", date:"2026-09-05", vals:{1:4,2:28,3:8,4:0,5:0,6:11,7:0,8:3,9:24,10:12,11:-1,12:2} }
-];
+let valutazioniStorico = [];
 
 /* ────────────────────────────────────────────────────────────────
    ESITI PRONOSTICI (pubblico, visibile a tutti)
@@ -1406,10 +1403,7 @@ let valutazioniStorico = [
    Serve allo storico personale per calcolare bonus/malus dei pronostici.
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
-let pronosticiEsiti = [
-  { matchId:"20260906", vincenti:{p1:"Libertas Livorno", p2:"Gema Montecatini", p3:"Vincente"} },
-  { matchId:"20260905", vincenti:{p1:"Libertas Livorno", p2:"Pistoia Basket", p3:"Vincente"} }
-];
+let pronosticiEsiti = [];
 
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
@@ -1450,7 +1444,7 @@ let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 ──────────────────────────────────────────────────────────────── */
 let sponsorGiornata = {
   attivo: true,
-  foto:  "logo-libertas.png",   // immagine principale dello sponsor (carica su GitHub, root)
+  foto:  "partner.png",   // immagine principale dello sponsor (carica su GitHub, root)
   logo:  "",              // logo sponsor (facoltativo)
   nome:  "",              // nome sponsor (facoltativo, mostrato sotto)
   social: ""              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
