@@ -142,6 +142,8 @@ body.is-matchday .deadline-box.live .cdt b{background:linear-gradient(180deg,#ff
 /* cards generiche */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:1.3rem;margin-bottom:1rem}
 .section-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.credits-note{margin:-4px 0 14px;padding:11px 14px;background:linear-gradient(135deg,rgba(174,16,64,0.14),rgba(255,255,255,0.02));border:1px solid rgba(232,169,187,0.22);border-left:3px solid var(--orange2,#AE1040);border-radius:10px;font-size:12px;line-height:1.5;color:var(--muted)}
+.credits-note b{color:#F0DCE3;font-weight:600}
 /* landing: intestazione registrazione d'impatto */
 .reg-card{position:relative;overflow:hidden}
 .reg-hero{text-align:center;margin:2px 0 20px;animation:regHeroIn .7s cubic-bezier(.2,.8,.2,1) both}
@@ -298,6 +300,29 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 
 /* classifica */
 .rank-table{width:100%;border-collapse:collapse;font-size:13px}
+/* ===== PODIO Top-3 ===== */
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin:6px 0 22px}
+.pod{flex:1;max-width:150px;background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));border:1px solid rgba(232,169,187,0.2);border-radius:16px 16px 0 0;padding:12px 8px 0;text-align:center;position:relative;animation:riseIn .6s ease both}
+.pod-1{max-width:172px;border-color:rgba(247,215,116,0.55);box-shadow:0 -8px 34px rgba(247,215,116,0.18)}
+.pod-medal{font-size:26px;line-height:1}
+.pod-1 .pod-medal{font-size:34px}
+.pod-av{width:52px;height:52px;border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-weight:700;font-size:19px;color:#fff;background:linear-gradient(160deg,#8B0D2F,#3a0e1e);border:2px solid rgba(232,169,187,0.5)}
+.pod-1 .pod-av{width:66px;height:66px;font-size:24px;border-color:#f7d774;box-shadow:0 0 20px rgba(247,215,116,0.4)}
+.pod-name{font-family:var(--font-d);font-size:12px;font-weight:600;color:#fff;text-transform:uppercase;line-height:1.15;min-height:30px}
+.pod-pts{font-family:var(--font-num,var(--font-d));font-size:23px;font-weight:700;background:linear-gradient(180deg,#fff,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-top:2px}
+.pod-base{margin-top:8px;font-family:'Anton',sans-serif;color:#1a0308;border-radius:8px 8px 0 0}
+.pod-1 .pod-base{background:linear-gradient(180deg,#f7d774,#c99a3a);height:74px;line-height:74px;font-size:30px}
+.pod-2 .pod-base{background:linear-gradient(180deg,#d8d8de,#a9adbb);height:54px;line-height:54px;font-size:24px}
+.pod-3 .pod-base{background:linear-gradient(180deg,#e0a877,#b5794a);height:42px;line-height:42px;font-size:22px}
+/* ===== PREMI INTERMEDI ===== */
+.premi-card{background:linear-gradient(135deg,rgba(139,13,47,0.35),rgba(45,0,20,0.55));border:1px solid rgba(247,215,116,0.42);border-radius:16px;padding:14px 16px;margin-bottom:18px;box-shadow:0 6px 22px rgba(139,13,47,0.3)}
+.premi-head{font-family:var(--font-d);font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#f7d774;font-size:14px;margin-bottom:10px;text-align:center}
+.pi-row{display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.pi-row:last-child{border-bottom:none}
+.pi-pos{width:30px;font-size:18px;text-align:center;flex:0 0 auto}
+.pi-name{flex:1;font-family:var(--font-d);font-weight:600;color:#fff;font-size:14px}
+.pi-pts{font-family:var(--font-num,var(--font-d));font-size:17px;color:#E8A9BB;min-width:52px;text-align:right;flex:0 0 auto}
+.pi-prize{font-size:12px;color:#f7d774;min-width:120px;text-align:right;flex:0 0 auto}
 .rank-table th{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
 .rank-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
 .rank-table tr:last-child td{border-bottom:none}
@@ -1091,6 +1116,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       </div>
 
       <div class="section-label">Giocatori disponibili</div>
+      <div class="credits-note">💠 I crediti di ciascun giocatore sono <b>dinamici</b> e cambiano di partita in partita, in base alle <b>statistiche ufficiali LNP</b> e alle <b>percentuali di voto</b> pregresse su FantaLibertas.</div>
       <div class="players-grid" id="playersGrid"></div>
 
       <div class="section-label">La tua selezione</div>
@@ -1427,7 +1453,22 @@ let sponsorGiornata = {
   foto:  "logo-libertas.png",   // immagine principale dello sponsor (carica su GitHub, root)
   logo:  "",              // logo sponsor (facoltativo)
   nome:  "",              // nome sponsor (facoltativo, mostrato sotto)
-  social: "https://www.instagram.com/associazionetifosilibertas?stkn=MW91cmJlMXo1bjVubg=="              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
+  social: ""              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
+};
+
+/* ════════════════════════════════════════════
+   PREMI INTERMEDI (facoltativo) — mostra un riquadro in cima alla Classifica
+   Compila le righe con posizione, nome, cognome, punti e premio assegnato.
+   Metti attivo:true per mostrarlo. Esempio riga qui sotto (commentata).
+════════════════════════════════════════════ */
+let premiIntermedi = {
+  attivo: false,
+  titolo: "Premi di giornata",
+  righe: [
+    // { pos:1, nome:"Mario",  cognome:"Rossi",  punti:142.0, premio:"Buono 7Senso" },
+    // { pos:2, nome:"Luca",   cognome:"Bianchi", punti:128.5, premio:"Gadget Amaranto" },
+    // { pos:3, nome:"Anna",   cognome:"Verdi",  punti:120.0, premio:"2 biglietti" }
+  ]
 };
 
 /* ════════════════════════════════════════════
@@ -3618,6 +3659,22 @@ function ordinaClassifica(sortBy) {
   drawRanking();
 }
 
+// riquadro facoltativo dei premi intermedi in cima alla classifica
+function renderPremiIntermedi() {
+  if (typeof premiIntermedi === 'undefined' || !premiIntermedi.attivo || !(premiIntermedi.righe || []).length) return '';
+  const rows = premiIntermedi.righe.map(r => {
+    const m = r.pos===1?'🥇':r.pos===2?'🥈':r.pos===3?'🥉':`<b>${r.pos}°</b>`;
+    const pts = (r.punti!=null && r.punti!=='') ? Number(r.punti).toFixed(1) : '';
+    return `<div class="pi-row">
+      <span class="pi-pos">${m}</span>
+      <span class="pi-name">${(r.nome||'')} ${(r.cognome||'')}</span>
+      <span class="pi-pts">${pts}</span>
+      <span class="pi-prize">🎁 ${r.premio||''}</span>
+    </div>`;
+  }).join('');
+  return `<div class="premi-card"><div class="premi-head">🏆 ${premiIntermedi.titolo||'Premi intermedi'}</div>${rows}</div>`;
+}
+
 function drawRanking() {
   const cont = document.getElementById('rankContent');
   const { entries, breakdown, hasBreak, sortBy } = _rankState;
@@ -3636,7 +3693,23 @@ function drawRanking() {
     head = `<th>#</th><th>Giocatore</th><th>Tipo</th><th style="text-align:right">Totale</th>`;
   }
 
-  let html = `<table class="rank-table"><thead><tr>${head}</tr></thead><tbody>`;
+  // ── PODIO Top-3 (solo ordinamento per Totale) ──
+  let podiumHtml = '';
+  if (sortBy === 'totale' && sorted.length >= 3) {
+    const ini = e => (((e.nome||'?')[0]||'') + ((e.cognome||'')[0]||'')).toUpperCase();
+    const order = [1,0,2]; const cls=['pod-2','pod-1','pod-3']; const med=['🥈','🥇','🥉']; const posn=['2°','1°','3°'];
+    podiumHtml = '<div class="podium">' + order.map((idx,slot) => {
+      const e = sorted[idx]; if(!e) return '';
+      return `<div class="pod ${cls[slot]}">
+        <div class="pod-medal">${med[slot]}</div>
+        <div class="pod-av">${ini(e)}</div>
+        <div class="pod-name">${e.nome||''} ${e.cognome||''}</div>
+        <div class="pod-pts"><span class="animate-num" data-target="${parseFloat(e.totale)||0}" data-dec="1">0.0</span></div>
+        <div class="pod-base">${posn[slot]}</div>
+      </div>`;
+    }).join('') + '</div>';
+  }
+  let html = renderPremiIntermedi() + podiumHtml + `<table class="rank-table"><thead><tr>${head}</tr></thead><tbody>`;
   const vz = _rankState.variazioni || { ok:false, prevPos:{} };
   // badge variazione posizione (solo con ordinamento per Totale e con almeno 2 giornate)
   const varHtml = (e, i) => {
