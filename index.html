@@ -879,7 +879,7 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .sp-social:hover{transform:translateY(-2px)}
 .sp-bar{width:180px;height:4px;border-radius:3px;background:rgba(255,255,255,0.12);margin:16px auto 0;overflow:hidden}
 .sp-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#8B0D2F,#E8567E);border-radius:3px}
-#sponsorScreen.show .sp-bar span{animation:spBar 8s linear forwards}
+#sponsorScreen.show .sp-bar span{animation:spBar 5s linear forwards}
 @keyframes spBar{from{width:0}to{width:100%}}
 @media(prefers-reduced-motion:reduce){.sp-inner,.sp-photo-frame,.sp-decor{animation:none}}
 #splash.hide{opacity:0;visibility:hidden}
@@ -4670,7 +4670,7 @@ function mostraSponsor(){
   s.style.display = 'flex';
   requestAnimationFrame(() => s.classList.add('show'));
   const chiudiS = () => { s.classList.add('hide'); setTimeout(() => s.remove(), 700); };
-  setTimeout(chiudiS, 8000); // logo sponsor visibile 8 secondi, senza possibilità di saltare
+  setTimeout(chiudiS, 5000); // logo sponsor visibile 8 secondi, senza possibilità di saltare
 }
 
 // mostra i due loghi delle squadre della partita (sotto il titolo)
