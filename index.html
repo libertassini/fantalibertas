@@ -253,11 +253,6 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .associati-btn{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:8px 18px;color:var(--muted);text-decoration:none;font-family:var(--font-b);font-size:12px;letter-spacing:.2px;transition:all .2s}
 .associati-btn:hover{border-color:rgba(174,16,64,0.45);color:var(--text)}
 .associati-btn svg{width:15px;height:15px;fill:currentColor;flex:0 0 auto;opacity:.9}
-/* pannello Informativa Privacy (PDF pubblicato su GitHub) */
-.privacy-doc-row{text-align:center;margin:.7rem auto 0;padding:0 12px}
-.privacy-doc-link{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:8px 18px;color:var(--muted);text-decoration:none;font-family:var(--font-b);font-size:12px;letter-spacing:.2px;transition:all .2s}
-.privacy-doc-link:hover{border-color:rgba(174,16,64,0.45);color:var(--text)}
-.privacy-doc-link svg{width:15px;height:15px;stroke:currentColor;flex:0 0 auto;opacity:.9}
 .site-footer{text-align:center;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--line)}
 .site-footer-pre{font-family:var(--font-b);font-size:8px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(192,154,170,0.35);margin-bottom:2px}
 .site-footer-main{font-family:var(--font-d);font-size:9px;font-weight:500;letter-spacing:1.3px;text-transform:uppercase;color:rgba(192,154,170,0.42)}
@@ -294,7 +289,6 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .val-field input:focus{border-color:var(--orange)}
 
 /* classifica */
-.rank-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .rank-table{width:100%;border-collapse:collapse;font-size:13px}
 .rank-table th{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
 .rank-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
@@ -311,28 +305,19 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .rank-sub-num.pos{color:#5fd88a}
 .rank-sub-num.neg{color:#e88}
 .rank-legend{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center;line-height:1.5}
-/* classifica ottimizzata per smartphone: layout fisso, nessuna colonna tagliata */
+/* classifica ottimizzata per smartphone: compatta, allineata, leggibile */
 @media(max-width:520px){
-  .rank-scroll{overflow-x:visible}
-  .rank-table{font-size:11.5px;table-layout:fixed}
-  .rank-table th{padding:6px 2px;font-size:14px;letter-spacing:0;white-space:nowrap}
-  .rank-table td{padding:7px 2px}
-  .rank-table th:first-child,.rank-table td:first-child{padding-left:2px}
-  .rank-pos{font-size:15px;width:20px;text-align:center;padding-right:0!important}
-  .rank-score{font-size:15px;width:44px}
-  .rank-sub-num{font-size:11px;width:38px}
-  .rank-table th:nth-child(3),.rank-table th:nth-child(4){width:38px;text-align:center}
-  .rank-table th:last-child{width:44px}
-  .rank-table td .rank-nm{font-size:11.5px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-  .rank-table td .rank-em{display:none}
-  .rank-table th.sortable{text-align:center}
-  .rank-sort-caret{margin-left:1px;font-size:8px}
-  .assoc-badge{font-size:9.5px;padding:2px 6px;white-space:nowrap}
-}
-@media(max-width:360px){
-  .rank-table{font-size:10.5px}
-  .rank-table td .rank-nm{font-size:10.5px}
-  .rank-score{font-size:14px}
+  .rank-table{font-size:12px}
+  .rank-table th{padding:7px 4px;font-size:8.5px;letter-spacing:0}
+  .rank-table td{padding:8px 4px}
+  .rank-table th:first-child,.rank-table td:first-child{padding-left:4px}
+  .rank-pos{font-size:18px;width:24px;text-align:center}
+  .rank-score{font-size:19px}
+  .rank-sub-num{font-size:13px}
+  .rank-table td .rank-nm{font-size:12.5px;line-height:1.15}
+  .rank-table td .rank-em{font-size:9.5px}
+  .rank-table th.sortable{text-align:right}
+  .rank-sort-caret{margin-left:1px}
 }
 .cal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .cal-dl-btn{background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:20px;padding:8px 16px;font-family:var(--font-d);font-size:12px;font-weight:600;letter-spacing:.5px;color:#fff;cursor:pointer;box-shadow:0 4px 14px rgba(139,13,47,0.35);transition:transform .2s}
@@ -488,11 +473,6 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 
 /* deadline note */
 .deadline-note{text-align:center;font-size:12px;color:var(--muted);margin-top:8px}
-.privacy-check{display:flex;align-items:flex-start;gap:9px;margin-bottom:14px;padding:11px 13px;background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:12px;cursor:pointer;font-size:12.5px;line-height:1.5;color:var(--muted)}
-.privacy-check input[type="checkbox"]{margin-top:2px;width:17px;height:17px;flex:0 0 auto;accent-color:var(--orange2);cursor:pointer}
-.privacy-check span{flex:1}
-.privacy-check a{color:#F0DCE3;text-decoration:underline;font-weight:600}
-.privacy-check a:hover{color:#fff}
 
 /* modifica voto banner */
 .edit-banner{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.2);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--text);margin-bottom:1rem;display:none}
@@ -1042,10 +1022,6 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div id="pronosticiBox"></div>
 
       <div class="card">
-        <label class="privacy-check">
-          <input type="checkbox" id="privacyCheck" onchange="updateSubmit()">
-          <span>Accetto le condizioni sul <a href="informativa-privacy.pdf" target="_blank" rel="noopener" onclick="event.stopPropagation()">trattamento dei dati personali</a> di FantaLibertas</span>
-        </label>
         <button class="btn" id="submitVotoBtn" disabled onclick="mostraConfermaVoto()">Invia votazione</button>
         <div class="deadline-note">Le votazioni chiudono al fischio d'inizio.</div>
       </div>
@@ -1145,16 +1121,6 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <span>Scopri il mondo Associazione Tifosi su Instagram</span>
     </a>
   </div>
-
-  <!-- informativa privacy: PDF pubblicato su GitHub (root del repository) -->
-  <div class="privacy-doc-row">
-    <a class="privacy-doc-link" href="informativa-privacy.pdf" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v13a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14 2v5h5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 13h8M8 16.5h8M8 9.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-      <span>Informativa sul trattamento dei dati personali (PDF)</span>
-    </a>
-  </div>
-
-
 
   <!-- admin toggle -->
   <div class="admin-toggle-row">
@@ -1779,9 +1745,7 @@ function renderSlots() {
 
 function updateSubmit() {
   const pronOk = pronostici.length === 0 || pronostici.every(p => pronosticiScelti[p.id]);
-  const privacyEl = document.getElementById('privacyCheck');
-  const privacyOk = !privacyEl || privacyEl.checked;
-  const ok = selected.length===MAX_SEL && getSpent()<=BUDGET && pronOk && privacyOk && !votingClosed;
+  const ok = selected.length===MAX_SEL && getSpent()<=BUDGET && pronOk && !votingClosed;
   const btn = document.getElementById('submitVotoBtn');
   btn.disabled = !ok;
   if (votingClosed) btn.textContent = '🔒 Votazioni chiuse';
@@ -3457,14 +3421,14 @@ function drawRanking() {
   let head;
   if (hasBreak) {
     head = `<th>#</th><th>Giocatore</th>
-      <th class="sortable${act('player')}" style="text-align:right" onclick="ordinaClassifica('player')" title="Punti dai voti dei giocatori">🏀${caret('player')}</th>
-      <th class="sortable${act('bonus')}" style="text-align:right" onclick="ordinaClassifica('bonus')" title="Bonus/malus dai pronostici">🎯${caret('bonus')}</th>
-      <th class="sortable${act('totale')}" style="text-align:right" onclick="ordinaClassifica('totale')">Tot${caret('totale')}</th>`;
+      <th class="sortable${act('player')}" style="text-align:right" onclick="ordinaClassifica('player')">🏀 Giocatori${caret('player')}</th>
+      <th class="sortable${act('bonus')}" style="text-align:right" onclick="ordinaClassifica('bonus')">🎯 Pronostici${caret('bonus')}</th>
+      <th class="sortable${act('totale')}" style="text-align:right" onclick="ordinaClassifica('totale')">Totale${caret('totale')}</th>`;
   } else {
-    head = `<th>#</th><th>Giocatore</th><th>Tipo</th><th style="text-align:right">Tot</th>`;
+    head = `<th>#</th><th>Giocatore</th><th>Tipo</th><th style="text-align:right">Totale</th>`;
   }
 
-  let html = `<div class="rank-scroll"><table class="rank-table"><thead><tr>${head}</tr></thead><tbody>`;
+  let html = `<table class="rank-table"><thead><tr>${head}</tr></thead><tbody>`;
   const vz = _rankState.variazioni || { ok:false, prevPos:{} };
   // badge variazione posizione (solo con ordinamento per Totale e con almeno 2 giornate)
   const varHtml = (e, i) => {
@@ -3501,7 +3465,7 @@ function drawRanking() {
       <td class="rank-score"><span class="animate-num" data-target="${parseFloat(e.totale)||0}" data-dec="1">0.0</span></td>
     </tr>`;
   });
-  html += '</tbody></table></div>';
+  html += '</tbody></table>';
   if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+5 / −5) · tocca le icone per ordinare</p>`;
   cont.innerHTML = html;
   animaNumeri(cont);
