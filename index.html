@@ -4138,7 +4138,7 @@ function renderProfilo(d) {
     ${d.migliore ? `<div class="prof-sect">La tua miglior giornata</div><div class="prof-best"><span class="pb-em">💥</span><div><div class="pb-t">${d.migliore.tot.toFixed(1)} punti</div><div class="pb-s">${d.migliore.match||''}</div></div></div>` : ''}
     ${d.peggiore && d.giornate > 1 ? `<div class="prof-sect">La giornata da dimenticare 😅</div><div class="prof-best"><span class="pb-em">🫣</span><div><div class="pb-t">${d.peggiore.tot.toFixed(1)} punti</div><div class="pb-s">${d.peggiore.match||''}</div></div></div>` : ''}
     ${d.giocatoreTop ? `<div class="prof-sect">Il tuo pupillo</div><div class="prof-best"><span class="pb-em">⭐</span><div><div class="pb-t">${d.giocatoreTop.name}</div><div class="pb-s">schierato ${d.giocatoreTop.volte} volte</div></div></div>` : ''}
-    ${d.sfortunato ? `<div class="prof-sect">Il giocatore sfortunato 💀</div><div class="prof-best"><span class="pb-em">💀</span><div><div class="pb-t">${d.sfortunato.name}</div><div class="pb-s">la valutazione più bassa presa: ${d.sfortunato.val.toFixed(1)}</div></div></div>` : ''}
+    ${d.sfortunato ? `<div class="prof-sect">Il punteggio più basso 💀</div><div class="prof-best"><span class="pb-em">💀</span><div><div class="pb-t">${d.sfortunato.name}</div><div class="pb-s">la valutazione più bassa presa: ${d.sfortunato.val.toFixed(1)}</div></div></div>` : ''}
     <div class="prof-sect">Andamento punti</div>
     <div class="prof-trend">${trendHtml}</div>
     <button class="prof-share-btn" onclick="condividiPosizione()">📲 Condividi la mia posizione</button>
