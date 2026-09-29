@@ -170,6 +170,30 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .radio-btn:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
 .radio-btn.active{border-color:var(--orange);background:rgba(139,13,47,0.18);color:var(--orange2)}
 .form-error{font-size:12px;color:var(--red);margin-top:4px;display:none}
+/* consenso privacy (checkbox personalizzata, coordinata col tema) */
+.consent-row{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.consent{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.consent input[type=checkbox]{position:absolute;opacity:0;width:0;height:0}
+.consent-box{flex:0 0 auto;width:17px;height:17px;border:1px solid rgba(255,255,255,0.22);border-radius:5px;background:rgba(255,255,255,0.05);position:relative;transition:all .2s}
+.consent-box::after{content:'';position:absolute;left:5px;top:1px;width:4px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) scale(.4);opacity:0;transition:all .18s}
+.consent:hover .consent-box{border-color:rgba(232,169,187,0.5)}
+.consent input:checked + .consent-box{background:var(--orange);border-color:var(--orange2);box-shadow:0 0 0 3px rgba(139,13,47,0.22)}
+.consent input:checked + .consent-box::after{opacity:1;transform:rotate(45deg) scale(1)}
+.consent input:focus-visible + .consent-box{box-shadow:0 0 0 3px rgba(232,86,126,0.45)}
+.consent-txt{font-size:10px;line-height:1.35;color:rgba(192,154,170,0.75);letter-spacing:.1px}
+.consent-txt a{color:var(--orange2);text-decoration:underline;text-underline-offset:2px}
+.consent-txt a:hover{color:#FF9FB8}
+.form-error.err-sm{font-size:10px}
+.consent-row.err .consent-box{border-color:var(--red);box-shadow:0 0 0 3px rgba(231,76,60,0.18)}
+/* pannello informativa privacy: unico elemento cliccabile a fine pagina */
+.privacy-panel{display:flex;align-items:center;gap:11px;width:100%;max-width:520px;margin:1.5rem auto 0;padding:14px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:14px;color:var(--text);text-decoration:none;font-family:var(--font-b);font-size:13px;line-height:1.3;transition:all .2s}
+.privacy-panel:hover{border-color:rgba(174,16,64,0.5);background:rgba(139,13,47,0.14)}
+.privacy-panel svg{width:17px;height:17px;fill:currentColor;flex:0 0 auto;opacity:.85}
+.privacy-panel .pp-txt{flex:1;min-width:0}
+.privacy-panel .pp-arrow{flex:0 0 auto;color:var(--orange2);font-size:15px;opacity:.9}
+@media(max-width:520px){
+  .privacy-panel{font-size:12.5px;padding:13px 15px}
+}
 
 /* bottoni */
 .btn{width:100%;padding:13px;font-family:var(--font-d);font-size:17px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:white;background:var(--orange);border:none;border-radius:var(--r);cursor:pointer;transition:opacity .2s,transform .1s}
@@ -346,19 +370,64 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .rank-sub-num.pos{color:#5fd88a}
 .rank-sub-num.neg{color:#e88}
 .rank-legend{font-size:11px;color:rgba(192,154,170,0.6);margin-top:12px;text-align:center;line-height:1.5}
-/* classifica ottimizzata per smartphone: compatta, allineata, leggibile */
+/* contenitore classifica: su desktop resta tabella, su mobile diventa schede */
+.rank-wrap{width:100%}
+.rank-sortbar{display:none}
+/* tablet stretti: si compatta ma resta tabella */
+@media(max-width:700px) and (min-width:521px){
+  .rank-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .rank-table{font-size:12.5px;min-width:440px}
+  .rank-table th{padding:7px 6px;font-size:9px;letter-spacing:0}
+  .rank-table td{padding:8px 6px}
+}
+/* ═══ CLASSIFICA SU SMARTPHONE: righe a scheda, nessuna colonna tagliata ═══
+   La tabella viene trasformata in una griglia 4 colonne x 2 righe:
+     [pos] [nome .................] [totale]
+     [pos] [🏀 giocatori] [🎯 pron.] [totale]
+   Le intestazioni cliccabili sono sostituite dalla barra di ordinamento. */
 @media(max-width:520px){
-  .rank-table{font-size:12px}
-  .rank-table th{padding:7px 4px;font-size:8.5px;letter-spacing:0}
-  .rank-table td{padding:8px 4px}
-  .rank-table th:first-child,.rank-table td:first-child{padding-left:4px}
-  .rank-pos{font-size:18px;width:24px;text-align:center}
-  .rank-score{font-size:19px}
-  .rank-sub-num{font-size:13px}
-  .rank-table td .rank-nm{font-size:12.5px;line-height:1.15}
-  .rank-table td .rank-em{font-size:9.5px}
-  .rank-table th.sortable{text-align:right}
+  #rankCard{padding:1.15rem .8rem}
+  .rank-sortbar{display:flex;gap:6px;margin-bottom:11px}
+  .rank-sortbar button{flex:1;min-width:0;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:20px;padding:7px 5px;font-family:var(--font-b);font-size:11px;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:all .2s}
+  .rank-sortbar button.on{border-color:rgba(174,16,64,0.55);background:rgba(139,13,47,0.22);color:var(--orange2);font-weight:600}
+  #rankContent .rank-table{display:block;font-size:12px}
+  #rankContent .rank-table thead{display:none}
+  #rankContent .rank-table tbody{display:block}
+  #rankContent .rank-table tbody tr{
+    display:grid;
+    grid-template-columns:30px minmax(0,1fr) auto auto;
+    column-gap:8px;row-gap:1px;
+    align-items:center;
+    padding:9px 6px;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    border-radius:8px;
+  }
+  #rankContent .rank-table tbody tr:last-child{border-bottom:none}
+  #rankContent .rank-table td{display:block;padding:0;border:none;min-width:0;background:none!important}
+  #rankContent .rank-table td.rank-pos{grid-column:1;grid-row:1/3;width:auto;text-align:center;font-size:17px;box-shadow:none!important}
+  #rankContent .rank-table td.rank-pos.top1,#rankContent .rank-table td.rank-pos.top2,#rankContent .rank-table td.rank-pos.top3{font-size:19px}
+  #rankContent .rank-table td.c-name{grid-column:2/4;grid-row:1;min-width:0}
+  #rankContent .rank-table td.c-m1{grid-column:2;grid-row:2;min-width:0}
+  #rankContent .rank-table td.c-m2{grid-column:3;grid-row:2;min-width:0}
+  #rankContent .rank-table td.rank-score{grid-column:4;grid-row:1/3;text-align:right;font-size:20px;white-space:nowrap;padding-left:4px}
+  #rankContent .rank-table td .rank-nm{font-size:13px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #rankContent .rank-table td .rank-em{font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #rankContent .rank-table td.rank-sub-num{font-size:12px;text-align:left;white-space:nowrap}
+  #rankContent .rank-table td.c-pl::before{content:'🏀 ';font-size:10px;opacity:.85}
+  #rankContent .rank-table td.c-bo::before{content:'🎯 ';font-size:10px;opacity:.85}
+  #rankContent .rank-table td.c-type{padding-top:2px}
+  /* podio top-3: l'evidenziazione passa dalla cella all'intera riga */
+  #rankContent .rank-table tbody tr.rk1{background:linear-gradient(90deg,rgba(247,215,116,0.16),transparent 72%);box-shadow:inset 3px 0 0 #f7d774}
+  #rankContent .rank-table tbody tr.rk2{background:linear-gradient(90deg,rgba(200,200,210,0.12),transparent 72%);box-shadow:inset 3px 0 0 #C0C0C0}
+  #rankContent .rank-table tbody tr.rk3{background:linear-gradient(90deg,rgba(205,127,50,0.13),transparent 72%);box-shadow:inset 3px 0 0 #CD7F32}
+  #rankContent .rank-table tbody tr.row-hit{background:rgba(174,16,64,0.22);box-shadow:inset 3px 0 0 var(--orange2)}
+  #rankContent .rank-table tbody tr:hover{background:rgba(255,255,255,0.03)}
+  .rank-legend{font-size:10.5px;margin-top:10px}
   .rank-sort-caret{margin-left:1px}
+}
+/* schermi molto stretti: l'email mascherata sparisce per lasciare spazio al nome */
+@media(max-width:340px){
+  #rankContent .rank-table td .rank-em{display:none}
 }
 .cal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .cal-dl-btn{background:linear-gradient(135deg,var(--orange),var(--orange2));border:none;border-radius:20px;padding:8px 16px;font-family:var(--font-d);font-size:12px;font-weight:600;letter-spacing:.5px;color:#fff;cursor:pointer;box-shadow:0 4px 14px rgba(139,13,47,0.35);transition:transform .2s}
@@ -1094,6 +1163,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
             <div class="radio-btn" id="rbNo" onclick="setAssoc('no')">👤 Non associato/a</div>
           </div>
         </div>
+        <div class="form-row consent-row" id="consentRow">
+          <label class="consent" for="regPrivacy">
+            <input type="checkbox" id="regPrivacy" onchange="onConsentChange()">
+            <span class="consent-box" aria-hidden="true"></span>
+            <span class="consent-txt">Acconsento al trattamento dei miei dati · <a id="consentLink" href="#privacyPanel">informativa a fine pagina</a> *</span>
+          </label>
+          <div class="form-error err-sm" id="errPrivacy">Devi accettare per partecipare</div>
+        </div>
         <button class="btn btn-hero" style="margin-top:.7rem" onclick="submitReg()">🏀 Partecipa al FantaLibertas!</button>
       </div>
     </div>
@@ -1245,6 +1322,15 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <a class="associati-btn" href="https://www.instagram.com/p/Db5Fgx3jLfA/?igsh=cHRvZXo5dnYwc2hl" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.62c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.19.41-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.42-.36 1.04-.41 2.19-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.05 1.15.25 1.77.41 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.16 1.04.36 2.19.41 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.25 2.19-.41.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.42.36-1.04.41-2.19.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.25-1.77-.41-2.19a3.6 3.6 0 00-.88-1.35 3.6 3.6 0 00-1.35-.88c-.42-.16-1.04-.36-2.19-.41-1.24-.06-1.61-.07-4.75-.07zM12 6.87A5.13 5.13 0 106.87 12 5.13 5.13 0 0012 6.87zm0 8.46A3.33 3.33 0 1115.33 12 3.33 3.33 0 0112 15.33zm6.54-8.66a1.2 1.2 0 11-1.2-1.2 1.2 1.2 0 011.2 1.2z"/></svg>
       <span>Scopri il mondo Associazione Tifosi su Instagram</span>
+    </a>
+  </div>
+
+  <!-- informativa sul trattamento dei dati personali (PDF caricato su GitHub) -->
+  <div class="associati-row" style="margin-top:0">
+    <a class="privacy-panel" id="privacyPanel" href="#" target="_blank" rel="noopener" style="display:none">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 6a2.5 2.5 0 012.5 2.5V11H16v6H8v-6h1.5V9.5A2.5 2.5 0 0112 7zm0 1.5a1 1 0 00-1 1V11h2V9.5a1 1 0 00-1-1z"/></svg>
+      <span class="pp-txt">Informativa sul trattamento dei dati personali</span>
+      <span class="pp-arrow">›</span>
     </a>
   </div>
 
@@ -1452,6 +1538,21 @@ let sponsorGiornata = {
   logo:  "7senso.png",              // logo sponsor (facoltativo)
   nome:  "Ritira la tua Family Card per uno sconto del 10%!",              // nome sponsor (facoltativo, mostrato sotto)
   social: "https://www.instagram.com/settimosensoparrucchieri?stkn=ejF1NWg3NmVjMXAw"              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
+};
+
+/* ────────────────────────────────────────────────────────────────
+   INFORMATIVA SUL TRATTAMENTO DEI DATI PERSONALI (PDF)
+   Carica il PDF su GitHub nella STESSA cartella di index.html
+   (root del repository) con il nome indicato in "file".
+   Se cambi nome al file, aggiorna solo questa riga.
+   In alternativa puoi mettere in "file" un URL completo
+   (es. "https://tuoutente.github.io/repo/informativa.pdf").
+──────────────────────────────────────────────────────────────── */
+let informativaPrivacy = {
+  attivo:     true,                                            // false = nasconde il pannello e il link nel consenso
+  file:       "Informativa_Trattamento_Dati_FantaLibertas.pdf", // nome del PDF caricato su GitHub
+  versione:   "1.0",                                            // mostrata sotto il titolo (facoltativa)
+  aggiornata: "settembre 2026"                                  // data ultimo aggiornamento (facoltativa)
 };
 
 /* ════════════════════════════════════════════
@@ -1764,11 +1865,24 @@ async function submitReg() {
   const nome    = document.getElementById('regNome').value.trim();
   const cognome = document.getElementById('regCognome').value.trim();
   const email   = document.getElementById('regEmail').value.trim().toLowerCase();
+  const privCk  = document.getElementById('regPrivacy');
+  const privOk  = !!(privCk && privCk.checked);
   let ok = true;
   document.getElementById('errNome').style.display    = nome    ? 'none' : (ok=false,'block');
   document.getElementById('errCognome').style.display = cognome ? 'none' : (ok=false,'block');
   document.getElementById('errEmail').style.display   = validEmail(email) ? 'none' : (ok=false,'block');
-  if (!ok) return;
+  document.getElementById('errPrivacy').style.display = privOk ? 'none' : (ok=false,'block');
+  const cRow = document.getElementById('consentRow');
+  if (cRow) cRow.classList.toggle('err', !privOk);
+  if (!ok) {
+    // porta a schermo il primo campo non valido (utile da smartphone)
+    const firstErr = document.querySelector('.form-error[style*="block"]');
+    if (firstErr) firstErr.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+  // data/ora dell'accettazione dell'informativa (prova del consenso)
+  const privacyTs = new Date().toISOString();
+  try { localStorage.setItem('fl_privacy', JSON.stringify({ email, ts: privacyTs, ver: (informativaPrivacy && informativaPrivacy.versione) || '' })); } catch (e) {}
 
   // salva i dati per velocizzare i prossimi voti (restano modificabili)
   try { localStorage.setItem('fl_user', JSON.stringify({ nome, cognome, email })); } catch (e) {}
@@ -1791,7 +1905,7 @@ async function submitReg() {
     return;
   }
 
-  currentUser = { nome, cognome, email, assoc: assocVal };
+  currentUser = { nome, cognome, email, assoc: assocVal, privacyTs };
   selected = [];
   pronosticiScelti = {};
   document.getElementById('editBanner').style.display = 'none';
@@ -2142,7 +2256,10 @@ async function submitVoto() {
       crediti:   sel.reduce((a, p) => a + p.cost, 0),
       pron1:     pron1,
       pron2:     pron2,
-      pron3:     pron3
+      pron3:     pron3,
+      privacy:   'Accettata',
+      privacyTs: currentUser.privacyTs || new Date().toISOString(),
+      privacyVer:(informativaPrivacy && informativaPrivacy.versione) || ''
     })
   }).catch(() => {});
 
@@ -3707,7 +3824,14 @@ function drawRanking() {
       </div>`;
     }).join('') + '</div>';
   }
-  let html = renderPremiIntermedi() + podiumHtml + `<table class="rank-table"><thead><tr>${head}</tr></thead><tbody>`;
+  // barra di ordinamento per smartphone (su mobile le intestazioni della tabella sono nascoste)
+  const sortbar = hasBreak ? `<div class="rank-sortbar">
+      <button class="${sortBy==='player'?'on':''}" onclick="ordinaClassifica('player')">🏀 Giocatori</button>
+      <button class="${sortBy==='bonus' ?'on':''}" onclick="ordinaClassifica('bonus')">🎯 Pronostici</button>
+      <button class="${sortBy==='totale'?'on':''}" onclick="ordinaClassifica('totale')">🏆 Totale</button>
+    </div>` : '';
+
+  let html = renderPremiIntermedi() + podiumHtml + sortbar + `<div class="rank-wrap"><table class="rank-table"><thead><tr>${head}</tr></thead><tbody>`;
   const vz = _rankState.variazioni || { ok:false, prevPos:{} };
   // badge variazione posizione (solo con ordinamento per Totale e con almeno 2 giornate)
   const varHtml = (e, i) => {
@@ -3729,22 +3853,22 @@ function drawRanking() {
     if (hasBreak) {
       const b = breakdown[(e.email||'').toLowerCase().trim()];
       if (b) {
-        mid = `<td class="rank-sub-num"><span class="animate-num" data-target="${b.player}" data-dec="1">0.0</span></td>`
-            + `<td class="rank-sub-num ${b.bonus>=0?'pos':'neg'}"><span class="animate-num" data-target="${b.bonus}" data-dec="0" data-plus="1">0</span></td>`;
+        mid = `<td class="rank-sub-num c-m1 c-pl"><span class="animate-num" data-target="${b.player}" data-dec="1">0.0</span></td>`
+            + `<td class="rank-sub-num c-m2 c-bo ${b.bonus>=0?'pos':'neg'}"><span class="animate-num" data-target="${b.bonus}" data-dec="0" data-plus="1">0</span></td>`;
       } else {
-        mid = `<td class="rank-sub-num">–</td><td class="rank-sub-num">–</td>`;
+        mid = `<td class="rank-sub-num c-m1 c-pl">–</td><td class="rank-sub-num c-m2 c-bo">–</td>`;
       }
     } else {
-      mid = `<td><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>`;
+      mid = `<td class="c-m1 c-type"><span class="assoc-badge ${assocSi?'si':'no'}">${assocSi?'Associato':'Non assoc.'}</span></td>`;
     }
     html += `<tr class="${(sortBy==='totale' && i<3)?('rk'+(i+1)):''}" data-name="${nameL}" data-email="${(e.email||'').toLowerCase().trim()}" style="animation-delay:${Math.min(i*0.06,1.4).toFixed(2)}s">
       <td class="rank-pos ${posClass}">${medal||i+1}${varHtml(e,i)}</td>
-      <td><div class="rank-nm" style="font-weight:500">${e.nome} ${e.cognome}</div><div class="rank-em" style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
+      <td class="c-name"><div class="rank-nm" style="font-weight:500">${e.nome} ${e.cognome}</div><div class="rank-em" style="font-size:11px;color:var(--muted)">${maskEmail(e.email)}</div></td>
       ${mid}
       <td class="rank-score"><span class="animate-num" data-target="${parseFloat(e.totale)||0}" data-dec="1">0.0</span></td>
     </tr>`;
   });
-  html += '</tbody></table>';
+  html += '</tbody></table></div>';
   if (hasBreak) html += `<p class="rank-legend">🏀 Punti dai voti dei giocatori · 🎯 Bonus/malus dai pronostici (+5 / −5) · tocca le icone per ordinare</p>`;
   cont.innerHTML = html;
   animaNumeri(cont);
@@ -4594,6 +4718,63 @@ function checkMatchDay() {
   }
 }
 checkMatchDay();
+
+/* ════════════════════════════════════════════
+   INFORMATIVA PRIVACY
+   Il consenso rimanda al pannello a fine pagina, che apre il PDF
+   caricato su GitHub (vedi configurazione "informativaPrivacy").
+════════════════════════════════════════════ */
+
+// toglie l'evidenziazione rossa appena l'utente spunta la casella
+function onConsentChange() {
+  const ck  = document.getElementById('regPrivacy');
+  const row = document.getElementById('consentRow');
+  const err = document.getElementById('errPrivacy');
+  if (ck && ck.checked) {
+    if (row) row.classList.remove('err');
+    if (err) err.style.display = 'none';
+  }
+}
+
+async function initPrivacy() {
+  const url    = (informativaPrivacy && informativaPrivacy.file || '').trim();
+  const attivo = !!(informativaPrivacy && informativaPrivacy.attivo && url);
+  const panel  = document.getElementById('privacyPanel');
+  const link   = document.getElementById('consentLink');
+
+  if (!attivo) {
+    if (panel) panel.style.display = 'none';
+    if (link) { link.removeAttribute('href'); link.style.color = 'inherit'; link.style.textDecoration = 'none'; }
+    return;
+  }
+
+  if (panel) {
+    panel.href = url;
+    panel.style.display = 'flex';
+  }
+
+  // il link nel consenso porta al pannello in fondo alla pagina
+  if (link) {
+    link.addEventListener('click', ev => {
+      if (!panel) return;
+      ev.preventDefault();
+      panel.scrollIntoView({ behavior:'smooth', block:'center' });
+      panel.style.transition = 'box-shadow .3s';
+      panel.style.boxShadow = '0 0 0 3px rgba(232,86,126,0.45)';
+      setTimeout(() => { panel.style.boxShadow = ''; }, 1600);
+    });
+  }
+
+  // verifica silenziosa: se il PDF non è ancora su GitHub il pannello resta nascosto
+  try {
+    const r = await fetch(url, { method:'HEAD', cache:'no-store' });
+    if (r.status === 404) {
+      if (panel) panel.style.display = 'none';
+      console.warn('[FantaLibertas] Informativa privacy non trovata su GitHub:', url);
+    }
+  } catch (e) { /* apertura in locale o rete non disponibile: lasciamo il pannello visibile */ }
+}
+initPrivacy();
 
 // precompila i dati salvati nel form di voto (modificabili)
 (function precompilaDati(){
