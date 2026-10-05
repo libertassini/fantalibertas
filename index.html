@@ -1099,14 +1099,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Basket Mestre</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Juvi Cremona</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
         <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
-          <span class="dl-date"><span id="matchDateLabel">Sabato 3 Ott 20:30</span></span>
+          <span class="dl-date"><span id="matchDateLabel">Domenica 11 Ott 18:00</span></span>
           <span class="dl-sep"></span>
           <span class="dl-count"><span id="cdVal">--:--:--</span></span>
         </div>
@@ -1458,9 +1458,9 @@ let players = [
   {id:5,name:"Nicolò Filoni",role:"Ala",         cost:2, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
   {id:6,name:"Luca Possamai",  role:"Centro",     cost:2, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
   {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:3, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
-  {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
-  {id:9,name:"David Reginald Cournooh",      role:"Guardia/Playmaker",         cost:4, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
-  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
+  {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:4, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
+  {id:9,name:"David Reginald Cournooh",      role:"Guardia/Playmaker",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
+  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:4, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
   {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
   {id:12,name:"Sakine Yassine",    role:"Ala grande",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
 ];
@@ -1480,6 +1480,7 @@ let matchesHistory = {};
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
 let valutazioniStorico = [
+  { matchId:"20261003", matchName:"Basket Mestre vs Libertas Livorno", date:"2026-10-03", vals:{1:16,2:28,3:11,4:5,5:2,6:7,7:8,8:11,9:7,10:7,11:-2,12:1} },
   { matchId:"20260927", matchName:"Libertas Livorno vs Pistoia Basket", date:"2026-09-27", vals:{1:0,2:10,3:27,4:0,5:2,6:-2,7:-1,8:7,9:3,10:17,11:0,12:-5} }
 ];
 
@@ -1492,6 +1493,7 @@ let valutazioniStorico = [
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
 let pronosticiEsiti = [
+  { matchId:"20261003", vincenti:{p1:"Avellino Basket", p2:"VL Pesaro", p3:"Valtur Brindisi"} },
   { matchId:"20260927", vincenti:{p1:"Basket Mestre", p2:"Valtur Brindisi", p3:"VL Pesaro"} }
 ];
 
@@ -1510,7 +1512,7 @@ let votingClosed = false;
    Se un logo manca, compare un cerchio con le iniziali della squadra.
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
-  casa:      { nome: "Basket Mestre", logo: "mestre.png" },
+  casa:      { nome: "Juvi Cremona", logo: "cremona.png" },
   trasferta: { nome: "Basket Pistoia",         logo: "libertas1.png" }
 };
 
@@ -1521,9 +1523,9 @@ let matchTeams = {
    Ogni pronostico indovinato: +10 punti · sbagliato: -10 punti.
 ──────────────────────────────────────────────────────────────── */
 let pronostici = [
-  { id:"p1", casa:"Dole Basket Rimini",       casaLogo:"rimini.png",  trasferta:"Avellino Basket", trasfertaLogo:"avellino.png" },
-  { id:"p2", casa:"VL Pesaro",       casaLogo:"pesaro.png",  trasferta:"Juvi Cremona", trasfertaLogo:"cremona.png" },
-  { id:"p3", casa:"Valtur Brindisi", casaLogo:"brindisi.png",   trasferta:"Urania Milano",  trasfertaLogo:"milano.png" },
+  { id:"p1", casa:"Avellino Basket",       casaLogo:"avellino.png",  trasferta:"Unieuro Forlì", trasfertaLogo:"forlì.png" },
+  { id:"p2", casa:"Sebastiani Rieti",       casaLogo:"rieti.png",  trasferta:"Pistoia Basket", trasfertaLogo:"pistoia.png" },
+  { id:"p3", casa:"Fortitudo Bologna", casaLogo:"bologna.png",   trasferta:"Basket Rimini",  trasfertaLogo:"rimini.png" },
 ];
 let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 
@@ -1534,10 +1536,10 @@ let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 ──────────────────────────────────────────────────────────────── */
 let sponsorGiornata = {
   attivo: true,
-  foto:  "7sensosconto.png",   // immagine principale dello sponsor (carica su GitHub, root)
-  logo:  "7senso.png",              // logo sponsor (facoltativo)
-  nome:  "Ritira la tua Family Card per uno sconto del 10%!",              // nome sponsor (facoltativo, mostrato sotto)
-  social: "https://www.instagram.com/settimosensoparrucchieri?stkn=ejF1NWg3NmVjMXAw"              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
+  foto:  "leopardi.png",   // immagine principale dello sponsor (carica su GitHub, root)
+  logo:  "",              // logo sponsor (facoltativo)
+  nome:  "Cantine Leopardi",              // nome sponsor (facoltativo, mostrato sotto)
+  social: "https://www.instagram.com/cantine_leopardi?stkn=MWx0YmNsMTJsYjJjZw=="              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
 };
 
 /* ────────────────────────────────────────────────────────────────
