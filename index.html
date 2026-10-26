@@ -1099,14 +1099,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Unieuro Forlì</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Elachem Vigevano</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
         <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
-          <span class="dl-date"><span id="matchDateLabel">Domenica 25 Ott 20:00</span></span>
+          <span class="dl-date"><span id="matchDateLabel">Domenica 1 Nov 18:00</span></span>
           <span class="dl-sep"></span>
           <span class="dl-count"><span id="cdVal">--:--:--</span></span>
         </div>
@@ -1457,9 +1457,9 @@ let players = [
   {id:4,name:"Matteo Piccoli",       role:"Guardia", cost:3, stats:["12.8 ppg","2.9 rpg"], photo:"piccoli.png"},
   {id:5,name:"Nicolò Filoni",role:"Ala",         cost:2, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
   {id:6,name:"Luca Possamai",  role:"Centro",     cost:2, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
-  {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:2, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
+  {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:3, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
   {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:5, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
-  {id:9,name:"David Reginald Cournooh",      role:"Guardia/Playmaker",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
+  {id:9,name:"David Reginald Cournooh",      role:"Guardia/Playmaker",         cost:2, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
   {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:4, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
   {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
   {id:12,name:"Sakine Yassine",    role:"Ala grande",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
@@ -1480,6 +1480,7 @@ let matchesHistory = {};
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
 let valutazioniStorico = [
+  { matchId:"20261025", matchName:"Unieuro Forlì vs Libertas Livorno", date:"2026-10-25", vals:{1:20,2:3,3:3,4:14,5:7,6:-1,7:4,8:18,9:0,10:12,11:0,12:0} },
   { matchId:"20261021", matchName:"Libertas Livorno vs Fortitudo Bologna", date:"2026-10-21", vals:{1:22,2:26,3:12,4:16,5:-4,6:5,7:1,8:13,9:2,10:12,11:1,12:0} },
   { matchId:"20261017", matchName:"Libertas Livorno vs Urania Milano", date:"2026-10-17", vals:{1:8,2:13,3:15,4:12,5:-4,6:-1,7:3,8:16,9:16,10:8,11:0,12:0} },
   { matchId:"20261011", matchName:"Juvi Cremona vs Libertas Livorno", date:"2026-10-11", vals:{1:13,2:10,3:16,4:4,5:3,6:6,7:7,8:15,9:1,10:5,11:0,12:0} },
@@ -1496,6 +1497,7 @@ let valutazioniStorico = [
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
 let pronosticiEsiti = [
+  { matchId:"20261025", vincenti:{p1:"Valtur Brindisi", p2:"Libertas Livorno", p3:"Vincente"} },
   { matchId:"20261021", vincenti:{p1:"Sebastiani Rieti", p2:"Elachem Vigevano", p3:"Libertas Livorno"} },
   { matchId:"20261017", vincenti:{p1:"Unieuro Forlì", p2:"JuveCaserta", p3:"VL Pesaro"} },
   { matchId:"20261011", vincenti:{p1:"Avellino Basket", p2:"Sebastiani Rieti", p3:"Fortitudo Bologna"} },
@@ -1506,7 +1508,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-10-25T20:00');
+let kickoffDate = new Date('2026-11-01T18:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1518,7 +1520,7 @@ let votingClosed = false;
    Se un logo manca, compare un cerchio con le iniziali della squadra.
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
-  casa:      { nome: "Unieuro Forlì", logo: "forlì.png" },
+  casa:      { nome: "Elachem Vigevano", logo: "vigevano.png" },
   trasferta: { nome: "Libertas Livorno",         logo: "libertas1.png" }
 };
 
@@ -1529,9 +1531,9 @@ let matchTeams = {
    Ogni pronostico indovinato: +10 punti · sbagliato: -10 punti.
 ──────────────────────────────────────────────────────────────── */
 let pronostici = [
-  { id:"p1", casa:"Valtur Brindisi",       casaLogo:"brindisi.png",  trasferta:"Avellino Basket", trasfertaLogo:"avellino.png" },
-  { id:"p2", casa:"Unieuro Forlì",       casaLogo:"forlì.png",  trasferta:"Libertas Livorno", trasfertaLogo:"libertas1.png" },
-  { id:"p3", casa:"Perdente", casaLogo:"pielle.png",   trasferta:"Vincente",  trasfertaLogo:"libertas1.png" },
+  { id:"p1", casa:"Avellino Basket",       casaLogo:"avellino.png",  trasferta:"VL Pesaro", trasfertaLogo:"pesaro.png" },
+  { id:"p2", casa:"Pistoia Basket",       casaLogo:"pistoia.png",  trasferta:"Fortitudo Bologna", trasfertaLogo:"bologna.png" },
+  { id:"p3", casa:"Unieuro Forlì", casaLogo:"forlì.png",   trasferta:"Ruvo di Puglia",  trasfertaLogo:"ruvo.png" },
 ];
 let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 
@@ -1542,10 +1544,10 @@ let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 ──────────────────────────────────────────────────────────────── */
 let sponsorGiornata = {
   attivo: true,
-  foto:  "libeccio.png",   // immagine principale dello sponsor (carica su GitHub, root)
+  foto:  "4amici.png",   // immagine principale dello sponsor (carica su GitHub, root)
   logo:  "",              // logo sponsor (facoltativo)
-  nome:  "Pasticceria Libeccio, Via degli Arrotini 72",              // nome sponsor (facoltativo, mostrato sotto)
-  social: "https://www.instagram.com/pasticceria_libeccio?vrfl=MXhtaGpzeTR0angxcw=="              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
+  nome:  "4 Amici Vegan Bistrot, Via dei Lanzi 11",              // nome sponsor (facoltativo, mostrato sotto)
+  social: "https://www.instagram.com/4amicilivorno?exln=MXVuc3B4b3k5amU1Mw=="              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1569,12 +1571,10 @@ let informativaPrivacy = {
    Metti attivo:true per mostrarlo. Esempio riga qui sotto (commentata).
 ════════════════════════════════════════════ */
 let premiIntermedi = {
-  attivo: false,
-  titolo: "Premi di giornata 6",
+  attivo: true,
+  titolo: "Premio intermedio - giornata 6",
   righe: [
-    { pos:1, nome:"Paolo",  cognome:"Gargiulo",  punti:142.0, premio:"Vino" },
-    { pos:2, nome:"Luca",   cognome:"Bianchi", punti:128.5, premio:"Gadget Amaranto" },
-    { pos:3, nome:"Anna",   cognome:"Verdi",  punti:120.0, premio:"2 biglietti" }
+    { pos:1, nome:"Andrea",  cognome:"De Fusco",  punti:254.0, premio:"T-Shirt Acerbis Libertas Livorno" },
   ]
 };
 
