@@ -195,6 +195,92 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
   .privacy-panel{font-size:12.5px;padding:13px 15px}
 }
 
+/* ════════════════════════════════════════════
+   RIEPILOGO VOTO GIÀ INVIATO (sola lettura)
+════════════════════════════════════════════ */
+.ro-banner{display:flex;align-items:center;gap:11px;background:linear-gradient(135deg,rgba(46,204,113,0.16),rgba(46,204,113,0.05));border:1px solid rgba(46,204,113,0.32);border-radius:14px;padding:13px 16px;margin-bottom:16px}
+.ro-banner-ico{font-size:24px;line-height:1;flex:0 0 auto}
+.ro-banner-t{font-family:var(--font-d);font-size:16px;font-weight:700;color:#fff;letter-spacing:.3px;line-height:1.2}
+.ro-banner-d{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+.ro-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.ro-chip{font-size:11px;color:var(--muted);background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:12px;padding:5px 11px;white-space:nowrap}
+.ro-chip b{color:var(--text);font-weight:600}
+.ro-team{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ro-p{background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:14px;padding:10px 8px;text-align:center;position:relative;overflow:hidden}
+.ro-p-photo{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block;margin-bottom:8px;filter:saturate(.92)}
+.ro-p-ph{width:100%;aspect-ratio:1;border-radius:10px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(174,16,64,0.3),rgba(26,0,8,0.6));font-family:var(--font-d);font-size:22px;color:#fff}
+.ro-p-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.25;word-break:break-word}
+.ro-p-role{font-size:9.5px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.4px}
+.ro-p-cost{position:absolute;top:6px;right:6px;background:rgba(10,0,4,0.78);border-radius:9px;padding:2px 7px;font-family:var(--font-d);font-size:12px;color:#F7D774}
+.ro-pron{display:flex;flex-direction:column;gap:9px}
+.ro-pron-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:12px;padding:10px 13px}
+.ro-pron-q{flex:1;min-width:0;font-size:11.5px;color:var(--muted);line-height:1.35}
+.ro-pron-pick{flex:0 0 auto;display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--text);max-width:48%}
+.ro-pron-pick .pron-logo,.ro-pron-pick .pron-logo-ph{width:22px;height:22px;flex:0 0 auto;font-size:9px;filter:none}
+.ro-pron-pick span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:400px){
+  .ro-team{gap:7px}
+  .ro-p{padding:8px 5px}
+  .ro-p-name{font-size:11px}
+  .ro-pron-row{flex-direction:column;align-items:flex-start;gap:6px}
+  .ro-pron-pick{max-width:100%}
+}
+
+/* ════════════════════════════════════════════
+   PANNELLO PERCENTUALI DI VOTO DELLA GIORNATA
+════════════════════════════════════════════ */
+.pct-sub{font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:14px}
+.pct-sub b{color:var(--text)}
+.pct-group-l{font-family:var(--font-b);font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:rgba(192,154,170,0.65);margin:16px 0 9px}
+.pct-group-l:first-child{margin-top:0}
+.pct-row{display:flex;align-items:center;gap:10px;padding:7px 0}
+.pct-ph{flex:0 0 auto;width:30px;height:30px;border-radius:8px;object-fit:cover}
+.pct-ph-txt{flex:0 0 auto;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(174,16,64,0.3),rgba(26,0,8,0.6));font-family:var(--font-d);font-size:12px;color:#fff}
+.pct-main{flex:1;min-width:0}
+.pct-nm{font-size:12px;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.pct-track{height:7px;border-radius:4px;background:rgba(255,255,255,0.07);overflow:hidden}
+.pct-fill{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--orange),var(--orange2));transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.pct-fill.alt{background:linear-gradient(90deg,#4A7FB5,#6FA8DC)}
+.pct-row .pron-logo,.pct-row .pron-logo-ph{width:30px;height:30px;flex:0 0 auto;font-size:11px;filter:none}
+.pct-val{flex:0 0 auto;font-family:var(--font-d);font-size:17px;color:var(--text);min-width:44px;text-align:right}
+.pct-pron{border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin-bottom:10px;background:rgba(255,255,255,0.025)}
+.pct-pron-q{font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.3}
+.pct-empty{font-size:12px;color:var(--muted);text-align:center;padding:14px 0;line-height:1.5}
+.pct-warn{font-size:10.5px;color:rgba(192,154,170,0.6);line-height:1.5;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+
+/* ════════════════════════════════════════════
+   MODALE TREND VOTI GIOCATORE
+════════════════════════════════════════════ */
+.trend-card{max-width:440px;text-align:left;padding:22px 20px 20px;max-height:88vh;overflow-y:auto}
+.trend-head{display:flex;align-items:center;gap:13px;margin-bottom:16px;padding-right:26px}
+.trend-photo{width:58px;height:58px;border-radius:13px;object-fit:cover;flex:0 0 auto}
+.trend-photo-ph{width:58px;height:58px;border-radius:13px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(174,16,64,0.35),rgba(26,0,8,0.6));font-family:var(--font-d);font-size:21px;color:#fff}
+.trend-nm{font-family:var(--font-d);font-size:21px;font-weight:700;color:#fff;letter-spacing:.3px;line-height:1.1}
+.trend-role{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-top:3px}
+.trend-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px}
+.trend-stat{background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:11px;padding:9px 4px;text-align:center}
+.trend-stat-v{font-family:var(--font-d);font-size:19px;color:#fff;line-height:1}
+.trend-stat-v.pos{color:var(--green)}
+.trend-stat-v.neg{color:var(--red)}
+.trend-stat-l{font-size:8.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.trend-chart{width:100%;height:auto;display:block;margin-bottom:6px;overflow:visible}
+.trend-legend{font-size:10.5px;color:var(--muted);text-align:center;line-height:1.5;margin-bottom:14px}
+.trend-list{border-top:1px solid var(--line);padding-top:12px}
+.trend-list-l{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.trend-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.trend-item:last-child{border-bottom:none}
+.trend-item-d{flex:0 0 auto;font-size:10.5px;color:var(--muted);width:44px}
+.trend-item-m{flex:1;min-width:0;font-size:11.5px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trend-item-v{flex:0 0 auto;font-family:var(--font-d);font-size:17px;min-width:38px;text-align:right}
+.trend-item-v.pos{color:var(--green)}
+.trend-item-v.neg{color:var(--red)}
+.trend-empty{text-align:center;color:var(--muted);font-size:12.5px;padding:26px 0;line-height:1.6}
+@media(max-width:400px){
+  .trend-card{padding:20px 15px 16px}
+  .trend-stats{gap:5px}
+  .trend-stat-v{font-size:17px}
+}
+
 /* bottoni */
 .btn{width:100%;padding:13px;font-family:var(--font-d);font-size:17px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:white;background:var(--orange);border:none;border-radius:var(--r);cursor:pointer;transition:opacity .2s,transform .1s}
 .btn:hover:not(:disabled){opacity:.88}
@@ -220,38 +306,13 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 /* giocatori */
 .players-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(154px,1fr));gap:10px;margin-bottom:1.5rem}
 .player-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);cursor:pointer;transition:border-color .18s,background .18s,transform .12s;overflow:hidden;position:relative;user-select:none;perspective:1000px}
-/* ===== flip card giocatore (retro fantasy) ===== */
-.pc-inner{position:relative;width:100%;transition:transform .55s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
-.player-card.flipped .pc-inner{transform:rotateY(180deg)}
-.pc-front,.pc-back{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+/* struttura della card giocatore (il dettaglio è nella modale del tasto "i") */
+.pc-inner{position:relative;width:100%}
 .pc-front{position:relative}
-.pc-back{position:absolute;inset:0;transform:rotateY(180deg);background:radial-gradient(circle at 50% -10%,#43112680,transparent 60%),linear-gradient(165deg,#320d1d,#160006);border:1px solid rgba(200,20,45,0.3);border-radius:var(--rl);display:flex;flex-direction:column;padding:15px 14px 14px;overflow:hidden}
-.pcb-crest{position:absolute;right:-34px;bottom:-34px;width:150px;height:150px;background:url('libertas-bg.png') center/contain no-repeat;opacity:0.06;pointer-events:none;z-index:0}
-.pcb-top,.pcb-media,.pcb-pie{position:relative;z-index:1}
 .pc-info{position:absolute;top:8px;right:8px;z-index:6;width:23px;height:23px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.4);color:#fff;font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .pc-info:hover{background:rgba(174,16,64,0.6);border-color:rgba(232,169,187,0.6)}
-.sel-check{backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.pc-close{position:absolute;top:8px;right:8px;z-index:6;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.07);color:var(--muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.pc-close:hover{background:rgba(174,16,64,0.5);color:#fff}
 .pc-cost-badge{position:absolute;top:8px;left:8px;z-index:5;display:flex;align-items:baseline;gap:2px;font-family:var(--font-d);font-weight:800;font-size:15px;color:#fff;background:linear-gradient(135deg,#c81a3f,#8B0D2F);border:1px solid rgba(232,169,187,0.4);border-radius:10px;padding:3px 9px;box-shadow:0 3px 10px rgba(139,13,47,0.55);backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .pc-cost-badge span{font-size:8px;font-weight:600;text-transform:uppercase;opacity:.85}
-.pcb-top{padding-right:26px;margin-bottom:14px}
-.pcb-head{font-family:var(--font-d);font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.3px;color:#fff;line-height:1.05}
-.pcb-role-badge{display:inline-block;margin-top:7px;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#F0DCE3;background:linear-gradient(135deg,rgba(174,16,64,0.55),rgba(139,13,47,0.3));border:1px solid rgba(232,169,187,0.3);border-radius:20px;padding:3px 11px}
-/* MEDIA scenografica + trend ultimi 5 voti */
-.pcb-media{margin-bottom:12px}
-.pcb-media-head{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
-.pcb-media-v{font-family:var(--font-num,var(--font-d));font-weight:800;font-size:38px;line-height:1;background:linear-gradient(180deg,#fff,#E8A9BB);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.pcb-media-l{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
-.pcb-tr{font-size:14px}
-.pcb-spark{display:flex;align-items:flex-end;gap:6px;height:52px;padding:0 2px}
-.pcb-bar{width:100%;max-width:16px;flex:1;border-radius:4px 4px 2px 2px;min-height:12px;box-shadow:0 2px 5px rgba(0,0,0,0.3)}
-.pcb-bar.g{background:linear-gradient(180deg,#2aa763,#1f8f4e)}.pcb-bar.y{background:linear-gradient(180deg,#d6a419,#b8860b)}.pcb-bar.r{background:linear-gradient(180deg,#cc4d4d,#b23b3b)}.pcb-bar.n{background:rgba(255,255,255,0.14)}
-.pcb-spark-l{font-size:8px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-top:5px}
-/* torta % scelta */
-.pcb-pie{margin-top:auto;display:flex;align-items:center;gap:14px}
-.pcb-pie-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);line-height:1.5}
-.pcb-pie-lbl b{font-family:var(--font-num,var(--font-d));font-size:20px;color:#fff;letter-spacing:0}
 .player-card:hover{background:var(--card-h);border-color:rgba(255,255,255,0.15);transform:translateY(-2px)}
 .player-card.selected{border-color:var(--orange);background:rgba(139,13,47,0.15)}
 .player-card.disabled{opacity:.35;pointer-events:none}
@@ -1066,6 +1127,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     <button class="ob-btn-sec" onclick="chiudiConfermaVoto()">Annulla e rivedi</button>
   </div>
 </div>
+<!-- modale: trend voti del singolo giocatore -->
+<div id="trendModal" class="ob-overlay" style="display:none" onclick="if(event.target===this)chiudiTrend()">
+  <div class="ob-card trend-card">
+    <div class="ob-close" onclick="chiudiTrend()">✕</div>
+    <div id="trendBody"></div>
+  </div>
+</div>
+
 <!-- modale: testo email di avviso generato dai dati della dashboard -->
 <div id="emailModal" class="ob-overlay" style="display:none">
   <div class="ob-card" style="max-width:470px">
@@ -1211,6 +1280,40 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
         <div class="section-label">Formazione più popolare della giornata</div>
         <div id="formPopBox"></div>
       </div>
+    </div>
+
+    <!-- riepilogo del voto già inviato (sola lettura) -->
+    <div id="stepVotoRO" style="display:none">
+      <div class="ro-banner">
+        <div class="ro-banner-ico">✅</div>
+        <div>
+          <div class="ro-banner-t">Hai già votato per questa partita</div>
+          <div class="ro-banner-d" id="roBannerD">Questa è la formazione che hai inviato. Non è modificabile.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ro-meta" id="roMeta"></div>
+        <div class="section-label">La tua formazione</div>
+        <div class="ro-team" id="roTeam"></div>
+      </div>
+
+      <div class="card" id="roPronCard" style="display:none">
+        <div class="section-label">I tuoi pronostici</div>
+        <div class="ro-pron" id="roPron"></div>
+      </div>
+
+      <div class="card">
+        <button class="btn btn-outline" onclick="tornaAllaRegistrazione()">↩ Torna indietro</button>
+      </div>
+    </div>
+
+    <!-- percentuali di voto della giornata (giocatori + pronostici) -->
+    <div class="card" id="pctCard" style="display:none">
+      <div class="section-label">Percentuali di voto della giornata</div>
+      <div class="pct-sub" id="pctSub"></div>
+      <div id="pctBox"></div>
+      <div class="pct-warn">Le percentuali si aggiornano man mano che arrivano i voti e possono avere qualche minuto di ritardo.</div>
     </div>
 
   </div><!-- /tabVoto -->
@@ -1869,6 +1972,94 @@ async function haGiaVotato(email, mid) {
   } catch (e) { return false; } // se il foglio non è raggiungibile, non blocchiamo (resta il controllo locale)
 }
 
+// restituisce la riga del voto già inviato da quell'email per quella partita, oppure null
+async function getVotoUtente(email, mid) {
+  try {
+    const rows = parseCSV(await (await fetch(noCache(CSV_VOTI))).text()).slice(1);
+    const e = (email || '').toLowerCase().trim();
+    const r = rows.find(x => String(x[6]).trim() === String(mid) && (x[3] || '').toLowerCase().trim() === e);
+    if (!r) return null;
+    return {
+      timestamp: (r[0]  || '').trim(),
+      nome:      (r[1]  || '').trim(),
+      cognome:   (r[2]  || '').trim(),
+      matchName: (r[5]  || '').trim(),
+      giocatori: [r[7], r[8], r[9]].map(v => (v || '').trim()).filter(Boolean),
+      crediti:   (r[10] || '').trim(),
+      pron:      [r[11], r[12], r[13]].map(v => (v || '').trim())
+    };
+  } catch (e) { return null; }
+}
+
+// mostra la formazione già inviata, in sola lettura
+function mostraVotoGiaInviato(voto) {
+  const team = document.getElementById('roTeam');
+  const meta = document.getElementById('roMeta');
+  const pronCard = document.getElementById('roPronCard');
+  const pronBox  = document.getElementById('roPron');
+
+  // chip informativi: data di invio, crediti spesi, partita
+  if (meta) {
+    const chips = [];
+    if (voto.matchName) chips.push(`<span class="ro-chip">${voto.matchName}</span>`);
+    if (voto.crediti)   chips.push(`<span class="ro-chip">Crediti spesi: <b>${voto.crediti}</b></span>`);
+    const d = voto.timestamp ? new Date(voto.timestamp) : null;
+    if (d && !isNaN(d)) {
+      chips.push(`<span class="ro-chip">Inviato il <b>${d.toLocaleDateString('it-IT')} alle ${d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</b></span>`);
+    }
+    meta.innerHTML = chips.join('');
+  }
+
+  // i tre giocatori scelti (foto e ruolo presi dalla rosa della giornata)
+  if (team) {
+    team.innerHTML = voto.giocatori.map(nome => {
+      const p = players.find(x => x.name === nome);
+      const photo = (p && p.photo)
+        ? `<img class="ro-p-photo" src="${p.photo}" alt="${nome}" loading="lazy">`
+        : `<div class="ro-p-ph">${initials(nome)}</div>`;
+      const costo = p ? `<div class="ro-p-cost">${p.cost}</div>` : '';
+      return `<div class="ro-p">
+        ${costo}
+        ${photo}
+        <div class="ro-p-name">${nome}</div>
+        <div class="ro-p-role">${p ? p.role : ''}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // i pronostici scelti, accostati alla partita corrispondente
+  const righe = (pronostici || []).map((pr, i) => {
+    const scelta = voto.pron[i];
+    if (!scelta) return '';
+    const logo = (scelta === pr.casa) ? pr.casaLogo : (scelta === pr.trasferta ? pr.trasfertaLogo : '');
+    return `<div class="ro-pron-row">
+      <div class="ro-pron-q">${pr.casa} vs ${pr.trasferta}</div>
+      <div class="ro-pron-pick">${pronLogoHtml(scelta, logo)}<span>${scelta}</span></div>
+    </div>`;
+  }).filter(Boolean);
+
+  if (pronCard && pronBox) {
+    if (righe.length) { pronBox.innerHTML = righe.join(''); pronCard.style.display = 'block'; }
+    else pronCard.style.display = 'none';
+  }
+
+  document.getElementById('stepReg').style.display    = 'none';
+  document.getElementById('stepVoto').style.display   = 'none';
+  document.getElementById('stepVotoRO').style.display = 'block';
+  renderPercentuali();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// dal riepilogo si torna alla schermata iniziale (es. per controllare un'altra email)
+function tornaAllaRegistrazione() {
+  document.getElementById('stepVotoRO').style.display = 'none';
+  document.getElementById('stepVoto').style.display   = 'none';
+  document.getElementById('stepReg').style.display    = 'block';
+  const pct = document.getElementById('pctCard');
+  if (pct) pct.style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 async function submitReg() {
   const nome    = document.getElementById('regNome').value.trim();
   const cognome = document.getElementById('regCognome').value.trim();
@@ -1900,16 +2091,18 @@ async function submitReg() {
     return;
   }
 
-  // blocca se ha già votato per questa partita
+  // se ha già votato, non blocca con un avviso: mostra la formazione inviata in sola lettura
   const mid = matchId || 'default';
   const key = email + '_' + mid;
-  if (votes[key]) {
-    alert('Hai già votato per questa partita. Non è possibile modificare il voto.');
+  const voto = await getVotoUtente(email, mid);
+  if (voto) {
+    currentUser = { nome, cognome, email, assoc: assocVal, privacyTs };
+    mostraVotoGiaInviato(voto);
     return;
   }
-  // controllo autorevole sul foglio Voti (blocca anche da altri dispositivi)
-  if (await haGiaVotato(email, mid)) {
-    alert('Risulta già un voto per questa partita con questa email.\nÈ possibile votare una sola volta per partita.');
+  // il foglio potrebbe non essere raggiungibile: in quel caso vale il controllo locale
+  if (votes[key]) {
+    alert('Hai già votato per questa partita. Non è possibile modificare il voto.');
     return;
   }
 
@@ -1918,10 +2111,12 @@ async function submitReg() {
   pronosticiScelti = {};
   document.getElementById('editBanner').style.display = 'none';
 
-  document.getElementById('stepReg').style.display  = 'none';
-  document.getElementById('stepVoto').style.display = 'block';
+  document.getElementById('stepReg').style.display    = 'none';
+  document.getElementById('stepVotoRO').style.display = 'none';
+  document.getElementById('stepVoto').style.display   = 'block';
   renderPlayers();
   renderPronostici();
+  renderPercentuali();
   updateBudget();
   renderSlots();
   updateSubmit();
@@ -1980,16 +2175,6 @@ function renderPlayers() {
   const grid = document.getElementById('playersGrid');
   grid.innerHTML = '';
   const spent = getSpent();
-  // statistiche fantasy per il retro (flip): media e forma recente da valutazioniStorico
-  const _vd = ((typeof getValutazioniData === 'function' ? getValutazioniData() : []) || [])
-    .slice().sort((a,b) => String(a.date||a.matchId||'').localeCompare(String(b.date||b.matchId||'')));
-  const giocStats = {};
-  _vd.forEach(m => {
-    Object.entries(m.vals || {}).forEach(([pid, v]) => {
-      const val = parseFloat(v);
-      if (!isNaN(val)) (giocStats[pid] = giocStats[pid] || { vals: [] }).vals.push(val);
-    });
-  });
   players.forEach(p => {
     const isSel   = selected.includes(p.id);
     const maxed   = selected.length >= MAX_SEL && !isSel;
@@ -2009,25 +2194,6 @@ function renderPlayers() {
       pct = Math.round(cnt / statsPartitaCache.totale * 100);
       pctHtml = `<div class="pick-pct" title="Scelto dal ${pct}% dei votanti"><span class="pick-bar"><span style="width:${pct}%"></span></span><span class="pick-lbl">${pct}%</span></div>`;
     }
-    // dati fantasy per il retro
-    const gs = giocStats[p.id];
-    const media = (gs && gs.vals.length) ? (gs.vals.reduce((a,b)=>a+b,0)/gs.vals.length) : null;
-    const forma = gs ? gs.vals.slice(-5) : [];
-    const dotCls = v => media==null ? 'n' : (v >= media ? 'g' : (v >= media*0.82 ? 'y' : 'r'));
-    const maxV = forma.length ? Math.max(...forma, media||0, 1) : 1;
-    const sparkHtml = forma.length
-      ? forma.map(v => { const h = Math.max(14, Math.round(v / maxV * 100)); return `<span class="pcb-bar ${dotCls(v)}" style="height:${h}%" title="${v}"></span>`; }).join('')
-      : '<span style="color:var(--muted);font-size:11px;align-self:center">nessun voto</span>';
-    let trend = '';
-    if (forma.length >= 2) { const d = forma[forma.length-1] - forma[forma.length-2]; trend = d>0.05?'📈':(d<-0.05?'📉':'➡️'); }
-    // grafico a torta (ciambella) per la % di scelta
-    const pctVal = (pct != null) ? pct : 0;
-    const circ = (2 * Math.PI * 26).toFixed(1);
-    const donutSvg = `<svg width="82" height="82" viewBox="0 0 82 82" style="flex:0 0 auto">
-      <circle cx="41" cy="41" r="26" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="9"/>
-      <circle cx="41" cy="41" r="26" fill="none" stroke="#E8567E" stroke-width="9" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${(circ * (1 - pctVal/100)).toFixed(1)}" transform="rotate(-90 41 41)"/>
-      <text x="41" y="47" text-anchor="middle" font-family="'Teko',sans-serif" font-size="21" font-weight="700" fill="#fff">${pct!=null?pct+'%':'–'}</text>
-    </svg>`;
     card.innerHTML = `<div class="pc-inner">
       <div class="pc-front">
         <button class="pc-info" type="button" aria-label="Scheda giocatore">i</button>
@@ -2040,26 +2206,8 @@ function renderPlayers() {
         </div>
         <div class="sel-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
       </div>
-      <div class="pc-back">
-        <button class="pc-close" type="button" aria-label="Chiudi scheda">↩</button>
-        <div class="pcb-crest"></div>
-        <div class="pcb-top">
-          <div class="pcb-head">${p.name}</div>
-          <div class="pcb-role-badge">${p.role}</div>
-        </div>
-        <div class="pcb-media">
-          <div class="pcb-media-head"><span class="pcb-media-v">${media!=null?media.toFixed(1):'–'}</span><span class="pcb-media-l">Media${trend?` <span class="pcb-tr">${trend}</span>`:''}</span></div>
-          <div class="pcb-spark" aria-label="Trend ultimi 5 voti">${sparkHtml}</div>
-          <div class="pcb-spark-l">Ultimi 5 voti</div>
-        </div>
-        <div class="pcb-pie">
-          ${donutSvg}
-          <div class="pcb-pie-lbl">Scelto dal<br><b>${pct!=null?pct+'%':'–'}</b><br>dei votanti</div>
-        </div>
-      </div>
     </div>`;
     const toggle = () => {
-      if (card.classList.contains('flipped')) { card.classList.remove('flipped'); return; }
       if (votingClosed) return;
       if (selected.includes(p.id)) { selected = selected.filter(x=>x!==p.id); suonoTap(true); }
       else {
@@ -2071,11 +2219,162 @@ function renderPlayers() {
     card.addEventListener('click', toggle);
     card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
     const infoBtn = card.querySelector('.pc-info');
-    if (infoBtn) infoBtn.addEventListener('click', e=>{ e.stopPropagation(); card.classList.add('flipped'); suonoTap(false); });
-    const closeBtn = card.querySelector('.pc-back .pc-close');
-    if (closeBtn) closeBtn.addEventListener('click', e=>{ e.stopPropagation(); card.classList.remove('flipped'); suonoTap(true); });
+    if (infoBtn) infoBtn.addEventListener('click', e=>{ e.stopPropagation(); suonoTap(false); apriTrend(p.id); });
     grid.appendChild(card);
   });
+}
+
+/* ════════════════════════════════════════════
+   TREND VOTI DEL GIOCATORE (modale aperta dal tasto "i")
+   Legge le valutazioni di tutte le giornate già elaborate
+   e le disegna come grafico a linea, con la cifra sopra
+   ogni punto e l'elenco partita per partita sotto.
+════════════════════════════════════════════ */
+
+// raccoglie le valutazioni di un giocatore, in ordine cronologico crescente
+function getTrendGiocatore(pid) {
+  return ((typeof getValutazioniData === 'function' ? getValutazioniData() : []) || [])
+    .map(m => {
+      const v = m.vals ? parseFloat(m.vals[pid]) : NaN;
+      if (isNaN(v)) return null;
+      return { val: v, matchId: m.matchId, matchName: m.matchName || '', date: m.date || '' };
+    })
+    .filter(Boolean)
+    .sort((a, b) => new Date(a.date || 0) - new Date(b.date || 0));
+}
+
+// formatta una data ISO come gg/mm
+function ggmm(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+}
+
+// costruisce il grafico a linea in SVG, con la valutazione scritta su ogni punto
+function trendChartSvg(serie, media) {
+  const W = 420, H = 210;
+  const padL = 10, padR = 10, padT = 30, padB = 30;
+  const innerW = W - padL - padR;
+  const innerH = H - padT - padB;
+
+  const vals = serie.map(s => s.val);
+  let vMin = Math.min(...vals, media, 0);
+  let vMax = Math.max(...vals, media);
+  if (vMax === vMin) { vMax += 1; vMin -= 1; }
+  const span = vMax - vMin;
+
+  const x = i => padL + (serie.length === 1 ? innerW / 2 : (i / (serie.length - 1)) * innerW);
+  const y = v => padT + innerH - ((v - vMin) / span) * innerH;
+
+  // linea dello zero, se la scala la attraversa (le valutazioni possono essere negative)
+  const zeroLine = (vMin < 0 && vMax > 0)
+    ? `<line x1="${padL}" y1="${y(0).toFixed(1)}" x2="${W - padR}" y2="${y(0).toFixed(1)}" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>`
+    : '';
+
+  const mediaY = y(media).toFixed(1);
+  const mediaLine = `<line x1="${padL}" y1="${mediaY}" x2="${W - padR}" y2="${mediaY}" stroke="#F7D774" stroke-width="1" stroke-dasharray="5 4" opacity=".65"/>`;
+
+  const punti = serie.map((s, i) => `${x(i).toFixed(1)},${y(s.val).toFixed(1)}`).join(' ');
+
+  // area sotto la linea, per dare profondità
+  const area = serie.length > 1
+    ? `<polygon points="${padL},${padT + innerH} ${punti} ${(W - padR)},${padT + innerH}" fill="url(#trendGrad)" opacity=".5"/>`
+    : '';
+
+  const linea = serie.length > 1
+    ? `<polyline points="${punti}" fill="none" stroke="#E8567E" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`
+    : '';
+
+  const nodi = serie.map((s, i) => {
+    const cx = x(i).toFixed(1), cy = y(s.val).toFixed(1);
+    const sopra = s.val >= media;                 // la cifra va sopra o sotto il punto
+    const ty = sopra ? (parseFloat(cy) - 11) : (parseFloat(cy) + 17);
+    const col = s.val >= media ? '#2ECC71' : '#E8567E';
+    return `<circle cx="${cx}" cy="${cy}" r="4.5" fill="${col}" stroke="#1a0008" stroke-width="2"/>
+      <text x="${cx}" y="${ty.toFixed(1)}" text-anchor="middle" font-family="'Teko',sans-serif" font-size="17" font-weight="700" fill="#fff">${s.val}</text>
+      <text x="${cx}" y="${H - 10}" text-anchor="middle" font-family="'Barlow',sans-serif" font-size="9" fill="rgba(192,154,170,0.75)">${ggmm(s.date)}</text>`;
+  }).join('');
+
+  return `<svg class="trend-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Andamento delle valutazioni">
+    <defs><linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#AE1040" stop-opacity=".45"/>
+      <stop offset="100%" stop-color="#AE1040" stop-opacity="0"/>
+    </linearGradient></defs>
+    ${zeroLine}${mediaLine}${area}${linea}${nodi}
+  </svg>`;
+}
+
+function apriTrend(pid) {
+  const p = players.find(x => x.id === pid);
+  const body = document.getElementById('trendBody');
+  const modal = document.getElementById('trendModal');
+  if (!p || !body || !modal) return;
+
+  const serie = getTrendGiocatore(pid);
+
+  const photo = p.photo
+    ? `<img class="trend-photo" src="${p.photo}" alt="${p.name}">`
+    : `<div class="trend-photo-ph">${initials(p.name)}</div>`;
+
+  // percentuale di scelta per la partita in corso, se ci sono già voti
+  let pctTxt = '–';
+  if (statsPartitaCache && statsPartitaCache.totale > 0) {
+    pctTxt = Math.round((statsPartitaCache.pick[p.name] || 0) / statsPartitaCache.totale * 100) + '%';
+  }
+
+  let html = `<div class="trend-head">
+    ${photo}
+    <div style="min-width:0">
+      <div class="trend-nm">${p.name}</div>
+      <div class="trend-role">${p.role} · ${p.cost} crediti</div>
+    </div>
+  </div>`;
+
+  if (serie.length === 0) {
+    html += `<div class="trend-empty">📊<br>Nessuna valutazione ancora disponibile per questo giocatore.<br>Il grafico compare dopo la prima partita elaborata.</div>
+      <div class="trend-stats" style="margin-top:16px">
+        <div class="trend-stat" style="grid-column:span 4">
+          <div class="trend-stat-v">${pctTxt}</div>
+          <div class="trend-stat-l">Scelto in questa giornata</div>
+        </div>
+      </div>`;
+    body.innerHTML = html;
+    modal.style.display = 'flex';
+    return;
+  }
+
+  const vals   = serie.map(s => s.val);
+  const media  = vals.reduce((a, b) => a + b, 0) / vals.length;
+  const max    = Math.max(...vals);
+  const min    = Math.min(...vals);
+  const ultima = vals[vals.length - 1];
+
+  html += `<div class="trend-stats">
+    <div class="trend-stat"><div class="trend-stat-v">${media.toFixed(1)}</div><div class="trend-stat-l">Media</div></div>
+    <div class="trend-stat"><div class="trend-stat-v pos">${max}</div><div class="trend-stat-l">Migliore</div></div>
+    <div class="trend-stat"><div class="trend-stat-v ${min < 0 ? 'neg' : ''}">${min}</div><div class="trend-stat-l">Peggiore</div></div>
+    <div class="trend-stat"><div class="trend-stat-v">${pctTxt}</div><div class="trend-stat-l">Scelto oggi</div></div>
+  </div>`;
+
+  html += trendChartSvg(serie, media);
+  html += `<div class="trend-legend">Ogni punto è la valutazione di una giornata · la riga tratteggiata è la media (${media.toFixed(1)}) · ultima valutazione: <b style="color:#fff">${ultima}</b></div>`;
+
+  html += `<div class="trend-list">
+    <div class="trend-list-l">Giornata per giornata</div>
+    ${serie.slice().reverse().map(s => `<div class="trend-item">
+      <div class="trend-item-d">${ggmm(s.date)}</div>
+      <div class="trend-item-m">${s.matchName || '—'}</div>
+      <div class="trend-item-v ${s.val >= media ? 'pos' : (s.val < 0 ? 'neg' : '')}">${s.val}</div>
+    </div>`).join('')}
+  </div>`;
+
+  body.innerHTML = html;
+  modal.style.display = 'flex';
+}
+
+function chiudiTrend() {
+  const m = document.getElementById('trendModal');
+  if (m) m.style.display = 'none';
 }
 
 function updateBudget() {
@@ -4073,6 +4372,8 @@ async function getStatsPartita() {
     const mid  = matchId || 'default';
     const seen = new Set();
     const pick = {};
+    // conteggio scelte sui pronostici: pron[0] = primo pronostico, ecc.
+    const pron = [{}, {}, {}];
     let tot = 0;
     rows.slice(1).forEach(r => {
       if (String(r[6]).trim() !== String(mid)) return;
@@ -4083,8 +4384,11 @@ async function getStatsPartita() {
       [r[7], r[8], r[9]].forEach(nome => {
         if (nome && nome.trim()) { const n = nome.trim(); pick[n] = (pick[n] || 0) + 1; }
       });
+      [r[11], r[12], r[13]].forEach((squadra, i) => {
+        if (squadra && squadra.trim()) { const sq = squadra.trim(); pron[i][sq] = (pron[i][sq] || 0) + 1; }
+      });
     });
-    statsPartitaCache = { totale: tot, pick };
+    statsPartitaCache = { totale: tot, pick, pron };
   } catch (e) {
     statsPartitaCache = null;
   }
@@ -4096,6 +4400,103 @@ async function caricaStatsPartita() {
   await getStatsPartita();
   renderPlayers();
   renderFormazionePopolare();
+  renderPercentuali();
+}
+
+/* ════════════════════════════════════════════
+   PANNELLO PERCENTUALI DI VOTO DELLA GIORNATA
+   Mostra, sia prima sia dopo aver votato, quanto è stato
+   scelto ogni giocatore e come si stanno orientando i pronostici.
+════════════════════════════════════════════ */
+function renderPercentuali() {
+  const card = document.getElementById('pctCard');
+  const sub  = document.getElementById('pctSub');
+  const box  = document.getElementById('pctBox');
+  if (!card || !box) return;
+
+  // il pannello vive solo nella schermata di voto (o nel riepilogo), non sotto il form iniziale
+  const voStep = document.getElementById('stepVoto');
+  const roStep = document.getElementById('stepVotoRO');
+  const inVoto = (voStep && voStep.style.display !== 'none') || (roStep && roStep.style.display !== 'none');
+  if (!inVoto) { card.style.display = 'none'; return; }
+
+  const st  = statsPartitaCache;
+  const tot = (st && st.totale) || 0;
+
+  if (!tot) {
+    // nessun voto ancora: il pannello resta nascosto per non mostrare barre vuote
+    card.style.display = 'none';
+    return;
+  }
+
+  if (sub) {
+    sub.innerHTML = `Su <b>${tot}</b> ${tot === 1 ? 'votante' : 'votanti'} di questa giornata` +
+      (matchTeams && matchTeams.casa ? ` · ${matchTeams.casa.nome} vs ${matchTeams.trasferta.nome}` : '');
+  }
+
+  let html = '';
+
+  // ── giocatori, ordinati dal più scelto al meno scelto
+  const ranked = players
+    .map(p => ({ p, cnt: st.pick[p.name] || 0 }))
+    .sort((a, b) => b.cnt - a.cnt);
+
+  html += '<div class="pct-group-l">🏀 Giocatori più scelti</div>';
+  html += ranked.map(x => {
+    const pct   = Math.round(x.cnt / tot * 100);
+    const photo = x.p.photo
+      ? `<img class="pct-ph" src="${x.p.photo}" alt="" loading="lazy">`
+      : `<div class="pct-ph-txt">${initials(x.p.name)}</div>`;
+    return `<div class="pct-row">
+      ${photo}
+      <div class="pct-main">
+        <div class="pct-nm">${x.p.name}</div>
+        <div class="pct-track"><span class="pct-fill" style="width:${pct}%"></span></div>
+      </div>
+      <div class="pct-val">${pct}%</div>
+    </div>`;
+  }).join('');
+
+  // ── pronostici: per ogni partita, quota casa contro quota trasferta
+  if (pronostici && pronostici.length && st.pron) {
+    html += '<div class="pct-group-l">🎯 Come stanno votando i pronostici</div>';
+    html += pronostici.map((pr, i) => {
+      const conteggi = st.pron[i] || {};
+      const nCasa    = conteggi[pr.casa] || 0;
+      const nTras    = conteggi[pr.trasferta] || 0;
+      const nTot     = nCasa + nTras;
+      if (nTot === 0) {
+        return `<div class="pct-pron">
+          <div class="pct-pron-q">${pr.casa} vs ${pr.trasferta}</div>
+          <div class="pct-empty" style="padding:6px 0">Nessun pronostico ancora inviato</div>
+        </div>`;
+      }
+      const pCasa = Math.round(nCasa / nTot * 100);
+      const pTras = 100 - pCasa;
+      return `<div class="pct-pron">
+        <div class="pct-pron-q">${pr.casa} <span style="color:rgba(192,154,170,0.5)">vs</span> ${pr.trasferta}</div>
+        <div class="pct-row">
+          ${pronLogoHtml(pr.casa, pr.casaLogo)}
+          <div class="pct-main">
+            <div class="pct-nm">${pr.casa}</div>
+            <div class="pct-track"><span class="pct-fill" style="width:${pCasa}%"></span></div>
+          </div>
+          <div class="pct-val">${pCasa}%</div>
+        </div>
+        <div class="pct-row">
+          ${pronLogoHtml(pr.trasferta, pr.trasfertaLogo)}
+          <div class="pct-main">
+            <div class="pct-nm">${pr.trasferta}</div>
+            <div class="pct-track"><span class="pct-fill alt" style="width:${pTras}%"></span></div>
+          </div>
+          <div class="pct-val">${pTras}%</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  box.innerHTML = html;
+  card.style.display = 'block';
 }
 
 function renderFormazionePopolare() {
