@@ -202,6 +202,11 @@ input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(139,13,47,0.25)
 .ro-banner-ico{font-size:24px;line-height:1;flex:0 0 auto}
 .ro-banner-t{font-family:var(--font-d);font-size:16px;font-weight:700;color:#fff;letter-spacing:.3px;line-height:1.2}
 .ro-banner-d{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+.ro-time{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:14px}
+.ro-time-ico{font-size:22px;line-height:1;flex:0 0 auto;opacity:.9}
+.ro-time-l{font-size:9.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);margin-bottom:3px}
+.ro-time-v{font-family:var(--font-d);font-size:21px;font-weight:700;color:#fff;letter-spacing:.3px;line-height:1.1}
+.ro-time-v small{font-family:var(--font-b);font-size:12px;font-weight:400;color:var(--muted);letter-spacing:0;margin-left:5px}
 .ro-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .ro-chip{font-size:11px;color:var(--muted);background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:12px;padding:5px 11px;white-space:nowrap}
 .ro-chip b{color:var(--text);font-weight:600}
@@ -891,17 +896,6 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
 .pick-bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));border-radius:3px}
 .pick-lbl{font-family:var(--font-num);font-size:14px;font-weight:600;color:var(--muted);min-width:34px;text-align:right}
 
-/* formazione più popolare */
-.formpop-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
-.formpop-row:last-child{border-bottom:none}
-.formpop-rank{font-family:var(--font-num);font-size:22px;font-weight:700;color:var(--orange2);width:26px;text-align:center;flex:0 0 auto}
-.formpop-photo{width:42px;height:42px;border-radius:50%;object-fit:cover;object-position:top center;flex:0 0 auto;background:var(--court2)}
-.formpop-ph{display:flex;align-items:center;justify-content:center;font-family:var(--font-num);font-size:15px;font-weight:700;color:rgba(255,255,255,0.35);background:linear-gradient(160deg,var(--court2),rgba(139,13,47,0.15))}
-.formpop-info{flex:1;min-width:0}
-.formpop-name{font-family:var(--font-d);font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;line-height:1.15}
-.formpop-bar{height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;margin-top:5px}
-.formpop-bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2))}
-.formpop-pct{font-family:var(--font-num);font-size:19px;font-weight:700;color:#fff;flex:0 0 auto;min-width:44px;text-align:right}
 
 /* storico personale */
 .storico-search{display:flex;gap:8px;margin-bottom:12px}
@@ -1244,6 +1238,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       </div>
     </div>
 
+    <!-- percentuali di voto della giornata (giocatori + pronostici) -->
+    <div class="card" id="pctCard" style="display:none">
+      <div class="section-label">Percentuali di voto della giornata</div>
+      <div class="pct-sub" id="pctSub"></div>
+      <div id="pctBox"></div>
+      <div class="pct-warn">Le percentuali si aggiornano man mano che arrivano i voti e possono avere qualche minuto di ritardo.</div>
+    </div>
+
     <!-- step 2: selezione giocatori -->
     <div id="stepVoto" style="display:none">
       <div class="edit-banner" id="editBanner">
@@ -1275,11 +1277,6 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
         <button class="btn" id="submitVotoBtn" disabled onclick="mostraConfermaVoto()">Invia votazione</button>
         <div class="deadline-note">Le votazioni chiudono al fischio d'inizio.</div>
       </div>
-
-      <div class="card" id="formPopCard" style="display:none">
-        <div class="section-label">Formazione più popolare della giornata</div>
-        <div id="formPopBox"></div>
-      </div>
     </div>
 
     <!-- riepilogo del voto già inviato (sola lettura) -->
@@ -1287,12 +1284,19 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="ro-banner">
         <div class="ro-banner-ico">✅</div>
         <div>
-          <div class="ro-banner-t">Hai già votato per questa partita</div>
-          <div class="ro-banner-d" id="roBannerD">Questa è la formazione che hai inviato. Non è modificabile.</div>
+          <div class="ro-banner-t">Voto inviato con successo</div>
+          <div class="ro-banner-d" id="roBannerD">Il tuo voto per questa partita è stato registrato correttamente e <b>non è più modificabile</b>.</div>
         </div>
       </div>
 
       <div class="card">
+        <div class="ro-time" id="roTime" style="display:none">
+          <div class="ro-time-ico">🕒</div>
+          <div>
+            <div class="ro-time-l">Orario della votazione</div>
+            <div class="ro-time-v" id="roTimeV"></div>
+          </div>
+        </div>
         <div class="ro-meta" id="roMeta"></div>
         <div class="section-label">La tua formazione</div>
         <div class="ro-team" id="roTeam"></div>
@@ -1306,14 +1310,6 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
       <div class="card">
         <button class="btn btn-outline" onclick="tornaAllaRegistrazione()">↩ Torna indietro</button>
       </div>
-    </div>
-
-    <!-- percentuali di voto della giornata (giocatori + pronostici) -->
-    <div class="card" id="pctCard" style="display:none">
-      <div class="section-label">Percentuali di voto della giornata</div>
-      <div class="pct-sub" id="pctSub"></div>
-      <div id="pctBox"></div>
-      <div class="pct-warn">Le percentuali si aggiornano man mano che arrivano i voti e possono avere qualche minuto di ritardo.</div>
     </div>
 
   </div><!-- /tabVoto -->
@@ -1991,22 +1987,54 @@ async function getVotoUtente(email, mid) {
   } catch (e) { return null; }
 }
 
+// converte il voto salvato in locale nello stesso formato restituito dal foglio,
+// così il riepilogo funziona anche quando il foglio non è raggiungibile
+function votoDaLocale(v) {
+  if (!v) return null;
+  const nomi = (v.scelta || [])
+    .map(id => { const p = players.find(x => x.id === id); return p ? p.name : ''; })
+    .filter(Boolean);
+  const crediti = (v.scelta || [])
+    .reduce((a, id) => { const p = players.find(x => x.id === id); return a + (p ? p.cost : 0); }, 0);
+  return {
+    timestamp: v.ts || '',
+    nome:      v.nome || '',
+    cognome:   v.cognome || '',
+    matchName: v.matchName || '',
+    giocatori: nomi,
+    crediti:   nomi.length ? String(crediti) : '',
+    pron:      (pronostici || []).map(pr => (v.pronostici && v.pronostici[pr.id]) || '')
+  };
+}
+
 // mostra la formazione già inviata, in sola lettura
 function mostraVotoGiaInviato(voto) {
+  if (!voto) return;
   const team = document.getElementById('roTeam');
   const meta = document.getElementById('roMeta');
   const pronCard = document.getElementById('roPronCard');
   const pronBox  = document.getElementById('roPron');
 
-  // chip informativi: data di invio, crediti spesi, partita
+  // orario della votazione, in evidenza
+  const timeBox = document.getElementById('roTime');
+  const timeVal = document.getElementById('roTimeV');
+  const d = voto.timestamp ? new Date(voto.timestamp) : null;
+  if (timeBox && timeVal) {
+    if (d && !isNaN(d)) {
+      const giorno = d.toLocaleDateString('it-IT', { weekday:'long', day:'numeric', month:'long' });
+      const ora    = d.toLocaleTimeString('it-IT', { hour:'2-digit', minute:'2-digit' });
+      timeVal.innerHTML = `${ora}<small>${giorno}</small>`;
+      timeBox.style.display = 'flex';
+    } else {
+      timeBox.style.display = 'none';
+    }
+  }
+
+  // chip informativi: partita e crediti spesi
   if (meta) {
     const chips = [];
     if (voto.matchName) chips.push(`<span class="ro-chip">${voto.matchName}</span>`);
     if (voto.crediti)   chips.push(`<span class="ro-chip">Crediti spesi: <b>${voto.crediti}</b></span>`);
-    const d = voto.timestamp ? new Date(voto.timestamp) : null;
-    if (d && !isNaN(d)) {
-      chips.push(`<span class="ro-chip">Inviato il <b>${d.toLocaleDateString('it-IT')} alle ${d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</b></span>`);
-    }
     meta.innerHTML = chips.join('');
   }
 
@@ -2055,8 +2083,7 @@ function tornaAllaRegistrazione() {
   document.getElementById('stepVotoRO').style.display = 'none';
   document.getElementById('stepVoto').style.display   = 'none';
   document.getElementById('stepReg').style.display    = 'block';
-  const pct = document.getElementById('pctCard');
-  if (pct) pct.style.display = 'none';
+  renderPercentuali();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -2100,9 +2127,10 @@ async function submitReg() {
     mostraVotoGiaInviato(voto);
     return;
   }
-  // il foglio potrebbe non essere raggiungibile: in quel caso vale il controllo locale
+  // il foglio potrebbe non essere raggiungibile: in quel caso vale il voto salvato in locale
   if (votes[key]) {
-    alert('Hai già votato per questa partita. Non è possibile modificare il voto.');
+    currentUser = { nome, cognome, email, assoc: assocVal, privacyTs };
+    mostraVotoGiaInviato(votoDaLocale(votes[key]));
     return;
   }
 
@@ -2520,9 +2548,11 @@ async function submitVoto() {
 
   const mid = matchId || 'default';
   const key = currentUser.email.toLowerCase() + '_' + mid;
-  // guardia anti-doppio-voto sul foglio (autorevole, anche da altri dispositivi)
-  if (await haGiaVotato(currentUser.email, mid)) {
-    alert('Risulta già un voto per questa partita con la tua email.\nÈ possibile votare una sola volta per partita.');
+  // guardia anti-doppio-voto sul foglio (autorevole, anche da altri dispositivi):
+  // se un voto risulta già registrato, si apre il riepilogo invece di un avviso
+  const votoEsistente = await getVotoUtente(currentUser.email, mid);
+  if (votoEsistente) {
+    mostraVotoGiaInviato(votoEsistente);
     return;
   }
   const sel = selected.map(id => players.find(p => p.id === id));
@@ -4399,7 +4429,6 @@ async function getStatsPartita() {
 async function caricaStatsPartita() {
   await getStatsPartita();
   renderPlayers();
-  renderFormazionePopolare();
   renderPercentuali();
 }
 
@@ -4413,12 +4442,6 @@ function renderPercentuali() {
   const sub  = document.getElementById('pctSub');
   const box  = document.getElementById('pctBox');
   if (!card || !box) return;
-
-  // il pannello vive solo nella schermata di voto (o nel riepilogo), non sotto il form iniziale
-  const voStep = document.getElementById('stepVoto');
-  const roStep = document.getElementById('stepVotoRO');
-  const inVoto = (voStep && voStep.style.display !== 'none') || (roStep && roStep.style.display !== 'none');
-  if (!inVoto) { card.style.display = 'none'; return; }
 
   const st  = statsPartitaCache;
   const tot = (st && st.totale) || 0;
@@ -4497,41 +4520,6 @@ function renderPercentuali() {
 
   box.innerHTML = html;
   card.style.display = 'block';
-}
-
-function renderFormazionePopolare() {
-  const card = document.getElementById('formPopCard');
-  const box  = document.getElementById('formPopBox');
-  if (!card || !box) return;
-  if (!statsPartitaCache || statsPartitaCache.totale === 0) { card.style.display = 'none'; return; }
-
-  // ordina i giocatori per numero di scelte
-  const ranked = players
-    .map(p => ({ p, cnt: statsPartitaCache.pick[p.name] || 0 }))
-    .filter(x => x.cnt > 0)
-    .sort((a, b) => b.cnt - a.cnt)
-    .slice(0, 3);
-
-  if (ranked.length === 0) { card.style.display = 'none'; return; }
-
-  const tot = statsPartitaCache.totale;
-  box.innerHTML = ranked.map((x, i) => {
-    const pct = Math.round(x.cnt / tot * 100);
-    const photo = x.p.photo
-      ? `<img class="formpop-photo" src="${x.p.photo}" alt="${x.p.name}" loading="lazy">`
-      : `<div class="formpop-photo formpop-ph">${initials(x.p.name)}</div>`;
-    return `<div class="formpop-row">
-      <div class="formpop-rank">${i + 1}</div>
-      ${photo}
-      <div class="formpop-info">
-        <div class="formpop-name">${x.p.name}</div>
-        <div class="formpop-bar"><span style="width:${pct}%"></span></div>
-      </div>
-      <div class="formpop-pct"><span class="animate-num" data-target="${pct}" data-dec="0">0</span>%</div>
-    </div>`;
-  }).join('');
-  card.style.display = 'block';
-  animaNumeri(box);
 }
 
 /* ════════════════════════════════════════════
