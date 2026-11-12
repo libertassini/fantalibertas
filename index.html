@@ -1162,14 +1162,14 @@ input:focus{box-shadow:0 0 0 3px rgba(174,16,64,0.25),0 0 18px rgba(174,16,64,0.
     </div>
     <div class="match-hero">
       <div class="mh-side" id="mhHome"></div>
-      <div class="match-title" id="matchTitle"><span class="mt-part">Libertas Livorno</span> <span class="mt-vs">vs</span> <span class="mt-part">Valtur Brindisi</span></div>
+      <div class="match-title" id="matchTitle"><span class="mt-part">Gema Montecatini</span> <span class="mt-vs">vs</span> <span class="mt-part">Libertas Livorno</span></div>
       <div class="mh-side" id="mhAway"></div>
     </div>
     <div class="match-meta">
       <div class="deadline-box" id="cdChip">
         <div class="dl-label" data-def="⏱ Countdown to Next Match">⏱ Countdown to Next Match</div>
         <div class="dl-body">
-          <span class="dl-date"><span id="matchDateLabel">Mercoledì 11 Nov 20:45</span></span>
+          <span class="dl-date"><span id="matchDateLabel">Domenica 15 Nov 18:00</span></span>
           <span class="dl-sep"></span>
           <span class="dl-count"><span id="cdVal">--:--:--</span></span>
         </div>
@@ -1551,15 +1551,15 @@ const SK_CONFIG   = 'fl_config_v2';
 
 let players = [
   {id:1,name:"Matthew James Tiby",    role:"Ala grande",  cost:7, stats:["23.1 ppg","6.2 rpg"], photo:"tiby.png"},
-  {id:2,name:"Jayvon Graves",    role:"Playmaker",  cost:5, stats:["23.1 ppg","6.2 rpg"], photo:"graves.png"},
-  {id:3,name:"Luca Tozzi",   role:"Ala grande",     cost:4, stats:["17.4 ppg","3.1 apg"], photo:"tozzi.png"},
+  {id:2,name:"Jayvon Graves",    role:"Playmaker",  cost:6, stats:["23.1 ppg","6.2 rpg"], photo:"graves.png"},
+  {id:3,name:"Luca Tozzi",   role:"Ala grande",     cost:5, stats:["17.4 ppg","3.1 apg"], photo:"tozzi.png"},
   {id:4,name:"Matteo Piccoli",       role:"Guardia", cost:3, stats:["12.8 ppg","2.9 rpg"], photo:"piccoli.png"},
   {id:5,name:"Nicolò Filoni",role:"Ala",         cost:2, stats:["19.2 ppg","5.5 rpg"], photo:"filoni.png"},
   {id:6,name:"Luca Possamai",  role:"Centro",     cost:2, stats:["14.6 ppg","3.0 apg"], photo:"possamai.png"},
-  {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:3, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
-  {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:6, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
+  {id:7,name:"Fabio Valentini",role:"Playmaker",   cost:2, stats:["8.3 ppg","5.7 apg"],  photo:"valentini.png"},
+  {id:8,name:"Lorenzo Penna",      role:"Ala",         cost:5, stats:["9.1 ppg","3.3 rpg"],  photo:"penna.png"},
   {id:9,name:"David Reginald Cournooh",      role:"Guardia/Playmaker",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"cour.png"},
-  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:4, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
+  {id:10,name:"Giovanni Vildera",      role:"Centro",         cost:3, stats:["9.1 ppg","3.3 rpg"],  photo:"vildera.png"},
   {id:11,name:"Filippo Gaeta",    role:"Guardia",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"gaeta.png"},
   {id:12,name:"Sakine Yassine",    role:"Ala grande",     cost:1, stats:["15.0 ppg","2.8 apg"], photo:"yassine.png"},
 ];
@@ -1579,6 +1579,7 @@ let matchesHistory = {};
    Formato: { matchId, matchName, date, vals:{ idGiocatore: valutazione } }
 ──────────────────────────────────────────────────────────────── */
 let valutazioniStorico = [
+  { matchId:"20261111", matchName:"Libertas Livorno vs Valtur Brindisi", date:"2026-11-11", vals:{1:6,2:11,3:20,4:9,5:1,6:12,7:0,8:11,9:11,10:0,11:0,12:0} },
   { matchId:"20261104", matchName:"Libertas Livorno vs Sella Cento", date:"2026-11-04", vals:{1:26,2:5,3:3,4:10,5:4,6:1,7:6,8:14,9:11,10:14,11:-1,12:0} },
   { matchId:"20261101", matchName:"Elachem Vigevano vs Libertas Livorno", date:"2026-11-01", vals:{1:29,2:10,3:12,4:2,5:-1,6:4,7:3,8:14,9:1,10:5,11:0,12:0} },
   { matchId:"20261025", matchName:"Unieuro Forlì vs Libertas Livorno", date:"2026-10-25", vals:{1:20,2:3,3:3,4:14,5:7,6:-1,7:4,8:18,9:0,10:12,11:0,12:0} },
@@ -1598,6 +1599,7 @@ let valutazioniStorico = [
    Formato: { matchId, vincenti:{ idPronostico: "Squadra vincente" } }
 ──────────────────────────────────────────────────────────────── */
 let pronosticiEsiti = [
+  { matchId:"20261111", vincenti:{p1:"Sebastiani Rieti", p2:"Elachem Vigevano", p3:"Valtur Brindisi"} },
   { matchId:"20261104", vincenti:{p1:"Juvi Cremona", p2:"UEB Cividale", p3:"Pistoia Basket"} },
   { matchId:"20261101", vincenti:{p1:"Avellino Basket", p2:"Fortitudo Bologna", p3:"Unieuro Forlì"} },
   { matchId:"20261025", vincenti:{p1:"Valtur Brindisi", p2:"Libertas Livorno", p3:"Vincente"} },
@@ -1611,7 +1613,7 @@ let pronosticiEsiti = [
 // utente corrente in sessione (non persistito)
 let currentUser = null; // { nome, cognome, email, assoc }
 let selected = [];
-let kickoffDate = new Date('2026-11-11T20:45');
+let kickoffDate = new Date('2026-11-15T18:00');
 let matchId = kickoffDate.toISOString().slice(0,10).replace(/-/g,''); // es. "20260610" — uguale per tutti
 let countdownTimer = null;
 let votingClosed = false;
@@ -1623,8 +1625,8 @@ let votingClosed = false;
    Se un logo manca, compare un cerchio con le iniziali della squadra.
 ──────────────────────────────────────────────────────────────── */
 let matchTeams = {
-  casa:      { nome: "Libertas Livorno", logo: "libertas1.png" },
-  trasferta: { nome: "Valtur Brindisi",         logo: "brindisi.png" }
+  casa:      { nome: "Gema Montecatini", logo: "montecatini.png" },
+  trasferta: { nome: "Libertas Livorno",         logo: "libertas1.png" }
 };
 
 /* ────────────────────────────────────────────────────────────────
@@ -1634,9 +1636,9 @@ let matchTeams = {
    Ogni pronostico indovinato: +10 punti · sbagliato: -10 punti.
 ──────────────────────────────────────────────────────────────── */
 let pronostici = [
-  { id:"p1", casa:"Sebastiani Rieti",       casaLogo:"rieti.png",  trasferta:"Gema Montecatini", trasfertaLogo:"montecatini.png" },
-  { id:"p2", casa:"Elachem Vigevano",       casaLogo:"vigevano.png",  trasferta:"Ruvo di Puglia", trasfertaLogo:"ruvo.png" },
-  { id:"p3", casa:"Libertas Livorno", casaLogo:"libertas1.png",   trasferta:"Valtur Brindisi",  trasfertaLogo:"brindisi.png" },
+  { id:"p1", casa:"Fortitudo Bologna",       casaLogo:"bologna.png",  trasferta:"Sebastiani Rieti", trasfertaLogo:"rieti.png" },
+  { id:"p2", casa:"VL Pesaro",       casaLogo:"pesaro.png",  trasferta:"Elachem Vigevano", trasfertaLogo:"vigevano.png" },
+  { id:"p3", casa:"Banco di Sardegna Sassari", casaLogo:"sassari.png",   trasferta:"Avellino Basket",  trasfertaLogo:"avellino.png" },
 ];
 let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 
@@ -1647,7 +1649,7 @@ let pronosticiScelti = {}; // scelte utente in sessione: { p1:"Trapani", ... }
 ──────────────────────────────────────────────────────────────── */
 let sponsorGiornata = {
   attivo: true,
-  foto:  "palcoscenico.jpeg",   // immagine principale dello sponsor (carica su GitHub, root)
+  foto:  "palcoscenico.png",   // immagine principale dello sponsor (carica su GitHub, root)
   logo:  "",              // logo sponsor (facoltativo)
   nome:  "Il Palcoscenico - Via Enrico Mayer 59",              // nome sponsor (facoltativo, mostrato sotto)
   social: "https://www.instagram.com/ilpalcoscenico_livorno?vrfl=bXc2MGRsc2d2Zjc1"              // link pagina social sponsor (facoltativo): mostra "Seguici sui nostri canali social"
